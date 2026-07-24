@@ -34,23 +34,50 @@ export default async function MagazineCategoryPage({ params }: PageProps) {
 
   if (!category) notFound();
 
+  const featuredEntry = entries[0];
+  const remainingEntries = entries.slice(1);
+
   return (
     <main className="shell shell-narrow">
-      <section className="hero-card hero-magazine">
+      <section className="hero-card hero-magazine hero-magazine-editorial">
         <span className="eyebrow">Magazin-Thema</span>
         <h1>{category.name}</h1>
         <p>
           {category.description ||
-            `Hier findest du die wichtigsten Artikel und Ratgeber aus dem Bereich ${category.name}.`}
+            `Hier findest du die wichtigsten Artikel, Storys und Szene-Ratgeber aus dem Bereich ${category.name}.`}
         </p>
       </section>
 
+      {featuredEntry ? (
+        <section className="content-section">
+          <Link href={`/magazin/${featuredEntry.slug}`} className="editorial-feature-card">
+            {featuredEntry.featuredImage ? (
+              <div className="editorial-feature-media">
+                <img src={featuredEntry.featuredImage} alt={featuredEntry.featuredImageAlt || featuredEntry.title} loading="eager" decoding="async" />
+              </div>
+            ) : null}
+            <div className="editorial-feature-copy">
+              <span className="eyebrow">Featured aus {category.name}</span>
+              <h3>{featuredEntry.title}</h3>
+              <p>{stripHtml(featuredEntry.excerpt || featuredEntry.content).slice(0, 220)}…</p>
+            </div>
+          </Link>
+        </section>
+      ) : null}
+
       <section className="content-section">
         <div className="stack-list">
-          {entries.map((entry) => (
-            <Link key={entry.id} href={`/magazin/${entry.slug}`} className="article-card">
-              <h2>{entry.title}</h2>
-              <p>{stripHtml(entry.excerpt || entry.content).slice(0, 180)}…</p>
+          {remainingEntries.map((entry) => (
+            <Link key={entry.id} href={`/magazin/${entry.slug}`} className="article-card article-card-rich">
+              {entry.featuredImage ? (
+                <div className="article-card-media">
+                  <img src={entry.featuredImage} alt={entry.featuredImageAlt || entry.title} loading="lazy" decoding="async" />
+                </div>
+              ) : null}
+              <div className="article-card-copy">
+                <h2>{entry.title}</h2>
+                <p>{stripHtml(entry.excerpt || entry.content).slice(0, 180)}…</p>
+              </div>
             </Link>
           ))}
         </div>

@@ -32,16 +32,24 @@ export default async function MagazineDetailPage({ params }: PageProps) {
 
   return (
     <main className="shell shell-narrow">
-      <section className="hero-card hero-magazine">
+      <section className="hero-card hero-magazine hero-magazine-editorial">
         <span className="eyebrow">{entry.type === "post" ? "Magazin-Artikel" : "Magazin-Seite"}</span>
         <h1>{entry.title}</h1>
         <p>{stripHtml(entry.excerpt || entry.content).slice(0, 220)}…</p>
         <div className="meta-row">
           {entry.authorName ? <span>Von {entry.authorName}</span> : null}
           {entry.date ? <span>{entry.date.slice(0, 10)}</span> : null}
-          <Link href="/registration/">Kostenlos registrieren</Link>
+          <Link href="https://dich-mit-stich.de/registration/">Kostenlos registrieren</Link>
         </div>
       </section>
+
+      {entry.featuredImage ? (
+        <section className="content-section">
+          <figure className="article-hero-media">
+            <img src={entry.featuredImage} alt={entry.featuredImageAlt || entry.title} loading="eager" decoding="async" />
+          </figure>
+        </section>
+      ) : null}
 
       {entry.categories.length ? (
         <section className="content-section">

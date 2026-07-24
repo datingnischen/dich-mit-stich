@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "dich-mit-stich.de – Headless Migration",
-  description: "Migrierter Magazin- und Städte-Einstieg für dich-mit-stich.de auf Next.js/Vercel.",
+  title: {
+    default: "Dich mit Stich – Tattoo-, Piercing- & Szene-Magazin",
+    template: "%s | Dich mit Stich",
+  },
+  description: "Tattoo-, Piercing- und Szene-Dating mit Magazin, Stadtseiten und echten Erfolgsgeschichten im Stil eines sauberen elFlirt-Frontends.",
+  metadataBase: new URL("https://dich-mit-stich.vercel.app"),
 };
 
 export default function RootLayout({
@@ -24,7 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+      </body>
     </html>
   );
 }

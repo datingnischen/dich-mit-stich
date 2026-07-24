@@ -12,17 +12,16 @@ export default async function HomePage() {
 
   return (
     <main className="shell">
-      <section className="hero-card hero-brand">
-        <span className="eyebrow">dich-mit-stich.de auf Vercel</span>
-        <h1>Tattoo- und Piercing-Magazin plus Städte-Guides ziehen jetzt in ein sauberes Headless-Frontend um.</h1>
+      <section className="hero-card hero-brand hero-magazine-editorial">
+        <span className="eyebrow">Dich mit Stich auf Vercel</span>
+        <h1>Die Szene-Marke bekommt jetzt endlich eine sichtbare, emotionale Oberfläche statt einer nackten Übergangsseite.</h1>
         <p>
-          Diese erste Migrationsstufe verbindet bereits zwei echte Quellsysteme: das WordPress-Magazin
-          unter /magazin und die Tattoo-Singles-Städte aus dem aktuellen öffentlichen ICONY-Bereich unter
-          /tattoo-singles.
+          Magazin, Tattoo-Singles-Städte und die wichtigsten Einstiege laufen hier in einer sauberen Frontend-Schicht zusammen –
+          mit deutlich mehr Orientierung, stärkeren CTAs und einer Optik, die näher an elFlirt liegt.
         </p>
         <div className="button-row">
-          <Link className="button button-primary" href="/tattoo-singles">
-            Zu den Städte-Seiten
+          <Link className="button button-primary" href="https://dich-mit-stich.de/registration/">
+            Kostenlos registrieren
           </Link>
           <Link className="button button-secondary" href="/magazin">
             Zum Magazin

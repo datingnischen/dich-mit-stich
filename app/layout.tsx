@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "dich-mit-stich.de – Vercel Migration",
-  description: "Projektbasis für die Headless- und Vercel-Migration von dich-mit-stich.de.",
+  title: "dich-mit-stich.de – Headless Migration",
+  description: "Migrierter Magazin- und Städte-Einstieg für dich-mit-stich.de auf Next.js/Vercel.",
 };
 
 export default function RootLayout({

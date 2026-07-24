@@ -1,37 +1,81 @@
-const headerMenuItems = [
+type NavLink = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
+const headerMenuItems: NavLink[] = [
   { label: "Start", href: "/" },
   { label: "Magazin", href: "/magazin" },
+  { label: "Singlebörse", href: "https://dich-mit-stich.de/?AID=magazin", external: true },
+  { label: "Tattoo-Motive", href: "/magazin/tattoo-motive" },
+  { label: "Tattoo-Lexikon", href: "/magazin/tattoo-lexikon" },
+  { label: "Piercings", href: "/magazin/piercing" },
+  { label: "Über uns", href: "/magazin/expertenteam" },
   { label: "Tattoo-Singles", href: "/tattoo-singles" },
-  { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
-  { label: "Ratgeber", href: "/magazin/thema/ratgeber" },
-  { label: "Models & Szene", href: "/magazin/thema/tattoo-models" },
 ];
 
 const footerColumns: Array<{
   title: string;
-  links: Array<{ label: string; href: string; external?: boolean }>;
+  links: NavLink[];
 }> = [
   {
-    title: "Magazin",
+    title: "Tattoo-Motive",
     links: [
-      { label: "Magazin-Start", href: "/magazin" },
-      { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
-      { label: "Ratgeber", href: "/magazin/thema/ratgeber" },
-      { label: "Tattoo-Persönlichkeiten", href: "/magazin/thema/tattoo-persoenlichkeiten" },
+      { label: "Beliebte Tattoo Motive", href: "/magazin/tattoo-motive" },
+      { label: "Tribal Tattoo", href: "/magazin/tribal-tattoo" },
+      { label: "Sleeve Tattoo", href: "/magazin/sleeve-tattoo" },
+      { label: "Wolf Tattoo", href: "/magazin/wolf-tattoo" },
+      { label: "Mandala Tattoo", href: "/magazin/mandala-tattoo" },
+      { label: "Skull Tattoo", href: "/magazin/skull-tattoos" },
+      { label: "Polynesian Tattoo", href: "/magazin/polynesian-tattoo" },
+      { label: "Wikinger Tattoo", href: "/magazin/das-wikinger-tattoo" },
     ],
   },
   {
-    title: "Städte",
+    title: "Tattoo-Lexikon",
+    links: [
+      { label: "Übersicht aller Tattoo Themen", href: "/magazin/tattoo-lexikon" },
+      { label: "Models, Schönheiten, Persönlichkeiten", href: "/magazin/tattoo-persoenlichkeiten" },
+      { label: "Kat von D – Das Leben der Tattookünstlerin", href: "/magazin/kat-von-d" },
+      { label: "Zombie-Boy – Persönlichkeit", href: "/magazin/zombie-boy-rick-genest" },
+      { label: "Sophie Logan – Erotikstar", href: "/magazin/sophie-logan" },
+    ],
+  },
+  {
+    title: "Piercings",
+    links: [
+      { label: "Piercingarten", href: "/magazin/piercingarten" },
+      { label: "Rook Piercing", href: "/magazin/rook-piercing" },
+      { label: "Intimpiercing", href: "/magazin/intimpiercing" },
+      { label: "Septum-Piercing", href: "/magazin/septum-piercing" },
+      { label: "Industrial piercing", href: "/magazin/industrial-piercing" },
+      { label: "Lippenpiercing", href: "/magazin/lippenpiercing" },
+    ],
+  },
+  {
+    title: "Über uns & Stories",
+    links: [
+      { label: "Unser Expertenteam", href: "/magazin/expertenteam" },
+      { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
+      { label: "Christian M. Haas", href: "/magazin/unser-datingexperte" },
+      { label: "Magazin-Start", href: "/magazin" },
+    ],
+  },
+  {
+    title: "Tattoo-Singles Städte",
     links: [
       { label: "Tattoo-Singles Übersicht", href: "/tattoo-singles" },
       { label: "Berlin", href: "/tattoo-singles/berlin" },
       { label: "Hamburg", href: "/tattoo-singles/hamburg" },
       { label: "Köln", href: "/tattoo-singles/koeln" },
+      { label: "Bremen", href: "/tattoo-singles/bremen" },
     ],
   },
   {
     title: "Mitgliedschaft",
     links: [
+      { label: "Singlebörse", href: "https://dich-mit-stich.de/?AID=magazin", external: true },
       { label: "Kostenlos registrieren", href: "https://dich-mit-stich.de/registration/", external: true },
       { label: "Login", href: "https://dich-mit-stich.de/login/", external: true },
       { label: "Kostenlose Basis-Mitgliedschaft", href: "https://dich-mit-stich.de/kostenlose-basis-mitgliedschaft.html", external: true },
@@ -75,7 +119,7 @@ export function SiteHeader() {
             <div className="header-menu-panel">
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">
                 {headerMenuItems.map((item) => (
-                  <a href={item.href} key={item.href}>{item.label}</a>
+                  <a href={item.href} key={item.href} {...externalAttrs(item.external)}>{item.label}</a>
                 ))}
               </nav>
             </div>
@@ -114,7 +158,7 @@ export function SiteFooter() {
           <ul className="footer-trust-list" aria-label="Vertrauensmerkmale">
             <li>Eigener Szene-Fokus statt Massenbörse</li>
             <li>Magazin + Stadtseiten mit klarer Orientierung</li>
-            <li>Schneller Einstieg zu neuen Kontakten</li>
+            <li>Alle wichtigen Magazin-Menüpunkte auch direkt im Footer erreichbar</li>
           </ul>
         </div>
 

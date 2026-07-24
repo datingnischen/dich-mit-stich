@@ -427,7 +427,7 @@ img {
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
-  width: min(320px, calc(100vw - 24px));
+  width: min(420px, calc(100vw - 24px));
   padding: 14px;
   border-radius: 24px;
   border: 1px solid var(--line);
@@ -472,7 +472,7 @@ img {
   width: min(1180px, calc(100% - 32px));
   margin: 24px auto 0;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
   gap: 24px;
 }
 
@@ -498,7 +498,7 @@ img {
 
 .footer-link-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 

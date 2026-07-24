@@ -3,10 +3,6 @@ import { getMagazinePosts, stripHtml } from "@/lib/wordpress";
 
 const AUTHOR_ARCHIVE_BASE = "https://dich-mit-stich.de/magazin/author";
 
-const AUTHOR_ALIASES: Record<string, string> = {
-  "anna-schweizer": "anne-schweitzer",
-};
-
 export type AuthorProfile = {
   slug: string;
   requestedSlug: string;
@@ -23,13 +19,8 @@ function firstMatch(text: string, pattern: RegExp) {
   return match?.[1]?.trim() || "";
 }
 
-function resolveAuthorSlug(slug: string) {
-  return AUTHOR_ALIASES[slug] || slug;
-}
-
 export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfile | null> => {
-  const resolvedSlug = resolveAuthorSlug(slug);
-  const url = `${AUTHOR_ARCHIVE_BASE}/${resolvedSlug}/`;
+  const url = `${AUTHOR_ARCHIVE_BASE}/${slug}/`;
 
   const response = await fetch(url, {
     headers: {
@@ -48,14 +39,14 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
   const imageUrl = firstMatch(html, /<img[^>]+class="[^"]*avatar[^"]*"[^>]+(?:data-src|src)="([^"]+)"/i) || undefined;
 
   const posts = await getMagazinePosts();
-  const authorPosts = posts.filter((post) => post.authorSlug === resolvedSlug);
+  const authorPosts = posts.filter((post) => post.authorSlug === slug);
   const role =
-    resolvedSlug === "redaktion"
+    slug === "redaktion"
       ? "Datingexperte und Autor für tätowierte Singles"
       : "Autorin für Tattoo-Motive, Stilfragen und Szenethemen";
 
   const facts =
-    resolvedSlug === "redaktion"
+    slug === "redaktion"
       ? [
           "Langjährige Erfahrung mit Nischen-Singlebörsen und Online-Dating",
           "Praxisnahe Tipps für tätowierte Singles und Szene-Communities",
@@ -68,17 +59,17 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
         ];
 
   return {
-    slug: resolvedSlug,
+    slug,
     requestedSlug: slug,
     name,
     role,
     bio:
       bio ||
-      (resolvedSlug === "redaktion"
+      (slug === "redaktion"
         ? "Christian M. Haas teilt Erfahrungen, Einschätzungen und konkrete Tipps rund um Dating, Szene-Fokus und Partnersuche für tätowierte Singles."
         : `${name} begleitet das Tattoo-Magazin mit redaktionellen Beiträgen zu Motiven, Stilfragen und Inspiration aus der Szene.`),
     imageUrl,
-    profileUrl: `/magazin/author/${resolvedSlug}`,
+    profileUrl: `/magazin/author/${slug}`,
     facts,
   };
 });
@@ -86,12 +77,10 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
 export const getKnownAuthorSlugs = cache(async (): Promise<string[]> => {
   const posts = await getMagazinePosts();
   const slugs = new Set(posts.map((post) => post.authorSlug).filter(Boolean) as string[]);
-  Object.keys(AUTHOR_ALIASES).forEach((alias) => slugs.add(alias));
   return [...slugs];
 });
 
 export const getAuthorPosts = cache(async (slug: string) => {
-  const resolvedSlug = resolveAuthorSlug(slug);
   const posts = await getMagazinePosts();
-  return posts.filter((post) => post.authorSlug === resolvedSlug);
+  return posts.filter((post) => post.authorSlug === slug);
 });

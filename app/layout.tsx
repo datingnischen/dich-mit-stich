@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     default: "Dich mit Stich – Tattoo-, Piercing- & Szene-Magazin",
     template: "%s | Dich mit Stich",
   },
-  description: "Tattoo-, Piercing- und Szene-Dating mit Magazin, Stadtseiten und echten Erfolgsgeschichten im Stil eines sauberen elFlirt-Frontends.",
+  description: "Tattoo-, Piercing- und Szene-Dating mit Magazin, Stadtseiten und echten Erfolgsgeschichten in einer klaren, vertrauensvollen Oberfläche.",
   metadataBase: new URL("https://dich-mit-stich.vercel.app"),
 };
 

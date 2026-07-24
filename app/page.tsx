@@ -1,39 +1,70 @@
 import Link from "next/link";
+import { ExpertTrustCard } from "@/components/expert-trust-card";
+import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
+const HOME_HERO_IMAGE = "https://static2.icony-hosting.de/dyncontentbf91b1bc561a9d20d467d3270352d3e5/img/generic2021/frontpage-v4/backgrounds/frontpage-visual-dichmitstich.webp";
+
 export default async function HomePage() {
-  const [overview, posts, pages, categories] = await Promise.all([
+  const [overview, posts, pages, categories, expert] = await Promise.all([
     getTattooSinglesOverview(),
     getMagazinePosts(),
     getMagazinePages(),
     getMagazineCategories(),
+    getDatingExpertProfile(),
   ]);
+
+  const featuredPost = posts[0];
 
   return (
     <main className="shell">
-      <section className="hero-card hero-brand hero-magazine-editorial">
-        <span className="eyebrow">Dich mit Stich auf Vercel</span>
-        <h1>Die Szene-Marke bekommt jetzt endlich eine sichtbare, emotionale Oberfläche statt einer nackten Übergangsseite.</h1>
-        <p>
-          Magazin, Tattoo-Singles-Städte und die wichtigsten Einstiege laufen hier in einer sauberen Frontend-Schicht zusammen –
-          mit deutlich mehr Orientierung, stärkeren CTAs und einer Optik, die näher an elFlirt liegt.
-        </p>
-        <div className="button-row">
-          <Link className="button button-primary" href="https://dich-mit-stich.de/registration/">
-            Kostenlos registrieren
-          </Link>
-          <Link className="button button-secondary" href="/magazin">
-            Zum Magazin
-          </Link>
+      <section className="home-stage panel-card">
+        <div className="home-stage-copy">
+          <span className="eyebrow eyebrow-brand">Tattoo-, Piercing- & Szene-Dating</span>
+          <h1>Finde kostenlos tätowierte Singles und echte Szene-Connections, die zu deinem Stil passen.</h1>
+          <p>
+            Dich mit Stich verbindet Dating, Community und Magazin in einer klaren Oberfläche: schnell orientieren,
+            passende Singles entdecken und direkt kostenlos loslegen.
+          </p>
+          <ul className="trust-points" aria-label="Vertrauenssignale">
+            <li>Über 20 Jahre Erfahrung im Online-Dating</li>
+            <li>Keine versteckten Kosten beim Einstieg</li>
+            <li>Szene-Fokus statt austauschbarer Massenbörse</li>
+          </ul>
+          <div className="button-row">
+            <Link className="button button-primary" href="https://dich-mit-stich.de/registration/">
+              Kostenlos registrieren
+            </Link>
+            <Link className="button button-secondary" href="/tattoo-singles">
+              Städte entdecken
+            </Link>
+          </div>
+        </div>
+
+        <div className="home-stage-visual">
+          <div className="home-stage-picture">
+            <img src={HOME_HERO_IMAGE} alt="Dich mit Stich Startseitenmotiv" loading="eager" decoding="async" />
+          </div>
+          <div className="floating-entry-card">
+            <span className="eyebrow">Schneller Einstieg</span>
+            <h2>{overview.title}</h2>
+            <p>{overview.description}</p>
+            <Link className="button button-primary" href="/tattoo-singles/bremen">
+              Beispiel-Stadt ansehen
+            </Link>
+          </div>
         </div>
       </section>
 
       <section className="grid-two">
         <article className="panel-card">
-          <span className="eyebrow">Städte aus ICONY</span>
-          <h2>{overview.title}</h2>
-          <p>{overview.description}</p>
+          <span className="eyebrow">Tattoo-Singles nach Stadt</span>
+          <h2>Starte direkt in der passenden Region</h2>
+          <p>
+            Von Berlin bis München: Die Stadtseiten zeigen dir lokale Einstiege, Szene-Bezug und direkte Wege zu
+            neuen Kontakten.
+          </p>
           <ul className="link-list compact-list">
             {overview.cityLinks.slice(0, 8).map((city) => (
               <li key={city.slug}>
@@ -44,36 +75,42 @@ export default async function HomePage() {
         </article>
 
         <article className="panel-card">
-          <span className="eyebrow">Magazin aus WordPress</span>
-          <h2>Magazin, Kategorien und Evergreen-Seiten sind bereits als echte Datenquelle angebunden.</h2>
+          <span className="eyebrow">Magazin & Geschichten</span>
+          <h2>Ratgeber, Storys und Evergreen-Inhalte für Dating mit Persönlichkeit</h2>
           <p>
-            Der erste Vercel-Schnitt nutzt die WordPress REST API direkt und erhält dadurch Posts,
-            Seiten und Kategorie-Archive ohne zusätzlichen CMS-Umzug.
+            Das Magazin liefert dir Inspiration, Orientierung und konkrete Dating-Impulse — von Erfolgsstorys bis zu
+            Tattoo-spezifischen Tipps.
           </p>
           <ul className="stats-list">
             <li>
               <strong>{posts.length}</strong>
-              <span>Magazin-Posts</span>
+              <span>aktuelle Beiträge</span>
             </li>
             <li>
               <strong>{pages.length}</strong>
-              <span>WordPress-Seiten</span>
+              <span>wichtige Infoseiten</span>
             </li>
             <li>
               <strong>{categories.length}</strong>
-              <span>Kategorien</span>
+              <span>Magazin-Themen</span>
             </li>
           </ul>
         </article>
       </section>
 
+      {expert ? (
+        <section className="content-section">
+          <ExpertTrustCard profile={expert} />
+        </section>
+      ) : null}
+
       <section className="content-section">
         <div className="section-header">
-          <span className="eyebrow">Sofort nutzbare Einstiege</span>
-          <h2>Wichtige Magazin-Kategorien</h2>
+          <span className="eyebrow">Beliebte Themen</span>
+          <h2>Womit willst du einsteigen?</h2>
         </div>
         <div className="chip-row">
-          {categories.slice(0, 5).map((category) => (
+          {categories.slice(0, 6).map((category) => (
             <Link key={category.slug} className="chip" href={`/magazin/thema/${category.slug}`}>
               {category.name}
             </Link>
@@ -82,31 +119,33 @@ export default async function HomePage() {
       </section>
 
       <section className="grid-two">
-        <article className="panel-card">
-          <div className="section-header">
-            <span className="eyebrow">Neueste Artikel</span>
-            <h2>Aktuelle Magazin-Inhalte</h2>
-          </div>
-          <div className="stack-list">
-            {posts.slice(0, 5).map((post) => (
-              <Link key={post.id} href={`/magazin/${post.slug}`} className="article-card">
-                <h3>{post.title}</h3>
-                <p>{stripHtml(post.excerpt).slice(0, 150)}…</p>
-              </Link>
-            ))}
-          </div>
-        </article>
+        {featuredPost ? (
+          <article className="panel-card">
+            <div className="section-header">
+              <span className="eyebrow">Gerade beliebt</span>
+              <h2>{featuredPost.title}</h2>
+            </div>
+            <p>{stripHtml(featuredPost.excerpt || featuredPost.content).slice(0, 220)}…</p>
+            <div className="meta-row">
+              {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
+              {featuredPost.date ? <span>{featuredPost.date.slice(0, 10)}</span> : null}
+            </div>
+            <Link className="button button-primary" href={`/magazin/${featuredPost.slug}`}>
+              Artikel lesen
+            </Link>
+          </article>
+        ) : null}
 
         <article className="panel-card">
           <div className="section-header">
-            <span className="eyebrow">Wichtige Magazin-Seiten</span>
-            <h2>Evergreen- und Info-Seiten aus WordPress</h2>
+            <span className="eyebrow">Mehr aus dem Magazin</span>
+            <h2>Weitere lesenswerte Einstiege</h2>
           </div>
           <div className="stack-list">
-            {pages.slice(0, 6).map((page) => (
-              <Link key={page.id} href={`/magazin/${page.slug}`} className="article-card">
-                <h3>{page.title}</h3>
-                <p>{stripHtml(page.excerpt || page.content).slice(0, 150)}…</p>
+            {[...posts.slice(1, 4), ...pages.slice(0, 2)].map((entry) => (
+              <Link key={`${entry.type}-${entry.id}`} href={`/magazin/${entry.slug}`} className="article-card">
+                <h3>{entry.title}</h3>
+                <p>{stripHtml(entry.excerpt || entry.content).slice(0, 150)}…</p>
               </Link>
             ))}
           </div>

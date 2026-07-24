@@ -93,7 +93,7 @@ export function SiteFooter() {
         <div>
           <p className="eyebrow">Szene-Dating mit Profil</p>
           <h2>Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</h2>
-          <p>Magazin, Stadtseiten und echte Erfolgsgeschichten führen direkt zu passenden Kontakten und einem schnellen Einstieg.</p>
+          <p>Magazin, Stadtseiten und echte Erfolgsgeschichten helfen dir beim Einstieg — und führen direkt zu neuen Kontakten.</p>
         </div>
         <a className="footer-cta-button" href="https://dich-mit-stich.de/registration/">Jetzt kostenlos registrieren</a>
       </section>
@@ -109,7 +109,7 @@ export function SiteFooter() {
           </a>
           <p>
             Dich mit Stich verbindet Szene-Feeling, Dating-Ratgeber, Stadtseiten und echte Erfolgsgeschichten in einer
-            deutlich saubereren Magazin-Oberfläche – orientiert am elFlirt-Qualitätsstandard, aber mit eigener dunklerer Brand-Attitüde.
+            klaren, vertrauensvollen Oberfläche für Menschen mit eigenem Stil.
           </p>
           <ul className="footer-trust-list" aria-label="Vertrauensmerkmale">
             <li>Eigener Szene-Fokus statt Massenbörse</li>

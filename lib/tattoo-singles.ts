@@ -22,6 +22,25 @@ export const tattooCitySlugs = [
 
 export type TattooCitySlug = (typeof tattooCitySlugs)[number];
 
+const cityDisplayNames: Record<string, string> = {
+  berlin: "Berlin",
+  bochum: "Bochum",
+  bremen: "Bremen",
+  dortmund: "Dortmund",
+  dresden: "Dresden",
+  duesseldorf: "Düsseldorf",
+  essen: "Essen",
+  "frankfurt-am-main": "Frankfurt am Main",
+  hamburg: "Hamburg",
+  hannover: "Hannover",
+  koeln: "Köln",
+  leipzig: "Leipzig",
+  mannheim: "Mannheim",
+  muenchen: "München",
+  nuernberg: "Nürnberg",
+  stuttgart: "Stuttgart",
+};
+
 export type TattooSinglesOverview = {
   title: string;
   description: string;
@@ -70,6 +89,10 @@ function normalizeContentHtml(html: string) {
     .trim();
 }
 
+function cityLabelFromSlug(slug: string) {
+  return cityDisplayNames[slug] || decodeHtmlEntities(slug.replace(/-/g, " "));
+}
+
 function relatedCitiesFromHtml(html: string) {
   const matches = [...html.matchAll(/https:\/\/dich-mit-stich\.de\/tattoo-singles\/([^/]+)\//gi)];
   const seen = new Set<string>();
@@ -77,9 +100,10 @@ function relatedCitiesFromHtml(html: string) {
 
   for (const match of matches) {
     const slug = match[1];
+    if (!tattooCitySlugs.includes(slug as TattooCitySlug)) continue;
     if (seen.has(slug)) continue;
     seen.add(slug);
-    items.push({ slug, label: slug.replace(/-/g, " ") });
+    items.push({ slug, label: cityLabelFromSlug(slug) });
   }
 
   return items;
@@ -89,10 +113,10 @@ export const getTattooSinglesOverview = cache(async (): Promise<TattooSinglesOve
   const html = await fetchHtml("/tattoo-singles/");
   const title = firstMatch(html, /<title>([\s\S]*?)<\/title>/i) || "Finde dein Tattoo Single in deiner Stadt";
   const description = firstMatch(html, /<meta name="description" content="([^"]+)"/i);
-  const cityLinks = [...html.matchAll(/https:\/\/dich-mit-stich\.de\/tattoo-singles\/([^/]+)\//gi)]
-    .map((match) => match[1])
-    .filter((slug, index, all) => all.indexOf(slug) === index)
-    .map((slug) => ({ slug, label: decodeHtmlEntities(slug.replace(/-/g, " ")) }));
+  const cityLinks = tattooCitySlugs.map((slug) => ({
+    slug,
+    label: cityLabelFromSlug(slug),
+  }));
 
   return {
     title,

@@ -93,7 +93,7 @@ export function SiteFooter() {
         <div>
           <p className="eyebrow">Szene-Dating mit Profil</p>
           <h2>Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</h2>
-          <p>Magazin, Stadtseiten und echte Erfolgsgeschichten führen direkt in den passenden Registrierungsflow.</p>
+          <p>Magazin, Stadtseiten und echte Erfolgsgeschichten führen direkt zu passenden Kontakten und einem schnellen Einstieg.</p>
         </div>
         <a className="footer-cta-button" href="https://dich-mit-stich.de/registration/">Jetzt kostenlos registrieren</a>
       </section>
@@ -113,8 +113,8 @@ export function SiteFooter() {
           </p>
           <ul className="footer-trust-list" aria-label="Vertrauensmerkmale">
             <li>Eigener Szene-Fokus statt Massenbörse</li>
-            <li>Magazin + Stadtseiten aus echten Quellsystemen</li>
-            <li>Direkter Einstieg in den Live-Registrierungsflow</li>
+            <li>Magazin + Stadtseiten mit klarer Orientierung</li>
+            <li>Schneller Einstieg zu neuen Kontakten</li>
           </ul>
         </div>
 

@@ -50,11 +50,12 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           <span className="eyebrow">Dating-Einstieg</span>
           <h2>{cityPage.heroTitle}</h2>
           <p>
-            Diese Stadtseite wird live aus dem bestehenden öffentlichen Bereich übernommen und in den neuen
-            Vercel-Stack gezogen. Der Registrierungsflow bleibt dabei direkt erreichbar.
+            Entdecke neue Singles aus {cityPage.h1.replace(/^Tattoo-Singles in\s+/i, "").replace(/:.*$/, "")} und der Umgebung,
+            die deinen Stil teilen und Lust auf echte Kontakte haben. Starte kostenlos und schau dir an,
+            wer in deiner Region gerade aktiv ist.
           </p>
           <Link className="button button-primary" href={cityPage.registrationUrl}>
-            Zur Registrierung
+            Jetzt kostenlos starten
           </Link>
         </div>
       </section>

@@ -59,6 +59,7 @@ const footerColumns: Array<{
       { label: "Unser Expertenteam", href: "/magazin/expertenteam" },
       { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
       { label: "Christian M. Haas", href: "/magazin/unser-datingexperte" },
+      { label: "Anne Schweitzer", href: "/magazin/author/anne-schweitzer" },
       { label: "Magazin-Start", href: "/magazin" },
     ],
   },

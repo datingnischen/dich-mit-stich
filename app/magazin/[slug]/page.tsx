@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
-import { getDatingExpertProfile } from "@/lib/expert-profile";
+import { getAuthorProfile } from "@/lib/author-profiles";
 import { getAllMagazineEntries, getMagazineEntryBySlug, stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
@@ -29,10 +29,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function MagazineDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const [entry, expert] = await Promise.all([getMagazineEntryBySlug(slug), getDatingExpertProfile()]);
+  const entry = await getMagazineEntryBySlug(slug);
   if (!entry) notFound();
 
-  const authorHref = entry.authorName ? "/magazin/unser-datingexperte" : undefined;
+  const authorProfile = entry.authorSlug ? await getAuthorProfile(entry.authorSlug) : null;
+  const authorHref = authorProfile?.profileUrl;
 
   return (
     <main className="shell shell-narrow">
@@ -75,12 +76,17 @@ export default async function MagazineDetailPage({ params }: PageProps) {
         <div dangerouslySetInnerHTML={{ __html: entry.content }} />
       </section>
 
-      {entry.slug !== "unser-datingexperte" && expert ? (
+      {entry.slug !== "unser-datingexperte" && authorProfile ? (
         <section className="content-section">
           <ExpertTrustCard
-            profile={expert}
-            eyebrow="Autor & Datingexperte"
-            title="Hinter den Inhalten steht ein reales Expertenprofil statt anonymer Redaktions-Optik."
+            profile={authorProfile}
+            eyebrow={authorProfile.slug === "redaktion" ? "Autor & Datingexperte" : "Autorin im Magazin"}
+            title={
+              authorProfile.slug === "redaktion"
+                ? "Hinter den Inhalten steht ein reales Expertenprofil statt anonymer Redaktions-Optik."
+                : `Dieser Beitrag wurde von ${authorProfile.name} für das Tattoo-Magazin verfasst.`
+            }
+            primaryLabel={authorProfile.slug === "redaktion" ? "Zum Expertenprofil" : "Zum Autorenprofil"}
           />
         </section>
       ) : null}

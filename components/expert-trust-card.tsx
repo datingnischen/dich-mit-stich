@@ -5,12 +5,16 @@ type ExpertTrustCardProps = {
   profile: ExpertProfile;
   eyebrow?: string;
   title?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
 };
 
 export function ExpertTrustCard({
   profile,
   eyebrow = "Begleitet von unserem Datingexperten",
   title = "Vertrauen statt Blindflug: Die Inhalte orientieren sich am echten Szene- und Dating-Know-how von Christian M. Haas.",
+  primaryLabel = "Zum Expertenprofil",
+  primaryHref,
 }: ExpertTrustCardProps) {
   return (
     <article className="expert-card panel-card">
@@ -42,8 +46,8 @@ export function ExpertTrustCard({
         </ul>
 
         <div className="button-row">
-          <Link className="button button-primary" href={profile.profileUrl}>
-            Zum Expertenprofil
+          <Link className="button button-primary" href={primaryHref || profile.profileUrl}>
+            {primaryLabel}
           </Link>
           <Link className="button button-secondary" href="https://dich-mit-stich.de/registration/">
             Kostenlos registrieren

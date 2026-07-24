@@ -465,7 +465,7 @@ img {
 
 .site-footer-shell {
   margin-top: 64px;
-  padding: 0 0 28px;
+  padding: 0 0 calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
 .footer-main {
@@ -751,6 +751,60 @@ img {
   font-weight: 700;
 }
 
+/* Sticky CTA Button */
+.sticky-cta-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #1b7f33 0%, #176f2c 100%);
+  color: white;
+  border: 2px solid #0d5c1f;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 12px 12px 0 0;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 -8px 24px rgba(27, 127, 51, 0.3);
+  transition: all 0.3s ease;
+  z-index: 100;
+  white-space: nowrap;
+  width: 100%;
+  max-width: 100%;
+}
+
+.sticky-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 -12px 32px rgba(27, 127, 51, 0.4);
+  background: linear-gradient(135deg, #176f2c 0%, #0d5c1f 100%);
+}
+
+.sticky-cta-button:active {
+  transform: translateY(-1px);
+}
+
+.sticky-cta-text {
+  flex: 1;
+  text-align: center;
+}
+
+.sticky-cta-icon {
+  display: inline-block;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.sticky-cta-button:hover .sticky-cta-icon {
+  transform: translateX(3px);
+}
+
 @media (max-width: 900px) {
   .grid-two,
   .city-grid,
@@ -811,9 +865,26 @@ img {
     min-height: 320px;
   }
 
+  .sticky-cta-button {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.95rem;
+    border-width: 1px;
+  }
+
   .shell,
   .shell-narrow {
     width: min(100% - 20px, 920px);
     padding-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sticky-cta-button {
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .sticky-cta-icon {
+    display: none;
   }
 }

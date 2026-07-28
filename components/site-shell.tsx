@@ -115,7 +115,7 @@ export function SiteHeader() {
           <details className="header-menu">
             <summary aria-label="Menü öffnen">
               <span className="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
-              <span>Menü</span>
+              <span className="sr-only">Menü</span>
             </summary>
             <div className="header-menu-panel">
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">

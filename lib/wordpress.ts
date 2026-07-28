@@ -124,6 +124,19 @@ export function stripHtml(text = "") {
     .trim();
 }
 
+export function formatGermanDate(dateString?: string) {
+  if (!dateString) return "";
+
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return dateString.slice(0, 10);
+
+  return new Intl.DateTimeFormat("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);
+}
+
 function normalizeCategory(term: WpTerm): MagazineCategory {
   return {
     id: term.id,

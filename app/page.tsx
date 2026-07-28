@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
-import { getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
+import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = "https://static2.icony-hosting.de/dyncontentbf91b1bc561a9d20d467d3270352d3e5/img/generic2021/frontpage-v4/backgrounds/frontpage-visual-dichmitstich.webp";
@@ -16,6 +16,7 @@ export default async function HomePage() {
   ]);
 
   const featuredPost = posts[0];
+  const magazineStarts = [...posts.slice(1, 4), ...pages.slice(0, 1)];
 
   return (
     <main className="shell">
@@ -118,36 +119,47 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="grid-two">
+      <section className="grid-two home-reading-grid">
         {featuredPost ? (
-          <article className="panel-card">
-            <div className="section-header">
+          <article className="panel-card home-feature-card">
+            <div className="section-header home-feature-header">
               <span className="eyebrow">Gerade beliebt</span>
               <h2>{featuredPost.title}</h2>
             </div>
-            <p>{stripHtml(featuredPost.excerpt || featuredPost.content).slice(0, 220)}…</p>
-            <div className="meta-row">
+            <p className="home-feature-excerpt">{stripHtml(featuredPost.excerpt || featuredPost.content).slice(0, 220)}…</p>
+            <div className="meta-row home-feature-meta">
               {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
-              {featuredPost.date ? <span>{featuredPost.date.slice(0, 10)}</span> : null}
+              {featuredPost.date ? <span>{formatGermanDate(featuredPost.date)}</span> : null}
             </div>
-            <Link className="button button-primary" href={`/magazin/${featuredPost.slug}`}>
-              Artikel lesen
-            </Link>
+            <div className="button-row home-feature-actions">
+              <Link className="button button-primary" href={`/magazin/${featuredPost.slug}`}>
+                Artikel lesen
+              </Link>
+            </div>
           </article>
         ) : null}
 
-        <article className="panel-card">
-          <div className="section-header">
+        <article className="panel-card home-more-card">
+          <div className="section-header home-more-header">
             <span className="eyebrow">Mehr aus dem Magazin</span>
             <h2>Weitere lesenswerte Einstiege</h2>
           </div>
-          <div className="stack-list">
-            {[...posts.slice(1, 4), ...pages.slice(0, 2)].map((entry) => (
-              <Link key={`${entry.type}-${entry.id}`} href={`/magazin/${entry.slug}`} className="article-card">
+          <div className="home-more-list">
+            {magazineStarts.map((entry) => (
+              <Link key={`${entry.type}-${entry.id}`} href={`/magazin/${entry.slug}`} className="home-more-link">
+                <div className="meta-row home-more-meta">
+                  {entry.categories[0] ? <span>{entry.categories[0].name}</span> : null}
+                  {entry.date ? <span>{formatGermanDate(entry.date)}</span> : null}
+                </div>
                 <h3>{entry.title}</h3>
-                <p>{stripHtml(entry.excerpt || entry.content).slice(0, 150)}…</p>
+                <p>{stripHtml(entry.excerpt || entry.content).slice(0, 145)}…</p>
               </Link>
             ))}
+          </div>
+          <div className="button-row home-more-actions">
+            <Link className="button button-secondary" href="/magazin">
+              Mehr im Magazin ansehen
+            </Link>
           </div>
         </article>
       </section>

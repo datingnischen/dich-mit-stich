@@ -29,9 +29,16 @@ export default async function TattooSinglesOverviewPage() {
         </div>
         <div className="city-grid">
           {overview.cityLinks.map((city) => (
-            <Link key={city.slug} href={`/tattoo-singles/${city.slug}`} className="city-card">
-              <span>{city.label}</span>
-              <strong>Jetzt Stadt-Guide öffnen</strong>
+            <Link key={city.slug} href={`/tattoo-singles/${city.slug}`} className="city-card city-card-with-media">
+              {city.imageUrl ? (
+                <div className="city-card-media">
+                  <img src={city.imageUrl} alt={`Tattoo-Singles in ${city.label}`} loading="lazy" decoding="async" />
+                </div>
+              ) : null}
+              <div className="city-card-copy">
+                <span>{city.label}</span>
+                <strong>Jetzt Stadt-Guide öffnen</strong>
+              </div>
             </Link>
           ))}
         </div>

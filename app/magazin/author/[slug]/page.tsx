@@ -34,14 +34,29 @@ export default async function MagazineAuthorPage({ params }: PageProps) {
 
   return (
     <main className="shell shell-narrow">
-      <section className="hero-card hero-magazine hero-magazine-editorial">
-        <span className="eyebrow">Autorin & Autor im Magazin</span>
-        <h1>{profile.name}</h1>
-        <p>{profile.bio}</p>
-        <div className="meta-row">
-          <span>{profile.role}</span>
-          <span>{posts.length} veröffentlichte Beiträge</span>
-          <Link href="/magazin">Zum Magazin</Link>
+      <section className="hero-card hero-magazine hero-magazine-editorial author-hero-inline">
+        <div className="author-hero-inline-media">
+          {profile.imageUrl ? (
+            <img src={profile.imageUrl} alt={profile.name} loading="eager" decoding="async" className="author-hero-inline-photo" />
+          ) : (
+            <div className="expert-card-avatar-fallback" aria-hidden="true">
+              {profile.name
+                .split(" ")
+                .map((part) => part[0])
+                .join("")
+                .slice(0, 2)}
+            </div>
+          )}
+        </div>
+        <div className="author-hero-inline-copy">
+          <span className="eyebrow">Autorin & Autor im Magazin</span>
+          <h1>{profile.name}</h1>
+          <p>{profile.bio}</p>
+          <div className="meta-row">
+            <span>{profile.role}</span>
+            <span>{posts.length} veröffentlichte Beiträge</span>
+            <Link href="/magazin">Zum Magazin</Link>
+          </div>
         </div>
       </section>
 

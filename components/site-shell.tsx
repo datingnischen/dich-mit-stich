@@ -5,14 +5,15 @@ type NavLink = {
 };
 
 const headerMenuItems: NavLink[] = [
-  { label: "Start", href: "/" },
-  { label: "Magazin", href: "/magazin" },
-  { label: "Singlebörse", href: "https://dich-mit-stich.de/?AID=magazin", external: true },
+  { label: "FAQ", href: "https://dich-mit-stich.de/faq/", external: true },
+  { label: "Erfahrungen", href: "https://dich-mit-stich.de/bewertungen-und-erfahrungen/", external: true },
+  { label: "Region eingrenzen", href: "/tattoo-singles" },
+  { label: "Lieblings-Studios", href: "/tattoo-singles" },
   { label: "Tattoo-Motive", href: "/magazin/tattoo-motive" },
-  { label: "Tattoo-Lexikon", href: "/magazin/tattoo-lexikon" },
+  { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
+  { label: "Unser Expertenteam", href: "/magazin/expertenteam" },
   { label: "Piercings", href: "/magazin/piercing" },
-  { label: "Über uns", href: "/magazin/expertenteam" },
-  { label: "Tattoo-Singles", href: "/tattoo-singles" },
+  { label: "Social Media", href: "https://dich-mit-stich.de/social-media/", external: true },
 ];
 
 const footerColumns: Array<{
@@ -92,21 +93,25 @@ const footerColumns: Array<{
   },
 ];
 
+const HEADER_LOGO_URL = "https://static2.icony-hosting.de/dyncontenteb7ff10d503491a3c73b8237ca3c2a96/img/dichmitstich/logo.svg";
+
 function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;
+}
+
+function BrandLogo({ footer = false }: { footer?: boolean }) {
+  return (
+    <a className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`} href="/" aria-label="Dich mit Stich Startseite">
+      <img className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`} src={HEADER_LOGO_URL} alt="dich-mit-stich" width="356" height="65" />
+    </a>
+  );
 }
 
 export function SiteHeader() {
   return (
     <header className="site-header-shell">
       <div className="site-header-bar compact-header-bar shell">
-        <a className="brand-lockup dms-brand-lockup" href="/" aria-label="Dich mit Stich Startseite">
-          <span className="brand-lockup-mark">D!</span>
-          <span className="brand-lockup-copy">
-            <strong>dich mit stich</strong>
-            <small>Tattoo-, Piercing- & Szene-Dating</small>
-          </span>
-        </a>
+        <BrandLogo />
 
         <div className="header-actions compact-header-actions" aria-label="Nutzeraktionen">
           <a className="login-link" href="https://dich-mit-stich.de/login/">Login</a>
@@ -145,13 +150,7 @@ export function SiteFooter() {
 
       <div className="footer-main">
         <div className="footer-brand-panel">
-          <a className="brand-lockup footer-brand-wordmark dms-brand-lockup" href="/" aria-label="Dich mit Stich Startseite">
-            <span className="brand-lockup-mark">D!</span>
-            <span className="brand-lockup-copy">
-              <strong>dich mit stich</strong>
-              <small>Tattoo-, Piercing- & Szene-Dating</small>
-            </span>
-          </a>
+          <BrandLogo footer />
           <p>
             Dich mit Stich verbindet Szene-Feeling, Dating-Ratgeber, Stadtseiten und echte Erfolgsgeschichten in einer
             klaren, vertrauensvollen Oberfläche für Menschen mit eigenem Stil.

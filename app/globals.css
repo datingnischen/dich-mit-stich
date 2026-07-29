@@ -1,13 +1,23 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("https://static2.icony-hosting.de/dyncontent759285aef0330335de28d4eaf40f0689/fonts/opensans/OpenSans.woff2") format("woff2");
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --background: #f6f0f2;
+  --background: #f4f4f4;
   --surface: #ffffff;
-  --surface-soft: #f7f1f4;
-  --foreground: #2d1d25;
-  --muted: #6f5c66;
-  --line: #eadbe3;
+  --surface-soft: #f8f8f8;
+  --foreground: #333333;
+  --muted: #787878;
+  --line: #eaeaea;
   --brand: #db3987;
+  --brand-dark: #68133c;
   --brand-soft: #fdebf4;
-  --accent: #ffb28b;
+  --accent: #429a45;
+  --accent-dark: #29842c;
 }
 
 * {
@@ -25,11 +35,9 @@ body {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top right, rgba(219, 57, 135, 0.14), transparent 34%),
-    radial-gradient(circle at top left, rgba(255, 178, 139, 0.18), transparent 26%),
-    linear-gradient(180deg, #fff8fb 0%, var(--background) 100%);
+    linear-gradient(180deg, #ffffff 0%, var(--background) 100%);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -147,9 +155,9 @@ img {
 }
 
 .button-primary {
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
-  box-shadow: 0 10px 22px rgba(90, 57, 39, 0.2);
+  box-shadow: 0 10px 22px rgba(66, 154, 69, 0.24);
 }
 
 .button-secondary {
@@ -407,8 +415,8 @@ img {
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(18px);
-  background: rgba(255, 248, 251, 0.84);
+  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--line);
 }
 
@@ -425,6 +433,26 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+}
+
+.brand-lockup-header {
+  gap: 0;
+}
+
+.brand-logo-image {
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+.brand-logo-image-header {
+  height: 65px;
+  max-width: min(356px, 42vw);
+}
+
+.brand-logo-image-footer {
+  height: 52px;
+  max-width: min(300px, 100%);
 }
 
 .brand-lockup-mark {
@@ -475,10 +503,10 @@ img {
   min-height: 46px;
   padding: 0 20px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--brand), #e76093);
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
   font-weight: 800;
-  box-shadow: 0 18px 34px rgba(207, 63, 121, 0.24);
+  box-shadow: 0 18px 34px rgba(66, 154, 69, 0.24);
 }
 
 .header-menu {
@@ -549,7 +577,7 @@ img {
 .main-nav a {
   padding: 12px 14px;
   border-radius: 16px;
-  background: #fff7fb;
+  background: #ffffff;
   border: 1px solid var(--line);
   color: var(--foreground);
   font-weight: 700;
@@ -565,8 +593,8 @@ img {
   padding: 28px 30px;
   border-radius: 30px;
   border: 1px solid var(--line);
-  background: linear-gradient(135deg, rgba(255, 244, 249, 0.98), rgba(255, 255, 255, 0.98));
-  box-shadow: 0 24px 56px rgba(97, 53, 74, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 248, 248, 0.98));
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.08);
 }
 
 .site-footer-shell {

@@ -10,14 +10,14 @@
   --background: #f4f4f4;
   --surface: #ffffff;
   --surface-soft: #f8f8f8;
-  --foreground: #333333;
-  --muted: #787878;
+  --foreground: #494949;
+  --muted: #494949;
   --line: #eaeaea;
-  --brand: #db3987;
-  --brand-dark: #68133c;
-  --brand-soft: #fdebf4;
-  --accent: #429a45;
-  --accent-dark: #29842c;
+  --brand: #67133c;
+  --brand-dark: #67133c;
+  --brand-soft: #f5edf1;
+  --accent: #494949;
+  --accent-dark: #494949;
 }
 
 * {
@@ -155,9 +155,9 @@ img {
 }
 
 .button-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  background: var(--brand);
   color: #fff;
-  box-shadow: 0 10px 22px rgba(66, 154, 69, 0.24);
+  box-shadow: 0 10px 22px rgba(103, 19, 60, 0.24);
 }
 
 .button-secondary {
@@ -324,7 +324,7 @@ img {
   padding: 10px 14px;
   border-radius: 999px;
   background: var(--brand-soft);
-  border: 1px solid rgba(219, 57, 135, 0.14);
+  border: 1px solid rgba(103, 19, 60, 0.14);
   color: var(--brand);
   font-weight: 600;
 }
@@ -446,13 +446,13 @@ img {
 }
 
 .brand-logo-image-header {
-  height: 65px;
-  max-width: min(356px, 42vw);
+  height: 58px;
+  max-width: min(300px, 48vw);
 }
 
 .brand-logo-image-footer {
-  height: 52px;
-  max-width: min(300px, 100%);
+  height: 46px;
+  max-width: min(260px, 100%);
 }
 
 .brand-lockup-mark {
@@ -503,10 +503,10 @@ img {
   min-height: 46px;
   padding: 0 20px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  background: var(--brand);
   color: #fff;
   font-weight: 800;
-  box-shadow: 0 18px 34px rgba(66, 154, 69, 0.24);
+  box-shadow: 0 18px 34px rgba(103, 19, 60, 0.24);
 }
 
 .header-menu {

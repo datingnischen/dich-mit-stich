@@ -93,7 +93,7 @@ const footerColumns: Array<{
   },
 ];
 
-const HEADER_LOGO_URL = "https://static2.icony-hosting.de/dyncontenteb7ff10d503491a3c73b8237ca3c2a96/img/dichmitstich/logo.svg";
+const HEADER_LOGO_URL = "/brand/dich-mit-stich-logo-header.jpg";
 
 function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;
@@ -102,7 +102,7 @@ function externalAttrs(external?: boolean) {
 function BrandLogo({ footer = false }: { footer?: boolean }) {
   return (
     <a className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`} href="/" aria-label="Dich mit Stich Startseite">
-      <img className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`} src={HEADER_LOGO_URL} alt="dich-mit-stich" width="356" height="65" />
+      <img className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`} src={HEADER_LOGO_URL} alt="dich-mit-stich" width="691" height="140" />
     </a>
   );
 }

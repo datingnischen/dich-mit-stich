@@ -148,6 +148,26 @@ function normalizeCategory(term: WpTerm): MagazineCategory {
   };
 }
 
+function sanitizeMediaUrl(url?: string) {
+  if (!url) return undefined;
+
+  try {
+    const parsed = new URL(url);
+    parsed.pathname = parsed.pathname
+      .split("/")
+      .map((segment) => encodeURIComponent(decodeURIComponent(segment)))
+      .join("/");
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
+function extractFirstImageFromHtml(html = "") {
+  const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+  return sanitizeMediaUrl(match?.[1]);
+}
+
 function normalizeEntry(item: WpRestItem): MagazineEntry {
   const featured = item._embedded?.["wp:featuredmedia"]?.[0];
   const author = item._embedded?.author?.[0];
@@ -155,6 +175,9 @@ function normalizeEntry(item: WpRestItem): MagazineEntry {
     .flat()
     .filter((term) => term?.taxonomy === "category")
     .map(normalizeCategory);
+  const content = item.content?.rendered || "";
+  const excerpt = item.excerpt?.rendered || "";
+  const featuredImage = sanitizeMediaUrl(featured?.source_url) || extractFirstImageFromHtml(content);
 
   return {
     id: item.id,
@@ -164,9 +187,9 @@ function normalizeEntry(item: WpRestItem): MagazineEntry {
     modified: item.modified,
     link: item.link,
     title: decodeHtmlEntities(item.title?.rendered || ""),
-    excerpt: item.excerpt?.rendered || "",
-    content: item.content?.rendered || "",
-    featuredImage: featured?.source_url,
+    excerpt,
+    content,
+    featuredImage,
     featuredImageAlt: featured?.alt_text ? decodeHtmlEntities(featured.alt_text) : undefined,
     authorName: author?.name ? decodeHtmlEntities(author.name) : undefined,
     authorSlug: author?.slug,

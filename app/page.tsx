@@ -77,7 +77,7 @@ export default async function HomePage() {
 
         <article className="panel-card">
           <span className="eyebrow">Magazin & Geschichten</span>
-          <h2>Ratgeber, Storys und Evergreen-Inhalte für Dating mit Persönlichkeit</h2>
+          <h2>Ratgeber, Storys und wichtige Themen für Dating mit Persönlichkeit</h2>
           <p>
             Das Magazin liefert dir Inspiration, Orientierung und konkrete Dating-Impulse — von Erfolgsstorys bis zu
             Tattoo-spezifischen Tipps.

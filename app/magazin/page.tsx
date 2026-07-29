@@ -1,7 +1,24 @@
 import Link from "next/link";
-import { getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
+import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 
 export const revalidate = 300;
+
+function ArticleCardMedia({ imageUrl, alt, fallbackLabel, fallbackTitle }: { imageUrl?: string; alt: string; fallbackLabel: string; fallbackTitle: string }) {
+  if (imageUrl) {
+    return (
+      <div className="article-card-media">
+        <img src={imageUrl} alt={alt} loading="lazy" decoding="async" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="article-card-media article-card-media-fallback" aria-hidden="true">
+      <span>{fallbackLabel}</span>
+      <strong>{fallbackTitle}</strong>
+    </div>
+  );
+}
 
 export default async function MagazineOverviewPage() {
   const [posts, pages, categories] = await Promise.all([
@@ -17,11 +34,11 @@ export default async function MagazineOverviewPage() {
   return (
     <main className="shell shell-narrow">
       <section className="hero-card hero-magazine hero-magazine-editorial">
-        <span className="eyebrow">Tattoo-Magazin</span>
-        <h1>Szene-Stories, Tattoo-Ratgeber und echte Erfolgsstorys jetzt in einer deutlich stärkeren Magazin-Oberfläche.</h1>
+        <span className="eyebrow">Tattoo-, Piercing- & Szene-Magazin</span>
+        <h1>Ratgeber, Erfolgsgeschichten und Szene-Wissen für Datinginteressierte mit eigenem Stil.</h1>
         <p>
-          Dich mit Stich bekommt hier endlich wieder einen sichtbaren Rahmen: mit Header, Footer, echter Magazin-Navigation
-          und WordPress-Inhalten, die nicht mehr wie ein nackter Daten-Import aussehen.
+          Hier findest du Tattoo-Ideen, Piercing-Wissen, echte Lovestorys und direkte Einstiege für alle, die beim Dating
+          Menschen mit Persönlichkeit suchen.
         </p>
         <div className="button-row">
           <Link className="button button-primary" href="https://dich-mit-stich.de/registration/">
@@ -36,7 +53,7 @@ export default async function MagazineOverviewPage() {
       {featuredPost ? (
         <section className="content-section">
           <div className="section-header">
-            <span className="eyebrow">Featured Story</span>
+            <span className="eyebrow">Gerade beliebt</span>
             <h2>Direkt aus dem Magazin</h2>
           </div>
           <Link href={`/magazin/${featuredPost.slug}`} className="editorial-feature-card">
@@ -51,7 +68,7 @@ export default async function MagazineOverviewPage() {
               <p>{stripHtml(featuredPost.excerpt || featuredPost.content).slice(0, 220)}…</p>
               <div className="meta-row">
                 {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
-                {featuredPost.date ? <span>{featuredPost.date.slice(0, 10)}</span> : null}
+                {featuredPost.date ? <span>{formatGermanDate(featuredPost.date)}</span> : null}
               </div>
             </div>
           </Link>
@@ -60,7 +77,7 @@ export default async function MagazineOverviewPage() {
 
       <section className="content-section">
         <div className="section-header">
-          <span className="eyebrow">Kategorien</span>
+          <span className="eyebrow">Themenwelten</span>
           <h2>Magazin-Themen mit Szene-Fokus</h2>
         </div>
         <div className="chip-row">
@@ -75,17 +92,18 @@ export default async function MagazineOverviewPage() {
       <section className="grid-two">
         <article className="panel-card">
           <div className="section-header">
-            <span className="eyebrow">Posts</span>
-            <h2>Aktuelle Beiträge mit Bild, Hook und Einstieg</h2>
+            <span className="eyebrow">Neue Artikel</span>
+            <h2>Aktuelle Magazinbeiträge für deinen Einstieg</h2>
           </div>
           <div className="stack-list">
             {spotlightPosts.map((post) => (
               <Link key={post.id} href={`/magazin/${post.slug}`} className="article-card article-card-rich">
-                {post.featuredImage ? (
-                  <div className="article-card-media">
-                    <img src={post.featuredImage} alt={post.featuredImageAlt || post.title} loading="lazy" decoding="async" />
-                  </div>
-                ) : null}
+                <ArticleCardMedia
+                  imageUrl={post.featuredImage}
+                  alt={post.featuredImageAlt || post.title}
+                  fallbackLabel="Tattoo-, Piercing- & Szene-Magazin"
+                  fallbackTitle={post.title}
+                />
                 <div className="article-card-copy">
                   <span className="eyebrow eyebrow-muted">{post.categories[0]?.name || "Magazin"}</span>
                   <h3>{post.title}</h3>
@@ -98,19 +116,20 @@ export default async function MagazineOverviewPage() {
 
         <article className="panel-card">
           <div className="section-header">
-            <span className="eyebrow">Pages</span>
-            <h2>Evergreen- und Info-Seiten aus WordPress</h2>
+            <span className="eyebrow">Mehr Wissen</span>
+            <h2>Beliebte Ratgeber und wichtige Themen auf einen Blick</h2>
           </div>
           <div className="stack-list">
             {spotlightPages.map((page) => (
               <Link key={page.id} href={`/magazin/${page.slug}`} className="article-card article-card-rich">
-                {page.featuredImage ? (
-                  <div className="article-card-media">
-                    <img src={page.featuredImage} alt={page.featuredImageAlt || page.title} loading="lazy" decoding="async" />
-                  </div>
-                ) : null}
+                <ArticleCardMedia
+                  imageUrl={page.featuredImage}
+                  alt={page.featuredImageAlt || page.title}
+                  fallbackLabel="Tattoo- & Piercingwissen"
+                  fallbackTitle={page.title}
+                />
                 <div className="article-card-copy">
-                  <span className="eyebrow eyebrow-muted">WordPress-Seite</span>
+                  <span className="eyebrow eyebrow-muted">Ratgeber & Wissen</span>
                   <h3>{page.title}</h3>
                   <p>{stripHtml(page.excerpt || page.content).slice(0, 180)}…</p>
                 </div>

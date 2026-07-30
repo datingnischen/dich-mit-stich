@@ -1,3 +1,5 @@
+import { staticAsset } from "@/lib/static-asset";
+
 type NavLink = {
   label: string;
   href: string;
@@ -93,7 +95,7 @@ const footerColumns: Array<{
   },
 ];
 
-const HEADER_LOGO_URL = "/brand/dich-mit-stich-logo-header.jpg";
+const HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-header.jpg");
 
 function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;

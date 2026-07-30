@@ -3,13 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
+import { staticAsset } from "@/lib/static-asset";
 import { getTattooCityPage, tattooCitySlugs } from "@/lib/tattoo-singles";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-const HOME_HERO_IMAGE = "https://static2.icony-hosting.de/dyncontentbf91b1bc561a9d20d467d3270352d3e5/img/generic2021/frontpage-v4/backgrounds/frontpage-visual-dichmitstich.webp";
+const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
 export const revalidate = 300;
 

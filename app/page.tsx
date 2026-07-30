@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
+import { staticAsset } from "@/lib/static-asset";
 import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
-const HOME_HERO_IMAGE = "https://static2.icony-hosting.de/dyncontentbf91b1bc561a9d20d467d3270352d3e5/img/generic2021/frontpage-v4/backgrounds/frontpage-visual-dichmitstich.webp";
+const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
 export default async function HomePage() {
   const [overview, posts, pages, categories, expert] = await Promise.all([

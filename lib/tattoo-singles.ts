@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { decodeHtmlEntities } from "@/lib/wordpress";
+import { staticAsset } from "@/lib/static-asset";
 
 export const tattooCitySlugs = [
   "berlin",
@@ -61,22 +62,22 @@ export type TattooCityPage = {
 const BASE_URL = "https://dich-mit-stich.de";
 
 const cityOverviewImages: Record<string, string> = {
-  berlin: "/cities/berlin.jpg",
-  bochum: "/cities/bochum.jpg",
-  bremen: "/cities/bremen.jpg",
-  dortmund: "/cities/dortmund.jpg",
-  dresden: "/cities/dresden.jpg",
-  duesseldorf: "https://static-cms.icony-hosting.de/cms/03C0A04014128F5AFC214AF19D174AE19FC31623497FF435769CBFD8B6D7A593/1000/Du%CC%88sseldorf.jpg",
-  essen: "/cities/essen.jpg",
-  "frankfurt-am-main": "/cities/frankfurt-am-main.jpg",
-  hamburg: "/cities/hamburg.jpg",
-  hannover: "/cities/hannover.jpg",
-  koeln: "https://static-cms.icony-hosting.de/cms/A09A2DC9CEC3EC67627C7A6DB4897927D27E6530910D2B827ED94079314F6771/1000/Ko%CC%88ln.jpg",
-  leipzig: "/cities/leipzig.jpg",
-  mannheim: "/cities/mannheim.jpg",
-  muenchen: "https://static-cms.icony-hosting.de/cms/300391CEAA3A23853BC56F57E16008048277D4EB2169527E3920D40E6DD4B06E/1000/Mu%CC%88nchen.jpg",
-  nuernberg: "https://static-cms.icony-hosting.de/cms/6441D7B560A901E596AFC3AB89A3B5FF8C825638C014BB26E2F43556C7D527C5/Singles-N%C3%BCrnberg.jpg",
-  stuttgart: "/cities/stuttgart.jpg",
+  berlin: staticAsset("/cities/berlin.jpg"),
+  bochum: staticAsset("/cities/bochum.jpg"),
+  bremen: staticAsset("/cities/bremen.jpg"),
+  dortmund: staticAsset("/cities/dortmund.jpg"),
+  dresden: staticAsset("/cities/dresden.jpg"),
+  duesseldorf: staticAsset("/cities/duesseldorf.jpg"),
+  essen: staticAsset("/cities/essen.jpg"),
+  "frankfurt-am-main": staticAsset("/cities/frankfurt-am-main.jpg"),
+  hamburg: staticAsset("/cities/hamburg.jpg"),
+  hannover: staticAsset("/cities/hannover.jpg"),
+  koeln: staticAsset("/cities/koeln.jpg"),
+  leipzig: staticAsset("/cities/leipzig.jpg"),
+  mannheim: staticAsset("/cities/mannheim.jpg"),
+  muenchen: staticAsset("/cities/muenchen.jpg"),
+  nuernberg: staticAsset("/cities/nuernberg.jpg"),
+  stuttgart: staticAsset("/cities/stuttgart.jpg"),
 };
 
 async function fetchHtml(path: string) {

@@ -6,6 +6,7 @@ import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazineP
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
+const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.png");
 
 export default async function HomePage() {
   const [overview, posts, pages, categories, expert] = await Promise.all([
@@ -55,6 +56,41 @@ export default async function HomePage() {
             <Link className="button button-primary" href="/tattoo-singles/bremen">
               Beispiel-Stadt ansehen
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-radar-section panel-card">
+        <div className="home-radar-copy">
+          <span className="eyebrow">Flirtradar & Umkreissuche</span>
+          <h2>Sieh sofort, welche Tattoo-Singles ganz in deiner Nähe online sind.</h2>
+          <p>
+            Genau dafür ist die Umkreissuche stark: nicht endlos wischen, sondern direkt lokal schauen,
+            wer zu deinem Stil passt und nur wenige Kilometer entfernt ist.
+          </p>
+          <ul className="trust-points" aria-label="Vorteile der Umkreissuche">
+            <li>Singles nach Entfernung statt Zufall entdecken</li>
+            <li>Schneller zu echten Treffen in deiner Region kommen</li>
+            <li>Ideal für Szene-Dating mit lokalem Fokus</li>
+          </ul>
+          <div className="button-row">
+            <Link className="button button-primary" href="https://dich-mit-stich.de/registration/">
+              Kostenlos anmelden
+            </Link>
+            <Link className="button button-secondary" href="/tattoo-singles">
+              Regionen ansehen
+            </Link>
+          </div>
+        </div>
+
+        <div className="home-radar-visual">
+          <div className="home-radar-frame">
+            <img
+              src={FLIRTRADAR_IMAGE}
+              alt="Flirtradar mit Umkreissuche für Tattoo-Singles in der Nähe"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </section>

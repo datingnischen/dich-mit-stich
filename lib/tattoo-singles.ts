@@ -54,15 +54,35 @@ export type TattooCityPage = {
   metaDescription: string;
   h1: string;
   heroTitle: string;
+  imageUrl: string;
+  imageAttribution?: {
+    title: string;
+    creator: string;
+    license: string;
+    sourceUrl: string;
+  };
   contentHtml: string;
   relatedCities: { slug: string; label: string }[];
   registrationUrl: string;
 };
 
 const BASE_URL = "https://dich-mit-stich.de";
+const DEFAULT_CITY_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
+
+const berlinCityImage = {
+  imageUrl:
+    "https://dich-mit-stich.de/magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-berlin.jpg",
+  imageAttribution: {
+    title: "Berlin Skyline Architecture City Germany Lights",
+    creator: "2197494",
+    license: "CC0",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Berlin_Skyline_Architecture_City_Germany_Lights.jpg",
+  },
+};
 
 const cityOverviewImages: Record<string, string> = {
-  berlin: staticAsset("/cities/berlin.jpg"),
+  berlin: berlinCityImage.imageUrl,
   bochum: staticAsset("/cities/bochum.jpg"),
   bremen: staticAsset("/cities/bremen.jpg"),
   dortmund: staticAsset("/cities/dortmund.jpg"),
@@ -169,6 +189,8 @@ export const getTattooCityPage = cache(async (slug: string): Promise<TattooCityP
     metaDescription,
     h1,
     heroTitle,
+    imageUrl: slug === "berlin" ? berlinCityImage.imageUrl : DEFAULT_CITY_HERO_IMAGE,
+    imageAttribution: slug === "berlin" ? berlinCityImage.imageAttribution : undefined,
     contentHtml,
     relatedCities,
     registrationUrl,

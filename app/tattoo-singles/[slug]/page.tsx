@@ -3,14 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
-import { staticAsset } from "@/lib/static-asset";
 import { getTattooCityPage, tattooCitySlugs } from "@/lib/tattoo-singles";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
-
-const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
 export const revalidate = 300;
 
@@ -60,7 +57,12 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
 
         <div className="home-stage-visual city-stage-visual">
           <div className="home-stage-picture">
-            <img src={HOME_HERO_IMAGE} alt={`Szene-Dating Einstieg für ${cityName}`} loading="eager" decoding="async" />
+            <img
+              src={cityPage.imageUrl}
+              alt={`Stadtansicht von ${cityName} für Dich mit Stich`}
+              loading="eager"
+              decoding="async"
+            />
           </div>
           <div className="floating-entry-card city-entry-card">
             <span className="eyebrow">Dating-Einstieg</span>
@@ -79,6 +81,18 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
       <section className="rich-content">
         <div dangerouslySetInnerHTML={{ __html: cityPage.contentHtml }} />
       </section>
+
+      {cityPage.imageAttribution ? (
+        <section className="content-section" aria-label="Bildquelle des Stadtfotos">
+          <p>
+            <strong>Bildquelle</strong>: {cityPage.imageAttribution.title} – Foto: {cityPage.imageAttribution.creator},{" "}
+            Lizenz: {cityPage.imageAttribution.license}. Bearbeitung: Zuschnitt und Dich-mit-Stich-Logo.{" "}
+            <a href={cityPage.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">
+              Originalquelle bei Wikimedia Commons
+            </a>
+          </p>
+        </section>
+      ) : null}
 
       {expert ? (
         <section className="content-section">

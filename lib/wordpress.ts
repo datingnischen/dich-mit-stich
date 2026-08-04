@@ -222,7 +222,7 @@ async function fetchAllPaginated<T>(path: string, baseParams: Record<string, str
   let page = 1;
 
   while (true) {
-    const response = await fetchWp<T[]>(path, { ...baseParams, per_page: 100, page });
+    const response = await fetchWp<T[]>(path, { ...baseParams, per_page: 25, page });
     const batch = await response.json();
     results.push(...batch);
 

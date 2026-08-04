@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { staticAsset } from "@/lib/static-asset";
 
 type NavLink = {
@@ -103,9 +104,9 @@ function externalAttrs(external?: boolean) {
 
 function BrandLogo({ footer = false }: { footer?: boolean }) {
   return (
-    <a className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`} href="/" aria-label="Dich mit Stich Startseite">
+    <Link className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`} href="/" aria-label="Dich mit Stich Startseite">
       <img className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`} src={HEADER_LOGO_URL} alt="dich-mit-stich" width="691" height="140" />
-    </a>
+    </Link>
   );
 }
 

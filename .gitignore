@@ -33,6 +33,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local migration workspaces
+/.hermes-city-source/
+/.hermes-tools/
+
 # vercel
 .vercel
 

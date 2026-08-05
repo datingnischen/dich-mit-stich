@@ -31,7 +31,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
   const [cityPage, expert] = await Promise.all([getTattooCityPage(slug), getDatingExpertProfile()]);
   if (!cityPage) notFound();
 
-  const cityName = cityPage.h1.replace(/^Tattoo-Singles in\s+/i, "").replace(/:.*$/, "").trim();
+  const cityName = cityPage.cityName;
 
   return (
     <main className="shell shell-narrow">

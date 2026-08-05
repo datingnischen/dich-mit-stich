@@ -1,6 +1,6 @@
 import { cache } from "react";
+import tattooCityImages from "@/data/tattoo-city-images.json";
 import { decodeHtmlEntities } from "@/lib/wordpress";
-import { staticAsset } from "@/lib/static-asset";
 
 export const tattooCitySlugs = [
   "berlin",
@@ -22,6 +22,20 @@ export const tattooCitySlugs = [
 ] as const;
 
 export type TattooCitySlug = (typeof tattooCitySlugs)[number];
+
+type CityImageAttribution = {
+  title: string;
+  creator: string;
+  license: string;
+  sourceUrl: string;
+};
+
+type CityImage = {
+  imageUrl: string;
+  imageAttribution: CityImageAttribution;
+};
+
+const cityImageInventory: Record<TattooCitySlug, CityImage> = tattooCityImages;
 
 const cityDisplayNames: Record<string, string> = {
   berlin: "Berlin",
@@ -50,55 +64,19 @@ export type TattooSinglesOverview = {
 
 export type TattooCityPage = {
   slug: string;
+  cityName: string;
   title: string;
   metaDescription: string;
   h1: string;
   heroTitle: string;
   imageUrl: string;
-  imageAttribution?: {
-    title: string;
-    creator: string;
-    license: string;
-    sourceUrl: string;
-  };
+  imageAttribution: CityImageAttribution;
   contentHtml: string;
   relatedCities: { slug: string; label: string }[];
   registrationUrl: string;
 };
 
 const BASE_URL = "https://dich-mit-stich.de";
-const DEFAULT_CITY_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
-
-const berlinCityImage = {
-  imageUrl:
-    "https://dich-mit-stich.de/magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-berlin.jpg",
-  imageAttribution: {
-    title: "Berlin Skyline Architecture City Germany Lights",
-    creator: "2197494",
-    license: "CC0",
-    sourceUrl:
-      "https://commons.wikimedia.org/wiki/File:Berlin_Skyline_Architecture_City_Germany_Lights.jpg",
-  },
-};
-
-const cityOverviewImages: Record<string, string> = {
-  berlin: berlinCityImage.imageUrl,
-  bochum: staticAsset("/cities/bochum.jpg"),
-  bremen: staticAsset("/cities/bremen.jpg"),
-  dortmund: staticAsset("/cities/dortmund.jpg"),
-  dresden: staticAsset("/cities/dresden.jpg"),
-  duesseldorf: staticAsset("/cities/duesseldorf.jpg"),
-  essen: staticAsset("/cities/essen.jpg"),
-  "frankfurt-am-main": staticAsset("/cities/frankfurt-am-main.jpg"),
-  hamburg: staticAsset("/cities/hamburg.jpg"),
-  hannover: staticAsset("/cities/hannover.jpg"),
-  koeln: staticAsset("/cities/koeln.jpg"),
-  leipzig: staticAsset("/cities/leipzig.jpg"),
-  mannheim: staticAsset("/cities/mannheim.jpg"),
-  muenchen: staticAsset("/cities/muenchen.jpg"),
-  nuernberg: staticAsset("/cities/nuernberg.jpg"),
-  stuttgart: staticAsset("/cities/stuttgart.jpg"),
-};
 
 async function fetchHtml(path: string) {
   const response = await fetch(`${BASE_URL}${path}`, {
@@ -156,7 +134,7 @@ export const getTattooSinglesOverview = cache(async (): Promise<TattooSinglesOve
   const cityLinks = tattooCitySlugs.map((slug) => ({
     slug,
     label: cityLabelFromSlug(slug),
-    imageUrl: cityOverviewImages[slug],
+    imageUrl: cityImageInventory[slug].imageUrl,
   }));
 
   return {
@@ -168,6 +146,8 @@ export const getTattooSinglesOverview = cache(async (): Promise<TattooSinglesOve
 
 export const getTattooCityPage = cache(async (slug: string): Promise<TattooCityPage | null> => {
   if (!tattooCitySlugs.includes(slug as TattooCitySlug)) return null;
+
+  const cityImage = cityImageInventory[slug as TattooCitySlug];
 
   const html = await fetchHtml(`/tattoo-singles/${slug}/`);
   const title = firstMatch(html, /<title>([\s\S]*?)<\/title>/i);
@@ -185,12 +165,13 @@ export const getTattooCityPage = cache(async (slug: string): Promise<TattooCityP
 
   return {
     slug,
+    cityName: cityLabelFromSlug(slug),
     title,
     metaDescription,
     h1,
     heroTitle,
-    imageUrl: slug === "berlin" ? berlinCityImage.imageUrl : DEFAULT_CITY_HERO_IMAGE,
-    imageAttribution: slug === "berlin" ? berlinCityImage.imageAttribution : undefined,
+    imageUrl: cityImage.imageUrl,
+    imageAttribution: cityImage.imageAttribution,
     contentHtml,
     relatedCities,
     registrationUrl,

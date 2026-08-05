@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
-import { getMarket, marketPreviewPath, publicUrl, type MarketCode } from "@/lib/markets";
+import { MarketLink } from "@/components/market-link";
+import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
 type NavLink = {
@@ -116,9 +116,9 @@ function marketHref(link: NavLink, market: MarketCode) {
 
 function BrandLogo({ footer = false, market }: { footer?: boolean; market: MarketCode }) {
   return (
-    <Link
+    <MarketLink
       className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`}
-      href={market === "de" ? "/" : marketPreviewPath(market)}
+      targetMarket={market}
       aria-label="Dich mit Stich Startseite"
     >
       <Image
@@ -130,7 +130,7 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
         sizes={footer ? "260px" : "220px"}
         priority={!footer}
       />
-    </Link>
+    </MarketLink>
   );
 }
 

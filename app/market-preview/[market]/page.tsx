@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
-import { getMarket, isMarketCode, marketPreviewPath, publicUrl, type MarketCode } from "@/lib/markets";
+import { getMarket, isMarketCode, publicUrl, type MarketCode } from "@/lib/markets";
 
 export const dynamic = "force-static";
 
@@ -46,15 +46,15 @@ export default async function MarketPreviewPage({ params }: PageProps) {
           zugeordnet und vollständig geprüft sind. So erscheinen hier keine deutschen Inhalte oder Städte im falschen Markt.
         </p>
         <div className="button-row" aria-label="Verfügbare Ländervorschauen">
-          <Link className="button button-secondary" href={marketPreviewPath("de")}>
+          <MarketLink className="button button-secondary" targetMarket="de">
             Deutschland ansehen
-          </Link>
-          <Link className="button button-secondary" href={marketPreviewPath("at")}>
+          </MarketLink>
+          <MarketLink className="button button-secondary" targetMarket="at">
             Österreich
-          </Link>
-          <Link className="button button-secondary" href={marketPreviewPath("ch")}>
+          </MarketLink>
+          <MarketLink className="button button-secondary" targetMarket="ch">
             Schweiz
-          </Link>
+          </MarketLink>
         </div>
         </section>
       </main>

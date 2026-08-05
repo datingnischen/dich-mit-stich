@@ -129,9 +129,18 @@ test("unfinished markets are noindex and have dedicated robots and sitemap handl
   const previewSource = await readFile(new URL("../app/market-preview/[market]/page.tsx", import.meta.url), "utf8");
   const robotsSource = await readFile(new URL("../app/market-robots/[market]/route.ts", import.meta.url), "utf8");
   const sitemapSource = await readFile(new URL("../app/market-sitemap/[market]/route.ts", import.meta.url), "utf8");
+  const shellSource = await readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8");
 
   assert.match(previewSource, /index:\s*false/);
   assert.match(previewSource, /follow:\s*false/);
   assert.match(robotsSource, /Disallow:\s*\//);
   assert.match(sitemapSource, /<urlset/);
+
+  // Reverse-proxy HTML must not expose Vercel's internal market prefixes.
+  assert.match(previewSource, /<MarketLink[^>]*targetMarket="de"/);
+  assert.match(previewSource, /<MarketLink[^>]*targetMarket="at"/);
+  assert.match(previewSource, /<MarketLink[^>]*targetMarket="ch"/);
+  assert.doesNotMatch(previewSource, /href=\{marketPreviewPath\(/);
+  assert.match(shellSource, /<MarketLink[^>]*targetMarket=\{market\}/);
+  assert.doesNotMatch(shellSource, /href=\{marketPreviewPath\(market\)\}/);
 });

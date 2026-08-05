@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
+import { publicUrl } from "@/lib/markets";
 import { getTattooCityPage, tattooCitySlugs } from "@/lib/tattoo-singles";
 
 type PageProps = {
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: cityPage.title,
     description: cityPage.metaDescription,
+    alternates: { canonical: publicUrl("de", `/tattoo-singles/${slug}`) },
   };
 }
 

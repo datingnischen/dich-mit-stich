@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { publicUrl } from "@/lib/markets";
 import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 
 export const revalidate = 900;
+
+export const metadata: Metadata = {
+  alternates: { canonical: publicUrl("de", "/magazin") },
+};
 
 function ArticleCardMedia({ imageUrl, alt, fallbackLabel, fallbackTitle }: { imageUrl?: string; alt: string; fallbackLabel: string; fallbackTitle: string }) {
   if (imageUrl) {

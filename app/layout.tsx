@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SiteFooter, SiteHeader } from "@/components/site-shell";
-import { StickyCTAButton } from "@/components/sticky-cta-button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | Dich mit Stich",
   },
   description: "Tattoo-, Piercing- und Szene-Dating mit Magazin, Stadtseiten und echten Erfolgsgeschichten in einer klaren, vertrauensvollen Oberfläche.",
-  metadataBase: new URL("https://dich-mit-stich.vercel.app"),
+  metadataBase: new URL("https://dich-mit-stich.de"),
 };
 
 export default function RootLayout({
@@ -30,12 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>
-        <SiteHeader />
-        {children}
-        <SiteFooter />
-        <StickyCTAButton />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

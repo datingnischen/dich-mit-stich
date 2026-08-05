@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getAuthorProfile } from "@/lib/author-profiles";
+import { publicUrl } from "@/lib/markets";
 import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${entry.title} | dich-mit-stich Magazin`,
     description: stripHtml(entry.excerpt || entry.content).slice(0, 155),
+    alternates: { canonical: publicUrl("de", `/magazin/${slug}`) },
   };
 }
 

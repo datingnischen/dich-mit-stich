@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dich mit Stich – Next.js/Vercel-Migration
 
-## Getting Started
+Headless-Frontend für `dich-mit-stich.de`, `.at` und `.ch`. WordPress liefert Magazin-Inhalte; Legacy-/ICONY-Ziele bleiben für Login und Registrierung zuständig.
 
-First, run the development server:
+## Markt-Routing
+
+| Vercel-Pfad | Öffentliche Domain | Status |
+| --- | --- | --- |
+| `/de/...` | `https://dich-mit-stich.de/...` | Inhalte aktiv |
+| `/at/...` | `https://dich-mit-stich.at/...` | Bereitschaftsseite, `noindex` |
+| `/ch/...` | `https://dich-mit-stich.ch/...` | Bereitschaftsseite, `noindex` |
+
+`proxy.ts` setzt die Trennung zwischen internen Vercel-Pfaden und öffentlichen Reverse-Proxy-URLs um:
+
+- Vercel `/magazin` → permanenter Redirect auf `/de/magazin`
+- Vercel `/de/magazin` → internes Rewrite auf den bestehenden DE-Contentbaum
+- `/at/...` und `/ch/...` → sichere Markt-Platzhalter, solange `contentEnabled` deaktiviert ist
+- Framework-Assets, `/_next/image` und APIs bleiben unberührt
+
+Öffentliche Canonicals sind immer präfixlos auf der Landesdomain. Interne Contentlinks bleiben ebenfalls präfixlos, damit Reverse-Proxy-Besucher auf ihrer Landesdomain bleiben.
+
+Zentrale Konfiguration: [`lib/markets.ts`](./lib/markets.ts)
+
+## Entwicklung
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Danach insbesondere prüfen:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `http://localhost:3000/` → `/de`
+- `http://localhost:3000/de/magazin`
+- `http://localhost:3000/at/magazin`
+- `http://localhost:3000/ch/tattoo-singles/berlin`
+- `http://localhost:3000/de/robots.txt`
+- `http://localhost:3000/ch/sitemap.xml`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Qualitätsgates
 
-## Learn More
+```bash
+npm test
+npm run lint
+npx tsc --noEmit
+npm run check:wordpress-budget
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Die Marktrouting-Verträge liegen in `tests/market-routing.test.mjs`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Lokale TLS-Inspection
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+In Netzen mit Fortinet oder vergleichbarer TLS-Inspection darf die Zertifikatsprüfung nicht deaktiviert werden. Die kontrolliert verifizierte öffentliche Unternehmens-/Appliance-CA wird nur lokal eingebunden:
 
-## Deploy on Vercel
+```bash
+NODE_EXTRA_CA_CERTS="/absoluter/pfad/zur/ca.pem" npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+CA-Dateien und lokale Diagnoseartefakte sind nicht Teil des Repositories.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Dokumentation
+
+Die vollständige Architektur- und Reverse-Proxy-Checkliste liegt im Obsidian-Vault:
+
+- `08 Playbooks/Mehrmarkt- und Sprachlogik – ein CMS, mehrere Länder sauber ausspielen.md`
+- `04 CMS + WordPress + ICONY/dich-mit-stich.de – Next.js-Vercel-Migration.md`

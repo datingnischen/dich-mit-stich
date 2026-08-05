@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getMarket, marketPreviewPath, publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
 type NavLink = {
@@ -103,9 +104,23 @@ function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;
 }
 
-function BrandLogo({ footer = false }: { footer?: boolean }) {
+function marketHref(link: NavLink, market: MarketCode) {
+  if (!link.external) return link.href;
+
+  const url = new URL(link.href);
+  if (url.hostname === "dich-mit-stich.de") {
+    url.hostname = getMarket(market).domain;
+  }
+  return url.toString();
+}
+
+function BrandLogo({ footer = false, market }: { footer?: boolean; market: MarketCode }) {
   return (
-    <Link className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`} href="/" aria-label="Dich mit Stich Startseite">
+    <Link
+      className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`}
+      href={market === "de" ? "/" : marketPreviewPath(market)}
+      aria-label="Dich mit Stich Startseite"
+    >
       <Image
         className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`}
         src={HEADER_LOGO_URL}
@@ -119,15 +134,28 @@ function BrandLogo({ footer = false }: { footer?: boolean }) {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ market = "de" }: { market?: MarketCode }) {
+  const config = getMarket(market);
+
+  if (!config.contentEnabled) {
+    return (
+      <header className="site-header-shell">
+        <div className="site-header-bar compact-header-bar shell">
+          <BrandLogo market={market} />
+          <span className="eyebrow">{config.countryName}</span>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header className="site-header-shell">
       <div className="site-header-bar compact-header-bar shell">
-        <BrandLogo />
+        <BrandLogo market={market} />
 
         <div className="header-actions compact-header-actions" aria-label="Nutzeraktionen">
-          <a className="login-link" href="https://dich-mit-stich.de/login/">Login</a>
-          <a className="header-register header-register-primary" href="https://dich-mit-stich.de/registration/">Registrieren</a>
+          <a className="login-link" href={publicUrl(market, "/login/")}>Login</a>
+          <a className="header-register header-register-primary" href={publicUrl(market, "/registration/")}>Registrieren</a>
 
           <details className="header-menu">
             <summary aria-label="Menü öffnen">
@@ -137,7 +165,7 @@ export function SiteHeader() {
             <div className="header-menu-panel">
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">
                 {headerMenuItems.map((item) => (
-                  <a href={item.href} key={item.href} {...externalAttrs(item.external)}>{item.label}</a>
+                  <a href={marketHref(item, market)} key={item.href} {...externalAttrs(item.external)}>{item.label}</a>
                 ))}
               </nav>
             </div>
@@ -148,7 +176,25 @@ export function SiteHeader() {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ market = "de" }: { market?: MarketCode }) {
+  const config = getMarket(market);
+
+  if (!config.contentEnabled) {
+    return (
+      <footer className="site-footer-shell">
+        <div className="footer-main">
+          <div className="footer-brand-panel">
+            <BrandLogo footer market={market} />
+            <p>Der eigene Länderbereich für {config.countryName} wird markt- und inhaltssauber vorbereitet.</p>
+          </div>
+        </div>
+        <div className="sub-footer">
+          <span>© {new Date().getFullYear()} Dich mit Stich {config.countryName}</span>
+        </div>
+      </footer>
+    );
+  }
+
   return (
     <footer className="site-footer-shell">
       <section className="footer-cta footer-cta-dark" aria-label="Registrierung">
@@ -157,12 +203,12 @@ export function SiteFooter() {
           <h2>Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</h2>
           <p>Magazin, Stadtseiten und echte Erfolgsgeschichten helfen dir beim Einstieg — und führen direkt zu neuen Kontakten.</p>
         </div>
-        <a className="footer-cta-button" href="https://dich-mit-stich.de/registration/">Jetzt kostenlos registrieren</a>
+        <a className="footer-cta-button" href={publicUrl(market, "/registration/")}>Jetzt kostenlos registrieren</a>
       </section>
 
       <div className="footer-main">
         <div className="footer-brand-panel">
-          <BrandLogo footer />
+          <BrandLogo footer market={market} />
           <p>
             Dich mit Stich verbindet Szene-Feeling, Dating-Ratgeber, Stadtseiten und echte Erfolgsgeschichten in einer
             klaren, vertrauensvollen Oberfläche für Menschen mit eigenem Stil.
@@ -181,7 +227,7 @@ export function SiteFooter() {
               <ul>
                 {column.links.map((link) => (
                   <li key={`${column.title}-${link.label}`}>
-                    <a href={link.href} {...externalAttrs(link.external)}>{link.label}</a>
+                    <a href={marketHref(link, market)} {...externalAttrs(link.external)}>{link.label}</a>
                   </li>
                 ))}
               </ul>
@@ -195,8 +241,8 @@ export function SiteFooter() {
           <span>© {new Date().getFullYear()} Dich mit Stich</span>
         </div>
         <div className="sub-footer-links">
-          <a href="https://dich-mit-stich.de/registration/">Registrieren</a>
-          <a href="https://dich-mit-stich.de/login/">Login</a>
+          <a href={publicUrl(market, "/registration/")}>Registrieren</a>
+          <a href={publicUrl(market, "/login/")}>Login</a>
         </div>
       </div>
     </footer>

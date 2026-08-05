@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { publicUrl } from "@/lib/markets";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  alternates: { canonical: publicUrl("de", "/tattoo-singles") },
+};
 
 export default async function TattooSinglesOverviewPage() {
   const overview = await getTattooSinglesOverview();

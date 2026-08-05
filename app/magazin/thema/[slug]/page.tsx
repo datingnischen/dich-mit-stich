@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { publicUrl } from "@/lib/markets";
 import { getMagazineCategories, getMagazineCategoryBySlug, getMagazineEntriesForCategory, stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
@@ -23,6 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${category.name} | dich-mit-stich Magazin`,
     description: category.description || `Beiträge aus dem Bereich ${category.name} im dich-mit-stich Magazin.`,
+    alternates: { canonical: publicUrl("de", `/magazin/thema/${slug}`) },
   };
 }
 

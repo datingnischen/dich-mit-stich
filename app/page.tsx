@@ -1,13 +1,20 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
+import { SiteFrame } from "@/components/site-frame";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
+import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.png");
+
+export const metadata: Metadata = {
+  alternates: { canonical: publicUrl("de") },
+};
 
 export default async function HomePage() {
   const [overview, posts, pages, categories, expert] = await Promise.all([
@@ -22,7 +29,8 @@ export default async function HomePage() {
   const magazineStarts = [...posts.slice(1, 4), ...pages.slice(0, 1)];
 
   return (
-    <main className="shell">
+    <SiteFrame market="de">
+      <main className="shell">
       <section className="home-stage panel-card">
         <div className="home-stage-copy">
           <span className="eyebrow eyebrow-brand">Tattoo-, Piercing- & Szene-Dating</span>
@@ -209,6 +217,7 @@ export default async function HomePage() {
           </div>
         </article>
       </section>
-    </main>
+      </main>
+    </SiteFrame>
   );
 }

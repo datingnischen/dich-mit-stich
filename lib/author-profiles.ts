@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { getMagazinePosts, stripHtml } from "@/lib/wordpress";
+import { fetchWithRetry, getMagazineAuthorPostCount, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 
 const AUTHOR_ARCHIVE_BASE = "https://dich-mit-stich.de/magazin/author";
 
@@ -52,12 +52,12 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
   const override = AUTHOR_OVERRIDES[slug] || {};
   const url = override.sourceUrl || `${AUTHOR_ARCHIVE_BASE}/${slug}/`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithRetry(url, {
     headers: {
       "User-Agent": "Amigo dich-mit-stich author profile sync",
     },
-    next: { revalidate: 300 },
-  } as RequestInit & { next: { revalidate: number } });
+    next: { revalidate: 1800, tags: ["wordpress:authors", `wordpress:author:${slug}`] },
+  } as RequestInit & { next: { revalidate: number; tags: string[] } });
 
   if (!response.ok) return null;
 
@@ -76,8 +76,7 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
     cleanImageUrl(firstMatch(html, /<img[^>]+(?:data-src|src)="([^"]*Anne-Schweitzer[^"]*)"/i)) ||
     undefined;
 
-  const posts = await getMagazinePosts();
-  const authorPosts = posts.filter((post) => post.authorSlug === slug);
+  const authorPostCount = await getMagazineAuthorPostCount(slug);
   const role =
     override.role ||
     (slug === "redaktion"
@@ -89,11 +88,11 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
       ? [
           "Langjährige Erfahrung mit Nischen-Singlebörsen und Online-Dating",
           "Praxisnahe Tipps für tätowierte Singles und Szene-Communities",
-          `Bereits ${authorPosts.length} veröffentlichte Beiträge im Tattoo-Magazin`,
+          `Bereits ${authorPostCount} veröffentlichte Beiträge im Tattoo-Magazin`,
         ]
       : [
           "Schreibt über Tattoo-Motive, Stilrichtungen und verwandte Themen",
-          `Bereits ${authorPosts.length} veröffentlichte Beiträge im Tattoo-Magazin`,
+          `Bereits ${authorPostCount} veröffentlichte Beiträge im Tattoo-Magazin`,
           "Führt Leserinnen und Leser direkt zu passenden Magazin-Einstiegen",
         ];
 

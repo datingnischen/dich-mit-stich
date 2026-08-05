@@ -1,13 +1,20 @@
+import Image from "next/image";
 import Link from "next/link";
 import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 
-export const revalidate = 300;
+export const revalidate = 900;
 
 function ArticleCardMedia({ imageUrl, alt, fallbackLabel, fallbackTitle }: { imageUrl?: string; alt: string; fallbackLabel: string; fallbackTitle: string }) {
   if (imageUrl) {
     return (
       <div className="article-card-media">
-        <img src={imageUrl} alt={alt} loading="lazy" decoding="async" />
+        <Image
+          src={imageUrl}
+          alt={alt}
+          width={720}
+          height={405}
+          sizes="(max-width: 760px) 100vw, 420px"
+        />
       </div>
     );
   }
@@ -59,7 +66,14 @@ export default async function MagazineOverviewPage() {
           <Link href={`/magazin/${featuredPost.slug}`} className="editorial-feature-card">
             {featuredPost.featuredImage ? (
               <div className="editorial-feature-media">
-                <img src={featuredPost.featuredImage} alt={featuredPost.featuredImageAlt || featuredPost.title} loading="eager" decoding="async" />
+                <Image
+                  src={featuredPost.featuredImage}
+                  alt={featuredPost.featuredImageAlt || featuredPost.title}
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 900px) 100vw, 900px"
+                  priority
+                />
               </div>
             ) : null}
             <div className="editorial-feature-copy">

@@ -2,6 +2,22 @@ import { cache } from "react";
 
 const MAGAZINE_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
 
+const ROUTE_FIELDS = "id,slug,type,date,modified";
+const LIST_FIELDS = "id,slug,type,date,modified,link,title,excerpt,_links,_embedded";
+
+export const WORDPRESS_FETCH_POLICY = {
+  routePageSize: 100,
+  listPageSize: 25,
+  routeFields: ROUTE_FIELDS,
+  listFields: LIST_FIELDS,
+  maxAttempts: 3,
+  timeoutMs: 15_000,
+  routeRevalidate: 3_600,
+  listRevalidate: 900,
+  detailRevalidate: 3_600,
+  categoryRevalidate: 1_800,
+} as const;
+
 export type WpRendered = {
   rendered?: string;
 };
@@ -52,6 +68,23 @@ type WpCategory = {
   description?: string;
 };
 
+type WpUser = {
+  id: number;
+  slug: string;
+};
+
+type WpCacheConfig = {
+  revalidate: number;
+  tags: string[];
+};
+
+type FetchWithRetryOptions = {
+  fetchImpl?: typeof fetch;
+  maxAttempts?: number;
+  delayMs?: number;
+  timeoutMs?: number;
+};
+
 export type MagazineCategory = {
   id: number;
   name: string;
@@ -77,6 +110,67 @@ export type MagazineEntry = {
   authorSlug?: string;
   categories: MagazineCategory[];
 };
+
+export type MagazineRouteEntry = Pick<MagazineEntry, "id" | "slug" | "type" | "date" | "modified">;
+
+const RETRYABLE_STATUS_CODES = new Set([429, 502, 503, 504]);
+
+function wait(milliseconds: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
+}
+
+export async function fetchWithRetry(
+  input: string | URL | Request,
+  init: RequestInit = {},
+  options: FetchWithRetryOptions = {},
+) {
+  const fetchImpl = options.fetchImpl || fetch;
+  const maxAttempts = options.maxAttempts || WORDPRESS_FETCH_POLICY.maxAttempts;
+  const delayMs = options.delayMs ?? 250;
+  const timeoutMs = options.timeoutMs || WORDPRESS_FETCH_POLICY.timeoutMs;
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const response = await fetchImpl(input, {
+        ...init,
+        signal: AbortSignal.timeout(timeoutMs),
+      });
+
+      if (!RETRYABLE_STATUS_CODES.has(response.status) || attempt === maxAttempts) {
+        return response;
+      }
+
+      await response.body?.cancel();
+    } catch (error) {
+      lastError = error;
+      if (attempt === maxAttempts) throw error;
+    }
+
+    if (delayMs > 0) {
+      await wait(delayMs * 2 ** (attempt - 1));
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error("WordPress request failed after all retry attempts");
+}
+
+export async function collectPaginated<T>(
+  fetchPage: (page: number) => Promise<{ items: T[]; totalPages: number }>,
+) {
+  const results: T[] = [];
+  let page = 1;
+
+  while (true) {
+    const { items, totalPages } = await fetchPage(page);
+    results.push(...items);
+
+    if (items.length === 0 || page >= Math.max(1, totalPages)) break;
+    page += 1;
+  }
+
+  return results;
+}
 
 function decodeNamedEntities(text: string) {
   const entities: Record<string, string> = {
@@ -197,18 +291,22 @@ function normalizeEntry(item: WpRestItem): MagazineEntry {
   };
 }
 
-async function fetchWp<T>(path: string, params: Record<string, string | number | boolean> = {}) {
+async function fetchWp<T>(
+  path: string,
+  params: Record<string, string | number | boolean> = {},
+  cacheConfig: WpCacheConfig,
+) {
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     search.set(key, String(value));
   }
 
-  const response = await fetch(`${MAGAZINE_API_BASE}${path}?${search.toString()}`, {
+  const response = await fetchWithRetry(`${MAGAZINE_API_BASE}${path}?${search.toString()}`, {
     headers: {
-      "User-Agent": "Amigo dich-mit-stich magazine migration",
+      "User-Agent": "Dich-mit-Stich Next.js magazine",
     },
-    next: { revalidate: 300 },
-  } as RequestInit & { next: { revalidate: number } });
+    next: cacheConfig,
+  } as RequestInit & { next: WpCacheConfig });
 
   if (!response.ok) {
     throw new Error(`WordPress request failed for ${path}: ${response.status} ${response.statusText}`);
@@ -217,29 +315,50 @@ async function fetchWp<T>(path: string, params: Record<string, string | number |
   return response as Response & { json(): Promise<T> };
 }
 
-async function fetchAllPaginated<T>(path: string, baseParams: Record<string, string | number | boolean>) {
-  const results: T[] = [];
-  let page = 1;
-
-  while (true) {
-    const response = await fetchWp<T[]>(path, { ...baseParams, per_page: 25, page });
-    const batch = await response.json();
-    results.push(...batch);
-
+async function fetchAllPaginated<T>(
+  path: string,
+  baseParams: Record<string, string | number | boolean>,
+  options: { pageSize: number; cacheConfig: WpCacheConfig },
+) {
+  return collectPaginated<T>(async (page) => {
+    const response = await fetchWp<T[]>(
+      path,
+      { ...baseParams, per_page: options.pageSize, page },
+      options.cacheConfig,
+    );
+    const items = await response.json();
     const totalPages = Number(response.headers.get("X-WP-TotalPages") || page);
-    if (page >= totalPages || batch.length === 0) break;
-    page += 1;
-  }
-
-  return results;
+    return { items, totalPages };
+  });
 }
 
+const routeCache = (type: "posts" | "pages"): WpCacheConfig => ({
+  revalidate: WORDPRESS_FETCH_POLICY.routeRevalidate,
+  tags: ["wordpress:routes", `wordpress:${type}`],
+});
+
+const listCache = (type: "posts" | "pages"): WpCacheConfig => ({
+  revalidate: WORDPRESS_FETCH_POLICY.listRevalidate,
+  tags: ["wordpress:lists", `wordpress:${type}`],
+});
+
 export const getMagazineCategories = cache(async (): Promise<MagazineCategory[]> => {
-  const response = await fetchAllPaginated<WpCategory>("/categories", {
-    orderby: "count",
-    order: "desc",
-    hide_empty: true,
-  });
+  const response = await fetchAllPaginated<WpCategory>(
+    "/categories",
+    {
+      _fields: "id,count,name,slug,link,description",
+      orderby: "count",
+      order: "desc",
+      hide_empty: true,
+    },
+    {
+      pageSize: WORDPRESS_FETCH_POLICY.routePageSize,
+      cacheConfig: {
+        revalidate: WORDPRESS_FETCH_POLICY.categoryRevalidate,
+        tags: ["wordpress:categories"],
+      },
+    },
+  );
 
   return response
     .map((category) => ({
@@ -254,36 +373,65 @@ export const getMagazineCategories = cache(async (): Promise<MagazineCategory[]>
 });
 
 export const getMagazinePosts = cache(async (): Promise<MagazineEntry[]> => {
-  const posts = await fetchAllPaginated<WpRestItem>("/posts", {
-    _embed: 1,
-    orderby: "date",
-    order: "desc",
-  });
+  const posts = await fetchAllPaginated<WpRestItem>(
+    "/posts",
+    {
+      _embed: 1,
+      _fields: WORDPRESS_FETCH_POLICY.listFields,
+      orderby: "date",
+      order: "desc",
+    },
+    { pageSize: WORDPRESS_FETCH_POLICY.listPageSize, cacheConfig: listCache("posts") },
+  );
 
   return posts.map(normalizeEntry);
 });
 
 export const getMagazinePages = cache(async (): Promise<MagazineEntry[]> => {
-  const pages = await fetchAllPaginated<WpRestItem>("/pages", {
-    _embed: 1,
-    orderby: "title",
-    order: "asc",
-  });
+  const pages = await fetchAllPaginated<WpRestItem>(
+    "/pages",
+    {
+      _embed: 1,
+      _fields: WORDPRESS_FETCH_POLICY.listFields,
+      orderby: "title",
+      order: "asc",
+    },
+    { pageSize: WORDPRESS_FETCH_POLICY.listPageSize, cacheConfig: listCache("pages") },
+  );
 
   return pages.map(normalizeEntry);
 });
 
-export const getAllMagazineEntries = cache(async (): Promise<MagazineEntry[]> => {
-  const [posts, pages] = await Promise.all([getMagazinePosts(), getMagazinePages()]);
-  return [...posts, ...pages];
+export const getMagazineRouteEntries = cache(async (): Promise<MagazineRouteEntry[]> => {
+  const [posts, pages] = await Promise.all([
+    fetchAllPaginated<WpRestItem>(
+      "/posts",
+      { _fields: WORDPRESS_FETCH_POLICY.routeFields, orderby: "date", order: "desc" },
+      { pageSize: WORDPRESS_FETCH_POLICY.routePageSize, cacheConfig: routeCache("posts") },
+    ),
+    fetchAllPaginated<WpRestItem>(
+      "/pages",
+      { _fields: WORDPRESS_FETCH_POLICY.routeFields, orderby: "title", order: "asc" },
+      { pageSize: WORDPRESS_FETCH_POLICY.routePageSize, cacheConfig: routeCache("pages") },
+    ),
+  ]);
+
+  return [...posts, ...pages].map(({ id, slug, type, date, modified }) => ({ id, slug, type, date, modified }));
 });
 
+export const getAllMagazineEntries = getMagazineRouteEntries;
+
 export const getMagazineEntryBySlug = cache(async (slug: string): Promise<MagazineEntry | null> => {
-  const postResponse = await fetchWp<WpRestItem[]>("/posts", { slug, _embed: 1 });
+  const cacheConfig: WpCacheConfig = {
+    revalidate: WORDPRESS_FETCH_POLICY.detailRevalidate,
+    tags: ["wordpress:entries", `wordpress:entry:${slug}`],
+  };
+  const detailParams = { slug, _embed: 1 };
+  const postResponse = await fetchWp<WpRestItem[]>("/posts", detailParams, cacheConfig);
   const posts = await postResponse.json();
   if (posts[0]) return normalizeEntry(posts[0]);
 
-  const pageResponse = await fetchWp<WpRestItem[]>("/pages", { slug, _embed: 1 });
+  const pageResponse = await fetchWp<WpRestItem[]>("/pages", detailParams, cacheConfig);
   const pages = await pageResponse.json();
   if (pages[0]) return normalizeEntry(pages[0]);
 
@@ -291,7 +439,14 @@ export const getMagazineEntryBySlug = cache(async (slug: string): Promise<Magazi
 });
 
 export const getMagazineCategoryBySlug = cache(async (slug: string): Promise<MagazineCategory | null> => {
-  const response = await fetchWp<WpCategory[]>("/categories", { slug });
+  const response = await fetchWp<WpCategory[]>(
+    "/categories",
+    { slug, _fields: "id,count,name,slug,link,description" },
+    {
+      revalidate: WORDPRESS_FETCH_POLICY.categoryRevalidate,
+      tags: ["wordpress:categories", `wordpress:category:${slug}`],
+    },
+  );
   const categories = await response.json();
   const category = categories[0];
   if (!category) return null;
@@ -306,16 +461,48 @@ export const getMagazineCategoryBySlug = cache(async (slug: string): Promise<Mag
   };
 });
 
+export const getMagazineAuthorPostCount = cache(async (slug: string): Promise<number> => {
+  const cacheConfig: WpCacheConfig = {
+    revalidate: WORDPRESS_FETCH_POLICY.categoryRevalidate,
+    tags: ["wordpress:authors", `wordpress:author:${slug}`],
+  };
+  const userResponse = await fetchWp<WpUser[]>(
+    "/users",
+    { slug, _fields: "id,slug" },
+    cacheConfig,
+  );
+  const users = await userResponse.json();
+  if (!users[0]) return 0;
+
+  const postsResponse = await fetchWp<WpRestItem[]>(
+    "/posts",
+    { author: users[0].id, per_page: 1, _fields: "id" },
+    cacheConfig,
+  );
+  return Number(postsResponse.headers.get("X-WP-Total") || 0);
+});
+
 export const getMagazineEntriesForCategory = cache(async (slug: string): Promise<MagazineEntry[]> => {
   const category = await getMagazineCategoryBySlug(slug);
   if (!category) return [];
 
-  const response = await fetchAllPaginated<WpRestItem>("/posts", {
-    _embed: 1,
-    categories: category.id,
-    orderby: "date",
-    order: "desc",
-  });
+  const response = await fetchAllPaginated<WpRestItem>(
+    "/posts",
+    {
+      _embed: 1,
+      _fields: WORDPRESS_FETCH_POLICY.listFields,
+      categories: category.id,
+      orderby: "date",
+      order: "desc",
+    },
+    {
+      pageSize: WORDPRESS_FETCH_POLICY.listPageSize,
+      cacheConfig: {
+        revalidate: WORDPRESS_FETCH_POLICY.listRevalidate,
+        tags: ["wordpress:lists", "wordpress:posts", `wordpress:category:${slug}`],
+      },
+    },
+  );
 
   return response.map(normalizeEntry);
 });

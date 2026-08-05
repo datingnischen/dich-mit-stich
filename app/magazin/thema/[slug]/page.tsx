@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getMagazineCategories, getMagazineCategoryBySlug, getMagazineEntriesForCategory, stripHtml } from "@/lib/wordpress";
@@ -7,7 +8,7 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const revalidate = 300;
+export const revalidate = 1800;
 
 export async function generateStaticParams() {
   const categories = await getMagazineCategories();
@@ -53,7 +54,14 @@ export default async function MagazineCategoryPage({ params }: PageProps) {
           <Link href={`/magazin/${featuredEntry.slug}`} className="editorial-feature-card">
             {featuredEntry.featuredImage ? (
               <div className="editorial-feature-media">
-                <img src={featuredEntry.featuredImage} alt={featuredEntry.featuredImageAlt || featuredEntry.title} loading="eager" decoding="async" />
+                <Image
+                  src={featuredEntry.featuredImage}
+                  alt={featuredEntry.featuredImageAlt || featuredEntry.title}
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 900px) 100vw, 900px"
+                  priority
+                />
               </div>
             ) : null}
             <div className="editorial-feature-copy">
@@ -71,7 +79,13 @@ export default async function MagazineCategoryPage({ params }: PageProps) {
             <Link key={entry.id} href={`/magazin/${entry.slug}`} className="article-card article-card-rich">
               {entry.featuredImage ? (
                 <div className="article-card-media">
-                  <img src={entry.featuredImage} alt={entry.featuredImageAlt || entry.title} loading="lazy" decoding="async" />
+                  <Image
+                    src={entry.featuredImage}
+                    alt={entry.featuredImageAlt || entry.title}
+                    width={720}
+                    height={405}
+                    sizes="(max-width: 760px) 100vw, 720px"
+                  />
                 </div>
               ) : null}
               <div className="article-card-copy">

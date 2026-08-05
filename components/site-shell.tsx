@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { staticAsset } from "@/lib/static-asset";
 
@@ -105,7 +106,15 @@ function externalAttrs(external?: boolean) {
 function BrandLogo({ footer = false }: { footer?: boolean }) {
   return (
     <Link className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`} href="/" aria-label="Dich mit Stich Startseite">
-      <img className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`} src={HEADER_LOGO_URL} alt="dich-mit-stich" width="691" height="140" />
+      <Image
+        className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`}
+        src={HEADER_LOGO_URL}
+        alt="dich-mit-stich"
+        width={691}
+        height={140}
+        sizes={footer ? "260px" : "220px"}
+        priority={!footer}
+      />
     </Link>
   );
 }

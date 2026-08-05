@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
@@ -9,7 +10,7 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const revalidate = 300;
+export const revalidate = 1800;
 
 export async function generateStaticParams() {
   const slugs = await getKnownAuthorSlugs();
@@ -37,7 +38,15 @@ export default async function MagazineAuthorPage({ params }: PageProps) {
       <section className="hero-card hero-magazine hero-magazine-editorial author-hero-inline">
         <div className="author-hero-inline-media">
           {profile.imageUrl ? (
-            <img src={profile.imageUrl} alt={profile.name} loading="eager" decoding="async" className="author-hero-inline-photo" />
+            <Image
+              src={profile.imageUrl}
+              alt={profile.name}
+              width={300}
+              height={300}
+              sizes="(max-width: 760px) 140px, 180px"
+              className="author-hero-inline-photo"
+              priority
+            />
           ) : (
             <div className="expert-card-avatar-fallback" aria-hidden="true">
               {profile.name

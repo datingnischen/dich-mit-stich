@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getAuthorProfile } from "@/lib/author-profiles";
-import { getAllMagazineEntries, getMagazineEntryBySlug, stripHtml } from "@/lib/wordpress";
+import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const entries = await getAllMagazineEntries();
+  const entries = await getMagazineRouteEntries();
   return entries.map((entry) => ({ slug: entry.slug }));
 }
 
@@ -55,7 +56,14 @@ export default async function MagazineDetailPage({ params }: PageProps) {
       {entry.featuredImage ? (
         <section className="content-section">
           <figure className="article-hero-media">
-            <img src={entry.featuredImage} alt={entry.featuredImageAlt || entry.title} loading="eager" decoding="async" />
+            <Image
+              src={entry.featuredImage}
+              alt={entry.featuredImageAlt || entry.title}
+              width={1200}
+              height={675}
+              sizes="(max-width: 900px) 100vw, 900px"
+              priority
+            />
           </figure>
         </section>
       ) : null}

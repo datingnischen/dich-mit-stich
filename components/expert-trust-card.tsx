@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ExpertProfile } from "@/lib/expert-profile";
 
@@ -20,7 +21,13 @@ export function ExpertTrustCard({
     <article className="expert-card panel-card">
       <div className="expert-card-media">
         {profile.imageUrl ? (
-          <img src={profile.imageUrl} alt={profile.name} loading="lazy" decoding="async" />
+          <Image
+            src={profile.imageUrl}
+            alt={profile.name}
+            width={300}
+            height={300}
+            sizes="(max-width: 760px) 120px, 160px"
+          />
         ) : (
           <div className="expert-card-avatar-fallback" aria-hidden="true">
             {profile.name

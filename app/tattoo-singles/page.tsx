@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
@@ -32,7 +33,13 @@ export default async function TattooSinglesOverviewPage() {
             <Link key={city.slug} href={`/tattoo-singles/${city.slug}`} className="city-card city-card-with-media">
               {city.imageUrl ? (
                 <div className="city-card-media">
-                  <img src={city.imageUrl} alt={`Tattoo-Singles in ${city.label}`} loading="lazy" decoding="async" />
+                  <Image
+                    src={city.imageUrl}
+                    alt={`Tattoo-Singles in ${city.label}`}
+                    width={1200}
+                    height={675}
+                    sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  />
                 </div>
               ) : null}
               <div className="city-card-copy">

@@ -23,6 +23,20 @@ export default function nextConfig(phase: string): NextConfig {
 
   return {
     assetPrefix: isDev ? undefined : `${assetHost}${assetPathPrefix}`,
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "dich-mit-stich.de",
+          pathname: "/magazin/wp-content/uploads/**",
+        },
+        {
+          protocol: "https",
+          hostname: "dich-mit-stich.vercel.app",
+          pathname: "/app-assets/**",
+        },
+      ],
+    },
     async rewrites() {
       return [
         {

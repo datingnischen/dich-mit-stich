@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
-import { getAllMagazineEntries, getMagazineCategories } from "@/lib/wordpress";
+import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
 
 const SITE_URL = "https://dich-mit-stich.de";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [entries, categories] = await Promise.all([getAllMagazineEntries(), getMagazineCategories()]);
+  const [entries, categories] = await Promise.all([getMagazineRouteEntries(), getMagazineCategories()]);
 
   return [
     { url: `${SITE_URL}/`, changeFrequency: "daily", priority: 1 },

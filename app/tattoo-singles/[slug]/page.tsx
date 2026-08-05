@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
@@ -57,11 +58,13 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
 
         <div className="home-stage-visual city-stage-visual">
           <div className="home-stage-picture">
-            <img
+            <Image
               src={cityPage.imageUrl}
               alt={`Stadtansicht von ${cityName} für Dich mit Stich`}
-              loading="eager"
-              decoding="async"
+              width={1200}
+              height={675}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              priority
             />
           </div>
           <div className="floating-entry-card city-entry-card">

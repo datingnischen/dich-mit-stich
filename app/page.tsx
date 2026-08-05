@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
@@ -47,7 +48,14 @@ export default async function HomePage() {
 
         <div className="home-stage-visual">
           <div className="home-stage-picture">
-            <img src={HOME_HERO_IMAGE} alt="Dich mit Stich Startseitenmotiv" loading="eager" decoding="async" />
+            <Image
+              src={HOME_HERO_IMAGE}
+              alt="Dich mit Stich Startseitenmotiv"
+              width={1200}
+              height={675}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              priority
+            />
           </div>
           <div className="floating-entry-card">
             <span className="eyebrow">Schneller Einstieg</span>
@@ -85,11 +93,12 @@ export default async function HomePage() {
 
         <div className="home-radar-visual">
           <div className="home-radar-frame">
-            <img
+            <Image
               src={FLIRTRADAR_IMAGE}
               alt="Flirtradar mit Umkreissuche für Tattoo-Singles in der Nähe"
-              loading="lazy"
-              decoding="async"
+              width={1200}
+              height={675}
+              sizes="(max-width: 900px) 100vw, 50vw"
             />
           </div>
         </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MarketHtmlContent } from "@/components/market-html-content";
+import { MarketLink } from "@/components/market-link";
 import { chTattooCitySlugs, getChTattooCityPage } from "@/lib/ch-tattoo-singles";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -49,7 +50,9 @@ export default async function ChTattooSinglesCityPage({ params }: PageProps) {
           </ul>
           <div className="button-row">
             <a className="button button-primary" href={city.registrationUrl}>Kostenlos registrieren</a>
-            <Link className="button button-secondary" href="/tattoo-singles">Alle Schweizer Städte</Link>
+            <MarketLink className="button button-secondary" targetMarket="ch" pathname="/tattoo-singles">
+              Alle Schweizer Städte
+            </MarketLink>
           </div>
         </div>
 
@@ -73,9 +76,7 @@ export default async function ChTattooSinglesCityPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="rich-content">
-        <div dangerouslySetInnerHTML={{ __html: city.contentHtml }} />
-      </section>
+      <MarketHtmlContent className="rich-content" market="ch" html={city.contentHtml} />
 
       <section className="content-section" aria-label="Bildquelle des Stadtfotos">
         <p>

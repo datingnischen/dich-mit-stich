@@ -10,7 +10,7 @@ type MarketLinkProps = Omit<ComponentProps<typeof Link>, "href"> & {
   pathname?: string;
 };
 
-function isPreviewHost(hostname: string) {
+export function isPreviewHost(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app");
 }
 

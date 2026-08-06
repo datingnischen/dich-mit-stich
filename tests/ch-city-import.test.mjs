@@ -78,11 +78,18 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
     "utf8",
   );
   const shellSource = await readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8");
+  const marketHtmlSource = await readFile(new URL("../components/market-html-content.tsx", import.meta.url), "utf8").catch(() => "");
   const swissLogo = await readFile(new URL("../public/brand/dich-mit-stich-logo-ch.svg", import.meta.url), "utf8");
 
   assert.match(overviewSource, /publicUrl\("ch", "\/tattoo-singles"\)/);
   assert.match(detailSource, /publicUrl\("ch", `\/tattoo-singles\/\$\{slug\}`\)/);
   assert.match(detailSource, /chTattooCitySlugs/);
+  assert.match(overviewSource, /<MarketLink[\s\S]*targetMarket="ch"[\s\S]*pathname=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
+  assert.doesNotMatch(overviewSource, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
+  assert.match(detailSource, /<MarketLink[^>]*targetMarket="ch"[^>]*pathname="\/tattoo-singles"/);
+  assert.match(detailSource, /<MarketHtmlContent[^>]*market="ch"[^>]*html=\{city\.contentHtml\}/);
+  assert.match(marketHtmlSource, /closest\("a"\)/);
+  assert.match(marketHtmlSource, /router\.push\(marketPreviewPath\(market, href\)\)/);
   assert.match(layoutSource, /<SiteFrame market="ch" sectionLive>/);
   assert.match(shellSource, /dich-mit-stich-logo-ch\.svg/);
   assert.match(shellSource, /in der Schweiz/);

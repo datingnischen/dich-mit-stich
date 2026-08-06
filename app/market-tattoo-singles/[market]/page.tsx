@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MarketLink } from "@/components/market-link";
 import { getChTattooSinglesOverview } from "@/lib/ch-tattoo-singles";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -42,7 +42,12 @@ export default async function ChTattooSinglesOverviewPage({ params }: PageProps)
         </div>
         <div className="city-grid">
           {overview.cityLinks.map((city) => (
-            <Link key={city.slug} href={`/tattoo-singles/${city.slug}`} className="city-card city-card-with-media">
+            <MarketLink
+              key={city.slug}
+              targetMarket="ch"
+              pathname={`/tattoo-singles/${city.slug}`}
+              className="city-card city-card-with-media"
+            >
               <div className="city-card-media">
                 <Image
                   src={staticAsset(city.imageUrl)}
@@ -56,7 +61,7 @@ export default async function ChTattooSinglesOverviewPage({ params }: PageProps)
                 <span>{city.label}</span>
                 <strong>Jetzt Stadt-Guide öffnen</strong>
               </div>
-            </Link>
+            </MarketLink>
           ))}
         </div>
       </section>

@@ -58,7 +58,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="home-stage-visual city-stage-visual">
+        <div className="home-stage-visual city-stage-visual" data-city-hero-layout="stacked">
           <div className="home-stage-picture">
             <Image
               src={cityPage.imageUrl}

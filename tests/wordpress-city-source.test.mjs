@@ -65,4 +65,6 @@ test("DE and CH city renderers use WordPress rather than legacy HTML or reposito
   assert.match(loader, /\/stadt/);
   assert.match(loader, /CITY_ROUTE_FIELDS/);
   assert.doesNotMatch(loader.match(/CITY_ROUTE_FIELDS[^;]+/)?.[0] || "", /content|_embed|_embedded/);
+  assert.match(deDetail, /data-city-hero-layout="stacked"/);
+  assert.match(chDetail, /data-city-hero-layout="stacked"/);
 });

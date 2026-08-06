@@ -56,7 +56,7 @@ export default async function ChTattooSinglesCityPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="home-stage-visual city-stage-visual">
+        <div className="home-stage-visual city-stage-visual" data-city-hero-layout="stacked">
           <div className="home-stage-picture">
             <Image
               src={staticAsset(city.imageUrl)}

@@ -128,8 +128,8 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
         className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`}
         src={isSwissMarket ? CH_HEADER_LOGO_URL : HEADER_LOGO_URL}
         alt={isSwissMarket ? "dich-mit-stich.ch" : "dich-mit-stich.de"}
-        width={isSwissMarket ? 349 : 691}
-        height={isSwissMarket ? 60 : 140}
+        width={isSwissMarket ? 1417 : 691}
+        height={isSwissMarket ? 283 : 140}
         sizes={footer ? "260px" : "220px"}
         priority={!footer}
       />
@@ -190,7 +190,7 @@ export function SiteFooter({ market = "de", sectionLive = false }: { market?: Ma
             <BrandLogo footer market={market} />
             <p>
               {sectionLive
-                ? `Entdecke Tattoo-Singles und alternative Szene-Guides in ${config.countryName}.`
+                ? `Entdecke Tattoo-Singles und alternative Szene-Guides ${market === "ch" ? "in der Schweiz" : `in ${config.countryName}`}.`
                 : `Der eigene Länderbereich für ${config.countryName} wird markt- und inhaltssauber vorbereitet.`}
             </p>
           </div>

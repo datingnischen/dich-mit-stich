@@ -108,6 +108,17 @@ test("city hero images fill their visual container at desktop and mobile sizes",
   assert.match(mobileBlock, /\.home-stage-picture\s*\{[\s\S]*?(?:^|\n)\s*height:\s*320px/m);
 });
 
+test("city hero CTA renders below the image without overlap", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const visualRule = css.match(/\.city-stage-visual\s*\{([^}]*)\}/)?.[1] || "";
+  const cardRule = css.match(/\.city-stage-visual\s+\.city-entry-card\s*\{([^}]*)\}/)?.[1] || "";
+
+  assert.match(visualRule, /display:\s*grid/);
+  assert.match(cardRule, /position:\s*static/);
+  assert.match(cardRule, /width:\s*100%/);
+  assert.match(cardRule, /margin-top:\s*0/);
+});
+
 test("the idempotent ICONY importer remains available for future city migrations", async () => {
   const importer = await readFile(new URL("../scripts/import-icony-city-pages.mjs", import.meta.url), "utf8");
   assert.match(importer, /SOURCE_ORIGIN\s*=\s*"https:\/\/dich-mit-stich\.ch"/);

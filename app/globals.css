@@ -943,6 +943,24 @@ img {
   bottom: 24px;
 }
 
+.city-stage-visual {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  min-height: 0;
+}
+
+.city-stage-visual .home-stage-picture {
+  height: 240px;
+  min-height: 240px;
+}
+
+.city-stage-visual .city-entry-card {
+  position: static;
+  width: 100%;
+  margin-top: 0;
+}
+
 .expert-card {
   grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
   align-items: center;

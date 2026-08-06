@@ -56,7 +56,7 @@ test("rewrites DE preview routes to the existing content tree", async () => {
   });
 });
 
-test("gates untagged content in AT and CH instead of leaking DE pages", async () => {
+test("gates untagged content while allowing the imported CH tattoo city family", async () => {
   const { resolveMarketRequest } = await loadMarkets();
 
   assert.deepEqual(resolveMarketRequest("/at/magazin"), {
@@ -65,11 +65,36 @@ test("gates untagged content in AT and CH instead of leaking DE pages", async ()
     pathname: "/market-preview/at",
     requestedPath: "/magazin",
   });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/zuerich"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/market-tattoo-singles/ch/zuerich",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/market-tattoo-singles/ch",
+  });
   assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/berlin"), {
     action: "placeholder",
     market: "ch",
     pathname: "/market-preview/ch",
     requestedPath: "/tattoo-singles/berlin",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/zuerich/more"), {
+    action: "placeholder",
+    market: "ch",
+    pathname: "/market-preview/ch",
+    requestedPath: "/tattoo-singles/zuerich/more",
+  });
+  assert.deepEqual(resolveMarketRequest("/de/market-tattoo-singles/ch/zuerich"), {
+    action: "not-found",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch/magazin"), {
+    action: "placeholder",
+    market: "ch",
+    pathname: "/market-preview/ch",
+    requestedPath: "/magazin",
   });
 });
 
@@ -125,7 +150,7 @@ test("every DE page family emits a prefix-free public-domain canonical", async (
   }
 });
 
-test("unfinished markets are noindex and have dedicated robots and sitemap handlers", async () => {
+test("unfinished market areas are noindex while CH city SEO is handled explicitly", async () => {
   const previewSource = await readFile(new URL("../app/market-preview/[market]/page.tsx", import.meta.url), "utf8");
   const robotsSource = await readFile(new URL("../app/market-robots/[market]/route.ts", import.meta.url), "utf8");
   const sitemapSource = await readFile(new URL("../app/market-sitemap/[market]/route.ts", import.meta.url), "utf8");
@@ -134,7 +159,9 @@ test("unfinished markets are noindex and have dedicated robots and sitemap handl
   assert.match(previewSource, /index:\s*false/);
   assert.match(previewSource, /follow:\s*false/);
   assert.match(robotsSource, /Disallow:\s*\//);
+  assert.match(robotsSource, /Allow:\s*\/tattoo-singles/);
   assert.match(sitemapSource, /<urlset/);
+  assert.match(sitemapSource, /chTattooCitySlugs/);
 
   // Reverse-proxy HTML must not expose Vercel's internal market prefixes.
   assert.match(previewSource, /<MarketLink[^>]*targetMarket="de"/);

@@ -1,4 +1,4 @@
-import { isMarketCode } from "@/lib/markets";
+import { isMarketCode, publicUrl } from "@/lib/markets";
 
 export const dynamic = "force-static";
 
@@ -16,7 +16,17 @@ export async function GET(_request: Request, { params }: RouteProps) {
     return new Response("Not found", { status: 404 });
   }
 
-  return new Response("User-agent: *\nDisallow: /\n", {
+  const body = market === "ch"
+    ? [
+        "User-agent: *",
+        "Allow: /tattoo-singles",
+        "Disallow: /",
+        `Sitemap: ${publicUrl("ch", "/sitemap.xml")}`,
+        "",
+      ].join("\n")
+    : "User-agent: *\nDisallow: /\n";
+
+  return new Response(body, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, max-age=3600, s-maxage=3600",

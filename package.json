@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "import:cities:ch": "node scripts/import-icony-city-pages.mjs",
     "check:wordpress-budget": "node scripts/check-wordpress-payload-budget.mjs"
   },
   "dependencies": {

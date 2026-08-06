@@ -8,13 +8,14 @@ Headless-Frontend für `dich-mit-stich.de`, `.at` und `.ch`. WordPress liefert M
 | --- | --- | --- |
 | `/de/...` | `https://dich-mit-stich.de/...` | Inhalte aktiv |
 | `/at/...` | `https://dich-mit-stich.at/...` | Bereitschaftsseite, `noindex` |
-| `/ch/...` | `https://dich-mit-stich.ch/...` | Bereitschaftsseite, `noindex` |
+| `/ch/...` | `https://dich-mit-stich.ch/...` | 10 Tattoo-Stadtseiten aktiv; übrige Bereiche `noindex` |
 
 `proxy.ts` setzt die Trennung zwischen internen Vercel-Pfaden und öffentlichen Reverse-Proxy-URLs um:
 
 - Vercel `/magazin` → permanenter Redirect auf `/de/magazin`
 - Vercel `/de/magazin` → internes Rewrite auf den bestehenden DE-Contentbaum
-- `/at/...` und `/ch/...` → sichere Markt-Platzhalter, solange `contentEnabled` deaktiviert ist
+- `/at/...` und nicht freigegebene `/ch/...`-Pfade → sichere Markt-Platzhalter
+- `/ch/tattoo-singles` und die 10 importierten CH-Städte → eigener statischer CH-Contentbaum
 - Framework-Assets, `/_next/image` und APIs bleiben unberührt
 
 Öffentliche Canonicals sind immer präfixlos auf der Landesdomain. Interne Contentlinks bleiben ebenfalls präfixlos, damit Reverse-Proxy-Besucher auf ihrer Landesdomain bleiben.
@@ -47,7 +48,13 @@ npm run check:wordpress-budget
 npm run build
 ```
 
-Die Marktrouting-Verträge liegen in `tests/market-routing.test.mjs`.
+Die Marktrouting-Verträge liegen in `tests/market-routing.test.mjs`. Die CH-Stadtseiten werden als geprüfter Snapshot aus ICONY importiert:
+
+```bash
+npm run import:cities:ch
+```
+
+Der Import erwartet exakt zehn freigegebene Städte, speichert die Bilder lokal unter `public/cities/ch/` und verändert unveränderte Dateien nicht.
 
 ## Lokale TLS-Inspection
 

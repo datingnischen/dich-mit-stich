@@ -2,6 +2,27 @@ export const MARKET_CODES = ["de", "at", "ch"] as const;
 
 export type MarketCode = (typeof MARKET_CODES)[number];
 
+export const chTattooCitySlugs = [
+  "zuerich",
+  "winterthur",
+  "st-gallen",
+  "luzern",
+  "lugano",
+  "lausanne",
+  "genf",
+  "biel-bienne",
+  "bern",
+  "basel",
+] as const;
+
+export type ChTattooCitySlug = (typeof chTattooCitySlugs)[number];
+
+const chTattooCitySlugSet: ReadonlySet<string> = new Set(chTattooCitySlugs);
+
+export function isChTattooCitySlug(slug: string): slug is ChTattooCitySlug {
+  return chTattooCitySlugSet.has(slug);
+}
+
 export type MarketConfig = {
   code: MarketCode;
   countryCode: "DE" | "AT" | "CH";
@@ -58,8 +79,10 @@ export function marketPreviewPath(market: MarketCode, pathname = "/"): string {
 
 type MarketRequestResolution =
   | { action: "pass" }
+  | { action: "not-found" }
   | { action: "redirect"; market: "de"; pathname: string }
   | { action: "rewrite"; market: "de"; pathname: string }
+  | { action: "market-content"; market: "ch"; pathname: string }
   | { action: "placeholder"; market: "at" | "ch"; pathname: string; requestedPath: string }
   | { action: "market-robots"; market: "at" | "ch"; pathname: string }
   | { action: "market-sitemap"; market: "at" | "ch"; pathname: string };
@@ -95,6 +118,11 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
   const market = marketMatch[1] as MarketCode;
   const requestedPath = marketMatch[2] || "/";
 
+  // Rewrite destinations are implementation details and must never become public routes.
+  if (/^\/market-(?:preview|robots|sitemap|tattoo-singles)(?:\/|$)/.test(requestedPath)) {
+    return { action: "not-found" };
+  }
+
   if (market === "de") {
     return {
       action: "rewrite",
@@ -117,6 +145,27 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
       market,
       pathname: `/market-sitemap/${market}`,
     };
+  }
+
+  if (market === "ch") {
+    const contentPath = requestedPath.length > 1 ? requestedPath.replace(/\/+$/, "") : requestedPath;
+
+    if (contentPath === "/tattoo-singles") {
+      return {
+        action: "market-content",
+        market,
+        pathname: "/market-tattoo-singles/ch",
+      };
+    }
+
+    const cityMatch = contentPath.match(/^\/tattoo-singles\/([^/]+)$/);
+    if (cityMatch && isChTattooCitySlug(cityMatch[1])) {
+      return {
+        action: "market-content",
+        market,
+        pathname: `/market-tattoo-singles/ch/${cityMatch[1]}`,
+      };
+    }
   }
 
   return {

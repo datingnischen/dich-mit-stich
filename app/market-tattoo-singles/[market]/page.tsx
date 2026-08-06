@@ -30,6 +30,28 @@ export default async function ChTattooSinglesOverviewPage({ params }: PageProps)
         <span className="eyebrow">Schweizer Städte &amp; Szene</span>
         <h1>{overview.title}</h1>
         <p>{overview.description}</p>
+        <figure
+          className="market-overview-asset"
+          data-market-overview-asset="legacy-icony-3506"
+        >
+          <Image
+            src={staticAsset("/images/ch/dich-mit-stich-ch-partnersuche.jpg")}
+            alt="Tattoo-Singles nach Region in der Schweiz"
+            width={1000}
+            height={563}
+            priority
+            sizes="(max-width: 760px) 100vw, 980px"
+          />
+          <figcaption>
+            <strong>Bild:</strong> Dich mit Stich. Für das Dich-mit-Stich-Projektportfolio freigegeben.{" "}
+            <a
+              href="https://static-cms.icony-hosting.de/cms/639CB037D8430757BEE61CDBFF2A243E7794CCCBA1E5242CB0B73A56AB076DB4/1000/dich-mit-stich-ch-partnersuche.jpg"
+              rel="noreferrer"
+            >
+              Originaldatei
+            </a>
+          </figcaption>
+        </figure>
         <div className="button-row">
           <a className="button button-primary" href={publicUrl("ch", "/registration/")}>Kostenlos registrieren</a>
         </div>

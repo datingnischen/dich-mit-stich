@@ -88,3 +88,16 @@ test("DE and CH city renderers use WordPress rather than legacy HTML or reposito
   }
   assert.match(loader, /city_source_revision:\s*CITY_SOURCE_REVISION/);
 });
+
+test("CH city overview preserves the selected branded legacy overview image with provenance", async () => {
+  const source = await readFile(
+    new URL("../app/market-tattoo-singles/[market]/page.tsx", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(source, /dich-mit-stich-ch-partnersuche\.jpg/);
+  assert.match(source, /Tattoo-Singles nach Region in der Schweiz/);
+  assert.match(source, /data-market-overview-asset="legacy-icony-3506"/);
+  assert.match(source, /Für das Dich-mit-Stich-Projektportfolio freigegeben/);
+  assert.match(source, /static-cms\.icony-hosting\.de\/cms\/639CB037D8430757BEE61CDBFF2A243E7794CCCBA1E5242CB0B73A56AB076DB4\/1000\/dich-mit-stich-ch-partnersuche\.jpg/);
+});

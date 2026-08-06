@@ -99,6 +99,15 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
   assert.doesNotMatch(`${overviewSource}\n${detailSource}`, /vercel\.app/);
 });
 
+test("city hero images fill their visual container at desktop and mobile sizes", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const pictureRule = css.match(/\.home-stage-picture\s*\{([^}]*)\}/)?.[1] || "";
+  const mobileBlock = css.match(/@media \(max-width: 900px\)\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+
+  assert.match(pictureRule, /(?:^|\n)\s*height:\s*420px/);
+  assert.match(mobileBlock, /\.home-stage-picture\s*\{[\s\S]*?(?:^|\n)\s*height:\s*320px/m);
+});
+
 test("the idempotent ICONY importer remains available for future city migrations", async () => {
   const importer = await readFile(new URL("../scripts/import-icony-city-pages.mjs", import.meta.url), "utf8");
   assert.match(importer, /SOURCE_ORIGIN\s*=\s*"https:\/\/dich-mit-stich\.ch"/);

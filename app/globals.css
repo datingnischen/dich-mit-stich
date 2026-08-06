@@ -910,7 +910,7 @@ img {
 }
 
 .home-stage-picture {
-  height: 100%;
+  height: 420px;
   min-height: 420px;
   overflow: hidden;
   border-radius: 30px;
@@ -1126,6 +1126,10 @@ img {
   .home-stage-visual,
   .home-stage-picture {
     min-height: 320px;
+  }
+
+  .home-stage-picture {
+    height: 320px;
   }
 
   .sticky-cta-button {

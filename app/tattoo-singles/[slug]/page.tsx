@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { publicUrl } from "@/lib/markets";
-import { getTattooCityPage, tattooCitySlugs } from "@/lib/tattoo-singles";
+import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -14,12 +14,12 @@ type PageProps = {
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return tattooCitySlugs.map((slug) => ({ slug }));
+  return (await getWordPressCitySlugs("de")).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const cityPage = await getTattooCityPage(slug);
+  const cityPage = await getWordPressCityPage("de", slug);
   if (!cityPage) return {};
 
   return {
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function TattooSinglesCityPage({ params }: PageProps) {
   const { slug } = await params;
-  const [cityPage, expert] = await Promise.all([getTattooCityPage(slug), getDatingExpertProfile()]);
+  const [cityPage, expert] = await Promise.all([getWordPressCityPage("de", slug), getDatingExpertProfile()]);
   if (!cityPage) notFound();
 
   const cityName = cityPage.cityName;
@@ -90,11 +90,12 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
       {cityPage.imageAttribution ? (
         <section className="content-section" aria-label="Bildquelle des Stadtfotos">
           <p>
-            <strong>Bildquelle</strong>: {cityPage.imageAttribution.title} – Foto: {cityPage.imageAttribution.creator},{" "}
-            Lizenz: {cityPage.imageAttribution.license}. Bearbeitung: Zuschnitt und Dich-mit-Stich-Logo.{" "}
-            <a href={cityPage.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">
-              Originalquelle bei Wikimedia Commons
-            </a>
+            <strong>Bildquelle</strong>: {cityPage.imageAttribution.label}.{" "}
+            {cityPage.imageAttribution.sourceUrl ? (
+              <a href={cityPage.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">
+                Originalquelle
+              </a>
+            ) : null}
           </p>
         </section>
       ) : null}

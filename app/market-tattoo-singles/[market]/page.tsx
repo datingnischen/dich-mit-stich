@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MarketLink } from "@/components/market-link";
-import { getChTattooSinglesOverview } from "@/lib/ch-tattoo-singles";
+import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
@@ -22,7 +22,7 @@ export function generateStaticParams() {
 
 export default async function ChTattooSinglesOverviewPage({ params }: PageProps) {
   if ((await params).market !== "ch") notFound();
-  const overview = getChTattooSinglesOverview();
+  const overview = await getWordPressCityOverview("ch");
 
   return (
     <main className="shell shell-narrow">

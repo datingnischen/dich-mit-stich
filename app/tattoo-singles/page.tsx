@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { publicUrl } from "@/lib/markets";
-import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
+import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 
 export const revalidate = 300;
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function TattooSinglesOverviewPage() {
-  const overview = await getTattooSinglesOverview();
+  const overview = await getWordPressCityOverview("de");
 
   return (
     <main className="shell shell-narrow">

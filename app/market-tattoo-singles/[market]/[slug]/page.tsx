@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
-import { chTattooCitySlugs, getChTattooCityPage } from "@/lib/ch-tattoo-singles";
+import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
@@ -13,14 +13,14 @@ type PageProps = {
   params: Promise<{ market: string; slug: string }>;
 };
 
-export function generateStaticParams() {
-  return chTattooCitySlugs.map((slug) => ({ market: "ch", slug }));
+export async function generateStaticParams() {
+  return (await getWordPressCitySlugs("ch")).map((slug) => ({ market: "ch", slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { market, slug } = await params;
   if (market !== "ch") return { robots: { index: false, follow: false } };
-  const city = getChTattooCityPage(slug);
+  const city = await getWordPressCityPage("ch", slug);
   if (!city) return { robots: { index: false, follow: false } };
 
   return {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ChTattooSinglesCityPage({ params }: PageProps) {
   const { market, slug } = await params;
   if (market !== "ch") notFound();
-  const city = getChTattooCityPage(slug);
+  const city = await getWordPressCityPage("ch", slug);
   if (!city) notFound();
 
   return (
@@ -81,7 +81,9 @@ export default async function ChTattooSinglesCityPage({ params }: PageProps) {
       <section className="content-section" aria-label="Bildquelle des Stadtfotos">
         <p>
           <strong>Bildquelle</strong>: {city.imageAttribution.label}.{" "}
-          <a href={city.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">Originalquelle</a>
+          {city.imageAttribution.sourceUrl ? (
+            <a href={city.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">Originalquelle</a>
+          ) : null}
         </p>
       </section>
     </main>

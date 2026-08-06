@@ -5,6 +5,7 @@ import test from "node:test";
 const wordpressModule = await import("../lib/wordpress.ts");
 const wordpressSource = await readFile(new URL("../lib/wordpress.ts", import.meta.url), "utf8");
 const authorProfileSource = await readFile(new URL("../lib/author-profiles.ts", import.meta.url), "utf8");
+const payloadBudgetSource = await readFile(new URL("../scripts/check-wordpress-payload-budget.mjs", import.meta.url), "utf8");
 
 const {
   WORDPRESS_FETCH_POLICY,
@@ -99,4 +100,16 @@ test("author profiles use targeted resilient requests instead of loading all pos
   assert.match(profileLoader, /getMagazineAuthorPostCount/);
   assert.match(profileLoader, /fetchWithRetry\(/);
   assert.doesNotMatch(profileLoader, /getMagazinePosts\(/);
+});
+
+test("payload budgets cover WordPress city route, list, and detail responses", () => {
+  assert.match(payloadBudgetSource, /name: "city routes"/);
+  assert.match(payloadBudgetSource, /name: "city list"/);
+  assert.match(payloadBudgetSource, /name: "city detail"/);
+  assert.match(payloadBudgetSource, /\/stadt\?/);
+  assert.match(payloadBudgetSource, /_fields=id,slug,acf/);
+  assert.doesNotMatch(
+    payloadBudgetSource.match(/name: "city routes"[\s\S]*?maxBytes/)?.[0] || "",
+    /content|_embed|_embedded/,
+  );
 });

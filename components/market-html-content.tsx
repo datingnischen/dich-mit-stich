@@ -2,7 +2,7 @@
 
 import type { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
-import { isPreviewHost } from "@/components/market-link";
+import { isPrefixFreeInternalPath, shouldInterceptPreviewClick } from "@/lib/market-navigation";
 import { marketPreviewPath, type MarketCode } from "@/lib/markets";
 
 type MarketHtmlContentProps = {
@@ -15,25 +15,24 @@ export function MarketHtmlContent({ className, html, market }: MarketHtmlContent
   const router = useRouter();
 
   function handleClick(event: MouseEvent<HTMLDivElement>) {
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey ||
-      !isPreviewHost(window.location.hostname) ||
-      !(event.target instanceof Element)
-    ) {
-      return;
-    }
+    if (!(event.target instanceof Element)) return;
 
     const anchor = event.target.closest("a");
     if (!anchor) return;
 
     const href = anchor.getAttribute("href");
-    if (!href?.startsWith("/") || href.startsWith("//") || anchor.hasAttribute("download")) return;
-    if (anchor.target && anchor.target !== "_self") return;
+    if (!href || !isPrefixFreeInternalPath(href)) return;
+    if (!shouldInterceptPreviewClick({
+      hostname: window.location.hostname,
+      button: event.button,
+      defaultPrevented: event.defaultPrevented,
+      metaKey: event.metaKey,
+      ctrlKey: event.ctrlKey,
+      shiftKey: event.shiftKey,
+      altKey: event.altKey,
+      target: anchor.target,
+      download: anchor.hasAttribute("download"),
+    })) return;
 
     event.preventDefault();
     router.push(marketPreviewPath(market, href));

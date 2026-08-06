@@ -10,6 +10,14 @@ async function loadMarkets() {
   }
 }
 
+async function loadMarketNavigation() {
+  try {
+    return await import("../lib/market-navigation.ts");
+  } catch (error) {
+    assert.fail(`lib/market-navigation.ts must provide the preview click contract: ${error.message}`);
+  }
+}
+
 test("supports the three documented markets and public domains", async () => {
   const { MARKET_CODES, getMarket, publicUrl } = await loadMarkets();
 
@@ -119,6 +127,43 @@ test("keeps framework assets outside market redirects and handles SEO endpoints 
     market: "at",
     pathname: "/market-sitemap/at",
   });
+});
+
+test("preview navigation intercepts only ordinary same-context clicks", async () => {
+  const { shouldInterceptPreviewClick } = await loadMarketNavigation();
+  const ordinary = {
+    hostname: "dich-mit-stich.vercel.app",
+    button: 0,
+    defaultPrevented: false,
+    metaKey: false,
+    ctrlKey: false,
+    shiftKey: false,
+    altKey: false,
+    target: "",
+    download: false,
+  };
+
+  assert.equal(shouldInterceptPreviewClick(ordinary), true);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, hostname: "dich-mit-stich.ch" }), false);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, hostname: "preview.example.com" }), false);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, button: 1 }), false);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, ctrlKey: true }), false);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, defaultPrevented: true }), false);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, target: "_blank" }), false);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, download: true }), false);
+});
+
+test("only prefix-free internal paths are eligible for market preview routing", async () => {
+  const { isPrefixFreeInternalPath } = await loadMarketNavigation();
+
+  assert.equal(isPrefixFreeInternalPath("/tattoo-singles/zuerich"), true);
+  assert.equal(isPrefixFreeInternalPath("/registration/"), true);
+  assert.equal(isPrefixFreeInternalPath("/ch/tattoo-singles/zuerich"), false);
+  assert.equal(isPrefixFreeInternalPath("/de/magazin"), false);
+  assert.equal(isPrefixFreeInternalPath("/at/"), false);
+  assert.equal(isPrefixFreeInternalPath("//example.com/path"), false);
+  assert.equal(isPrefixFreeInternalPath("https://dich-mit-stich.ch/path"), false);
+  assert.equal(isPrefixFreeInternalPath("javascript:alert(1)"), false);
 });
 
 test("Next.js proxy and public-domain canonical helpers are wired", async () => {

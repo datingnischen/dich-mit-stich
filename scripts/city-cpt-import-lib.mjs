@@ -106,9 +106,20 @@ export function buildCityRecord(input) {
     sourceRows.push({
       title: input.imageAttribution.label || `Bildquelle ${cityName}`,
       url: input.imageAttribution.sourceUrl,
-      publisher: "",
+      publisher: input.imageAttribution.publisher || "",
       date: "",
-      note: "Quelle des Stadtbildes.",
+      note: input.imageAttribution.creator
+        ? `Quelle des Stadtbildes; Urheber: ${input.imageAttribution.creator}.`
+        : "Quelle des Stadtbildes.",
+    });
+  }
+  if (input.imageAttribution?.license && input.imageAttribution?.licenseUrl) {
+    sourceRows.push({
+      title: input.imageAttribution.license,
+      url: input.imageAttribution.licenseUrl,
+      publisher: input.imageAttribution.publisher || "",
+      date: "",
+      note: "Lizenz für das zugeordnete Stadtbild.",
     });
   }
 

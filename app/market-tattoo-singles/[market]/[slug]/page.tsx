@@ -84,6 +84,14 @@ export default async function ChTattooSinglesCityPage({ params }: PageProps) {
           {city.imageAttribution.sourceUrl ? (
             <a href={city.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">Originalquelle</a>
           ) : null}
+          {city.imageAttribution.licenseLabel && city.imageAttribution.licenseUrl ? (
+            <>
+              {" · "}
+              <a href={city.imageAttribution.licenseUrl} rel="license noreferrer" target="_blank">
+                {city.imageAttribution.licenseLabel}
+              </a>
+            </>
+          ) : null}
         </p>
       </section>
     </main>

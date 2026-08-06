@@ -24,8 +24,12 @@ const rawCity = {
   sourceUrl: "https://dich-mit-stich.ch/tattoo-singles/zuerich/",
   imagePath: "public/cities/ch/zuerich.jpg",
   imageAttribution: {
-    label: "Bildquelle",
+    label: "Foto von Pexels auf Pixabay",
     sourceUrl: "https://example.com/zuerich-image",
+    creator: "Pexels",
+    publisher: "Pixabay",
+    license: "Pixabay Content License",
+    licenseUrl: "https://pixabay.com/service/license-summary/",
   },
 };
 
@@ -50,7 +54,13 @@ test("buildCityRecord creates a market-scoped WordPress identity and city ACF ma
   assert.deepEqual(record.acf.sources.map((source) => source.url), [
     rawCity.sourceUrl,
     rawCity.imageAttribution.sourceUrl,
+    rawCity.imageAttribution.licenseUrl,
   ]);
+  assert.equal(record.acf.sources[1].title, "Foto von Pexels auf Pixabay");
+  assert.equal(record.acf.sources[1].publisher, "Pixabay");
+  assert.match(record.acf.sources[1].note, /Urheber: Pexels/);
+  assert.equal(record.acf.sources[2].title, "Pixabay Content License");
+  assert.equal(record.acf.sources[2].publisher, "Pixabay");
 });
 
 test("buildWpPayload keeps public HTML and adds a resolved media ID", () => {

@@ -47,6 +47,11 @@ test("every CH city has complete editorial, SEO, image and relationship data", a
     assert.equal(city.imageUrl, `/cities/ch/${slug}.jpg`);
     assert.match(city.originalImageUrl, /^https:\/\/static-cms\.icony-hosting\.de\//);
     assert.match(city.imageAttribution.sourceUrl, /^https:\/\/pixabay\.com\//);
+    assert.match(city.imageAttribution.label, /^Foto von .+ auf Pixabay$/);
+    assert.ok(city.imageAttribution.creator, `${slug} needs an image creator`);
+    assert.equal(city.imageAttribution.publisher, "Pixabay");
+    assert.equal(city.imageAttribution.license, "Pixabay Content License");
+    assert.equal(city.imageAttribution.licenseUrl, "https://pixabay.com/service/license-summary/");
     assert.equal(city.registrationUrl, "https://dich-mit-stich.ch/registration/");
 
     const importedImage = await stat(new URL(`../public/cities/ch/${slug}.jpg`, import.meta.url));

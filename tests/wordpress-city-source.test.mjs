@@ -21,7 +21,18 @@ const wpCity = {
     primary_cta_url: "https://dich-mit-stich.ch/registration/",
     sources: [
       { title: "Stadtseite", url: "https://dich-mit-stich.ch/tattoo-singles/zuerich/", note: "Ausgangsseite" },
-      { title: "Bildquelle Zürich", url: "https://example.com/image", note: "Quelle des Stadtbildes." },
+      {
+        title: "Foto von Pexels auf Pixabay",
+        url: "https://example.com/image",
+        publisher: "Pixabay",
+        note: "Quelle des Stadtbildes; Urheber: Pexels.",
+      },
+      {
+        title: "Pixabay Content License",
+        url: "https://pixabay.com/service/license-summary/",
+        publisher: "Pixabay",
+        note: "Lizenz für das zugeordnete Stadtbild.",
+      },
     ],
   },
   _embedded: {
@@ -43,8 +54,11 @@ test("normalizeWordPressCity maps the market-scoped CPT record to the public cit
   assert.equal(city.heroTitle, "Finde Singles in Zürich und Umgebung");
   assert.equal(city.imageUrl, "https://dich-mit-stich.de/magazin/wp-content/uploads/zuerich.jpg");
   assert.equal(city.imageAlt, "Zürich");
-  assert.equal(city.imageAttribution.label, "Bildquelle Zürich");
+  assert.equal(city.imageAttribution.label, "Foto von Pexels auf Pixabay");
   assert.equal(city.imageAttribution.sourceUrl, "https://example.com/image");
+  assert.equal(city.imageAttribution.publisher, "Pixabay");
+  assert.equal(city.imageAttribution.licenseLabel, "Pixabay Content License");
+  assert.equal(city.imageAttribution.licenseUrl, "https://pixabay.com/service/license-summary/");
   assert.equal(city.registrationUrl, "https://dich-mit-stich.ch/registration/");
   assert.match(city.contentHtml, /aus WordPress/);
 });
@@ -67,4 +81,8 @@ test("DE and CH city renderers use WordPress rather than legacy HTML or reposito
   assert.doesNotMatch(loader.match(/CITY_ROUTE_FIELDS[^;]+/)?.[0] || "", /content|_embed|_embedded/);
   assert.match(deDetail, /data-city-hero-layout="stacked"/);
   assert.match(chDetail, /data-city-hero-layout="stacked"/);
+  for (const source of [deDetail, chDetail]) {
+    assert.match(source, /imageAttribution\.licenseLabel/);
+    assert.match(source, /imageAttribution\.licenseUrl/);
+  }
 });

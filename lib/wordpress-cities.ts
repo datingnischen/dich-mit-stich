@@ -50,7 +50,13 @@ export type WordPressCityPage = {
   heroTitle: string;
   imageUrl: string;
   imageAlt: string;
-  imageAttribution: { label: string; sourceUrl: string };
+  imageAttribution: {
+    label: string;
+    sourceUrl: string;
+    publisher: string;
+    licenseLabel: string;
+    licenseUrl: string;
+  };
   contentHtml: string;
   relatedCities: { slug: string; label: string }[];
   registrationUrl: string;
@@ -88,6 +94,8 @@ export function normalizeWordPressCity(item: WpCityRestItem): WordPressCityPage 
   const media = item._embedded?.["wp:featuredmedia"]?.[0];
   const sources = Array.isArray(item.acf?.sources) ? item.acf.sources : [];
   const imageSource = sources.find((source) => /bild/i.test(source.note || "")) || sources[1];
+  const imageLicense = sources.find((source) => /lizenz/i.test(source.note || ""))
+    || sources.find((source) => /license|lizenz/i.test(source.title || ""));
 
   return {
     id: item.id,
@@ -104,6 +112,9 @@ export function normalizeWordPressCity(item: WpCityRestItem): WordPressCityPage 
     imageAttribution: {
       label: decodeHtmlEntities(imageSource?.title || "Bildquelle der Stadtseite"),
       sourceUrl: imageSource?.url || "",
+      publisher: decodeHtmlEntities(imageSource?.publisher || ""),
+      licenseLabel: decodeHtmlEntities(imageLicense?.title || ""),
+      licenseUrl: imageLicense?.url || "",
     },
     contentHtml: item.content?.rendered || "",
     relatedCities: [],

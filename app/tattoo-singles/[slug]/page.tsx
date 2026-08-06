@@ -96,6 +96,14 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
                 Originalquelle
               </a>
             ) : null}
+            {cityPage.imageAttribution.licenseLabel && cityPage.imageAttribution.licenseUrl ? (
+              <>
+                {" · "}
+                <a href={cityPage.imageAttribution.licenseUrl} rel="license noreferrer" target="_blank">
+                  {cityPage.imageAttribution.licenseLabel}
+                </a>
+              </>
+            ) : null}
           </p>
         </section>
       ) : null}

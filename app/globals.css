@@ -136,8 +136,21 @@ img {
 }
 
 .market-overview-asset figcaption a {
-  color: var(--accent-strong);
+  color: var(--brand);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+}
+
+.market-overview-asset figcaption a:hover {
+  color: var(--brand-dark);
+  text-decoration-thickness: 2px;
+}
+
+.market-overview-asset figcaption a:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .eyebrow {

@@ -88,7 +88,11 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
       </section>
 
       {cityPage.imageAttribution ? (
-        <section className="content-section" aria-label="Bildquelle des Stadtfotos">
+        <section
+          className="content-section"
+          aria-label="Bildquelle des Stadtfotos"
+          data-image-attribution-version="licensed-v1"
+        >
           <p>
             <strong>Bildquelle</strong>: {cityPage.imageAttribution.label}.{" "}
             {cityPage.imageAttribution.sourceUrl ? (

@@ -84,5 +84,7 @@ test("DE and CH city renderers use WordPress rather than legacy HTML or reposito
   for (const source of [deDetail, chDetail]) {
     assert.match(source, /imageAttribution\.licenseLabel/);
     assert.match(source, /imageAttribution\.licenseUrl/);
+    assert.match(source, /data-image-attribution-version="licensed-v1"/);
   }
+  assert.match(loader, /city_source_revision:\s*CITY_SOURCE_REVISION/);
 });

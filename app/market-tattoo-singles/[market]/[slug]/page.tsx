@@ -78,7 +78,11 @@ export default async function ChTattooSinglesCityPage({ params }: PageProps) {
 
       <MarketHtmlContent className="rich-content" market="ch" html={city.contentHtml} />
 
-      <section className="content-section" aria-label="Bildquelle des Stadtfotos">
+      <section
+        className="content-section"
+        aria-label="Bildquelle des Stadtfotos"
+        data-image-attribution-version="licensed-v1"
+      >
         <p>
           <strong>Bildquelle</strong>: {city.imageAttribution.label}.{" "}
           {city.imageAttribution.sourceUrl ? (

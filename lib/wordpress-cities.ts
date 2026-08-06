@@ -3,6 +3,7 @@ import { cache } from "react";
 import { decodeHtmlEntities, fetchWithRetry, stripHtml, WORDPRESS_FETCH_POLICY } from "./wordpress.ts";
 
 const CITY_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
+const CITY_SOURCE_REVISION = "image-licenses-v1";
 export const CITY_ROUTE_FIELDS = "id,slug,acf";
 const CITY_LIST_FIELDS = "id,slug,featured_media,acf.city_id,acf.city_name,acf.city_country";
 const CITY_DETAIL_FIELDS = "id,slug,title,excerpt,content,featured_media,acf,_links,_embedded";
@@ -128,6 +129,7 @@ async function fetchCities(fields: string, params: Record<string, string | numbe
     orderby: "title",
     order: "asc",
     _fields: fields,
+    city_source_revision: CITY_SOURCE_REVISION,
     ...Object.fromEntries(Object.entries(params).map(([key, value]) => [key, String(value)])),
   });
   const response = await fetchWithRetry(`${CITY_API_BASE}/stadt?${search}`, {

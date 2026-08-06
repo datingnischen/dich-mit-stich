@@ -77,11 +77,14 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
     new URL("../app/market-tattoo-singles/[market]/layout.tsx", import.meta.url),
     "utf8",
   );
+  const shellSource = await readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8");
 
   assert.match(overviewSource, /publicUrl\("ch", "\/tattoo-singles"\)/);
   assert.match(detailSource, /publicUrl\("ch", `\/tattoo-singles\/\$\{slug\}`\)/);
   assert.match(detailSource, /chTattooCitySlugs/);
-  assert.match(layoutSource, /<SiteFrame market="ch">/);
+  assert.match(layoutSource, /<SiteFrame market="ch" sectionLive>/);
+  assert.match(shellSource, /dich-mit-stich-logo-ch\.svg/);
+  assert.match(shellSource, /Entdecke Tattoo-Singles und alternative Szene-Guides/);
   assert.doesNotMatch(`${overviewSource}\n${detailSource}`, /vercel\.app/);
 });
 

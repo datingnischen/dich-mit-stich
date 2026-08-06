@@ -99,6 +99,7 @@ const footerColumns: Array<{
 ];
 
 const HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-header.jpg");
+const CH_HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-ch.svg");
 
 function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;
@@ -115,6 +116,8 @@ function marketHref(link: NavLink, market: MarketCode) {
 }
 
 function BrandLogo({ footer = false, market }: { footer?: boolean; market: MarketCode }) {
+  const isSwissMarket = market === "ch";
+
   return (
     <MarketLink
       className={`brand-lockup dms-brand-lockup ${footer ? "footer-brand-wordmark" : "brand-lockup-header"}`}
@@ -123,10 +126,10 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
     >
       <Image
         className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`}
-        src={HEADER_LOGO_URL}
-        alt="dich-mit-stich"
-        width={691}
-        height={140}
+        src={isSwissMarket ? CH_HEADER_LOGO_URL : HEADER_LOGO_URL}
+        alt={isSwissMarket ? "dich-mit-stich.ch" : "dich-mit-stich.de"}
+        width={isSwissMarket ? 349 : 691}
+        height={isSwissMarket ? 60 : 140}
         sizes={footer ? "260px" : "220px"}
         priority={!footer}
       />
@@ -176,7 +179,7 @@ export function SiteHeader({ market = "de" }: { market?: MarketCode }) {
   );
 }
 
-export function SiteFooter({ market = "de" }: { market?: MarketCode }) {
+export function SiteFooter({ market = "de", sectionLive = false }: { market?: MarketCode; sectionLive?: boolean }) {
   const config = getMarket(market);
 
   if (!config.contentEnabled) {
@@ -185,7 +188,11 @@ export function SiteFooter({ market = "de" }: { market?: MarketCode }) {
         <div className="footer-main">
           <div className="footer-brand-panel">
             <BrandLogo footer market={market} />
-            <p>Der eigene Länderbereich für {config.countryName} wird markt- und inhaltssauber vorbereitet.</p>
+            <p>
+              {sectionLive
+                ? `Entdecke Tattoo-Singles und alternative Szene-Guides in ${config.countryName}.`
+                : `Der eigene Länderbereich für ${config.countryName} wird markt- und inhaltssauber vorbereitet.`}
+            </p>
           </div>
         </div>
         <div className="sub-footer">

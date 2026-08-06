@@ -6,16 +6,17 @@ import { getMarket, type MarketCode } from "@/lib/markets";
 type SiteFrameProps = {
   children: ReactNode;
   market?: MarketCode;
+  sectionLive?: boolean;
 };
 
-export function SiteFrame({ children, market = "de" }: SiteFrameProps) {
+export function SiteFrame({ children, market = "de", sectionLive = false }: SiteFrameProps) {
   const config = getMarket(market);
 
   return (
     <>
       <SiteHeader market={market} />
       {children}
-      <SiteFooter market={market} />
+      <SiteFooter market={market} sectionLive={sectionLive} />
       {config.contentEnabled ? <StickyCTAButton market={market} /> : null}
     </>
   );

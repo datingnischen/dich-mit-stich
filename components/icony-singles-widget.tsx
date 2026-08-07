@@ -16,11 +16,12 @@ export function IconySinglesWidget({
   cityName,
   projectKey,
   postalCode,
-  primaryColor = "68133c",
-  legacyCounter = "43",
+  primaryColor = '68133c',
+  legacyCounter = '43',
   iframeHeight = 220,
 }: IconySinglesWidgetProps) {
   const [selectedGender, setSelectedGender] = useState<'women' | 'men'>('women');
+  const selectedLabel = selectedGender === 'women' ? 'Frauen' : 'Männer';
 
   const src = useMemo(() => {
     const params = new URLSearchParams({
@@ -39,37 +40,38 @@ export function IconySinglesWidget({
 
   return (
     <section className="content-section icony-widget-section" aria-label={`Singles aus ${cityName}`}>
-      <div className="icony-widget-shell panel-card">
+      <div className="icony-widget-shell">
         <div className="icony-widget-copy">
           <p className="eyebrow eyebrow-brand">Singles entdecken</p>
           <h2>Neue Singles in {cityName}</h2>
           <p>
             Wähle, ob du Frauen oder Männer sehen möchtest. Wenn du den Umkreis erweitern willst, kannst du direkt ausführlicher suchen.
           </p>
-          <div className="icony-widget-toggle" aria-label="Geschlecht wählen">
-            <button
-              type="button"
-              className={`icony-widget-toggle-pill ${selectedGender === 'women' ? 'is-active' : ''}`}
-              onClick={() => setSelectedGender('women')}
-              aria-pressed={selectedGender === 'women'}
-            >
-              Frauen anzeigen
-            </button>
-            <button
-              type="button"
-              className={`icony-widget-toggle-pill ${selectedGender === 'men' ? 'is-active' : ''}`}
-              onClick={() => setSelectedGender('men')}
-              aria-pressed={selectedGender === 'men'}
-            >
-              Männer anzeigen
-            </button>
-          </div>
         </div>
 
-        <div className="icony-widget-frame-card">
+        <div className="icony-widget-toggle" role="group" aria-label="Geschlecht wählen">
+          <button
+            type="button"
+            className={`icony-widget-toggle-pill ${selectedGender === 'women' ? 'is-active' : ''}`}
+            onClick={() => setSelectedGender('women')}
+            aria-pressed={selectedGender === 'women'}
+          >
+            Frauen anzeigen
+          </button>
+          <button
+            type="button"
+            className={`icony-widget-toggle-pill ${selectedGender === 'men' ? 'is-active' : ''}`}
+            onClick={() => setSelectedGender('men')}
+            aria-pressed={selectedGender === 'men'}
+          >
+            Männer anzeigen
+          </button>
+        </div>
+
+        <div className="icony-widget-frame-card" data-selected-gender={selectedGender}>
           <div className="icony-widget-frame-head">
-            <strong>Singles aus {cityName}</strong>
-            <p>Die Profilvorschauen werden direkt aus dem ICONY-Netzwerk geladen.</p>
+            <strong>{selectedLabel} aus {cityName}</strong>
+            <span>Lokale Profilvorschauen aus dem ICONY-Netzwerk</span>
           </div>
           <iframe
             title={`Singles aus ${cityName}`}
@@ -78,9 +80,12 @@ export function IconySinglesWidget({
             referrerPolicy="strict-origin-when-cross-origin"
             frameBorder="0"
             className="icony-widget-frame"
-            style={{ width: '340px', maxWidth: '100%', height: `${iframeHeight}px` }}
+            style={{ width: '100%', height: `${iframeHeight}px` }}
           />
-          <a className="button button-secondary icony-widget-link" href={publicUrl('at', '/suche/')}>
+        </div>
+
+        <div className="icony-widget-actions">
+          <a className="button button-primary icony-widget-link" href={publicUrl('at', '/suche/')}>
             Ausführlicher in {cityName} suchen
           </a>
           <span className="icony-widget-footnote">Kostenlos starten · Umkreis selbst erweitern · diskret stöbern</span>

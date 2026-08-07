@@ -71,6 +71,7 @@ test("every CH city has complete editorial, SEO, image and relationship data", a
 
 test("AT city routes declare .at canonicals and use the market-aware shell", async () => {
   const pageSource = await readFile(new URL("../app/market-tattoo-singles/[market]/[slug]/page.tsx", import.meta.url), "utf8");
+  const shellSource = await readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8");
 
   assert.match(pageSource, /const markets: SupportedMarket\[] = \["at", "ch"\]/);
   assert.match(pageSource, /if \(!isSupportedMarket\(market\)\) return \{ robots: \{ index: false, follow: false \} \};/);
@@ -78,6 +79,8 @@ test("AT city routes declare .at canonicals and use the market-aware shell", asy
   assert.match(pageSource, /MarketHtmlContent className="rich-content" market=\{market\} html=\{city\.contentHtml\}/);
   assert.match(pageSource, /cityIndexLabel: "Alle Städte in Österreich"/);
   assert.match(pageSource, /datingEyebrow: "Dating-Einstieg Österreich"/);
+  assert.match(shellSource, /dich-mit-stich-logo-at\.svg/);
+  assert.match(shellSource, /at: \{ src: AT_HEADER_LOGO_URL, alt: "dich-mit-stich\.at", width: 345, height: 60 \}/);
 });
 
 test("CH city routes declare .ch canonicals and use the market-aware shell", async () => {
@@ -110,8 +113,8 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
   assert.doesNotMatch(layoutSource, /<SiteFrame market="ch" sectionLive>/);
   assert.match(shellSource, /dich-mit-stich-logo-ch\.svg/);
   assert.match(shellSource, /in der Schweiz/);
-  assert.match(shellSource, /width=\{isSwissMarket \? 1417 : 691\}/);
-  assert.match(shellSource, /height=\{isSwissMarket \? 283 : 140\}/);
+  assert.match(shellSource, /const BRAND_LOGOS: Record<MarketCode, \{ src: string; alt: string; width: number; height: number \}> = \{/);
+  assert.match(shellSource, /ch: \{ src: CH_HEADER_LOGO_URL, alt: "dich-mit-stich\.ch", width: 1417, height: 283 \}/);
   assert.match(swissLogo, /viewBox="0 0 1417\.323 283\.46"/);
   assert.doesNotMatch(`${overviewSource}\n${detailSource}`, /vercel\.app/);
 });

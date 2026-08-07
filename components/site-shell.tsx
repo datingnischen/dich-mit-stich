@@ -99,7 +99,14 @@ const footerColumns: Array<{
 ];
 
 const HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-header.jpg");
+const AT_HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-at.svg");
 const CH_HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-ch.svg");
+
+const BRAND_LOGOS: Record<MarketCode, { src: string; alt: string; width: number; height: number }> = {
+  de: { src: HEADER_LOGO_URL, alt: "dich-mit-stich.de", width: 691, height: 140 },
+  at: { src: AT_HEADER_LOGO_URL, alt: "dich-mit-stich.at", width: 345, height: 60 },
+  ch: { src: CH_HEADER_LOGO_URL, alt: "dich-mit-stich.ch", width: 1417, height: 283 },
+};
 
 function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;
@@ -116,7 +123,7 @@ function marketHref(link: NavLink, market: MarketCode) {
 }
 
 function BrandLogo({ footer = false, market }: { footer?: boolean; market: MarketCode }) {
-  const isSwissMarket = market === "ch";
+  const logo = BRAND_LOGOS[market];
 
   return (
     <MarketLink
@@ -126,10 +133,10 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
     >
       <Image
         className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`}
-        src={isSwissMarket ? CH_HEADER_LOGO_URL : HEADER_LOGO_URL}
-        alt={isSwissMarket ? "dich-mit-stich.ch" : "dich-mit-stich.de"}
-        width={isSwissMarket ? 1417 : 691}
-        height={isSwissMarket ? 283 : 140}
+        src={logo.src}
+        alt={logo.alt}
+        width={logo.width}
+        height={logo.height}
         sizes={footer ? "260px" : "220px"}
         priority={!footer}
       />

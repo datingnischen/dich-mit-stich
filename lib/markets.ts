@@ -82,7 +82,7 @@ type MarketRequestResolution =
   | { action: "not-found" }
   | { action: "redirect"; market: "de"; pathname: string }
   | { action: "rewrite"; market: "de"; pathname: string }
-  | { action: "market-content"; market: "ch"; pathname: string }
+  | { action: "market-content"; market: "at" | "ch"; pathname: string }
   | { action: "placeholder"; market: "at" | "ch"; pathname: string; requestedPath: string }
   | { action: "market-robots"; market: "at" | "ch"; pathname: string }
   | { action: "market-sitemap"; market: "at" | "ch"; pathname: string };
@@ -147,24 +147,26 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
     };
   }
 
-  if (market === "ch") {
+  if (market === "at" || market === "ch") {
     const contentPath = requestedPath.length > 1 ? requestedPath.replace(/\/+$/, "") : requestedPath;
 
     if (contentPath === "/tattoo-singles") {
       return {
         action: "market-content",
         market,
-        pathname: "/market-tattoo-singles/ch",
+        pathname: `/market-tattoo-singles/${market}`,
       };
     }
 
-    const cityMatch = contentPath.match(/^\/tattoo-singles\/([^/]+)$/);
-    if (cityMatch && isChTattooCitySlug(cityMatch[1])) {
-      return {
-        action: "market-content",
-        market,
-        pathname: `/market-tattoo-singles/ch/${cityMatch[1]}`,
-      };
+    if (market === "ch") {
+      const cityMatch = contentPath.match(/^\/tattoo-singles\/([^/]+)$/);
+      if (cityMatch && isChTattooCitySlug(cityMatch[1])) {
+        return {
+          action: "market-content",
+          market,
+          pathname: `/market-tattoo-singles/ch/${cityMatch[1]}`,
+        };
+      }
     }
   }
 

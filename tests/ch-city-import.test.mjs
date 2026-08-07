@@ -149,7 +149,7 @@ test("the idempotent ICONY importer remains available for future city migrations
 });
 
 
-test("AT city pages expose an ICONY singles widget with city-specific postal targeting", async () => {
+test("AT city pages expose the legacy-matching ICONY singles widget with city-specific postal targeting", async () => {
   const pageSource = await readFile(new URL("../app/market-tattoo-singles/[market]/[slug]/page.tsx", import.meta.url), "utf8");
   const widgetSource = await readFile(new URL("../components/icony-singles-widget.tsx", import.meta.url), "utf8").catch(() => "");
 
@@ -158,6 +158,8 @@ test("AT city pages expose an ICONY singles widget with city-specific postal tar
   assert.match(pageSource, /wien: "1010"/);
   assert.match(pageSource, /<IconySinglesWidget/);
   assert.match(widgetSource, /https:\/\/js\.icony\.com\/frame\/\?/);
-  assert.match(widgetSource, /cta/);
-  assert.match(widgetSource, /ctat/);
+  assert.match(widgetSource, /pc/);
+  assert.match(widgetSource, /ctr/);
+  assert.match(widgetSource, /it/);
+  assert.doesNotMatch(widgetSource, /ctat/);
 });

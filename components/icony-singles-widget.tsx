@@ -2,40 +2,28 @@ type IconySinglesWidgetProps = {
   cityName: string;
   projectKey: string;
   postalCode: string;
-  width?: number;
-  height?: number;
-  count?: number;
-  ageMin?: number;
-  ageMax?: number;
-  affiliateId?: string;
+  primaryColor?: string;
+  legacyCounter?: string;
+  iframeHeight?: number;
 };
 
 export function IconySinglesWidget({
   cityName,
   projectKey,
   postalCode,
-  width = 960,
-  height = 560,
-  count = 10,
-  ageMin = 18,
-  ageMax = 45,
-  affiliateId,
+  primaryColor = "68133c",
+  legacyCounter = "43",
+  iframeHeight = 220,
 }: IconySinglesWidgetProps) {
   const params = new URLSearchParams({
+    h: '300',
     id: projectKey,
-    w: String(width),
-    h: String(height),
-    c: String(count),
-    as: String(ageMin),
-    ae: String(ageMax),
+    pc: primaryColor,
     z: postalCode,
-    cta: '1',
-    ctat: `Jetzt Singles aus ${cityName} ansehen`,
+    ds: '',
+    ctr: legacyCounter,
+    it: '1',
   });
-
-  if (affiliateId) {
-    params.set('aid', affiliateId);
-  }
 
   const src = `https://js.icony.com/frame/?${params.toString()}`;
 
@@ -52,7 +40,7 @@ export function IconySinglesWidget({
           referrerPolicy="strict-origin-when-cross-origin"
           frameBorder="0"
           className="icony-widget-frame"
-          style={{ width: '100%', height: `${height}px` }}
+          style={{ width: '340px', maxWidth: '100%', height: `${iframeHeight}px` }}
         />
       </div>
     </section>

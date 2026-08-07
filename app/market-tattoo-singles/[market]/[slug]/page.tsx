@@ -17,7 +17,6 @@ type PageProps = {
 };
 
 const ICONY_PROJECT_KEY = 'dichmitstichat';
-const ICONY_AFFILIATE_ID = '923';
 const CITY_WIDGET_POSTAL_CODES: Record<string, string> = {
   dornbirn: "6850",
   graz: "8010",
@@ -130,7 +129,6 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
         <IconySinglesWidget
           cityName={city.cityName}
           projectKey={ICONY_PROJECT_KEY}
-          affiliateId={ICONY_AFFILIATE_ID}
           postalCode={widgetPostalCode}
         />
       ) : null}

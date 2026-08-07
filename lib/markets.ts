@@ -2,6 +2,27 @@ export const MARKET_CODES = ["de", "at", "ch"] as const;
 
 export type MarketCode = (typeof MARKET_CODES)[number];
 
+export const atTattooCitySlugs = [
+  "dornbirn",
+  "graz",
+  "klagenfurt",
+  "linz",
+  "salzburg",
+  "sankt-poelten",
+  "villach",
+  "wels",
+  "wien",
+  "wiener-neustadt",
+] as const;
+
+export type AtTattooCitySlug = (typeof atTattooCitySlugs)[number];
+
+const atTattooCitySlugSet: ReadonlySet<string> = new Set(atTattooCitySlugs);
+
+export function isAtTattooCitySlug(slug: string): slug is AtTattooCitySlug {
+  return atTattooCitySlugSet.has(slug);
+}
+
 export const chTattooCitySlugs = [
   "zuerich",
   "winterthur",
@@ -158,13 +179,21 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
       };
     }
 
-    if (market === "ch") {
-      const cityMatch = contentPath.match(/^\/tattoo-singles\/([^/]+)$/);
-      if (cityMatch && isChTattooCitySlug(cityMatch[1])) {
+    const cityMatch = contentPath.match(/^\/tattoo-singles\/([^/]+)$/);
+    if (cityMatch) {
+      if (market === "ch" && isChTattooCitySlug(cityMatch[1])) {
         return {
           action: "market-content",
           market,
           pathname: `/market-tattoo-singles/ch/${cityMatch[1]}`,
+        };
+      }
+
+      if (market === "at" && isAtTattooCitySlug(cityMatch[1])) {
+        return {
+          action: "market-content",
+          market,
+          pathname: `/market-tattoo-singles/at/${cityMatch[1]}`,
         };
       }
     }

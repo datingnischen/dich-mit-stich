@@ -78,6 +78,11 @@ test("gates untagged content while allowing the imported CH tattoo city family",
     market: "ch",
     pathname: "/market-tattoo-singles/ch/zuerich",
   });
+  assert.deepEqual(resolveMarketRequest("/at/tattoo-singles/dornbirn"), {
+    action: "market-content",
+    market: "at",
+    pathname: "/market-tattoo-singles/at/dornbirn",
+  });
   assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles"), {
     action: "market-content",
     market: "ch",

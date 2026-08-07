@@ -122,7 +122,7 @@ function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
               ) : null}
               <div className="city-card-copy">
                 <span>{city.label}</span>
-                <strong>{`Singles ${city.label}`}</strong>
+                <strong>Singles {city.label}</strong>
               </div>
             </MarketLink>
           ))}
@@ -183,7 +183,7 @@ function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
               ) : null}
               <div className="city-card-copy">
                 <span>{city.label}</span>
-                <strong>{`Singles ${city.label}`}</strong>
+                <strong>Singles {city.label}</strong>
               </div>
             </MarketLink>
           ))}

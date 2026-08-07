@@ -149,17 +149,24 @@ test("the idempotent ICONY importer remains available for future city migrations
 });
 
 
-test("AT city pages expose the legacy-matching ICONY singles widget with city-specific postal targeting", async () => {
+test("AT city pages expose a styled legacy-matching ICONY singles widget with city-specific postal targeting", async () => {
   const pageSource = await readFile(new URL("../app/market-tattoo-singles/[market]/[slug]/page.tsx", import.meta.url), "utf8");
   const widgetSource = await readFile(new URL("../components/icony-singles-widget.tsx", import.meta.url), "utf8").catch(() => "");
+  const cssSource = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
   assert.match(pageSource, /CITY_WIDGET_POSTAL_CODES/);
   assert.match(pageSource, /dornbirn: "6850"/);
   assert.match(pageSource, /wien: "1010"/);
   assert.match(pageSource, /<IconySinglesWidget/);
+  assert.match(widgetSource, /Neue Singles in \{cityName\}/);
+  assert.match(widgetSource, /Frauen anzeigen/);
+  assert.match(widgetSource, /Männer anzeigen/);
+  assert.match(widgetSource, /Ausführlicher in \{cityName\} suchen/);
   assert.match(widgetSource, /https:\/\/js\.icony\.com\/frame\/\?/);
   assert.match(widgetSource, /pc/);
   assert.match(widgetSource, /ctr/);
   assert.match(widgetSource, /it/);
   assert.doesNotMatch(widgetSource, /ctat/);
+  assert.match(cssSource, /icony-widget-shell/);
+  assert.match(cssSource, /icony-widget-toggle/);
 });

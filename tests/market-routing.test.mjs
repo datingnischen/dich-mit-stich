@@ -218,7 +218,7 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
 });
 
 
-test("AT market preview exposes the most important Austria entry links", async () => {
+test("AT market preview exposes all imported Austria city pages", async () => {
   const previewSource = await readFile(new URL("../app/market-preview/[market]/page.tsx", import.meta.url), "utf8");
 
   assert.match(previewSource, /publicUrl\(market, "\/tattoo-singles"\)/);
@@ -227,4 +227,7 @@ test("AT market preview exposes the most important Austria entry links", async (
   assert.match(previewSource, /label: "Wien"/);
   assert.match(previewSource, /label: "Graz"/);
   assert.match(previewSource, /label: "Salzburg"/);
+  assert.match(previewSource, /label: "Wels"/);
+  assert.match(previewSource, /label: "Sankt Pölten"/);
+  assert.match(previewSource, /label: "Wiener Neustadt"/);
 });

@@ -11,6 +11,10 @@ const AT_IMPORTANT_CITY_LINKS = [
   { slug: "linz", label: "Linz" },
   { slug: "klagenfurt", label: "Klagenfurt" },
   { slug: "villach", label: "Villach" },
+  { slug: "wels", label: "Wels" },
+  { slug: "sankt-poelten", label: "Sankt Pölten" },
+  { slug: "wiener-neustadt", label: "Wiener Neustadt" },
+  { slug: "dornbirn", label: "Dornbirn" },
 ] as const;
 
 export const dynamic = "force-static";

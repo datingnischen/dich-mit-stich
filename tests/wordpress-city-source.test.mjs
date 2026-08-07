@@ -142,3 +142,16 @@ test("AT and CH market overviews preserve their selected branded legacy overview
   assert.match(styles, /\.market-overview-asset figcaption a\s*\{[^}]*color:\s*var\(--brand\)[^}]*text-decoration:\s*underline/s);
   assert.match(styles, /\.market-overview-asset figcaption a:focus-visible\s*\{[^}]*outline:/s);
 });
+
+
+test("AT overview renders clickable city cards with images", async () => {
+  const source = await readFile(new URL("../app/market-tattoo-singles/[market]/page.tsx", import.meta.url), "utf8");
+
+  assert.match(source, /city-card-with-media/);
+  assert.match(source, /city-card-media/);
+  assert.match(source, /city-card-copy/);
+  assert.match(source, /targetMarket="at"/);
+  assert.match(source, /pathname=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
+  assert.match(source, /city\.imageUrl/);
+  assert.match(source, /city\.label/);
+});

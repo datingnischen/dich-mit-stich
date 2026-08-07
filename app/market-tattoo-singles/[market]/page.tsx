@@ -11,45 +11,13 @@ export const dynamic = "force-static";
 
 type PageProps = { params: Promise<{ market: string }> };
 
-type AtOverview = {
-  market: "at";
-  eyebrow: string;
-  title: string;
-  description: string;
-  sectionTitle: string;
-  sectionLead: string;
-  registrationUrl: string;
-  cityLabels: string[];
-  image: {
-    path: string;
-    alt: string;
-    width: number;
-    height: number;
-    assetKey: string;
-    sourceUrl: string;
-  };
-};
-
-const atOverview: AtOverview = {
-  market: "at",
+const AT_OVERVIEW_HERO = {
   eyebrow: "Österreichische Tattoo-Szene",
   title: "Tattoo Singles Österreich",
   description: "Finde jetzt tätowierte Singles aus Österreich und entdecke als Erstes unsere Städte- und Szenenübersicht.",
   sectionTitle: "Tattoo-Singles in Österreich",
-  sectionLead: "Diese Städte stammen aus der bisherigen Österreich-Übersicht und werden als Nächstes Schritt für Schritt als eigene Guides aufbereitet.",
+  sectionLead: "Wähle deine Stadt und öffne direkt den passenden Tattoo-Singles-Guide mit Bild, Szene-Tipps und lokalem Einstieg.",
   registrationUrl: publicUrl("at", "/registration/"),
-  cityLabels: [
-    "Wien",
-    "Linz",
-    "Dornbirn",
-    "Graz",
-    "Salzburg",
-    "Klagenfurt",
-    "Villach",
-    "Wels",
-    "Sankt Pölten",
-    "Wiener Neustadt",
-  ],
   image: {
     path: "/images/at/dich-mit-stich-at-overview-hero.webp",
     alt: "Finde jetzt tätowierte Singles aus Österreich",
@@ -79,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (market === "at") {
     return {
       title: "Tattoo Singles aus Österreich",
-      description: atOverview.description,
+      description: AT_OVERVIEW_HERO.description,
       alternates: { canonical: publicUrl("at", "/tattoo-singles") },
     };
   }
@@ -102,26 +70,26 @@ function AttributionCaption({ sourceUrl }: { sourceUrl: string }) {
   );
 }
 
-function AtOverviewSection() {
+function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressCityOverview>> extends infer T ? { overview: T } : never) {
   return (
     <>
       <section className="hero-card hero-city">
-        <span className="eyebrow">{atOverview.eyebrow}</span>
-        <h1>{atOverview.title}</h1>
-        <p>{atOverview.description}</p>
-        <figure className="market-overview-asset" data-market-overview-asset={atOverview.image.assetKey}>
+        <span className="eyebrow">{AT_OVERVIEW_HERO.eyebrow}</span>
+        <h1>{AT_OVERVIEW_HERO.title}</h1>
+        <p>{AT_OVERVIEW_HERO.description}</p>
+        <figure className="market-overview-asset" data-market-overview-asset={AT_OVERVIEW_HERO.image.assetKey}>
           <Image
-            src={staticAsset(atOverview.image.path)}
-            alt={atOverview.image.alt}
-            width={atOverview.image.width}
-            height={atOverview.image.height}
+            src={staticAsset(AT_OVERVIEW_HERO.image.path)}
+            alt={AT_OVERVIEW_HERO.image.alt}
+            width={AT_OVERVIEW_HERO.image.width}
+            height={AT_OVERVIEW_HERO.image.height}
             priority
             sizes="(max-width: 760px) 100vw, 980px"
           />
-          <AttributionCaption sourceUrl={atOverview.image.sourceUrl} />
+          <AttributionCaption sourceUrl={AT_OVERVIEW_HERO.image.sourceUrl} />
         </figure>
         <div className="button-row">
-          <a className="button button-primary" href={atOverview.registrationUrl}>
+          <a className="button button-primary" href={AT_OVERVIEW_HERO.registrationUrl}>
             Kostenlos registrieren
           </a>
         </div>
@@ -130,15 +98,33 @@ function AtOverviewSection() {
       <section className="content-section">
         <div className="section-header">
           <span className="eyebrow">Verfügbare Städte</span>
-          <h2>{atOverview.sectionTitle}</h2>
-          <p>{atOverview.sectionLead}</p>
+          <h2>{AT_OVERVIEW_HERO.sectionTitle}</h2>
+          <p>{AT_OVERVIEW_HERO.sectionLead}</p>
         </div>
         <div className="city-grid">
-          {atOverview.cityLabels.map((city) => (
-            <article key={city} className="city-card">
-              <span>{city}</span>
-              <strong>Stadt-Guide folgt</strong>
-            </article>
+          {overview.cityLinks.map((city) => (
+            <MarketLink
+              key={city.slug}
+              targetMarket="at"
+              pathname={`/tattoo-singles/${city.slug}`}
+              className="city-card city-card-with-media"
+            >
+              {city.imageUrl ? (
+                <div className="city-card-media">
+                  <Image
+                    src={staticAsset(city.imageUrl)}
+                    alt={`Tattoo-Singles in ${city.label}`}
+                    width={1000}
+                    height={667}
+                    sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  />
+                </div>
+              ) : null}
+              <div className="city-card-copy">
+                <span>{city.label}</span>
+                <strong>Jetzt Stadt-Guide öffnen</strong>
+              </div>
+            </MarketLink>
           ))}
         </div>
       </section>
@@ -214,7 +200,7 @@ export default async function MarketTattooSinglesOverviewPage({ params }: PagePr
     notFound();
   }
 
-  const overview = market === "ch" ? await getWordPressCityOverview("ch") : null;
+  const overview = await getWordPressCityOverview(market);
 
-  return <main className="shell shell-narrow">{market === "at" ? <AtOverviewSection /> : <ChOverviewSection overview={overview!} />}</main>;
+  return <main className="shell shell-narrow">{market === "at" ? <AtOverviewSection overview={overview} /> : <ChOverviewSection overview={overview} />}</main>;
 }

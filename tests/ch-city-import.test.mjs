@@ -147,3 +147,17 @@ test("the idempotent ICONY importer remains available for future city migrations
   assert.match(importer, /tattoo-cities-ch\.json/);
   assert.doesNotMatch(importer, /NODE_TLS_REJECT_UNAUTHORIZED|rejectUnauthorized\s*:\s*false/);
 });
+
+
+test("AT city pages expose an ICONY singles widget with city-specific postal targeting", async () => {
+  const pageSource = await readFile(new URL("../app/market-tattoo-singles/[market]/[slug]/page.tsx", import.meta.url), "utf8");
+  const widgetSource = await readFile(new URL("../components/icony-singles-widget.tsx", import.meta.url), "utf8").catch(() => "");
+
+  assert.match(pageSource, /CITY_WIDGET_POSTAL_CODES/);
+  assert.match(pageSource, /dornbirn: "6850"/);
+  assert.match(pageSource, /wien: "1010"/);
+  assert.match(pageSource, /<IconySinglesWidget/);
+  assert.match(widgetSource, /https:\/\/js\.icony\.com\/frame\/\?/);
+  assert.match(widgetSource, /cta/);
+  assert.match(widgetSource, /ctat/);
+});

@@ -95,7 +95,8 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
   assert.match(detailSource, /<MarketHtmlContent[^>]*market="ch"[^>]*html=\{city\.contentHtml\}/);
   assert.match(marketHtmlSource, /closest\("a"\)/);
   assert.match(marketHtmlSource, /router\.push\(marketPreviewPath\(market, href\)\)/);
-  assert.match(layoutSource, /<SiteFrame market="ch" sectionLive>/);
+  assert.match(layoutSource, /<SiteFrame market=\{market\} sectionLive>/);
+  assert.doesNotMatch(layoutSource, /<SiteFrame market="ch" sectionLive>/);
   assert.match(shellSource, /dich-mit-stich-logo-ch\.svg/);
   assert.match(shellSource, /in der Schweiz/);
   assert.match(shellSource, /width=\{isSwissMarket \? 1417 : 691\}/);

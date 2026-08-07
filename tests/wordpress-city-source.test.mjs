@@ -116,10 +116,11 @@ test("DE and CH city renderers use WordPress rather than legacy HTML or reposito
 });
 
 test("AT and CH market overviews preserve their selected branded legacy overview images with provenance", async () => {
-  const [source, styles, markets] = await Promise.all([
+  const [source, styles, markets, layout] = await Promise.all([
     readFile(new URL("../app/market-tattoo-singles/[market]/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../lib/markets.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/market-tattoo-singles/[market]/layout.tsx", import.meta.url), "utf8"),
   ]);
 
   assert.match(source, /dich-mit-stich-ch-partnersuche\.jpg/);
@@ -135,6 +136,8 @@ test("AT and CH market overviews preserve their selected branded legacy overview
   assert.match(markets, /market === "ch"/);
   assert.match(markets, /pathname: `\/market-tattoo-singles\/\$\{market\}`/);
   assert.match(markets, /pathname: `\/market-tattoo-singles\/ch\/\$\{cityMatch\[1\]\}`/);
+  assert.match(layout, /SiteFrame market=\{market\} sectionLive/);
+  assert.doesNotMatch(layout, /SiteFrame market="ch" sectionLive/);
 
   assert.match(styles, /\.market-overview-asset figcaption a\s*\{[^}]*color:\s*var\(--brand\)[^}]*text-decoration:\s*underline/s);
   assert.match(styles, /\.market-overview-asset figcaption a:focus-visible\s*\{[^}]*outline:/s);

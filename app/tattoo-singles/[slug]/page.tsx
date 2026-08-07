@@ -59,16 +59,18 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
         </div>
 
         <div className="home-stage-visual city-stage-visual" data-city-hero-layout="stacked">
-          <div className="home-stage-picture">
-            <Image
-              src={cityPage.imageUrl}
-              alt={`Stadtansicht von ${cityName} für Dich mit Stich`}
-              width={1200}
-              height={675}
-              sizes="(max-width: 900px) 100vw, 50vw"
-              priority
-            />
-          </div>
+          {cityPage.imageUrl ? (
+            <div className="home-stage-picture">
+              <Image
+                src={cityPage.imageUrl}
+                alt={`Stadtansicht von ${cityName} für Dich mit Stich`}
+                width={1200}
+                height={675}
+                sizes="(max-width: 900px) 100vw, 50vw"
+                priority
+              />
+            </div>
+          ) : null}
           <div className="floating-entry-card city-entry-card">
             <span className="eyebrow">Dating-Einstieg</span>
             <h2>{cityPage.heroTitle}</h2>

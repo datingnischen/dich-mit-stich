@@ -29,8 +29,13 @@ if (credentialsFile) {
 }
 if (!auth.username || !auth.password) throw new Error("Missing WordPress application credentials");
 
-let records = await loadCityManifest({ rootDir: process.cwd() });
-if (only) records = records.filter((record) => record.identity === normalizeCityIdentity(only));
+const onlyIdentity = only ? normalizeCityIdentity(only) : "";
+const onlyMarket = onlyIdentity ? onlyIdentity.split(":")[0] : "";
+let records = await loadCityManifest({
+  rootDir: process.cwd(),
+  ...(onlyMarket ? { markets: [onlyMarket] } : {}),
+});
+if (onlyIdentity) records = records.filter((record) => record.identity === onlyIdentity);
 if (!records.length) throw new Error(`No city matched ${only || "the source inventory"}`);
 
 const summary = await runCityImport({

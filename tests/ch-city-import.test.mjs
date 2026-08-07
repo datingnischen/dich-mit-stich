@@ -69,6 +69,17 @@ test("every CH city has complete editorial, SEO, image and relationship data", a
   }
 });
 
+test("AT city routes declare .at canonicals and use the market-aware shell", async () => {
+  const pageSource = await readFile(new URL("../app/market-tattoo-singles/[market]/[slug]/page.tsx", import.meta.url), "utf8");
+
+  assert.match(pageSource, /const markets: SupportedMarket\[] = \["at", "ch"\]/);
+  assert.match(pageSource, /if \(!isSupportedMarket\(market\)\) return \{ robots: \{ index: false, follow: false \} \};/);
+  assert.match(pageSource, /alternates: \{ canonical: publicUrl\(market, `\/tattoo-singles\/\$\{slug\}`\) \}/);
+  assert.match(pageSource, /MarketHtmlContent className="rich-content" market=\{market\} html=\{city\.contentHtml\}/);
+  assert.match(pageSource, /cityIndexLabel: "Alle Städte in Österreich"/);
+  assert.match(pageSource, /datingEyebrow: "Dating-Einstieg Österreich"/);
+});
+
 test("CH city routes declare .ch canonicals and use the market-aware shell", async () => {
   const overviewSource = await readFile(
     new URL("../app/market-tattoo-singles/[market]/page.tsx", import.meta.url),
@@ -87,12 +98,12 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
   const swissLogo = await readFile(new URL("../public/brand/dich-mit-stich-logo-ch.svg", import.meta.url), "utf8");
 
   assert.match(overviewSource, /publicUrl\("ch", "\/tattoo-singles"\)/);
-  assert.match(detailSource, /publicUrl\("ch", `\/tattoo-singles\/\$\{slug\}`\)/);
+  assert.match(detailSource, /alternates: \{ canonical: publicUrl\(market, `\/tattoo-singles\/\$\{slug\}`\) \}/);
   assert.match(detailSource, /getWordPressCitySlugs/);
   assert.match(overviewSource, /<MarketLink[\s\S]*targetMarket="ch"[\s\S]*pathname=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
   assert.doesNotMatch(overviewSource, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
-  assert.match(detailSource, /<MarketLink[^>]*targetMarket="ch"[^>]*pathname="\/tattoo-singles"/);
-  assert.match(detailSource, /<MarketHtmlContent[^>]*market="ch"[^>]*html=\{city\.contentHtml\}/);
+  assert.match(detailSource, /<MarketLink[^>]*targetMarket=\{market\}[^>]*pathname="\/tattoo-singles"/);
+  assert.match(detailSource, /<MarketHtmlContent[^>]*market=\{market\}[^>]*html=\{city\.contentHtml\}/);
   assert.match(marketHtmlSource, /closest\("a"\)/);
   assert.match(marketHtmlSource, /router\.push\(marketPreviewPath\(market, href\)\)/);
   assert.match(layoutSource, /<SiteFrame market=\{market\} sectionLive>/);

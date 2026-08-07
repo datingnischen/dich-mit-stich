@@ -1,15 +1,32 @@
 import { cache } from "react";
+import sanitizeHtml from "sanitize-html";
 
 import { decodeHtmlEntities, fetchWithRetry, stripHtml, WORDPRESS_FETCH_POLICY } from "./wordpress.ts";
 
 const CITY_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
 const CITY_SOURCE_REVISION = "image-licenses-v1";
-export const CITY_ROUTE_FIELDS = "id,slug,acf";
+export const CITY_ROUTE_FIELDS = "id,slug,acf.city_id,acf.city_country";
 const CITY_LIST_FIELDS = "id,slug,featured_media,acf.city_id,acf.city_name,acf.city_country";
 const CITY_DETAIL_FIELDS = "id,slug,title,excerpt,content,featured_media,acf,_links,_embedded";
 
-type CityMarket = "de" | "ch";
-type CityCountry = "DE" | "CH";
+const CITY_HTML_POLICY: sanitizeHtml.IOptions = {
+  allowedTags: ["p", "h2", "h3", "h4", "ul", "ol", "li", "strong", "b", "em", "i", "a", "blockquote", "br"],
+  allowedAttributes: { a: ["href", "target", "rel"] },
+  allowedSchemes: ["http", "https", "mailto"],
+  allowProtocolRelative: false,
+  transformTags: {
+    a: (_tagName, attributes) => ({
+      tagName: "a",
+      attribs: {
+        ...attributes,
+        ...(attributes.target === "_blank" ? { rel: "noopener noreferrer" } : {}),
+      },
+    }),
+  },
+};
+
+type CityMarket = "de" | "ch" | "at";
+type CityCountry = "DE" | "CH" | "AT";
 
 type WpRendered = { rendered?: string };
 type WpCitySource = { title?: string; url?: string; publisher?: string; date?: string; note?: string };
@@ -49,7 +66,7 @@ export type WordPressCityPage = {
   metaDescription: string;
   h1: string;
   heroTitle: string;
-  imageUrl: string;
+  imageUrl: string | null;
   imageAlt: string;
   imageAttribution: {
     label: string;
@@ -66,7 +83,7 @@ export type WordPressCityPage = {
 export type WordPressCityOverview = {
   title: string;
   description: string;
-  cityLinks: Array<{ slug: string; label: string; imageUrl: string }>;
+  cityLinks: Array<{ slug: string; label: string; imageUrl: string | null }>;
 };
 
 function countryForMarket(market: CityMarket): CityCountry {
@@ -81,7 +98,7 @@ function publicSlug(item: WpCityRestItem) {
 
 function marketFromItem(item: WpCityRestItem): CityMarket {
   const country = item.acf?.city_country || item.acf?.city_id?.split(":")[0];
-  if (country !== "DE" && country !== "CH") throw new Error(`Unsupported WordPress city country for post ${item.id}`);
+  if (country !== "DE" && country !== "CH" && country !== "AT") throw new Error(`Unsupported WordPress city country for post ${item.id}`);
   return country.toLowerCase() as CityMarket;
 }
 
@@ -108,7 +125,7 @@ export function normalizeWordPressCity(item: WpCityRestItem): WordPressCityPage 
     metaDescription,
     h1: decodeHtmlEntities(item.acf?.hero_title || title),
     heroTitle: decodeHtmlEntities(item.acf?.city_hero_claim || metaDescription),
-    imageUrl: media?.source_url || "",
+    imageUrl: media?.source_url || null,
     imageAlt: decodeHtmlEntities(media?.alt_text || cityName),
     imageAttribution: {
       label: decodeHtmlEntities(imageSource?.title || "Bildquelle der Stadtseite"),
@@ -117,10 +134,17 @@ export function normalizeWordPressCity(item: WpCityRestItem): WordPressCityPage 
       licenseLabel: decodeHtmlEntities(imageLicense?.title || ""),
       licenseUrl: imageLicense?.url || "",
     },
-    contentHtml: item.content?.rendered || "",
+    contentHtml: sanitizeHtml(item.content?.rendered || "", CITY_HTML_POLICY),
     relatedCities: [],
-    registrationUrl: item.acf?.primary_cta_url || `https://dich-mit-stich.${market === "ch" ? "ch" : "de"}/registration/`,
+    registrationUrl: item.acf?.primary_cta_url || `https://dich-mit-stich.${market}/registration/`,
   };
+}
+
+export function assertCompleteCityResponse(response: Response) {
+  const totalPages = Number(response.headers.get("x-wp-totalpages") || "1");
+  if (totalPages > 1) {
+    throw new Error(`WordPress city CPT exceeds the 100-record loader invariant (${totalPages} pages)`);
+  }
 }
 
 async function fetchCities(fields: string, params: Record<string, string | number> = {}) {
@@ -137,6 +161,7 @@ async function fetchCities(fields: string, params: Record<string, string | numbe
     next: { revalidate: WORDPRESS_FETCH_POLICY.detailRevalidate, tags: ["wordpress:cities"] },
   } as RequestInit & { next: { revalidate: number; tags: string[] } });
   if (!response.ok) throw new Error(`WordPress city request failed: ${response.status} ${response.statusText}`);
+  assertCompleteCityResponse(response);
   return response.json() as Promise<WpCityRestItem[]>;
 }
 

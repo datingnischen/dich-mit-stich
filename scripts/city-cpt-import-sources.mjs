@@ -46,6 +46,19 @@ function asPath(rootDir) {
   return rootDir instanceof URL ? fileURLToPath(rootDir) : path.resolve(rootDir);
 }
 
+export function resolvePublicImagePath(root, imageUrl) {
+  const publicRoot = path.resolve(root, "public");
+  const candidate = path.resolve(publicRoot, String(imageUrl || "").replace(/^[/\\]+/, ""));
+  const relative = path.relative(publicRoot, candidate);
+  if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) {
+    throw new Error(`Unsafe public image path: ${imageUrl}`);
+  }
+  if (!/\.(?:jpe?g|png|webp)$/i.test(candidate)) {
+    throw new Error(`Unsupported public image type: ${imageUrl}`);
+  }
+  return candidate;
+}
+
 function decodeHtml(value) {
   const named = {
     amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", ndash: "–", quot: '"',
@@ -105,7 +118,7 @@ async function loadGermanRecords({ fetchImpl, root }) {
       registrationUrl: firstMatch(html, /<form action="([^"]*registration[^"]*)"/i) || "https://dich-mit-stich.de/registration/",
       sourceUrl,
       imageUrl: image.imageUrl,
-      imagePath: path.join(root, "public", "cities", `${slug}.jpg`),
+      imagePath: resolvePublicImagePath(root, `/cities/${slug}.jpg`),
       imageAttribution: {
         label: `${image.imageAttribution.title} · ${image.imageAttribution.creator} · ${image.imageAttribution.license}`,
         sourceUrl: image.imageAttribution.sourceUrl,
@@ -119,15 +132,26 @@ async function loadSwissRecords({ root }) {
   return Object.values(inventory.cities).map((city) => buildCityRecord({
     ...city,
     market: "ch",
-    imagePath: path.join(root, "public", city.imageUrl.replace(/^\//, "")),
+    imagePath: resolvePublicImagePath(root, city.imageUrl),
   }));
 }
 
-export async function loadCityManifest({ fetchImpl = fetch, rootDir = process.cwd() } = {}) {
+async function loadAustrianRecords({ root }) {
+  const inventory = await loadJson(path.join(root, "data", "tattoo-cities-at.json"));
+  return Object.values(inventory.cities).map((city) => buildCityRecord({
+    ...city,
+    market: "at",
+    imagePath: resolvePublicImagePath(root, city.imageUrl),
+  }));
+}
+
+export async function loadCityManifest({ fetchImpl = fetch, rootDir = process.cwd(), markets = ["DE", "CH", "AT"] } = {}) {
   const root = asPath(rootDir);
-  const [de, ch] = await Promise.all([
-    loadGermanRecords({ fetchImpl, root }),
-    loadSwissRecords({ root }),
-  ]);
-  return [...de, ...ch];
+  const wanted = new Set(markets.map((market) => String(market).toUpperCase()));
+  const loaders = [];
+  if (wanted.has("DE")) loaders.push(loadGermanRecords({ fetchImpl, root }));
+  if (wanted.has("CH")) loaders.push(loadSwissRecords({ root }));
+  if (wanted.has("AT")) loaders.push(loadAustrianRecords({ root }));
+  const batches = await Promise.all(loaders);
+  return batches.flat();
 }

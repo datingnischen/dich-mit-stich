@@ -29,6 +29,18 @@ const CITY_REGIONS = {
     bern: "Bern",
     basel: "Basel-Stadt",
   },
+  AT: {
+    wien: "Wien",
+    linz: "Oberösterreich",
+    dornbirn: "Vorarlberg",
+    graz: "Steiermark",
+    salzburg: "Salzburg",
+    klagenfurt: "Kärnten",
+    villach: "Kärnten",
+    wels: "Oberösterreich",
+    "sankt-poelten": "Niederösterreich",
+    "wiener-neustadt": "Niederösterreich",
+  },
 };
 
 function decodeHtml(value) {
@@ -157,7 +169,6 @@ export function buildCityRecord(input) {
       city_country: country,
       city_hero_claim: input.heroTitle || input.metaDescription || "",
       city_dating_angle: intro,
-      source_note: `Migriert aus ${input.sourceUrl}`,
       good_for: ["neue_kontakte", "lockeres_flirten", "partnersuche"],
       sources_intro: "Grundlage sind die bisherige redaktionelle Stadtseite und die ausgewiesene Bildquelle.",
       sources_display_mode: "visible",
@@ -196,12 +207,18 @@ export function planUpserts(records, existingPosts) {
   }
 
   return records.map((record) => {
-    const existing = existingPosts.find((post) =>
+    const candidates = existingPosts.filter((post) =>
       post?.acf?.city_id === record.identity || post?.slug === record.wpSlug,
     );
+    const uniqueCandidates = [...new Map(candidates.map((post) => [Number(post.id), post])).values()];
+    if (uniqueCandidates.length > 1) {
+      throw new Error(`Multiple existing posts for ${record.identity}`);
+    }
+    const existing = uniqueCandidates[0];
     return {
       action: existing ? "update" : "create",
       postId: existing?.id ?? null,
+      existing: existing || null,
       record,
     };
   });

@@ -43,29 +43,82 @@ function makeClient({ fetchImpl, baseUrl, auth }) {
 }
 
 async function loadExisting(client) {
-  return client.json("stadt?context=edit&per_page=100&_fields=id,slug,status,title,acf");
+  return client.json(
+    "stadt?context=edit&per_page=100&_fields=id,slug,status,title,content,excerpt,featured_media,acf",
+  );
 }
 
 function rawField(value) {
   return value && typeof value === "object" && "raw" in value ? value.raw : value;
 }
 
-function verifyReadback(post, record, payload, mediaId) {
-  const checks = {
-    slug: post.slug === payload.slug,
-    status: post.status === payload.status,
-    title: rawField(post.title) === payload.title,
-    content: String(rawField(post.content) || "").trim() === String(payload.content).trim(),
-    city_id: post.acf?.city_id === record.identity,
-    template_variant: post.acf?.template_variant === "city",
-    city_name: post.acf?.city_name === record.cityName,
-    city_country: post.acf?.city_country === record.country,
-    featured_media: !mediaId || Number(post.featured_media) === Number(mediaId),
-  };
-  const failed = Object.entries(checks).filter(([, passed]) => !passed).map(([name]) => name);
+function normalizeEmpty(value) {
+  return value === false || value === undefined || value === null || value === "" ? null : value;
+}
+
+function collectMismatches(actual, expected, path, failed) {
+  const normalizedExpected = normalizeEmpty(expected);
+  const normalizedActual = normalizeEmpty(actual);
+  if (normalizedExpected === null) {
+    if (normalizedActual !== null) failed.push(path);
+    return;
+  }
+  if (Array.isArray(normalizedExpected)) {
+    if (!Array.isArray(normalizedActual) || normalizedActual.length !== normalizedExpected.length) {
+      failed.push(path);
+      return;
+    }
+    normalizedExpected.forEach((value, index) =>
+      collectMismatches(normalizedActual[index], value, `${path}[${index}]`, failed));
+    return;
+  }
+  if (typeof normalizedExpected === "object") {
+    if (!normalizedActual || typeof normalizedActual !== "object") {
+      failed.push(path);
+      return;
+    }
+    for (const [key, value] of Object.entries(normalizedExpected)) {
+      collectMismatches(normalizedActual[key], value, `${path}.${key}`, failed);
+    }
+    return;
+  }
+  if (String(normalizedActual).trim() !== String(normalizedExpected).trim()) failed.push(path);
+}
+
+export function findCityPayloadMismatches(post, payload) {
+  const failed = [];
+  collectMismatches(post.slug, payload.slug, "slug", failed);
+  collectMismatches(post.status, payload.status, "status", failed);
+  collectMismatches(rawField(post.title), payload.title, "title", failed);
+  collectMismatches(rawField(post.content), payload.content, "content", failed);
+  collectMismatches(post.featured_media, payload.featured_media, "featured_media", failed);
+  collectMismatches(post.acf, payload.acf, "acf", failed);
+  return failed;
+}
+
+function verifyReadback(post, record, payload) {
+  const failed = findCityPayloadMismatches(post, payload);
   if (failed.length) {
     throw new Error(`Read-back verification failed for ${record.identity}: ${failed.join(", ")}`);
   }
+}
+
+function classifyPlan(plan, status) {
+  if (!plan.existing) return "create";
+  const payload = buildWpPayload(plan.record, {
+    status,
+    mediaId: Number(plan.existing.featured_media) || null,
+  });
+  return findCityPayloadMismatches(plan.existing, payload).length ? "update" : "noop";
+}
+
+function summarize(records) {
+  return {
+    total: records.length,
+    create: records.filter((record) => record.action === "create").length,
+    update: records.filter((record) => record.action === "update").length,
+    noop: records.filter((record) => record.action === "noop").length,
+  };
 }
 
 export async function runCityImport({
@@ -82,19 +135,14 @@ export async function runCityImport({
   const plans = planUpserts(records, existing);
   const summaryRecords = plans.map((plan) => ({
     identity: plan.record.identity,
-    action: plan.action,
+    action: classifyPlan(plan, status),
     postId: plan.postId,
   }));
-  const counts = {
-    total: plans.length,
-    create: plans.filter((plan) => plan.action === "create").length,
-    update: plans.filter((plan) => plan.action === "update").length,
-  };
 
   if (!apply) {
     return {
       mode: "dry-run",
-      ...counts,
+      ...summarize(summaryRecords),
       written: 0,
       verified: 0,
       records: summaryRecords,
@@ -106,6 +154,13 @@ export async function runCityImport({
   for (const [index, plan] of plans.entries()) {
     const mediaId = await mediaResolver(plan.record, client);
     const payload = buildWpPayload(plan.record, { status, mediaId });
+    if (plan.existing && findCityPayloadMismatches(plan.existing, payload).length === 0) {
+      summaryRecords[index].action = "noop";
+      verified += 1;
+      continue;
+    }
+
+    summaryRecords[index].action = plan.existing ? "update" : "create";
     const endpoint = plan.postId ? `stadt/${plan.postId}` : "stadt";
     const result = await client.json(endpoint, { method: "POST", body: payload });
     const postId = Number(result.id || plan.postId);
@@ -113,21 +168,21 @@ export async function runCityImport({
     written += 1;
 
     const post = await client.json(
-      `stadt/${postId}?context=edit&_fields=id,slug,status,title,content,featured_media,acf`,
+      `stadt/${postId}?context=edit&_fields=id,slug,status,title,content,excerpt,featured_media,acf`,
     );
-    verifyReadback(post, plan.record, payload, mediaId);
+    verifyReadback(post, plan.record, payload);
     verified += 1;
     summaryRecords[index].postId = postId;
   }
 
   const after = await loadExisting(client);
   const secondPlan = planUpserts(records, after);
-  const idempotent = secondPlan.every((plan) => plan.action === "update");
+  const idempotent = secondPlan.every((plan) => plan.existing && classifyPlan(plan, status) === "noop");
   if (!idempotent) throw new Error("Post-import idempotency verification failed");
 
   return {
     mode: "apply",
-    ...counts,
+    ...summarize(summaryRecords),
     written,
     verified,
     idempotent,

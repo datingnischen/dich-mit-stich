@@ -5,6 +5,7 @@ import { IconySinglesWidget } from "@/components/icony-singles-widget";
 import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
 import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
+import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
@@ -14,20 +15,6 @@ type SupportedMarket = "ch" | "at";
 
 type PageProps = {
   params: Promise<{ market: string; slug: string }>;
-};
-
-const ICONY_PROJECT_KEY = 'dichmitstichat';
-const CITY_WIDGET_POSTAL_CODES: Record<string, string> = {
-  dornbirn: "6850",
-  graz: "8010",
-  klagenfurt: "9020",
-  linz: "4020",
-  salzburg: "5020",
-  "sankt-poelten": "3100",
-  villach: "9500",
-  wels: "4600",
-  wien: "1010",
-  "wiener-neustadt": "2700",
 };
 
 const MARKET_COPY: Record<SupportedMarket, {
@@ -81,7 +68,7 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
   const city = await getWordPressCityPage(market, slug);
   if (!city) notFound();
   const copy = MARKET_COPY[market];
-  const widgetPostalCode = market === "at" ? CITY_WIDGET_POSTAL_CODES[slug] : undefined;
+  const widgetConfig = getIconyCityWidgetConfig(market, slug);
 
   return (
     <main className="shell shell-narrow">
@@ -125,11 +112,13 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
         </div>
       </section>
 
-      {market === "at" && widgetPostalCode ? (
+      {widgetConfig ? (
         <IconySinglesWidget
+          market={market}
           cityName={city.cityName}
-          projectKey={ICONY_PROJECT_KEY}
-          postalCode={widgetPostalCode}
+          projectKey={widgetConfig.projectKey}
+          postalCode={widgetConfig.postalCode}
+          legacyCounter={widgetConfig.legacyCounter}
         />
       ) : null}
 

@@ -1,9 +1,10 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { publicUrl } from '@/lib/markets';
+import { publicUrl, type MarketCode } from '@/lib/markets';
 
 type IconySinglesWidgetProps = {
+  market: MarketCode;
   cityName: string;
   projectKey: string;
   postalCode: string;
@@ -13,6 +14,7 @@ type IconySinglesWidgetProps = {
 };
 
 export function IconySinglesWidget({
+  market,
   cityName,
   projectKey,
   postalCode,
@@ -85,7 +87,7 @@ export function IconySinglesWidget({
         </div>
 
         <div className="icony-widget-actions">
-          <a className="button button-primary icony-widget-link" href={publicUrl('at', '/suche/')}>
+          <a className="button button-primary icony-widget-link" href={publicUrl(market, '/suche/')}>
             Ausführlicher in {cityName} suchen
           </a>
           <span className="icony-widget-footnote">Kostenlos starten · Umkreis selbst erweitern · diskret stöbern</span>

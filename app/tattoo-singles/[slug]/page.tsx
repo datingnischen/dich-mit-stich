@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
+import { IconySinglesWidget } from "@/components/icony-singles-widget";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
+import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
 import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
 
@@ -35,6 +37,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
   if (!cityPage) notFound();
 
   const cityName = cityPage.cityName;
+  const widgetConfig = getIconyCityWidgetConfig("de", slug);
 
   return (
     <main className="shell shell-narrow">
@@ -84,6 +87,16 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {widgetConfig ? (
+        <IconySinglesWidget
+          market="de"
+          cityName={cityName}
+          projectKey={widgetConfig.projectKey}
+          postalCode={widgetConfig.postalCode}
+          legacyCounter={widgetConfig.legacyCounter}
+        />
+      ) : null}
 
       <section className="rich-content">
         <div dangerouslySetInnerHTML={{ __html: cityPage.contentHtml }} />

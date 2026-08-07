@@ -154,15 +154,15 @@ test("AT city pages expose a styled legacy-matching ICONY singles widget with ci
   const widgetSource = await readFile(new URL("../components/icony-singles-widget.tsx", import.meta.url), "utf8").catch(() => "");
   const cssSource = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
-  assert.match(pageSource, /CITY_WIDGET_POSTAL_CODES/);
-  assert.match(pageSource, /dornbirn: "6850"/);
-  assert.match(pageSource, /wien: "1010"/);
+  assert.match(pageSource, /getIconyCityWidgetConfig/);
+  assert.match(pageSource, /const widgetConfig = getIconyCityWidgetConfig\(market, slug\)/);
+  assert.match(pageSource, /legacyCounter=\{widgetConfig\.legacyCounter\}/);
   assert.match(pageSource, /<IconySinglesWidget/);
   assert.match(widgetSource, /Neue Singles in \{cityName\}/);
   assert.match(widgetSource, /Frauen anzeigen/);
   assert.match(widgetSource, /Männer anzeigen/);
   assert.match(widgetSource, /className="button button-primary icony-widget-link"/);
-  assert.match(widgetSource, /publicUrl\((?:"|\')at(?:"|\'), (?:"|\')\/suche\/(?:"|\')\)/);
+  assert.match(widgetSource, /publicUrl\(market, (?:"|\')\/suche\/(?:"|\')\)/);
   assert.match(widgetSource, /Ausführlicher in \{cityName\} suchen/);
   assert.match(widgetSource, /<button[\s\S]*?type="button"/);
   assert.match(widgetSource, /setSelectedGender/);

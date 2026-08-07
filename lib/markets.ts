@@ -109,9 +109,9 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
   const marketMatch = normalizedPathname.match(/^\/(de|at|ch)(\/.*)?$/);
   if (!marketMatch) {
     return {
-      action: "redirect",
+      action: "rewrite",
       market: "de",
-      pathname: marketPreviewPath("de", normalizedPathname),
+      pathname: normalizedPathname,
     };
   }
 

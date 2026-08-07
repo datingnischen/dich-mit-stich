@@ -29,23 +29,23 @@ test("supports the three documented markets and public domains", async () => {
   assert.equal(publicUrl("ch", "/magazin"), "https://dich-mit-stich.ch/magazin");
 });
 
-test("redirects every unprefixed frontend route to the DE preview namespace", async () => {
+test("keeps every unprefixed frontend route prefix-free while resolving it to the DE content tree", async () => {
   const { resolveMarketRequest } = await loadMarkets();
 
   assert.deepEqual(resolveMarketRequest("/"), {
-    action: "redirect",
+    action: "rewrite",
     market: "de",
-    pathname: "/de",
+    pathname: "/",
   });
   assert.deepEqual(resolveMarketRequest("/magazin"), {
-    action: "redirect",
+    action: "rewrite",
     market: "de",
-    pathname: "/de/magazin",
+    pathname: "/magazin",
   });
   assert.deepEqual(resolveMarketRequest("/tattoo-singles/bochum"), {
-    action: "redirect",
+    action: "rewrite",
     market: "de",
-    pathname: "/de/tattoo-singles/bochum",
+    pathname: "/tattoo-singles/bochum",
   });
 });
 

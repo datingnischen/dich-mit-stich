@@ -42,4 +42,6 @@ test("all country city renderers mount the shared local singles widget", async (
   assert.doesNotMatch(marketSource, /market === "at" && widgetPostalCode/);
   assert.match(widgetSource, /market: MarketCode/);
   assert.match(widgetSource, /publicUrl\(market, '\/suche\/'\)/);
+  assert.match(widgetSource, /Singles aus \{cityName\} und Umgebung/);
+  assert.doesNotMatch(widgetSource, /ICONY-Netzwerk/);
 });

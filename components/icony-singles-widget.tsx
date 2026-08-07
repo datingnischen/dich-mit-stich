@@ -73,7 +73,7 @@ export function IconySinglesWidget({
         <div className="icony-widget-frame-card" data-selected-gender={selectedGender}>
           <div className="icony-widget-frame-head">
             <strong>{selectedLabel} aus {cityName}</strong>
-            <span>Lokale Profilvorschauen aus dem ICONY-Netzwerk</span>
+            <span>Singles aus {cityName} und Umgebung</span>
           </div>
           <iframe
             title={`Singles aus ${cityName}`}

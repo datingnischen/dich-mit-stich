@@ -1,3 +1,8 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { publicUrl } from '@/lib/markets';
+
 type IconySinglesWidgetProps = {
   cityName: string;
   projectKey: string;
@@ -15,17 +20,22 @@ export function IconySinglesWidget({
   legacyCounter = "43",
   iframeHeight = 220,
 }: IconySinglesWidgetProps) {
-  const params = new URLSearchParams({
-    h: '300',
-    id: projectKey,
-    pc: primaryColor,
-    z: postalCode,
-    ds: '',
-    ctr: legacyCounter,
-    it: '1',
-  });
+  const [selectedGender, setSelectedGender] = useState<'women' | 'men'>('women');
 
-  const src = `https://js.icony.com/frame/?${params.toString()}`;
+  const src = useMemo(() => {
+    const params = new URLSearchParams({
+      h: '300',
+      id: projectKey,
+      pc: primaryColor,
+      z: postalCode,
+      ds: '',
+      ctr: legacyCounter,
+      it: '1',
+      gender: selectedGender === 'women' ? '2' : '1',
+    });
+
+    return `https://js.icony.com/frame/?${params.toString()}`;
+  }, [legacyCounter, postalCode, primaryColor, projectKey, selectedGender]);
 
   return (
     <section className="content-section icony-widget-section" aria-label={`Singles aus ${cityName}`}>
@@ -37,8 +47,8 @@ export function IconySinglesWidget({
             Wähle, ob du Frauen oder Männer sehen möchtest. Wenn du den Umkreis erweitern willst, kannst du direkt ausführlicher suchen.
           </p>
           <div className="icony-widget-toggle" aria-label="Geschlecht wählen">
-            <span className="icony-widget-toggle-pill is-active">Frauen anzeigen</span>
-            <span className="icony-widget-toggle-pill">Männer anzeigen</span>
+            <button type="button" className={`icony-widget-toggle-pill ${selectedGender === 'women' ? 'is-active' : ''}`} onClick={() => setSelectedGender('women')} aria-pressed={selectedGender === 'women'}>Frauen anzeigen</button>
+            <button type="button" className={`icony-widget-toggle-pill ${selectedGender === 'men' ? 'is-active' : ''}`} onClick={() => setSelectedGender('men')} aria-pressed={selectedGender === 'men'}>Männer anzeigen</button>
           </div>
         </div>
 
@@ -56,7 +66,7 @@ export function IconySinglesWidget({
             className="icony-widget-frame"
             style={{ width: '340px', maxWidth: '100%', height: `${iframeHeight}px` }}
           />
-          <a className="button button-secondary icony-widget-link" href={`/at/tattoo-singles/${cityName.toLowerCase().replace(/ö/g, 'oe').replace(/ä/g, 'ae').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\s+/g, '-')}`}>
+          <a className="button button-secondary icony-widget-link" href={publicUrl("at", "/suche/")}>
             Ausführlicher in {cityName} suchen
           </a>
           <span className="icony-widget-footnote">Kostenlos starten · Umkreis selbst erweitern · diskret stöbern</span>

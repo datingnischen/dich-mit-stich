@@ -161,7 +161,11 @@ test("AT city pages expose a styled legacy-matching ICONY singles widget with ci
   assert.match(widgetSource, /Neue Singles in \{cityName\}/);
   assert.match(widgetSource, /Frauen anzeigen/);
   assert.match(widgetSource, /Männer anzeigen/);
+  assert.match(widgetSource, /className="button button-secondary icony-widget-link"/);
+  assert.match(widgetSource, /publicUrl\("at", "\/suche\/"\)/);
   assert.match(widgetSource, /Ausführlicher in \{cityName\} suchen/);
+  assert.match(widgetSource, /button type="button"/);
+  assert.match(widgetSource, /setSelectedGender/);
   assert.match(widgetSource, /https:\/\/js\.icony\.com\/frame\/\?/);
   assert.match(widgetSource, /pc/);
   assert.match(widgetSource, /ctr/);

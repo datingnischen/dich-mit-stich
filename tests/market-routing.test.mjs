@@ -216,3 +216,15 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
   assert.match(shellSource, /<MarketLink[^>]*targetMarket=\{market\}/);
   assert.doesNotMatch(shellSource, /href=\{marketPreviewPath\(market\)\}/);
 });
+
+
+test("AT market preview exposes the most important Austria entry links", async () => {
+  const previewSource = await readFile(new URL("../app/market-preview/[market]/page.tsx", import.meta.url), "utf8");
+
+  assert.match(previewSource, /publicUrl\(market, "\/tattoo-singles"\)/);
+  assert.match(previewSource, /publicUrl\(market, "\/registration\/"\)/);
+  assert.match(previewSource, /pathname=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
+  assert.match(previewSource, /label: "Wien"/);
+  assert.match(previewSource, /label: "Graz"/);
+  assert.match(previewSource, /label: "Salzburg"/);
+});

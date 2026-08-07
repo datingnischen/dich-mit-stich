@@ -44,4 +44,10 @@ test("all country city renderers mount the shared local singles widget", async (
   assert.match(widgetSource, /publicUrl\(market, '\/suche\/'\)/);
   assert.match(widgetSource, /Singles aus \{cityName\} und Umgebung/);
   assert.doesNotMatch(widgetSource, /ICONY-Netzwerk/);
+  assert.match(widgetSource, /https:\/\/js\.icony\.com\/api\.js/);
+  assert.match(widgetSource, /'activities', 'json'/);
+  assert.match(widgetSource, /gender: selectedGender === 'women' \? 2 : 1/);
+  assert.match(widgetSource, /activity\.gender === expectedGender/);
+  assert.match(widgetSource, /data-gender=\{activity\.gender\}/);
+  assert.doesNotMatch(widgetSource, /<iframe/);
 });

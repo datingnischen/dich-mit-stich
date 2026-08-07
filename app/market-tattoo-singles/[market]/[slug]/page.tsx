@@ -118,7 +118,6 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
           cityName={city.cityName}
           projectKey={widgetConfig.projectKey}
           postalCode={widgetConfig.postalCode}
-          legacyCounter={widgetConfig.legacyCounter}
         />
       ) : null}
 

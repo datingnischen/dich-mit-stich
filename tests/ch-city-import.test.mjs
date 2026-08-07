@@ -156,7 +156,6 @@ test("AT city pages expose a styled legacy-matching ICONY singles widget with ci
 
   assert.match(pageSource, /getIconyCityWidgetConfig/);
   assert.match(pageSource, /const widgetConfig = getIconyCityWidgetConfig\(market, slug\)/);
-  assert.match(pageSource, /legacyCounter=\{widgetConfig\.legacyCounter\}/);
   assert.match(pageSource, /<IconySinglesWidget/);
   assert.match(widgetSource, /Neue Singles in \{cityName\}/);
   assert.match(widgetSource, /Frauen anzeigen/);
@@ -166,15 +165,16 @@ test("AT city pages expose a styled legacy-matching ICONY singles widget with ci
   assert.match(widgetSource, /Ausführlicher in \{cityName\} suchen/);
   assert.match(widgetSource, /<button[\s\S]*?type="button"/);
   assert.match(widgetSource, /setSelectedGender/);
-  assert.match(widgetSource, /https:\/\/js\.icony\.com\/frame\/\?/);
-  assert.match(widgetSource, /pc/);
-  assert.match(widgetSource, /ctr/);
-  assert.match(widgetSource, /it/);
-  assert.doesNotMatch(widgetSource, /ctat/);
+  assert.match(widgetSource, /https:\/\/js\.icony\.com\/api\.js/);
+  assert.doesNotMatch(widgetSource, /<iframe/);
+  assert.match(widgetSource, /zip: postalCode/);
+  assert.match(widgetSource, /gender: selectedGender === 'women' \? 2 : 1/);
+  assert.match(widgetSource, /auto_load: false/);
   assert.match(cssSource, /icony-widget-shell/);
   assert.match(cssSource, /icony-widget-toggle/);
   assert.match(widgetSource, /className="icony-widget-actions"/);
-  assert.match(widgetSource, /width: '100%'/);
+  assert.match(cssSource, /icony-widget-results/);
+  assert.match(cssSource, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
   assert.match(cssSource, /grid-template-columns: minmax\(0, 1fr\) auto/);
   assert.match(cssSource, /border-top: 4px solid var\(--brand\)/);
 });

@@ -94,8 +94,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           cityName={cityName}
           projectKey={widgetConfig.projectKey}
           postalCode={widgetConfig.postalCode}
-          legacyCounter={widgetConfig.legacyCounter}
-        />
+          />
       ) : null}
 
       <section className="rich-content">

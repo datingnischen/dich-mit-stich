@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { publicUrl, type MarketCode } from '@/lib/markets';
 
 type IconySinglesWidgetProps = {
@@ -8,37 +8,119 @@ type IconySinglesWidgetProps = {
   cityName: string;
   projectKey: string;
   postalCode: string;
-  primaryColor?: string;
-  legacyCounter?: string;
-  iframeHeight?: number;
 };
 
-export function IconySinglesWidget({
-  market,
-  cityName,
-  projectKey,
-  postalCode,
-  primaryColor = '68133c',
-  legacyCounter = '43',
-  iframeHeight = 220,
-}: IconySinglesWidgetProps) {
-  const [selectedGender, setSelectedGender] = useState<'women' | 'men'>('women');
+type SelectedGender = 'women' | 'men';
+
+type IconyActivity = {
+  action_text: string;
+  age: number;
+  city: string;
+  country: string;
+  gender: 'female' | 'male' | string;
+  imageurl: string;
+  username: string;
+  vcardurl: string;
+};
+
+type IconyResponse = {
+  data?: IconyActivity[];
+};
+
+type IconyQueueItem = IArguments & { id: string };
+type IconyClient = {
+  (...args: unknown[]): string;
+  q: IconyQueueItem[];
+  R?: () => void;
+};
+
+declare global {
+  interface Window {
+    IconyObject?: string;
+    dmsIcony?: IconyClient;
+  }
+}
+
+let iconyApiPromise: Promise<IconyClient> | null = null;
+
+function createRequestId() {
+  return `i${crypto.randomUUID().replaceAll('-', '')}`;
+}
+
+function loadIconyApi() {
+  if (iconyApiPromise) {
+    return iconyApiPromise;
+  }
+
+  iconyApiPromise = new Promise<IconyClient>((resolve, reject) => {
+    window.IconyObject = 'dmsIcony';
+
+    const client = function iconyClient(...args: unknown[]) {
+      const queueItem = args as unknown as IconyQueueItem;
+      queueItem.id = createRequestId();
+      client.q.push(queueItem);
+      client.R?.();
+      return queueItem.id;
+    } as IconyClient;
+
+    client.q = [];
+    window.dmsIcony = client;
+
+    const script = document.createElement('script');
+    script.src = 'https://js.icony.com/api.js';
+    script.async = true;
+    script.onload = () => resolve(client);
+    script.onerror = () => reject(new Error('ICONY API konnte nicht geladen werden.'));
+    document.head.appendChild(script);
+  });
+
+  return iconyApiPromise;
+}
+
+export function IconySinglesWidget({ market, cityName, projectKey, postalCode }: IconySinglesWidgetProps) {
+  const [selectedGender, setSelectedGender] = useState<SelectedGender>('women');
+  const [activities, setActivities] = useState<IconyActivity[]>([]);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const selectedLabel = selectedGender === 'women' ? 'Frauen' : 'Männer';
+  const expectedGender = selectedGender === 'women' ? 'female' : 'male';
 
-  const src = useMemo(() => {
-    const params = new URLSearchParams({
-      h: '300',
-      id: projectKey,
-      pc: primaryColor,
-      z: postalCode,
-      ds: '',
-      ctr: legacyCounter,
-      it: '1',
-      gender: selectedGender === 'women' ? '2' : '1',
-    });
+  useEffect(() => {
+    let cancelled = false;
 
-    return `https://js.icony.com/frame/?${params.toString()}`;
-  }, [legacyCounter, postalCode, primaryColor, projectKey, selectedGender]);
+    loadIconyApi()
+      .then((icony) => {
+        icony('create', projectKey);
+        icony(
+          'get',
+          'activities', 'json',
+          (response: IconyResponse) => {
+            if (cancelled) return;
+
+            const filteredActivities = (response.data ?? []).filter(
+              (activity) => activity.gender === expectedGender,
+            );
+            setActivities(filteredActivities);
+            setStatus('ready');
+          },
+          {
+            count: 15,
+            gender: selectedGender === 'women' ? 2 : 1,
+            zip: postalCode,
+            auto_load: false,
+          },
+        );
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setActivities([]);
+          setStatus('error');
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [expectedGender, postalCode, projectKey, selectedGender]);
 
   return (
     <section className="content-section icony-widget-section" aria-label={`Singles aus ${cityName}`}>
@@ -55,7 +137,10 @@ export function IconySinglesWidget({
           <button
             type="button"
             className={`icony-widget-toggle-pill ${selectedGender === 'women' ? 'is-active' : ''}`}
-            onClick={() => setSelectedGender('women')}
+            onClick={() => {
+              setStatus('loading');
+              setSelectedGender('women');
+            }}
             aria-pressed={selectedGender === 'women'}
           >
             Frauen anzeigen
@@ -63,7 +148,10 @@ export function IconySinglesWidget({
           <button
             type="button"
             className={`icony-widget-toggle-pill ${selectedGender === 'men' ? 'is-active' : ''}`}
-            onClick={() => setSelectedGender('men')}
+            onClick={() => {
+              setStatus('loading');
+              setSelectedGender('men');
+            }}
             aria-pressed={selectedGender === 'men'}
           >
             Männer anzeigen
@@ -75,15 +163,37 @@ export function IconySinglesWidget({
             <strong>{selectedLabel} aus {cityName}</strong>
             <span>Singles aus {cityName} und Umgebung</span>
           </div>
-          <iframe
-            title={`Singles aus ${cityName}`}
-            src={src}
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            frameBorder="0"
-            className="icony-widget-frame"
-            style={{ width: '100%', height: `${iframeHeight}px` }}
-          />
+
+          <div className="icony-widget-results" aria-live="polite" aria-busy={status === 'loading'}>
+            {status === 'loading' ? <p className="icony-widget-status">Profile werden geladen …</p> : null}
+            {status === 'error' ? (
+              <p className="icony-widget-status">Die Profile konnten gerade nicht geladen werden.</p>
+            ) : null}
+            {status === 'ready' && activities.length === 0 ? (
+              <p className="icony-widget-status">Aktuell sind keine passenden Profile verfügbar.</p>
+            ) : null}
+            {status === 'ready'
+              ? activities.map((activity, index) => (
+                  <a
+                    className="icony-profile-card"
+                    data-gender={activity.gender}
+                    href={activity.vcardurl}
+                    target="_blank"
+                    rel="noreferrer"
+                    key={`${activity.username}-${index}`}
+                  >
+                    {/* External ICONY profile images are delivered dynamically by its public API. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={activity.imageurl} alt={`Profilbild von ${activity.username}`} loading="lazy" />
+                    <span className="icony-profile-copy">
+                      <strong>{activity.username}</strong>
+                      <span>{activity.age} Jahre, {activity.city}</span>
+                      <small>{activity.action_text}</small>
+                    </span>
+                  </a>
+                ))
+              : null}
+          </div>
         </div>
 
         <div className="icony-widget-actions">

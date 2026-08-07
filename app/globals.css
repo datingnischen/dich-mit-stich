@@ -1213,3 +1213,24 @@ img {
     display: none;
   }
 }
+
+.home-country-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.home-country-entry-card {
+  align-content: start;
+}
+
+.home-country-entry-card .compact-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .home-country-entry-grid {
+    grid-template-columns: 1fr;
+  }
+}

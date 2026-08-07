@@ -5,6 +5,7 @@ import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { SiteFrame } from "@/components/site-frame";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { publicUrl } from "@/lib/markets";
+import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 import { staticAsset } from "@/lib/static-asset";
 import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
@@ -17,8 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [overview, posts, pages, categories, expert] = await Promise.all([
+  const [overview, atOverview, chOverview, posts, pages, categories, expert] = await Promise.all([
     getTattooSinglesOverview(),
+    getWordPressCityOverview("at"),
+    getWordPressCityOverview("ch"),
     getMagazinePosts(),
     getMagazinePages(),
     getMagazineCategories(),
@@ -27,6 +30,32 @@ export default async function HomePage() {
 
   const featuredPost = posts[0];
   const magazineStarts = [...posts.slice(1, 4), ...pages.slice(0, 1)];
+  const countryCityEntrypoints = [
+    {
+      market: "de",
+      countryLabel: "Deutschland",
+      title: "Städte in Deutschland",
+      description: overview.description,
+      href: publicUrl("de", "/tattoo-singles"),
+      sampleCities: overview.cityLinks.slice(0, 4),
+    },
+    {
+      market: "at",
+      countryLabel: "Österreich",
+      title: "Städte in Österreich",
+      description: atOverview.description,
+      href: publicUrl("at", "/tattoo-singles"),
+      sampleCities: atOverview.cityLinks.slice(0, 4),
+    },
+    {
+      market: "ch",
+      countryLabel: "Schweiz",
+      title: "Städte in der Schweiz",
+      description: chOverview.description,
+      href: publicUrl("ch", "/tattoo-singles"),
+      sampleCities: chOverview.cityLinks.slice(0, 4),
+    },
+  ] as const;
 
   return (
     <SiteFrame market="de">
@@ -109,6 +138,35 @@ export default async function HomePage() {
               sizes="(max-width: 900px) 100vw, 50vw"
             />
           </div>
+        </div>
+      </section>
+
+      <section className="content-section">
+        <div className="section-header">
+          <span className="eyebrow">Länder & Stadtseiten</span>
+          <h2>Die wichtigsten Einsprünge zu den Stadtseiten je Land</h2>
+          <p>Wähle direkt Deutschland, Österreich oder die Schweiz und springe von dort in die passenden Stadtseiten.</p>
+        </div>
+        <div className="home-country-entry-grid">
+          {countryCityEntrypoints.map((entry) => (
+            <article key={entry.market} className="city-card home-country-entry-card">
+              <span className="eyebrow">{entry.countryLabel}</span>
+              <h3>{entry.title}</h3>
+              <p>{entry.description}</p>
+              <ul className="link-list compact-list">
+                {entry.sampleCities.map((city) => (
+                  <li key={`${entry.market}-${city.slug}`}>
+                    <a href={publicUrl(entry.market, `/tattoo-singles/${city.slug}`)}>{city.label}</a>
+                  </li>
+                ))}
+              </ul>
+              <div className="button-row">
+                <a className="button button-secondary" href={entry.href}>
+                  {entry.title} ansehen
+                </a>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 

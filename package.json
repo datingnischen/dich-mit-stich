@@ -10,6 +10,7 @@
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "import:cities:ch": "node scripts/import-icony-city-pages.mjs",
     "import:cities:wp": "node scripts/import-city-cpt.mjs",
+    "import:studios:wp": "node scripts/import-tattoo-studio-guide.mjs",
     "check:wordpress-budget": "node scripts/check-wordpress-payload-budget.mjs"
   },
   "dependencies": {

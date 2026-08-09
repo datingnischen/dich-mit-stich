@@ -1,0 +1,331 @@
+{
+  "key": "group_dms_tattoo_studio",
+  "title": "Tattoo-Studio – strukturierte Daten",
+  "fields": [
+    {
+      "key": "field_dms_studio_id",
+      "label": "Studio-ID",
+      "name": "studio_id",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_name",
+      "label": "Studioname",
+      "name": "studio_name",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_country",
+      "label": "Land",
+      "name": "studio_country",
+      "type": "select",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "DE": "Deutschland",
+        "AT": "Österreich",
+        "CH": "Schweiz"
+      },
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 0
+    },
+    {
+      "key": "field_dms_studio_region",
+      "label": "Bundesland / Kanton",
+      "name": "studio_region",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_city_id",
+      "label": "Stadt-ID",
+      "name": "studio_city_id",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_city_slug",
+      "label": "Stadt-Slug",
+      "name": "studio_city_slug",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_city",
+      "label": "Stadt",
+      "name": "studio_city",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_address",
+      "label": "Adresse",
+      "name": "studio_address",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_website",
+      "label": "Website",
+      "name": "website_url",
+      "type": "url",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_contact",
+      "label": "Kontakt",
+      "name": "contact_summary",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_editorial",
+      "label": "Redaktionelle Zusammenfassung",
+      "name": "editorial_summary",
+      "type": "textarea",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_styles",
+      "label": "Tattoo-Stile",
+      "name": "tattoo_styles",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "anime": "Anime",
+        "black-and-grey": "Black & Grey",
+        "blackwork": "Blackwork",
+        "cover-up": "Cover-up",
+        "fineline": "Fineline",
+        "linework": "Linework",
+        "mandala": "Mandala",
+        "maori": "Maori",
+        "neo-traditional": "Neo Traditional",
+        "ornamental": "Ornamental",
+        "realistic": "Realistic",
+        "traditional": "Traditional"
+      },
+      "return_format": "value",
+      "multiple": 1,
+      "allow_null": 1,
+      "ui": 1,
+      "ajax": 0
+    },
+    {
+      "key": "field_dms_studio_source",
+      "label": "Öffentliche Quelle",
+      "name": "source_url",
+      "type": "url",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      }
+    },
+    {
+      "key": "field_dms_studio_verified",
+      "label": "Zuletzt geprüft",
+      "name": "last_verified",
+      "type": "date_picker",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "d.m.Y",
+      "return_format": "Y-m-d",
+      "first_day": 1
+    },
+    {
+      "key": "field_dms_studio_status",
+      "label": "Verifizierungsstatus",
+      "name": "verification_status",
+      "type": "select",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "editorial": "Redaktionell geprüft",
+        "studio_verified": "Vom Studio bestätigt",
+        "needs_review": "Prüfung erforderlich"
+      },
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 0
+    },
+    {
+      "key": "field_dms_studio_paid",
+      "label": "Bezahlte Platzierung",
+      "name": "paid_placement",
+      "type": "true_false",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "Ja",
+      "ui_off_text": "Nein"
+    },
+    {
+      "key": "field_dms_studio_claimed",
+      "label": "Vom Studio beansprucht",
+      "name": "claimed_by_studio",
+      "type": "true_false",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "Ja",
+      "ui_off_text": "Nein"
+    },
+    {
+      "key": "field_dms_studio_schema",
+      "label": "Schema-Typ",
+      "name": "schema_type",
+      "type": "select",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "TattooParlor": "TattooParlor",
+        "LocalBusiness": "LocalBusiness"
+      },
+      "default_value": "TattooParlor",
+      "return_format": "value",
+      "multiple": 0,
+      "allow_null": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "tattoo_studio"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": [],
+  "active": true,
+  "description": "",
+  "show_in_rest": 1,
+  "modified": 1786124000
+}

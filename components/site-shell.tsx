@@ -13,7 +13,7 @@ const headerMenuItems: NavLink[] = [
   { label: "FAQ", href: "https://dich-mit-stich.de/faq/", external: true },
   { label: "Erfahrungen", href: "https://dich-mit-stich.de/bewertungen-und-erfahrungen/", external: true },
   { label: "Region eingrenzen", href: "/tattoo-singles" },
-  { label: "Lieblings-Studios", href: "/tattoo-singles" },
+  { label: "Lieblings-Studios", href: "/tattoo-studios" },
   { label: "Tattoo-Motive", href: "/magazin/tattoo-motive" },
   { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
   { label: "Unser Expertenteam", href: "/magazin/expertenteam" },
@@ -67,6 +67,13 @@ const footerColumns: Array<{
       { label: "Christian M. Haas", href: "/magazin/unser-datingexperte" },
       { label: "Anne Schweitzer", href: "/magazin/author/anne-schweitzer" },
       { label: "Magazin-Start", href: "/magazin" },
+    ],
+  },
+  {
+    title: "Tattoo-Studio-Guide",
+    links: [
+      { label: "Studio-Guide Übersicht", href: "/tattoo-studios" },
+      { label: "Tattoo-Studios Hannover", href: "/tattoo-studios/hannover" },
     ],
   },
   {

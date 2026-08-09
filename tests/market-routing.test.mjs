@@ -191,6 +191,9 @@ test("every DE page family emits a prefix-free public-domain canonical", async (
     ["../app/magazin/author/[slug]/page.tsx", /publicUrl\("de", `\/magazin\/author\/\$\{slug\}`\)/],
     ["../app/tattoo-singles/page.tsx", /publicUrl\("de", "\/tattoo-singles"\)/],
     ["../app/tattoo-singles/[slug]/page.tsx", /publicUrl\("de", `\/tattoo-singles\/\$\{slug\}`\)/],
+    ["../app/tattoo-studios/page.tsx", /publicUrl\("de", "\/tattoo-studios"\)/],
+    ["../app/tattoo-studios/[city]/page.tsx", /publicUrl\("de", `\/tattoo-studios\/\$\{city\}`\)/],
+    ["../app/tattoo-studio/[slug]/page.tsx", /publicUrl\("de", `\/tattoo-studio\/\$\{slug\}`\)/],
   ];
 
   for (const [relativePath, pattern] of expectations) {
@@ -235,4 +238,12 @@ test("AT market preview exposes all imported Austria city pages", async () => {
   assert.match(previewSource, /label: "Wels"/);
   assert.match(previewSource, /label: "Sankt Pölten"/);
   assert.match(previewSource, /label: "Wiener Neustadt"/);
+});
+
+test("DE sitemap includes the tattoo studio guide city and detail families", async () => {
+  const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
+  assert.match(sitemapSource, /getTattooStudioCities/);
+  assert.match(sitemapSource, /getTattooStudioSlugs/);
+  assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studios/);
+  assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studio\/\$\{slug\}/);
 });

@@ -1467,3 +1467,223 @@ img {
     padding-inline: 12px;
   }
 }
+
+/* Tattoo-Studio-Guide */
+.studio-guide-shell {
+  --ink: #21191d;
+  --paper: #fbf7f5;
+  --studio-accent: #b6265b;
+  width: min(1120px, calc(100% - 32px));
+}
+
+.studio-guide-hero,
+.studio-city-hero,
+.studio-detail-hero {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  border-radius: 32px;
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 28px 70px rgba(33, 25, 29, 0.2);
+}
+
+.studio-guide-hero {
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
+  min-height: 520px;
+}
+
+.studio-guide-hero::before,
+.studio-detail-monogram::before {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 22px, rgba(255, 255, 255, 0.035) 22px 23px);
+  content: "";
+}
+
+.studio-guide-hero-copy,
+.studio-city-hero-copy,
+.studio-detail-hero-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: 22px;
+  padding: clamp(34px, 6vw, 72px);
+}
+
+.studio-guide-hero h1,
+.studio-city-hero h1,
+.studio-detail-hero h1 {
+  max-width: 12ch;
+  color: #fff;
+  font-size: clamp(2.8rem, 6vw, 5.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.studio-guide-hero-copy > p,
+.studio-city-hero-copy > p,
+.studio-detail-hero-copy > p {
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.studio-guide-eyebrow {
+  background: rgba(182, 38, 91, 0.24);
+  color: #ffafcd;
+}
+
+.studio-guide-hero-mark,
+.studio-detail-monogram {
+  position: relative;
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, #8a1642, #c82b63);
+  text-align: center;
+}
+
+.studio-guide-hero-mark span,
+.studio-guide-hero-mark strong,
+.studio-guide-hero-mark small,
+.studio-detail-monogram span,
+.studio-detail-monogram strong,
+.studio-detail-monogram small {
+  position: relative;
+  z-index: 1;
+}
+
+.studio-guide-hero-mark span { font-size: clamp(3rem, 8vw, 7rem); font-weight: 900; line-height: 0.8; opacity: 0.28; }
+.studio-guide-hero-mark strong { font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: 0.12em; }
+.studio-guide-hero-mark small { margin-top: 18px; letter-spacing: 0.26em; }
+
+.studio-guide-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: -34px 36px 0;
+  position: relative;
+  z-index: 2;
+  list-style: none;
+  border: 1px solid #eadde3;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 18px 46px rgba(76, 39, 56, 0.12);
+}
+
+.studio-guide-stats li { display: grid; gap: 4px; padding: 24px 28px; border-left: 1px solid #eadde3; }
+.studio-guide-stats li:first-child { border-left: 0; }
+.studio-guide-stats strong { color: var(--studio-accent); font-size: 2rem; }
+.studio-guide-stats span { color: var(--muted); font-size: 0.9rem; }
+
+.studio-guide-country-strip { display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
+.studio-guide-country-strip div { display: grid; gap: 7px; padding: 20px 24px; border-left: 1px solid var(--line); }
+.studio-guide-country-strip div:first-child { border-left: 4px solid var(--studio-accent); }
+.studio-guide-country-strip span { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.studio-guide-section-header { max-width: 760px; margin-bottom: 24px; }
+.studio-guide-section-header p { color: var(--muted); line-height: 1.7; }
+.studio-city-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.studio-city-card { position: relative; min-height: 430px; overflow: hidden; border-radius: 28px; background: var(--ink); }
+.studio-city-card img { width: 100%; height: 100%; min-height: 430px; object-fit: cover; opacity: 0.72; transition: transform 300ms ease, opacity 300ms ease; }
+.studio-city-card:hover img { transform: scale(1.015); opacity: 0.62; }
+.studio-city-card-overlay { position: absolute; inset: 0; display: grid; align-content: end; gap: 10px; padding: clamp(28px, 5vw, 54px); background: linear-gradient(transparent 20%, rgba(20, 12, 16, 0.92)); color: #fff; }
+.studio-city-card-overlay span { color: rgba(255, 255, 255, 0.72); text-transform: uppercase; letter-spacing: 0.1em; }
+.studio-city-card-overlay h2 { color: #fff; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: -0.06em; }
+.studio-city-card-overlay strong { color: #ffc1d8; }
+
+.studio-guide-principles { padding: clamp(28px, 5vw, 52px); border-radius: 28px; background: var(--paper); }
+.studio-principle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+.studio-principle-grid article { display: grid; align-content: start; gap: 12px; padding: 24px; border: 1px solid #eadde3; border-radius: 20px; background: #fff; }
+.studio-principle-grid article > span { color: var(--studio-accent); font-weight: 800; }
+.studio-principle-grid p { color: var(--muted); line-height: 1.65; }
+
+.studio-breadcrumb { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 18px; color: var(--muted); font-size: 0.9rem; }
+.studio-breadcrumb a { color: var(--brand); font-weight: 700; }
+.studio-city-hero { grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr); }
+.studio-city-hero-media { position: relative; min-height: 520px; }
+.studio-city-hero-media img { width: 100%; height: 100%; object-fit: cover; }
+.studio-city-hero-media figcaption { position: absolute; right: 14px; bottom: 12px; padding: 7px 10px; border-radius: 8px; background: rgba(15, 10, 12, 0.76); color: rgba(255, 255, 255, 0.8); font-size: 0.72rem; }
+.studio-verification-line { display: flex; align-items: center; gap: 12px; }
+.studio-verification-line > span { display: grid; width: 42px; height: 42px; place-content: center; border-radius: 50%; background: #fff; color: var(--studio-accent); font-weight: 900; }
+.studio-verification-line div { display: grid; gap: 2px; }
+.studio-verification-line small { color: rgba(255, 255, 255, 0.62); }
+
+.studio-list-section { margin-top: 48px; }
+.tattoo-studio-grid { display: grid; gap: 18px; }
+.tattoo-studio-card { display: grid; grid-template-columns: 150px 1fr; overflow: hidden; border: 1px solid #eadde3; border-radius: 24px; background: #fff; box-shadow: 0 12px 34px rgba(66, 35, 49, 0.07); }
+.tattoo-studio-card-mark { display: grid; align-content: space-between; min-height: 260px; padding: 22px; background: linear-gradient(145deg, #261b20, #5b2039); color: #fff; }
+.tattoo-studio-card-mark span { color: #e88aaf; font-family: var(--font-geist-mono); }
+.tattoo-studio-card-mark strong { font-size: 3.3rem; letter-spacing: -0.08em; }
+.tattoo-studio-card-copy { display: grid; gap: 15px; padding: 25px 28px; }
+.tattoo-studio-card-head { display: grid; gap: 5px; }
+.tattoo-studio-card-head span { color: var(--studio-accent); font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+.tattoo-studio-card-head h3 { color: var(--ink); font-size: 1.55rem; }
+.tattoo-studio-card-copy > p { color: var(--muted); line-height: 1.68; }
+.studio-style-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.studio-style-row span { padding: 6px 10px; border: 1px solid #e8ccd8; border-radius: 999px; background: #fff7fa; color: #7d2046; font-size: 0.78rem; font-weight: 700; }
+.studio-card-address { display: flex; gap: 8px; color: var(--muted); font-size: 0.9rem; }
+.studio-card-link { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--line); color: var(--brand); font-weight: 800; }
+
+.studio-editorial-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr); gap: 24px; align-items: start; }
+.studio-editorial-card,
+.studio-transparency-card { padding: clamp(24px, 4vw, 38px); border: 1px solid var(--line); border-radius: 24px; background: #fff; }
+.studio-transparency-card { display: grid; gap: 16px; position: sticky; top: 24px; }
+.studio-transparency-card > p { color: var(--muted); line-height: 1.65; }
+.studio-transparency-card > a { color: var(--brand); font-weight: 800; }
+.studio-image-source { margin-top: 22px; color: var(--muted); font-size: 0.82rem; }
+.studio-image-source a { text-decoration: underline; }
+
+.studio-detail-hero { grid-template-columns: minmax(300px, 0.7fr) minmax(0, 1.3fr); }
+.studio-detail-monogram { min-height: 520px; }
+.studio-detail-monogram span { color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.2em; }
+.studio-detail-monogram strong { font-size: clamp(6rem, 14vw, 11rem); line-height: 0.95; letter-spacing: -0.1em; }
+.studio-detail-monogram small { margin-top: 16px; font-size: 1rem; }
+.studio-detail-hero-copy h1 { max-width: 14ch; font-size: clamp(2.8rem, 6vw, 5.2rem); }
+.studio-detail-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; }
+.studio-fact-card dl { display: grid; }
+.studio-fact-card dl > div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 15px 0; border-top: 1px solid var(--line); }
+.studio-fact-card dt { color: var(--muted); font-size: 0.86rem; }
+.studio-fact-card dd { font-weight: 700; overflow-wrap: anywhere; }
+.studio-fact-card a,
+.studio-trust-card a { color: var(--brand); }
+.studio-trust-card { align-content: start; background: #21191d; color: #fff; }
+.studio-trust-card h2 { color: #fff; }
+.studio-trust-card ul { display: grid; gap: 12px; padding-left: 20px; color: rgba(255, 255, 255, 0.78); line-height: 1.55; }
+.studio-trust-card a { color: #ffc1d8; font-weight: 800; }
+.studio-related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 22px; }
+.studio-related-grid a { display: grid; gap: 10px; padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+.studio-related-grid span { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; }
+.studio-related-grid strong { color: var(--brand); }
+
+@media (max-width: 900px) {
+  .studio-guide-hero,
+  .studio-city-hero,
+  .studio-detail-hero,
+  .studio-editorial-layout,
+  .studio-detail-grid { grid-template-columns: 1fr; }
+  .studio-guide-hero-mark { min-height: 260px; }
+  .studio-city-hero-media { min-height: 340px; }
+  .studio-detail-monogram { min-height: 320px; }
+  .studio-transparency-card { position: static; }
+  .studio-principle-grid,
+  .studio-related-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .studio-guide-hero-copy,
+  .studio-city-hero-copy,
+  .studio-detail-hero-copy { padding: 30px 24px; }
+  .studio-guide-stats { grid-template-columns: 1fr; margin: 16px 0 0; }
+  .studio-guide-stats li,
+  .studio-guide-stats li:first-child { border-top: 1px solid #eadde3; border-left: 0; }
+  .studio-guide-stats li:first-child { border-top: 0; }
+  .studio-guide-country-strip { grid-template-columns: 1fr; }
+  .studio-guide-country-strip div { border-top: 1px solid var(--line); border-left: 0; }
+  .studio-guide-country-strip div:first-child { border-top: 0; border-left: 4px solid var(--studio-accent); }
+  .tattoo-studio-card { grid-template-columns: 1fr; }
+  .tattoo-studio-card-mark { min-height: 120px; }
+  .studio-fact-card dl > div { grid-template-columns: 1fr; gap: 5px; }
+}

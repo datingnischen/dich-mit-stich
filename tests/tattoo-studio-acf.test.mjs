@@ -16,6 +16,7 @@ test("WordPress guide plugin registers REST-enabled studio and city-guide CPTs",
   assert.match(plugin, /'rest_base'\s*=>\s*'tattoo-studios'/);
   assert.match(plugin, /'rest_base'\s*=>\s*'tattoo-studio-cities'/);
   assert.match(plugin, /acf\/settings\/load_json/);
+  assert.doesNotMatch(plugin, /acf\/settings\/save_json/);
 });
 
 test("ACF field groups expose the required structured guide contract", async () => {

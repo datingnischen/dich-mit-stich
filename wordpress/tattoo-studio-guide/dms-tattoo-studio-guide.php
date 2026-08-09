@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Dich mit Stich Tattoo-Studio-Guide
  * Description: Strukturierte Headless-CPTs und ACF-JSON-Anbindung für den Tattoo-Studio-Guide.
- * Version: 0.1.0
+ * Version: 0.1.1
  */
 
 defined('ABSPATH') || exit;
@@ -55,8 +55,4 @@ add_action('init', static function (): void {
 add_filter('acf/settings/load_json', static function (array $paths): array {
     $paths[] = plugin_dir_path(__FILE__) . 'acf-json';
     return array_values(array_unique($paths));
-});
-
-add_filter('acf/settings/save_json', static function (string $path): string {
-    return plugin_dir_path(__FILE__) . 'acf-json';
 });

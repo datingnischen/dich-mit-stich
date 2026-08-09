@@ -85,6 +85,17 @@ test("inferTattooStyles keeps positive styles when another style is explicitly u
   );
 });
 
+test("inferTattooStyles propagates leading negation across coordinated style lists", () => {
+  assert.deepEqual(
+    inferTattooStyles("Keine Fineline- oder Maori-Tattoos werden angeboten."),
+    [],
+  );
+  assert.deepEqual(
+    inferTattooStyles("No Fineline or Maori tattoos are offered."),
+    [],
+  );
+});
+
 test("studio records escape descriptive HTML and reject unsafe external URLs", () => {
   const record = buildTattooStudioRecord({
     ...sourceStudio,

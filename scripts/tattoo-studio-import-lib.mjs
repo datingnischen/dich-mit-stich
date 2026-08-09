@@ -49,25 +49,27 @@ export function inferTattooStyles(value) {
 
   const predicateNegation = /\b(?:nicht|nie)\s+(?:angeboten|verfügbar)|\b(?:not|never)\s+(?:offered|available)\b/i;
   const leadingNegation = /\b(?:kein(?:e|en|er|es)?|no)\s*$/i;
-  const sentenceEnd = /[.!?;:\n]/g;
+  const sentenceEnd = /[.!?;:\n]/;
+  const isListConnector = (connector) => connector
+    .replace(/\b(?:und|and|oder|or|sowie)\b/gi, "")
+    .replace(/[\s,&/–—-]/g, "") === "";
   const directlyNegated = mentions.map((mention, index) => {
     const previous = mentions[index - 1];
     const next = mentions[index + 1];
     const before = text.slice(previous?.end ?? 0, mention.index);
-    const remaining = text.slice(mention.end);
-    const punctuation = remaining.search(sentenceEnd);
-    const end = next
-      ? next.index
-      : mention.end + (punctuation === -1 ? remaining.length : punctuation);
-    const after = text.slice(mention.end, end);
+    const boundedAfter = text.slice(mention.end, next?.index ?? text.length);
+    const punctuation = boundedAfter.search(sentenceEnd);
+    const after = punctuation === -1 ? boundedAfter : boundedAfter.slice(0, punctuation);
     return leadingNegation.test(before) || predicateNegation.test(after);
   });
 
+  for (let index = 1; index < mentions.length; index += 1) {
+    const between = text.slice(mentions[index - 1].end, mentions[index].index);
+    if (isListConnector(between) && directlyNegated[index - 1]) directlyNegated[index] = true;
+  }
   for (let index = mentions.length - 2; index >= 0; index -= 1) {
     const between = text.slice(mentions[index].end, mentions[index + 1].index);
-    if (/^\s*(?:(?:,|&)|\b(?:und|and|oder|or|sowie)\b)\s*$/i.test(between) && directlyNegated[index + 1]) {
-      directlyNegated[index] = true;
-    }
+    if (isListConnector(between) && directlyNegated[index + 1]) directlyNegated[index] = true;
   }
 
   return [...new Set(mentions

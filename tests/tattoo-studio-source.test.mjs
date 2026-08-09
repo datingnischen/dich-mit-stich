@@ -16,6 +16,7 @@ test("extractTattooStudioCityGuide creates ten structured Hannover studio record
 
   assert.equal(guide.identity, "DE:hannover");
   assert.equal(guide.cityName, "Hannover");
+  assert.doesNotMatch(guide.title, /\bbesten\b/i);
   assert.equal(guide.studios.length, 10);
   assert.deepEqual(guide.studios.map((studio) => studio.name), [
     "Monkey Ink",
@@ -63,6 +64,9 @@ test("extractTattooStudioCityGuide supports Berlin list markup without inventing
 
   assert.equal(guide.identity, "DE:berlin");
   assert.equal(guide.cityName, "Berlin");
+  assert.doesNotMatch(guide.title, /\bbesten\b/i);
+  assert.doesNotMatch(guide.editorialHtml, /\bdie besten Tattoo-Studios\b/i);
+  assert.match(guide.title, /Ausgewählte Adressen entdecken/);
   assert.deepEqual(guide.studios.map((studio) => studio.name), [
     "AKA Berlin",
     "Bläckfisk Tattoo Co.",

@@ -80,6 +80,13 @@ function normalizeWebsite(value) {
   return candidate ? `https://${candidate}` : "";
 }
 
+function neutralizeRankingClaims(value) {
+  return String(value || "")
+    .replace(/Die besten Tattoo-Studios finden/gi, "Ausgewählte Tattoo-Studios entdecken")
+    .replace(/Die besten Adressen finden/gi, "Ausgewählte Adressen entdecken")
+    .replace(/die besten Tattoo-Studios/gi, "passende Tattoo-Studios");
+}
+
 function extractSection(source, heading) {
   const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = source.match(new RegExp(`(<h2[^>]*>\\s*${escaped}\\s*</h2>[\\s\\S]*?)(?=<h2\\b|$)`, "i"));
@@ -146,6 +153,11 @@ export function extractTattooStudioCityGuide(sourceHtml, { market, citySlug, sou
       };
     });
   const studios = headingStudios.length ? headingStudios : listStudios;
+  const editorialHtml = neutralizeRankingClaims([
+    extractSection(article, "Einleitung"),
+    extractSection(article, `Tattoo-Szene in ${cityName}`),
+    extractSection(article, `Beliebte Tattoo-Stile in ${cityName}`),
+  ].filter(Boolean).join("\n"));
 
   const verifiedMatch = article.match(/zuletzt am\s+(\d{4}-\d{2}-\d{2})\s+geprüft/i);
   return {
@@ -154,13 +166,9 @@ export function extractTattooStudioCityGuide(sourceHtml, { market, citySlug, sou
     country,
     citySlug,
     cityName,
-    title: h1,
+    title: neutralizeRankingClaims(h1),
     sourceUrl,
-    editorialHtml: [
-      extractSection(article, "Einleitung"),
-      extractSection(article, `Tattoo-Szene in ${cityName}`),
-      extractSection(article, `Beliebte Tattoo-Stile in ${cityName}`),
-    ].filter(Boolean).join("\n"),
+    editorialHtml,
     selectionMethodHtml: extractSection(article, "Datenstand, Auswahl und Hinweise"),
     lastVerified: verifiedMatch?.[1] || "",
     studios,

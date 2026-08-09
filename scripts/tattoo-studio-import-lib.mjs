@@ -19,14 +19,52 @@ function normalizeMarket(market) {
   return country;
 }
 
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function assertHttpsUrl(value, label) {
+  let parsed;
+  try {
+    parsed = new URL(String(value || ""));
+  } catch {
+    throw new Error(`${label} must be a valid HTTPS URL`);
+  }
+  if (parsed.protocol !== "https:" || !parsed.hostname || parsed.username || parsed.password) {
+    throw new Error(`${label} must be a valid HTTPS URL`);
+  }
+}
+
+function clauseAround(text, index, length) {
+  const delimiters = /[,.!;:\n]/g;
+  let start = 0;
+  let end = text.length;
+  for (const match of text.matchAll(delimiters)) {
+    if (match.index < index) start = match.index + 1;
+    else if (match.index >= index + length) {
+      end = match.index;
+      break;
+    }
+  }
+  return text.slice(start, end);
+}
+
 export function inferTattooStyles(value) {
   const text = String(value || "");
   return STYLE_PATTERNS
     .filter(([, pattern]) => {
-      const match = pattern.exec(text);
-      if (!match) return false;
-      const context = text.slice(Math.max(0, match.index - 35), match.index + match[0].length + 80);
-      return !/\b(?:nicht|nie)\s+(?:angeboten|verfügbar)|\bkein(?:e|en|er|es)?\b/i.test(context);
+      const matches = [...text.matchAll(new RegExp(pattern.source, `${pattern.flags.replace("g", "")}g`))];
+      if (!matches.length) return false;
+      const negated = matches.some((match) => {
+        const clause = clauseAround(text, match.index, match[0].length);
+        return /\b(?:nicht|nie)\s+(?:angeboten|verfügbar)|\bkein(?:e|en|er|es)?\b/i.test(clause);
+      });
+      return !negated;
     })
     .map(([slug]) => slug)
     .sort();
@@ -40,6 +78,9 @@ export function buildTattooStudioRecord(studio, guide) {
   if (studio.cityIdentity !== guide.identity) {
     throw new Error(`Tattoo studio ${studio.identity} does not belong to ${guide.identity}`);
   }
+  assertHttpsUrl(studio.websiteUrl, `Tattoo studio website for ${studio.identity}`);
+  assertHttpsUrl(studio.sourceUrl, `Tattoo studio source for ${studio.identity}`);
+  assertHttpsUrl(guide.sourceUrl, `Tattoo studio guide source for ${guide.identity}`);
 
   return {
     ...studio,
@@ -47,7 +88,7 @@ export function buildTattooStudioRecord(studio, guide) {
     market: country.toLowerCase(),
     wpSlug: `${country.toLowerCase()}-${studio.citySlug}-${studio.slug}`,
     title: studio.name,
-    contentHtml: `<p>${studio.description}</p>`,
+    contentHtml: `<p>${escapeHtml(studio.description)}</p>`,
     acf: {
       studio_id: studio.identity,
       studio_name: studio.name,
@@ -76,6 +117,7 @@ export function buildTattooStudioCityRecord(guide) {
   if (!guide.identity || !guide.citySlug || !guide.cityName || !guide.editorialHtml || !guide.sourceUrl) {
     throw new Error(`Incomplete tattoo studio city guide ${guide.identity || guide.citySlug || "unknown"}`);
   }
+  assertHttpsUrl(guide.sourceUrl, `Tattoo studio guide source for ${guide.identity}`);
   return {
     ...guide,
     country,

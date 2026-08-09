@@ -70,6 +70,30 @@ test("inferTattooStyles does not turn explicitly unavailable styles into filter 
   );
 });
 
+test("inferTattooStyles keeps positive styles when another style is explicitly unavailable", () => {
+  assert.deepEqual(
+    inferTattooStyles("Fineline wird angeboten, Maori-Tattoos werden nicht angeboten."),
+    ["fineline"],
+  );
+});
+
+test("studio records escape descriptive HTML and reject unsafe external URLs", () => {
+  const record = buildTattooStudioRecord({
+    ...sourceStudio,
+    description: "Fineline & <script>alert('x')</script>",
+  }, guide);
+  assert.equal(record.contentHtml, "<p>Fineline &amp; &lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;</p>");
+
+  assert.throws(
+    () => buildTattooStudioRecord({
+      ...sourceStudio,
+      websiteUrl: "javascript:alert(1)",
+      sourceUrl: "javascript:alert(1)",
+    }, guide),
+    /valid HTTPS URL/,
+  );
+});
+
 test("buildTattooStudioCityRecord keeps city editorial content separate from studios", () => {
   const record = buildTattooStudioCityRecord(guide);
 

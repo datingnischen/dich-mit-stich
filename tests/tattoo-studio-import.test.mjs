@@ -130,6 +130,47 @@ test("runTattooStudioImport dry-run plans one guide and one studio without write
   });
 });
 
+test("runTattooStudioImport collects every WordPress REST page before planning", async () => {
+  const requested = [];
+  const record = buildTattooStudioRecord(sourceStudio, guide);
+  const fetchImpl = async (url) => {
+    const parsed = new URL(url);
+    const page = Number(parsed.searchParams.get("page") || 1);
+    const isStudio = parsed.pathname.endsWith("/tattoo-studios");
+    requested.push(`${parsed.pathname}:${page}`);
+
+    if (!isStudio) {
+      return Response.json([], { headers: { "X-WP-TotalPages": "1" } });
+    }
+    if (page === 1) {
+      return Response.json(
+        Array.from({ length: 100 }, (_, index) => ({
+          id: index + 1,
+          slug: `unrelated-${index + 1}`,
+          acf: { studio_id: `DE:other:unrelated-${index + 1}` },
+        })),
+        { headers: { "X-WP-TotalPages": "2" } },
+      );
+    }
+    return Response.json(
+      [{ id: 501, slug: record.wpSlug, acf: { studio_id: record.identity } }],
+      { headers: { "X-WP-TotalPages": "2" } },
+    );
+  };
+
+  const summary = await runTattooStudioImport({
+    guideRecords: [buildTattooStudioCityRecord(guide)],
+    studioRecords: [record],
+    fetchImpl,
+    baseUrl: "https://cms.example/wp-json/wp/v2",
+    auth: { username: "editor", password: "app-pass" },
+  });
+
+  assert.equal(summary.studios.create, 0);
+  assert.equal(summary.studios.update, 1);
+  assert.ok(requested.some((entry) => entry.endsWith("/tattoo-studios:2")));
+});
+
 test("runTattooStudioImport writes, reads back, and proves a stable second plan", async () => {
   const stored = { guides: [], studios: [] };
   let nextId = 100;

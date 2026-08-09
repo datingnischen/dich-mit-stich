@@ -14,18 +14,27 @@ async function readJson(response, label) {
 function makeClient({ fetchImpl, baseUrl, auth }) {
   const root = baseUrl.replace(/\/$/, "");
   const authorization = authHeader(auth);
+  async function request(path, { method = "GET", body } = {}) {
+    const response = await fetchImpl(`${root}/${path.replace(/^\//, "")}`, {
+      method,
+      headers: {
+        Authorization: authorization,
+        Accept: "application/json",
+        ...(body ? { "Content-Type": "application/json" } : {}),
+      },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+    const data = await readJson(response, `${method} ${path}`);
+    const totalPagesHeader = Number(response.headers.get("X-WP-TotalPages") || 1);
+    const totalPages = Number.isSafeInteger(totalPagesHeader) && totalPagesHeader > 0 ? totalPagesHeader : 1;
+    return { data, totalPages };
+  }
   return {
     async json(path, { method = "GET", body } = {}) {
-      const response = await fetchImpl(`${root}/${path.replace(/^\//, "")}`, {
-        method,
-        headers: {
-          Authorization: authorization,
-          Accept: "application/json",
-          ...(body ? { "Content-Type": "application/json" } : {}),
-        },
-        ...(body ? { body: JSON.stringify(body) } : {}),
-      });
-      return readJson(response, `${method} ${path}`);
+      return (await request(path, { method, body })).data;
+    },
+    async collectionPage(path) {
+      return request(path);
     },
   };
 }
@@ -107,7 +116,18 @@ function summarize(plans, status) {
 }
 
 async function loadCollection(client, restBase) {
-  return client.json(`${restBase}?context=edit&per_page=100&_fields=id,slug,status,title,content,excerpt,acf`);
+  const records = [];
+  let totalPages = 1;
+  for (let page = 1; page <= totalPages; page += 1) {
+    const result = await client.collectionPage(
+      `${restBase}?context=edit&per_page=100&page=${page}&_fields=id,slug,status,title,content,excerpt,acf`,
+    );
+    if (!Array.isArray(result.data)) throw new Error(`${restBase} collection response is not an array`);
+    totalPages = result.totalPages;
+    if (totalPages > 1000) throw new Error(`${restBase} reports an unsafe page count of ${totalPages}`);
+    records.push(...result.data);
+  }
+  return records;
 }
 
 async function applyPlans({ client, restBase, plans, status }) {

@@ -177,6 +177,28 @@ test("buildTattooStudioWpPayload and planner produce deterministic create/update
   );
 });
 
+test("planner migrates the previously published Prime Ink identity without creating a duplicate", () => {
+  const current = {
+    ...buildTattooStudioRecord(sourceStudio, guide),
+    identity: "DE:hannover:prime-ink-tattoo-hannover",
+    wpSlug: "de-hannover-prime-ink-tattoo-hannover",
+    acf: {
+      ...buildTattooStudioRecord(sourceStudio, guide).acf,
+      studio_id: "DE:hannover:prime-ink-tattoo-hannover",
+    },
+  };
+  const existing = {
+    id: 84,
+    slug: "de-hannover-prime-ink-tattoo-hannover-hannover",
+    acf: { studio_id: "DE:hannover:prime-ink-tattoo-hannover-hannover" },
+  };
+
+  const operation = planTattooStudioUpserts([current], [existing])[0];
+  assert.equal(operation.action, "update");
+  assert.equal(operation.postId, 84);
+  assert.equal(operation.record.acf.studio_id, "DE:hannover:prime-ink-tattoo-hannover");
+});
+
 
 test("runTattooStudioImport dry-run plans one guide and one studio without writes", async () => {
   const methods = [];

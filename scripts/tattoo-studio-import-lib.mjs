@@ -18,6 +18,13 @@ const DE_REGION_BY_CITY = {
   hannover: "Niedersachsen",
 };
 
+const LEGACY_STUDIO_MATCHES = {
+  "DE:hannover:prime-ink-tattoo-hannover": {
+    identities: ["DE:hannover:prime-ink-tattoo-hannover-hannover"],
+    wpSlugs: ["de-hannover-prime-ink-tattoo-hannover-hannover"],
+  },
+};
+
 function normalizeMarket(market) {
   const country = String(market || "").toUpperCase();
   if (!["DE", "AT", "CH"].includes(country)) throw new Error(`Unsupported tattoo studio market ${market}`);
@@ -176,8 +183,11 @@ export function planTattooStudioUpserts(records, existingPosts) {
   }
 
   return records.map((record) => {
+    const legacy = LEGACY_STUDIO_MATCHES[record.identity] || { identities: [], wpSlugs: [] };
+    const matchingIdentities = new Set([record.identity, ...legacy.identities]);
+    const matchingSlugs = new Set([record.wpSlug, ...legacy.wpSlugs]);
     const candidates = existingPosts.filter((post) =>
-      post?.acf?.studio_id === record.identity || post?.slug === record.wpSlug,
+      matchingIdentities.has(post?.acf?.studio_id) || matchingSlugs.has(post?.slug),
     );
     const unique = [...new Map(candidates.map((post) => [Number(post.id), post])).values()];
     if (unique.length > 1) throw new Error(`Multiple existing tattoo studios for ${record.identity}`);

@@ -13,6 +13,11 @@ const STYLE_PATTERNS = [
   ["mandala", /mandala/i],
 ];
 
+const DE_REGION_BY_CITY = {
+  berlin: "Berlin",
+  hannover: "Niedersachsen",
+};
+
 function normalizeMarket(market) {
   const country = String(market || "").toUpperCase();
   if (!["DE", "AT", "CH"].includes(country)) throw new Error(`Unsupported tattoo studio market ${market}`);
@@ -92,7 +97,7 @@ export function buildTattooStudioRecord(studio, guide) {
   if (studio.cityIdentity !== guide.identity) {
     throw new Error(`Tattoo studio ${studio.identity} does not belong to ${guide.identity}`);
   }
-  assertHttpsUrl(studio.websiteUrl, `Tattoo studio website for ${studio.identity}`);
+  if (studio.websiteUrl) assertHttpsUrl(studio.websiteUrl, `Tattoo studio website for ${studio.identity}`);
   assertHttpsUrl(studio.sourceUrl, `Tattoo studio source for ${studio.identity}`);
   assertHttpsUrl(guide.sourceUrl, `Tattoo studio guide source for ${guide.identity}`);
 
@@ -107,7 +112,7 @@ export function buildTattooStudioRecord(studio, guide) {
       studio_id: studio.identity,
       studio_name: studio.name,
       studio_country: country,
-      studio_region: "Niedersachsen",
+      studio_region: country === "DE" ? DE_REGION_BY_CITY[studio.citySlug] || "" : "",
       studio_city_id: guide.identity,
       studio_city_slug: studio.citySlug,
       studio_city: studio.cityName,
@@ -143,7 +148,7 @@ export function buildTattooStudioCityRecord(guide) {
       guide_city_name: guide.cityName,
       guide_city_slug: guide.citySlug,
       guide_country: country,
-      guide_region: country === "DE" && guide.citySlug === "hannover" ? "Niedersachsen" : "",
+      guide_region: country === "DE" ? DE_REGION_BY_CITY[guide.citySlug] || "" : "",
       source_url: guide.sourceUrl,
       last_verified: guide.lastVerified,
       selection_method: guide.selectionMethodHtml,

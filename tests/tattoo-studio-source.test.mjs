@@ -5,6 +5,7 @@ import test from "node:test";
 import { extractTattooStudioCityGuide } from "../scripts/tattoo-studio-source-lib.mjs";
 
 const fixture = await readFile(new URL("./fixtures/tattoo-studios-hannover.html", import.meta.url), "utf8");
+const berlinFixture = await readFile(new URL("./fixtures/tattoo-studios-berlin.html", import.meta.url), "utf8");
 
 test("extractTattooStudioCityGuide creates ten structured Hannover studio records", () => {
   const guide = extractTattooStudioCityGuide(fixture, {
@@ -50,4 +51,34 @@ test("extractTattooStudioCityGuide preserves editorial transparency and source i
   assert.match(guide.selectionMethodHtml, /keine bezahlte Platzierung/);
   assert.equal(guide.lastVerified, "2026-06-07");
   assert.equal(guide.sourceUrl, "https://dich-mit-stich.de/tattoo-studios/hannover/");
+});
+
+test("extractTattooStudioCityGuide supports Berlin list markup without inventing unverified studios or websites", () => {
+  const sourceUrl = "https://dich-mit-stich.de/tattoo-studios/berlin/";
+  const guide = extractTattooStudioCityGuide(berlinFixture, {
+    market: "DE",
+    citySlug: "berlin",
+    sourceUrl,
+  });
+
+  assert.equal(guide.identity, "DE:berlin");
+  assert.equal(guide.cityName, "Berlin");
+  assert.deepEqual(guide.studios.map((studio) => studio.name), [
+    "AKA Berlin",
+    "Bläckfisk Tattoo Co.",
+    "Good Old Times Tattoo Berlin",
+    "Iron City Tattoo",
+    "Leon Tattoo / Berlin Ink Tattooing",
+    "OMEN Tattoo Berlin",
+    "Pechschwarz Tattoo",
+  ]);
+  assert.equal(guide.studios.find((studio) => studio.name === "AKA Berlin").slug, "aka-berlin");
+  assert.equal(guide.studios.find((studio) => studio.name === "Good Old Times Tattoo Berlin").slug, "good-old-times-tattoo-berlin");
+  assert.ok(!guide.studios.some((studio) => studio.name.includes("Tempel München")));
+
+  const unverifiedWebsite = guide.studios.find((studio) => studio.name === "Bläckfisk Tattoo Co.");
+  assert.equal(unverifiedWebsite.websiteUrl, "");
+  assert.equal(unverifiedWebsite.sourceUrl, sourceUrl);
+  assert.match(unverifiedWebsite.description, /Studio in Berlin-Kreuzberg öffentlich gelistet/);
+  assert.equal(guide.lastVerified, "2026-06-07");
 });

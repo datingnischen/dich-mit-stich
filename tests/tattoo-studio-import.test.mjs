@@ -132,6 +132,18 @@ test("studio records escape descriptive HTML and reject unsafe external URLs", (
   );
 });
 
+test("studio records allow an explicitly missing website while preserving the verified source", () => {
+  const record = buildTattooStudioRecord({
+    ...sourceStudio,
+    websiteUrl: "",
+    sourceUrl: "https://dich-mit-stich.de/tattoo-studios/berlin/",
+  }, guide);
+
+  assert.equal(record.websiteUrl, "");
+  assert.equal(record.acf.website_url, "");
+  assert.equal(record.acf.source_url, "https://dich-mit-stich.de/tattoo-studios/berlin/");
+});
+
 test("buildTattooStudioCityRecord keeps city editorial content separate from studios", () => {
   const record = buildTattooStudioCityRecord(guide);
 

@@ -37,6 +37,15 @@ export default function nextConfig(phase: string): NextConfig {
         },
       ],
     },
+    async redirects() {
+      return [
+        {
+          source: "/tattoo-studio/prime-ink-tattoo-hannover-hannover",
+          destination: "/tattoo-studio/prime-ink-tattoo-hannover",
+          permanent: true,
+        },
+      ];
+    },
     async rewrites() {
       return [
         {

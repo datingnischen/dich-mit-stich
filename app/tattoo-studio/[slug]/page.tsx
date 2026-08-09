@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!studio) return {};
   return {
     title: `${studio.name} in ${studio.cityName}: Studio-Profil`,
-    description: `${studio.name} in ${studio.cityName}: Stilrichtungen, Adresse, Website und transparente redaktionelle Einordnung.`,
+    description: `${studio.name} in ${studio.cityName}: Stilrichtungen, Adresse, ${studio.websiteUrl ? "Website" : "Kontakthinweise"} und transparente redaktionelle Einordnung.`,
     alternates: { canonical: publicUrl("de", `/tattoo-studio/${slug}`) },
   };
 }
@@ -41,7 +41,7 @@ export default async function TattooStudioDetailPage({ params }: PageProps) {
     name: studio.name,
     description: studio.description,
     url: publicUrl("de", `/tattoo-studio/${studio.slug}`),
-    sameAs: studio.websiteUrl,
+    ...(studio.websiteUrl ? { sameAs: studio.websiteUrl } : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: studio.address,
@@ -68,7 +68,11 @@ export default async function TattooStudioDetailPage({ params }: PageProps) {
             <p>{studio.description}</p>
             {studio.styles.length ? <div className="studio-style-row studio-detail-styles">{studio.styles.map((style) => <span key={style.slug}>{style.label}</span>)}</div> : null}
             <div className="button-row">
-              <a className="button button-primary" href={studio.websiteUrl} target="_blank" rel="noopener noreferrer nofollow">Website des Studios öffnen</a>
+              {studio.websiteUrl ? (
+                <a className="button button-primary" href={studio.websiteUrl} target="_blank" rel="noopener noreferrer nofollow">Website des Studios öffnen</a>
+              ) : (
+                <span className="button button-primary" aria-disabled="true">Keine verifizierte Website</span>
+              )}
               <Link className="button button-secondary" href={`/tattoo-studios/${studio.citySlug}`}>Weitere Studios in {studio.cityName}</Link>
             </div>
           </div>
@@ -79,8 +83,8 @@ export default async function TattooStudioDetailPage({ params }: PageProps) {
             <span className="eyebrow">Studio-Steckbrief</span>
             <dl>
               <div><dt>Adresse</dt><dd>{studio.address}</dd></div>
-              <div><dt>Kontakt</dt><dd>{studio.contact || "Über die Studio-Website"}</dd></div>
-              <div><dt>Website</dt><dd><a href={studio.websiteUrl} target="_blank" rel="noopener noreferrer nofollow">{new URL(studio.websiteUrl).hostname}</a></dd></div>
+              <div><dt>Kontakt</dt><dd>{studio.contact || "Keine verifizierten Kontaktdaten"}</dd></div>
+              <div><dt>Website</dt><dd>{studio.websiteUrl ? <a href={studio.websiteUrl} target="_blank" rel="noopener noreferrer nofollow">{new URL(studio.websiteUrl).hostname}</a> : "Nicht belastbar bestätigt"}</dd></div>
               <div><dt>Datenstatus</dt><dd>Redaktionell erfasst</dd></div>
             </dl>
           </article>
@@ -92,6 +96,7 @@ export default async function TattooStudioDetailPage({ params }: PageProps) {
               <li>Keine bezahlte Platzierung</li>
               <li>Angaben basieren auf öffentlich zugänglichen Studioinformationen</li>
             </ul>
+            <a href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Redaktionelle Quelle öffnen →</a>
             <a href={publicUrl("de", "/kontakt/")}>Datenänderung melden →</a>
           </aside>
         </section>

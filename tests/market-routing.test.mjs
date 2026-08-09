@@ -247,3 +247,10 @@ test("DE sitemap includes the tattoo studio guide city and detail families", asy
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studios/);
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studio\/\$\{slug\}/);
 });
+
+test("clean tattoo studio slugs preserve the previously published Prime Ink profile URL", async () => {
+  const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+  assert.match(config, /prime-ink-tattoo-hannover-hannover/);
+  assert.match(config, /destination:\s*"\/tattoo-studio\/prime-ink-tattoo-hannover"/);
+  assert.match(config, /permanent:\s*true/);
+});

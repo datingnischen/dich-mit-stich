@@ -1,5 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 
+import berlinManifest from "../data/tattoo-studio-guide-berlin.json" with { type: "json" };
 import hannoverManifest from "../data/tattoo-studio-guide-hannover.json" with { type: "json" };
 import cityImages from "../data/tattoo-city-images.json" with { type: "json" };
 import type { MarketCode } from "./markets.ts";
@@ -106,6 +107,7 @@ export type TattooStudioCityGuide = {
   country: string;
   slug: string;
   cityName: string;
+  region: string;
   title: string;
   sourceUrl: string;
   editorialHtml: string;
@@ -156,6 +158,7 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
       country: source.guide.country,
       slug: source.guide.citySlug,
       cityName: source.guide.cityName,
+      region: String(source.guide.acf.guide_region || ""),
       title: source.guide.title,
       sourceUrl: source.guide.sourceUrl,
       editorialHtml: sanitizeHtml(source.guide.editorialHtml || source.guide.contentHtml || "", EDITORIAL_HTML_POLICY),
@@ -168,20 +171,22 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
   };
 }
 
-const pilot = normalizeTattooStudioManifest(hannoverManifest as SourceManifest);
+const guides = [berlinManifest, hannoverManifest]
+  .map((manifest) => normalizeTattooStudioManifest(manifest as SourceManifest).guide)
+  .sort((left, right) => left.cityName.localeCompare(right.cityName, "de"));
 
 export function getTattooStudioCities(market: MarketCode): TattooStudioCityGuide[] {
-  return pilot.guide.market === market ? [pilot.guide] : [];
+  return guides.filter((guide) => guide.market === market);
 }
 
 export function getTattooStudioCityGuide(market: MarketCode, slug: string): TattooStudioCityGuide | null {
-  return pilot.guide.market === market && pilot.guide.slug === slug ? pilot.guide : null;
+  return guides.find((guide) => guide.market === market && guide.slug === slug) || null;
 }
 
 export function getTattooStudio(market: MarketCode, slug: string): TattooStudio | null {
-  return pilot.guide.market === market
-    ? pilot.guide.studios.find((studio) => studio.slug === slug) || null
-    : null;
+  return getTattooStudioCities(market)
+    .flatMap((guide) => guide.studios)
+    .find((studio) => studio.slug === slug) || null;
 }
 
 export function getTattooStudioSlugs(market: MarketCode): string[] {

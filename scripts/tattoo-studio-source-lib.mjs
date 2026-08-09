@@ -36,6 +36,14 @@ function slugify(value) {
     .replace(/^-|-$/g, "");
 }
 
+function studioSlug(name, cityName) {
+  const nameSlug = slugify(name);
+  const citySlug = slugify(cityName);
+  return nameSlug === citySlug || nameSlug.endsWith(`-${citySlug}`)
+    ? nameSlug
+    : `${nameSlug}-${citySlug}`;
+}
+
 function headingBlock(source, level, heading) {
   const pattern = new RegExp(
     `<h${level}[^>]*>\\s*${heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*</h${level}>([\\s\\S]*?)(?=<h${level}\\b|$)`,
@@ -49,6 +57,20 @@ function labeledList(block) {
   for (const match of block.matchAll(/<li[^>]*>\s*<strong[^>]*>(.*?)<\/strong>([\s\S]*?)<\/li>/gi)) {
     const label = textContent(match[1]).replace(/:$/, "").toLowerCase();
     fields[label] = textContent(match[2]).replace(/^:\s*/, "");
+  }
+  return fields;
+}
+
+function labeledBreakFields(block) {
+  const lines = String(block || "")
+    .replace(/<br\s*\/?\s*>/gi, "\n")
+    .split("\n")
+    .map((line) => textContent(line))
+    .filter(Boolean);
+  const fields = {};
+  for (const line of lines) {
+    const match = line.match(/^(Webseite|Adresse|Kontakt|Hinweis):\s*(.*)$/i);
+    if (match) fields[match[1].toLowerCase()] = match[2].trim();
   }
   return fields;
 }
@@ -71,25 +93,25 @@ export function extractTattooStudioCityGuide(sourceHtml, { market, citySlug, sou
 
   const article = sourceHtml.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1] || sourceHtml;
   const h1 = textContent(article.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || "");
-  const cityName = h1.match(/Tattoo-Studios in (.+?)\s+[–-]/i)?.[1]?.trim();
+  const cityName = h1.match(/Tattoo-Studios in (.+?)\s*(?:[–—-]|:)/i)?.[1]?.trim();
   if (!cityName) throw new Error(`Could not resolve studio city name for ${country}:${citySlug}`);
 
   const studioArea = headingBlock(article, 2, `Tattoo-Studios in ${cityName}`);
   const studioMatches = [...studioArea.matchAll(/<h3[^>]*>(.*?)<\/h3>([\s\S]*?)(?=<h3\b|$)/gi)];
-  const studios = studioMatches.map((match) => {
+  const headingStudios = studioMatches.map((match) => {
     const name = textContent(match[1]);
     const block = match[2];
     const fields = labeledList(block);
     const websiteUrl = normalizeWebsite(fields.website || fields.webseite);
-    const studioSlug = slugify(`${name}-${cityName}`);
+    const resolvedStudioSlug = studioSlug(name, cityName);
     return {
-      identity: `${country}:${citySlug}:${studioSlug}`,
+      identity: `${country}:${citySlug}:${resolvedStudioSlug}`,
       cityIdentity: `${country}:${citySlug}`,
       market: country.toLowerCase(),
       country,
       citySlug,
       cityName,
-      slug: studioSlug,
+      slug: resolvedStudioSlug,
       name,
       description: textContent(block.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || ""),
       websiteUrl,
@@ -98,6 +120,32 @@ export function extractTattooStudioCityGuide(sourceHtml, { market, citySlug, sou
       sourceUrl: websiteUrl || sourceUrl,
     };
   });
+  const listStudios = [...studioArea.matchAll(/<li[^>]*>\s*<strong[^>]*>(.*?)<\/strong>([\s\S]*?)<\/li>/gi)]
+    .filter((match) => !/daher\s+nicht\s+in\s+die\s+(?:empfehlungs)?liste\s+aufgenommen/i.test(textContent(match[2])))
+    .map((match) => {
+      const name = textContent(match[1]);
+      const block = match[2];
+      const fields = labeledBreakFields(block);
+      const websiteHref = block.match(/Webseite:[\s\S]*?<a\b[^>]*href=["'](https?:\/\/[^"']+)["']/i)?.[1] || "";
+      const websiteUrl = normalizeWebsite(websiteHref);
+      const resolvedStudioSlug = studioSlug(name, cityName);
+      return {
+        identity: `${country}:${citySlug}:${resolvedStudioSlug}`,
+        cityIdentity: `${country}:${citySlug}`,
+        market: country.toLowerCase(),
+        country,
+        citySlug,
+        cityName,
+        slug: resolvedStudioSlug,
+        name,
+        description: fields.hinweis || "",
+        websiteUrl,
+        address: fields.adresse || "",
+        contact: fields.kontakt || "",
+        sourceUrl: websiteUrl || sourceUrl,
+      };
+    });
+  const studios = headingStudios.length ? headingStudios : listStudios;
 
   const verifiedMatch = article.match(/zuletzt am\s+(\d{4}-\d{2}-\d{2})\s+geprüft/i);
   return {

@@ -28,7 +28,7 @@ export default function TattooStudioGuidePage() {
               sichtbarem Prüfdatum – statt anonymer Listen oder gekaufter Rangplätze.
             </p>
             <div className="button-row">
-              <Link className="button button-primary" href="/tattoo-studios/hannover">Studios in Hannover entdecken</Link>
+              <Link className="button button-primary" href="/tattoo-studios/berlin">Studios in Berlin entdecken</Link>
               <a className="button button-secondary" href="#guide-prinzipien">So prüfen wir Studios</a>
             </div>
           </div>
@@ -40,8 +40,8 @@ export default function TattooStudioGuidePage() {
         </section>
 
         <ul className="studio-guide-stats" aria-label="Aktueller Umfang des Tattoo-Studio-Guides">
-          <li><strong>{studioCount}</strong><span>strukturierte Studios im Pilot</span></li>
-          <li><strong>{cities.length}</strong><span>redaktioneller Stadtguide</span></li>
+          <li><strong>{studioCount}</strong><span>strukturierte Studios</span></li>
+          <li><strong>{cities.length}</strong><span>redaktionelle Stadtguides</span></li>
           <li><strong>0</strong><span>gekaufte Rangplätze</span></li>
         </ul>
 
@@ -61,10 +61,10 @@ export default function TattooStudioGuidePage() {
             {cities.map((city) => (
               <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}`} key={city.identity}>
                 {city.imageUrl ? (
-                  <Image src={city.imageUrl} alt={`Altstadt von ${city.cityName}`} width={1200} height={675} sizes="(max-width: 760px) 100vw, 60vw" />
+                  <Image src={city.imageUrl} alt={`Stadtansicht von ${city.cityName}`} width={1200} height={675} sizes="(max-width: 760px) 100vw, 60vw" />
                 ) : null}
                 <div className="studio-city-card-overlay">
-                  <span>Niedersachsen · {city.studios.length} Studios</span>
+                  <span>{city.region} · {city.studios.length} Studios</span>
                   <h2>{city.cityName}</h2>
                   <strong>Stadtguide öffnen →</strong>
                 </div>

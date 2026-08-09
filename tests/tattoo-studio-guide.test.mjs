@@ -15,9 +15,9 @@ async function source(path) {
   return readFile(new URL(path, root), "utf8");
 }
 
-test("tattoo studio guide loader exposes the Hannover pilot and ten studios", () => {
+test("tattoo studio guide loader exposes Hannover and Berlin with their structured studios", () => {
   const cities = getTattooStudioCities("de");
-  assert.deepEqual(cities.map((city) => city.slug), ["hannover"]);
+  assert.deepEqual(cities.map((city) => city.slug), ["berlin", "hannover"]);
 
   const city = getTattooStudioCityGuide("de", "hannover");
   assert.ok(city);
@@ -31,6 +31,15 @@ test("tattoo studio guide loader exposes the Hannover pilot and ten studios", ()
   assert.equal(studio.citySlug, "hannover");
   assert.ok(studio.styles.some((style) => style.slug === "fineline"));
   assert.equal(studio.lastVerified, "2026-06-07");
+
+  const berlin = getTattooStudioCityGuide("de", "berlin");
+  assert.ok(berlin);
+  assert.equal(berlin.studios.length, 7);
+  assert.equal(berlin.region, "Berlin");
+  const withoutWebsite = berlin.studios.find((item) => item.name === "Bläckfisk Tattoo Co.");
+  assert.ok(withoutWebsite);
+  assert.equal(withoutWebsite.websiteUrl, "");
+  assert.equal(withoutWebsite.sourceUrl, "https://dich-mit-stich.de/tattoo-studios/berlin/");
 });
 
 test("tattoo studio guide normalization sanitizes editorial CMS HTML", () => {
@@ -67,6 +76,8 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(overview, /publicUrl\("de", "\/tattoo-studios"\)/);
   assert.match(overview, /\/tattoo-studios\/\$\{city\.slug\}/);
   assert.match(overview, /Tattoo-Studio-Guide für Deutschland/);
+  assert.match(overview, /city\.region/);
+  assert.doesNotMatch(overview, /Niedersachsen ·/);
 
   assert.match(city, /getTattooStudioCityGuide/);
   assert.match(city, /"@type": "ItemList"/);
@@ -78,6 +89,8 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(studio, /"@type": "TattooParlor"/);
   assert.match(studio, /publicUrl\("de", `\/tattoo-studio\/\$\{slug\}`\)/);
   assert.match(studio, /rel="noopener noreferrer nofollow"/);
+  assert.match(studio, /studio\.websiteUrl\s*\?/);
+  assert.match(studio, /Keine verifizierte Website/);
   assert.match(studio, /Datenänderung melden/);
 });
 

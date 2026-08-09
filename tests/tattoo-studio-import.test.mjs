@@ -96,6 +96,25 @@ test("inferTattooStyles propagates leading negation across coordinated style lis
   );
 });
 
+test("inferTattooStyles limits negation propagation to genuine list connectors", () => {
+  assert.deepEqual(
+    inferTattooStyles("Fineline wird nicht angeboten und Maori wird angeboten."),
+    ["maori"],
+  );
+  assert.deepEqual(
+    inferTattooStyles("Fineline und Maori werden nicht angeboten."),
+    [],
+  );
+  assert.deepEqual(
+    inferTattooStyles("Keine Fineline\nMaori wird angeboten."),
+    ["maori"],
+  );
+  assert.deepEqual(
+    inferTattooStyles("Keine Fineline - Maori wird angeboten."),
+    ["maori"],
+  );
+});
+
 test("studio records escape descriptive HTML and reject unsafe external URLs", () => {
   const record = buildTattooStudioRecord({
     ...sourceStudio,

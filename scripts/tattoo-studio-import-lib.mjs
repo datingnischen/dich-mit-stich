@@ -50,9 +50,15 @@ export function inferTattooStyles(value) {
   const predicateNegation = /\b(?:nicht|nie)\s+(?:angeboten|verfügbar)|\b(?:not|never)\s+(?:offered|available)\b/i;
   const leadingNegation = /\b(?:kein(?:e|en|er|es)?|no)\s*$/i;
   const sentenceEnd = /[.!?;:\n]/;
-  const isListConnector = (connector) => connector
-    .replace(/\b(?:und|and|oder|or|sowie)\b/gi, "")
-    .replace(/[\s,&/–—-]/g, "") === "";
+  const isListConnector = (connector) => {
+    if (/[.!?;:\n]/.test(connector)) return false;
+    const hasConjunction = /\b(?:und|and|oder|or|sowie)\b/i.test(connector);
+    const hasListPunctuation = /[,&/]/.test(connector);
+    if (!hasConjunction && !hasListPunctuation) return false;
+    return connector
+      .replace(/\b(?:und|and|oder|or|sowie)\b/gi, "")
+      .replace(/[\s,&/–—-]/g, "") === "";
+  };
   const directlyNegated = mentions.map((mention, index) => {
     const previous = mentions[index - 1];
     const next = mentions[index + 1];

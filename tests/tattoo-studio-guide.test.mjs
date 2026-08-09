@@ -80,6 +80,9 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.doesNotMatch(overview, /Niedersachsen ·/);
 
   assert.match(city, /getTattooStudioCityGuide/);
+  assert.match(city, /\{guide\.region\} · Studio Guide/);
+  assert.match(city, /alt=\{`\$\{guide\.cityName\} als Standort des Tattoo-Studio-Guides`\}/);
+  assert.doesNotMatch(city, /Niedersachsen · Studio Guide|Hannover als Standort/);
   assert.match(city, /"@type": "ItemList"/);
   assert.match(city, /\/tattoo-studio\/\$\{studio\.slug\}/);
   assert.match(city, /Zuletzt redaktionell geprüft/);
@@ -98,4 +101,5 @@ test("site navigation links to the new studio guide rather than the singles city
   const shell = await source("components/site-shell.tsx");
   assert.match(shell, /Lieblings-Studios", href: "\/tattoo-studios"/);
   assert.match(shell, /Tattoo-Studio-Guide/);
+  assert.match(shell, /Tattoo-Studios Berlin/);
 });

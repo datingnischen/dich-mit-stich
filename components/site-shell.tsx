@@ -73,6 +73,7 @@ const footerColumns: Array<{
     title: "Tattoo-Studio-Guide",
     links: [
       { label: "Studio-Guide Übersicht", href: "/tattoo-studios" },
+      { label: "Tattoo-Studios Berlin", href: "/tattoo-studios/berlin" },
       { label: "Tattoo-Studios Hannover", href: "/tattoo-studios/hannover" },
     ],
   },

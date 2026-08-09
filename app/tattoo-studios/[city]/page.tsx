@@ -58,7 +58,7 @@ export default async function TattooStudioCityPage({ params }: PageProps) {
 
         <section className="studio-city-hero">
           <div className="studio-city-hero-copy">
-            <span className="eyebrow studio-guide-eyebrow">Niedersachsen · Studio Guide</span>
+            <span className="eyebrow studio-guide-eyebrow">{guide.region} · Studio Guide</span>
             <h1>Tattoo-Studios in {guide.cityName}</h1>
             <p>{guide.studios.length} redaktionell erfasste Studios – mit Stilprofil, Adresse, Kontaktweg und nachvollziehbarem Datenstand.</p>
             <div className="studio-verification-line">
@@ -68,7 +68,7 @@ export default async function TattooStudioCityPage({ params }: PageProps) {
           </div>
           {guide.imageUrl ? (
             <figure className="studio-city-hero-media">
-              <Image src={guide.imageUrl} alt={`Hannover als Standort des Tattoo-Studio-Guides`} width={1200} height={800} sizes="(max-width: 900px) 100vw, 50vw" priority />
+              <Image src={guide.imageUrl} alt={`${guide.cityName} als Standort des Tattoo-Studio-Guides`} width={1200} height={800} sizes="(max-width: 900px) 100vw, 50vw" priority />
               <figcaption>Foto: {guide.imageAttribution.creator} · {guide.imageAttribution.license}</figcaption>
             </figure>
           ) : null}

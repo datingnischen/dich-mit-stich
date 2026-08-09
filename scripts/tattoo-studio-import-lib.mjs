@@ -40,33 +40,39 @@ function assertHttpsUrl(value, label) {
   }
 }
 
-function clauseAround(text, index, length) {
-  const delimiters = /[,.!;:\n]/g;
-  let start = 0;
-  let end = text.length;
-  for (const match of text.matchAll(delimiters)) {
-    if (match.index < index) start = match.index + 1;
-    else if (match.index >= index + length) {
-      end = match.index;
-      break;
-    }
-  }
-  return text.slice(start, end);
-}
-
 export function inferTattooStyles(value) {
   const text = String(value || "");
-  return STYLE_PATTERNS
-    .filter(([, pattern]) => {
-      const matches = [...text.matchAll(new RegExp(pattern.source, `${pattern.flags.replace("g", "")}g`))];
-      if (!matches.length) return false;
-      const negated = matches.some((match) => {
-        const clause = clauseAround(text, match.index, match[0].length);
-        return /\b(?:nicht|nie)\s+(?:angeboten|verfügbar)|\bkein(?:e|en|er|es)?\b/i.test(clause);
-      });
-      return !negated;
-    })
-    .map(([slug]) => slug)
+  const mentions = STYLE_PATTERNS.flatMap(([slug, pattern]) =>
+    [...text.matchAll(new RegExp(pattern.source, `${pattern.flags.replace("g", "")}g`))]
+      .map((match) => ({ slug, index: match.index, end: match.index + match[0].length })),
+  ).sort((left, right) => left.index - right.index || left.end - right.end);
+
+  const predicateNegation = /\b(?:nicht|nie)\s+(?:angeboten|verfügbar)|\b(?:not|never)\s+(?:offered|available)\b/i;
+  const leadingNegation = /\b(?:kein(?:e|en|er|es)?|no)\s*$/i;
+  const sentenceEnd = /[.!?;:\n]/g;
+  const directlyNegated = mentions.map((mention, index) => {
+    const previous = mentions[index - 1];
+    const next = mentions[index + 1];
+    const before = text.slice(previous?.end ?? 0, mention.index);
+    const remaining = text.slice(mention.end);
+    const punctuation = remaining.search(sentenceEnd);
+    const end = next
+      ? next.index
+      : mention.end + (punctuation === -1 ? remaining.length : punctuation);
+    const after = text.slice(mention.end, end);
+    return leadingNegation.test(before) || predicateNegation.test(after);
+  });
+
+  for (let index = mentions.length - 2; index >= 0; index -= 1) {
+    const between = text.slice(mentions[index].end, mentions[index + 1].index);
+    if (/^\s*(?:(?:,|&)|\b(?:und|and|oder|or|sowie)\b)\s*$/i.test(between) && directlyNegated[index + 1]) {
+      directlyNegated[index] = true;
+    }
+  }
+
+  return [...new Set(mentions
+    .filter((_, index) => !directlyNegated[index])
+    .map((mention) => mention.slug))]
     .sort();
 }
 

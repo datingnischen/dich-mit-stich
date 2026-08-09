@@ -75,6 +75,14 @@ test("inferTattooStyles keeps positive styles when another style is explicitly u
     inferTattooStyles("Fineline wird angeboten, Maori-Tattoos werden nicht angeboten."),
     ["fineline"],
   );
+  assert.deepEqual(
+    inferTattooStyles("Fineline wird angeboten und Maori-Tattoos werden nicht angeboten."),
+    ["fineline"],
+  );
+  assert.deepEqual(
+    inferTattooStyles("Fineline offered, Maori not offered."),
+    ["fineline"],
+  );
 });
 
 test("studio records escape descriptive HTML and reject unsafe external URLs", () => {

@@ -142,5 +142,14 @@
       "license": "CC BY-SA 3.0",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altes_Schloss_-_Stuttgart_-_Germany_-_panorama.jpg"
     }
+  },
+  "zuerich": {
+    "imageUrl": "/cities/ch/zuerich.jpg",
+    "imageAttribution": {
+      "title": "Brücke Stadt Fluss Zürich Schweiz",
+      "creator": "Pexels",
+      "license": "Pixabay Content License",
+      "sourceUrl": "https://pixabay.com/de/photos/br%C3%BCcke-stadt-fluss-z%C3%BCrich-schweiz-4636745/"
+    }
   }
 }

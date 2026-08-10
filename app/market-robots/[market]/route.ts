@@ -20,6 +20,8 @@ export async function GET(_request: Request, { params }: RouteProps) {
     ? [
         "User-agent: *",
         "Allow: /tattoo-singles",
+        "Allow: /tattoo-studios",
+        "Allow: /tattoo-studio/",
         "Disallow: /",
         `Sitemap: ${publicUrl("ch", "/sitemap.xml")}`,
         "",

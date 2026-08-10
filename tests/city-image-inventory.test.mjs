@@ -25,10 +25,9 @@ const inventory = JSON.parse(
   await readFile(new URL("../data/tattoo-city-images.json", import.meta.url), "utf8"),
 );
 
-test("every supported tattoo city has a branded WordPress image", () => {
-  assert.deepEqual(Object.keys(inventory).sort(), expectedSlugs.sort());
-
+test("every supported German tattoo city has a branded WordPress image", () => {
   for (const slug of expectedSlugs) {
+    assert.ok(inventory[slug], `${slug} must exist in the shared image inventory`);
     assert.match(
       inventory[slug].imageUrl,
       new RegExp(

@@ -2,6 +2,7 @@ import sanitizeHtml from "sanitize-html";
 
 import berlinManifest from "../data/tattoo-studio-guide-berlin.json" with { type: "json" };
 import hannoverManifest from "../data/tattoo-studio-guide-hannover.json" with { type: "json" };
+import zuerichManifest from "../data/tattoo-studio-guide-zuerich.json" with { type: "json" };
 import cityImages from "../data/tattoo-city-images.json" with { type: "json" };
 import type { MarketCode } from "./markets.ts";
 
@@ -26,14 +27,22 @@ const STYLE_LABELS: Record<string, string> = {
   "black-and-grey": "Black & Grey",
   blackwork: "Blackwork",
   "cover-up": "Cover-up",
+  color: "Color",
+  "concept-tattoo": "Concept Tattoo",
+  custom: "Custom",
   fineline: "Fineline",
+  floral: "Floral",
+  geometric: "Geometric",
+  lettering: "Lettering",
   linework: "Linework",
   mandala: "Mandala",
   maori: "Maori",
+  microrealism: "Microrealism",
   "neo-traditional": "Neo Traditional",
   ornamental: "Ornamental",
   realistic: "Realistic",
   traditional: "Traditional",
+  watercolor: "Watercolor",
 };
 
 type SourceGuide = {
@@ -171,7 +180,7 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
   };
 }
 
-const guides = [berlinManifest, hannoverManifest]
+const guides = [berlinManifest, hannoverManifest, zuerichManifest]
   .map((manifest) => normalizeTattooStudioManifest(manifest as SourceManifest).guide)
   .sort((left, right) => left.cityName.localeCompare(right.cityName, "de"));
 

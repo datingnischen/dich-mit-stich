@@ -88,6 +88,27 @@ test("gates untagged content while allowing the imported CH tattoo city family",
     market: "ch",
     pathname: "/market-tattoo-singles/ch",
   });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-studios"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/market-tattoo-studios/ch",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-studios/zuerich"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/market-tattoo-studios/ch/zuerich",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-studio/example-zuerich"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/market-tattoo-studio/ch/example-zuerich",
+  });
+  assert.deepEqual(resolveMarketRequest("/at/tattoo-studios"), {
+    action: "placeholder",
+    market: "at",
+    pathname: "/market-preview/at",
+    requestedPath: "/tattoo-studios",
+  });
   assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/berlin"), {
     action: "placeholder",
     market: "ch",
@@ -103,12 +124,30 @@ test("gates untagged content while allowing the imported CH tattoo city family",
   assert.deepEqual(resolveMarketRequest("/de/market-tattoo-singles/ch/zuerich"), {
     action: "not-found",
   });
+  assert.deepEqual(resolveMarketRequest("/de/market-tattoo-studios/ch/zuerich"), {
+    action: "not-found",
+  });
   assert.deepEqual(resolveMarketRequest("/ch/magazin"), {
     action: "placeholder",
     market: "ch",
     pathname: "/market-preview/ch",
     requestedPath: "/magazin",
   });
+});
+
+test("rejects prefix-free internal implementation routes before the DE fallback", async () => {
+  const { resolveMarketRequest } = await loadMarkets();
+
+  for (const pathname of [
+    "/market-preview/ch",
+    "/market-robots/ch",
+    "/market-sitemap/ch",
+    "/market-tattoo-singles/ch/zuerich",
+    "/market-tattoo-studios/ch/zuerich",
+    "/market-tattoo-studio/ch/sinkply-zuerich",
+  ]) {
+    assert.deepEqual(resolveMarketRequest(pathname), { action: "not-found" }, pathname);
+  }
 });
 
 test("keeps framework assets outside market redirects and handles SEO endpoints explicitly", async () => {
@@ -178,6 +217,11 @@ test("Next.js proxy and public-domain canonical helpers are wired", async () => 
   assert.match(proxySource, /resolveMarketRequest/);
   assert.match(proxySource, /NextResponse\.redirect/);
   assert.match(proxySource, /NextResponse\.rewrite/);
+  assert.doesNotMatch(
+    proxySource,
+    /x-dms-rewrite-destination/,
+    "the proxy must not trust or propagate a client-controllable rewrite marker",
+  );
   assert.match(sitemapSource, /dich-mit-stich\.de/);
   assert.doesNotMatch(sitemapSource, /vercel\.app/);
 });
@@ -213,6 +257,8 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
   assert.match(previewSource, /follow:\s*false/);
   assert.match(robotsSource, /Disallow:\s*\//);
   assert.match(robotsSource, /Allow:\s*\/tattoo-singles/);
+  assert.match(robotsSource, /Allow:\s*\/tattoo-studios/);
+  assert.match(robotsSource, /Allow:\s*\/tattoo-studio\//);
   assert.match(sitemapSource, /<urlset/);
   assert.match(sitemapSource, /chTattooCitySlugs/);
 

@@ -111,6 +111,7 @@ type MarketRequestResolution =
 const PASS_PATHS = new Set(["/favicon.ico"]);
 const PASS_PREFIXES = ["/_next/", "/app-assets/", "/api/"];
 const STATIC_FILE_PATTERN = /\.(?:avif|css|gif|ico|jpe?g|js|json|map|png|svg|webp|woff2?)$/i;
+const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
 
 function shouldPass(pathname: string): boolean {
   return (
@@ -127,6 +128,10 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
     return { action: "pass" };
   }
 
+  if (INTERNAL_MARKET_PATH_PATTERN.test(normalizedPathname)) {
+    return { action: "not-found" };
+  }
+
   const marketMatch = normalizedPathname.match(/^\/(de|at|ch)(\/.*)?$/);
   if (!marketMatch) {
     return {
@@ -140,7 +145,7 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
   const requestedPath = marketMatch[2] || "/";
 
   // Rewrite destinations are implementation details and must never become public routes.
-  if (/^\/market-(?:preview|robots|sitemap|tattoo-singles)(?:\/|$)/.test(requestedPath)) {
+  if (INTERNAL_MARKET_PATH_PATTERN.test(requestedPath)) {
     return { action: "not-found" };
   }
 
@@ -170,6 +175,31 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
 
   if (market === "at" || market === "ch") {
     const contentPath = requestedPath.length > 1 ? requestedPath.replace(/\/+$/, "") : requestedPath;
+
+    if (market === "ch" && contentPath === "/tattoo-studios") {
+      return {
+        action: "market-content",
+        market,
+        pathname: "/market-tattoo-studios/ch",
+      };
+    }
+
+    if (market === "ch" && contentPath === "/tattoo-studios/zuerich") {
+      return {
+        action: "market-content",
+        market,
+        pathname: "/market-tattoo-studios/ch/zuerich",
+      };
+    }
+
+    const studioMatch = contentPath.match(/^\/tattoo-studio\/([a-z0-9]+(?:-[a-z0-9]+)*)$/);
+    if (market === "ch" && studioMatch) {
+      return {
+        action: "market-content",
+        market,
+        pathname: `/market-tattoo-studio/ch/${studioMatch[1]}`,
+      };
+    }
 
     if (contentPath === "/tattoo-singles") {
       return {

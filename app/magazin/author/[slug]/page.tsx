@@ -4,11 +4,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAuthorPosts, getAuthorProfile, getKnownAuthorSlugs } from "@/lib/author-profiles";
 import { publicUrl } from "@/lib/markets";
+import { staticAsset } from "@/lib/static-asset";
 import { stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
 export const revalidate = 1800;
 
@@ -90,9 +93,14 @@ export default async function MagazineAuthorPage({ params }: PageProps) {
                     />
                   </div>
                 ) : (
-                  <div className="article-card-media article-card-media-fallback" aria-hidden="true">
-                    <span>Magazin</span>
-                    <strong>{post.title}</strong>
+                  <div className="article-card-media">
+                    <Image
+                      src={AUTHOR_ARTICLE_FALLBACK_IMAGE}
+                      alt="Tätowiertes Paar – Dich mit Stich Magazin"
+                      width={360}
+                      height={240}
+                      sizes="(max-width: 760px) 112px, 150px"
+                    />
                   </div>
                 )}
                 <div className="article-card-copy">

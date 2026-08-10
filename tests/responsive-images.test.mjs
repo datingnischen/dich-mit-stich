@@ -25,6 +25,9 @@ test("author pages keep one prominent profile and show responsive article thumbn
   assert.match(source, /author-hero-inline/);
   assert.doesNotMatch(source, /ExpertTrustCard/);
   assert.match(source, /post\.featuredImage \?/);
+  assert.match(source, /const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset\("\/brand\/frontpage-visual-dichmitstich\.webp"\)/);
+  assert.match(source, /src=\{AUTHOR_ARTICLE_FALLBACK_IMAGE\}/);
+  assert.match(source, /alt="Tätowiertes Paar – Dich mit Stich Magazin"/);
   assert.match(source, /className="article-card-media"/);
   assert.match(source, /alt=\{post\.featuredImageAlt \|\| post\.title\}/);
   assert.match(source, /sizes="\(max-width: 760px\) 112px, 150px"/);

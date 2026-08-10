@@ -87,6 +87,9 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(city, /\/tattoo-studio\/\$\{studio\.slug\}/);
   assert.match(city, /Zuletzt redaktionell geprüft/);
   assert.match(city, /Keine bezahlte Platzierung/);
+  assert.match(city, /href=\{studio\.sourceUrl\}/);
+  assert.match(city, /Datenquelle ansehen/);
+  assert.match(city, /rel="noopener noreferrer nofollow"/);
 
   assert.match(studio, /getTattooStudio/);
   assert.match(studio, /"@type": "TattooParlor"/);

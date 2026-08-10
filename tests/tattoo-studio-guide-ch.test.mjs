@@ -65,6 +65,9 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
   }
   assert.match(overview, /publicUrl\("ch", "\/tattoo-studios"\)/);
   assert.match(city, /publicUrl\("ch", `\/tattoo-studios\/\$\{city\}`\)/);
+  assert.match(city, /href=\{studio\.sourceUrl\}/);
+  assert.match(city, /Datenquelle ansehen/);
+  assert.match(city, /rel="noopener noreferrer nofollow"/);
   assert.match(studio, /publicUrl\("ch", `\/tattoo-studio\/\$\{slug\}`\)/);
   assert.match(overview, /targetMarket="ch"/);
   assert.match(city, /targetMarket="ch"/);

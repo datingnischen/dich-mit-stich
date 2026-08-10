@@ -89,6 +89,7 @@ export default async function TattooStudioCityPage({ params }: PageProps) {
                   <p>{studio.description}</p>
                   {studio.styles.length ? <div className="studio-style-row">{studio.styles.map((style) => <span key={style.slug}>{style.label}</span>)}</div> : null}
                   <div className="studio-card-address"><span aria-hidden="true">⌖</span><span>{studio.address}</span></div>
+                  <a className="studio-card-source" href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Datenquelle ansehen ↗</a>
                   <Link className="studio-card-link" href={`/tattoo-studio/${studio.slug}`}>Studio-Profil ansehen <span>→</span></Link>
                 </div>
               </article>

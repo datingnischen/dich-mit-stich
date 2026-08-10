@@ -37,6 +37,11 @@ test("ACF field groups expose the required structured guide contract", async () 
     "source_url", "last_verified", "selection_method", "schema_type",
   ]) assert.ok(cityNames.has(name), `missing city field ${name}`);
 
+  const websiteField = studio.fields.find((field) => field.name === "website_url");
+  const sourceField = studio.fields.find((field) => field.name === "source_url");
+  assert.equal(websiteField.required, 0, "studio website must remain optional");
+  assert.equal(sourceField.required, 1, "verified public source must remain required");
+
   assert.deepEqual(studio.location[0][0], {
     param: "post_type",
     operator: "==",

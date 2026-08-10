@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Dich mit Stich Tattoo-Studio-Guide
  * Description: Strukturierte Headless-CPTs und ACF-JSON-Anbindung für den Tattoo-Studio-Guide.
- * Version: 0.1.1
+ * Version: 0.1.2
  */
 
 defined('ABSPATH') || exit;

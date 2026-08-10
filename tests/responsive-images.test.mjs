@@ -19,6 +19,18 @@ test("city and magazine routes use responsive Next.js images", async () => {
   }
 });
 
+test("author pages keep one prominent profile and show responsive article thumbnails", async () => {
+  const source = await readFile(new URL("../app/magazin/author/[slug]/page.tsx", import.meta.url), "utf8");
+
+  assert.match(source, /author-hero-inline/);
+  assert.doesNotMatch(source, /ExpertTrustCard/);
+  assert.match(source, /post\.featuredImage \?/);
+  assert.match(source, /className="article-card-media"/);
+  assert.match(source, /alt=\{post\.featuredImageAlt \|\| post\.title\}/);
+  assert.match(source, /sizes="\(max-width: 760px\) 112px, 150px"/);
+  assert.match(source, /className="article-card-copy"/);
+});
+
 test("Next.js allows optimized images from the WordPress media host", async () => {
   const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
   assert.match(config, /remotePatterns/);

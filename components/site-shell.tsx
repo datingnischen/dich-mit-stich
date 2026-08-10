@@ -251,8 +251,8 @@ export function SiteFooter({ market = "de", sectionLive = false }: { market?: Ma
             </p>
             <ul className="footer-trust-list" aria-label="Vertrauensmerkmale">
               <li>Eigener Szene-Fokus statt Massenbörse</li>
-              <li>Magazin + Stadtseiten mit klarer Orientierung</li>
-              <li>Alle wichtigen Magazin-Menüpunkte auch direkt im Footer erreichbar</li>
+              <li>Inspiration für dein Tattoo-Leben und deine Partnersuche</li>
+              <li>Tattoo-Singles, Stadt-Guides und Szene-Wissen direkt für dich</li>
             </ul>
           </div>
 

@@ -976,6 +976,14 @@ img {
   min-height: 150px;
 }
 
+.author-article-card {
+  grid-template-columns: 150px minmax(0, 1fr);
+}
+
+.author-article-card .article-card-media {
+  min-height: 120px;
+}
+
 .article-card-media-fallback {
   display: grid;
   align-content: end;
@@ -1295,6 +1303,18 @@ img {
   .footer-link-grid,
   .footer-cta-dark {
     grid-template-columns: 1fr;
+  }
+
+  .author-article-card {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  .author-article-card .article-card-media {
+    min-height: 112px;
+  }
+
+  .author-article-card .article-card-copy {
+    padding: 14px;
   }
 
   .site-header-bar {

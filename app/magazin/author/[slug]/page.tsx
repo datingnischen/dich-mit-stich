@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { getAuthorPosts, getAuthorProfile, getKnownAuthorSlugs } from "@/lib/author-profiles";
 import { publicUrl } from "@/lib/markets";
 import { stripHtml } from "@/lib/wordpress";
@@ -71,16 +70,6 @@ export default async function MagazineAuthorPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="content-section">
-        <ExpertTrustCard
-          profile={profile}
-          eyebrow="Autorenprofil"
-          title={`Hier findest du das Profil und die Magazin-Beiträge von ${profile.name}.`}
-          primaryLabel="Zum Magazin"
-          primaryHref="/magazin"
-        />
-      </section>
-
       {posts.length ? (
         <section className="content-section">
           <div className="section-header">
@@ -89,9 +78,27 @@ export default async function MagazineAuthorPage({ params }: PageProps) {
           </div>
           <div className="stack-list">
             {posts.slice(0, 8).map((post) => (
-              <Link key={post.id} href={`/magazin/${post.slug}`} className="article-card">
-                <h3>{post.title}</h3>
-                <p>{stripHtml(post.excerpt || post.content).slice(0, 170)}…</p>
+              <Link key={post.id} href={`/magazin/${post.slug}`} className="article-card article-card-rich author-article-card">
+                {post.featuredImage ? (
+                  <div className="article-card-media">
+                    <Image
+                      src={post.featuredImage}
+                      alt={post.featuredImageAlt || post.title}
+                      width={360}
+                      height={240}
+                      sizes="(max-width: 760px) 112px, 150px"
+                    />
+                  </div>
+                ) : (
+                  <div className="article-card-media article-card-media-fallback" aria-hidden="true">
+                    <span>Magazin</span>
+                    <strong>{post.title}</strong>
+                  </div>
+                )}
+                <div className="article-card-copy">
+                  <h3>{post.title}</h3>
+                  <p>{stripHtml(post.excerpt || post.content).slice(0, 170)}…</p>
+                </div>
               </Link>
             ))}
           </div>

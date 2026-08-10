@@ -63,6 +63,11 @@ test("footer keeps its link diversity inside four intentional topic groups", asy
   ]) {
     assert.match(shell, new RegExp(`label: "${link}"`));
   }
+
+  assert.match(shell, /Inspiration für dein Tattoo-Leben und deine Partnersuche/);
+  assert.match(shell, /Tattoo-Singles, Stadt-Guides und Szene-Wissen direkt für dich/);
+  assert.doesNotMatch(shell, /Magazin \+ Stadtseiten mit klarer Orientierung/);
+  assert.doesNotMatch(shell, /Alle wichtigen Magazin-Menüpunkte auch direkt im Footer erreichbar/);
 });
 
 test("footer styles provide a cohesive responsive hierarchy without hiding navigation", async () => {

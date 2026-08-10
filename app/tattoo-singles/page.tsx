@@ -49,8 +49,7 @@ export default async function TattooSinglesOverviewPage() {
                 </div>
               ) : null}
               <div className="city-card-copy">
-                <span>{city.label}</span>
-                <strong>Jetzt Stadt-Guide öffnen</strong>
+                <strong>{city.label}</strong>
               </div>
             </Link>
           ))}

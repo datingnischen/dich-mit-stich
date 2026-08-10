@@ -115,6 +115,15 @@ test("DE and CH city renderers use WordPress rather than legacy HTML or reposito
   assert.match(loader, /city_source_revision:\s*CITY_SOURCE_REVISION/);
 });
 
+test("DE city overview keeps linked city cards without the repetitive guide prompt", async () => {
+  const source = await readFile(new URL("../app/tattoo-singles/page.tsx", import.meta.url), "utf8");
+
+  assert.match(source, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
+  assert.match(source, /city-card-with-media/);
+  assert.match(source, /<strong>\{city\.label\}<\/strong>/);
+  assert.doesNotMatch(source, /Jetzt Stadt-Guide öffnen/);
+});
+
 test("AT and CH market overviews preserve their selected branded legacy overview images with provenance", async () => {
   const [source, styles, markets, layout] = await Promise.all([
     readFile(new URL("../app/market-tattoo-singles/[market]/page.tsx", import.meta.url), "utf8"),

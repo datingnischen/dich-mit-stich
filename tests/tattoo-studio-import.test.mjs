@@ -233,7 +233,7 @@ test("runTattooStudioImport collects every WordPress REST page before planning",
     const parsed = new URL(url);
     const page = Number(parsed.searchParams.get("page") || 1);
     const isStudio = parsed.pathname.endsWith("/tattoo-studios");
-    requested.push(`${parsed.pathname}:${page}`);
+    requested.push(`${parsed.pathname}:${page}:${parsed.searchParams.get("status") || ""}`);
 
     if (!isStudio) {
       return Response.json([], { headers: { "X-WP-TotalPages": "1" } });
@@ -264,7 +264,8 @@ test("runTattooStudioImport collects every WordPress REST page before planning",
 
   assert.equal(summary.studios.create, 0);
   assert.equal(summary.studios.update, 1);
-  assert.ok(requested.some((entry) => entry.endsWith("/tattoo-studios:2")));
+  assert.ok(requested.some((entry) => entry.endsWith("/tattoo-studios:2:any")));
+  assert.ok(requested.every((entry) => entry.endsWith(":any")));
 });
 
 test("runTattooStudioImport writes, reads back, and proves a stable second plan", async () => {

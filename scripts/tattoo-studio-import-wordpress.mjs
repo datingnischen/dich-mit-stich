@@ -120,7 +120,7 @@ async function loadCollection(client, restBase) {
   let totalPages = 1;
   for (let page = 1; page <= totalPages; page += 1) {
     const result = await client.collectionPage(
-      `${restBase}?context=edit&per_page=100&page=${page}&_fields=id,slug,status,title,content,excerpt,acf`,
+      `${restBase}?context=edit&status=any&per_page=100&page=${page}&_fields=id,slug,status,title,content,excerpt,acf`,
     );
     if (!Array.isArray(result.data)) throw new Error(`${restBase} collection response is not an array`);
     totalPages = result.totalPages;

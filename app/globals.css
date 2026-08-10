@@ -1307,9 +1307,13 @@ img {
     align-items: stretch;
   }
 
-  .footer-surface {
+  .footer-surface:not(.footer-surface-compact) {
     width: min(100% - 28px, 1180px);
     padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .footer-surface-compact {
+    width: min(100% - 28px, 1180px);
   }
 
   .footer-brand-panel {

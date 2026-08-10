@@ -106,6 +106,13 @@ const footerColumns: Array<{
   },
 ];
 
+const footerGroups = [
+  { title: "Tattoo-Wissen", columns: footerColumns.slice(0, 2) },
+  { title: "Szene & Geschichten", columns: footerColumns.slice(2, 4) },
+  { title: "Guides vor Ort", columns: footerColumns.slice(4, 6) },
+  { title: "Mitmachen & Service", columns: footerColumns.slice(6, 8) },
+];
+
 const HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-header.jpg");
 const AT_HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-at.svg");
 const CH_HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-ch.svg");
@@ -199,72 +206,87 @@ export function SiteFooter({ market = "de", sectionLive = false }: { market?: Ma
 
   if (!config.contentEnabled) {
     return (
-      <footer className="site-footer-shell">
-        <div className="footer-main">
-          <div className="footer-brand-panel">
-            <BrandLogo footer market={market} />
-            <p>
-              {sectionLive
-                ? `Entdecke Tattoo-Singles und alternative Szene-Guides ${market === "ch" ? "in der Schweiz" : `in ${config.countryName}`}.`
-                : `Der eigene Länderbereich für ${config.countryName} wird markt- und inhaltssauber vorbereitet.`}
-            </p>
+      <footer className="site-footer-shell" id="site-footer">
+        <div className="footer-surface footer-surface-compact">
+          <div className="footer-compact-main">
+            <div className="footer-brand-panel">
+              <BrandLogo footer market={market} />
+              <p>
+                {sectionLive
+                  ? `Entdecke Tattoo-Singles und alternative Szene-Guides ${market === "ch" ? "in der Schweiz" : `in ${config.countryName}`}.`
+                  : `Der eigene Länderbereich für ${config.countryName} wird markt- und inhaltssauber vorbereitet.`}
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="sub-footer">
-          <span>© {new Date().getFullYear()} Dich mit Stich {config.countryName}</span>
+          <div className="sub-footer">
+            <span>© {new Date().getFullYear()} Dich mit Stich {config.countryName}</span>
+          </div>
         </div>
       </footer>
     );
   }
 
   return (
-    <footer className="site-footer-shell">
-      <section className="footer-cta footer-cta-dark" aria-label="Registrierung">
-        <div>
-          <p className="eyebrow">Szene-Dating mit Profil</p>
-          <h2>Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</h2>
-          <p>Magazin, Stadtseiten und echte Erfolgsgeschichten helfen dir beim Einstieg — und führen direkt zu neuen Kontakten.</p>
-        </div>
-        <a className="footer-cta-button" href={publicUrl(market, "/registration/")}>Jetzt kostenlos registrieren</a>
-      </section>
+    <footer className="site-footer-shell" id="site-footer">
+      <div className="footer-surface">
+        <section className="footer-cta footer-cta-dark" aria-label="Registrierung">
+          <div className="footer-cta-copy">
+            <p className="footer-kicker">Szene-Dating mit Profil</p>
+            <h2>Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</h2>
+            <p>Magazin, Stadtseiten und echte Erfolgsgeschichten helfen dir beim Einstieg — und führen direkt zu neuen Kontakten.</p>
+          </div>
+          <a className="footer-cta-button" href={publicUrl(market, "/registration/")}>
+            <span>Jetzt kostenlos registrieren</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </section>
 
-      <div className="footer-main">
-        <div className="footer-brand-panel">
-          <BrandLogo footer market={market} />
-          <p>
-            Dich mit Stich verbindet Szene-Feeling, Dating-Ratgeber, Stadtseiten und echte Erfolgsgeschichten in einer
-            klaren, vertrauensvollen Oberfläche für Menschen mit eigenem Stil.
-          </p>
-          <ul className="footer-trust-list" aria-label="Vertrauensmerkmale">
-            <li>Eigener Szene-Fokus statt Massenbörse</li>
-            <li>Magazin + Stadtseiten mit klarer Orientierung</li>
-            <li>Alle wichtigen Magazin-Menüpunkte auch direkt im Footer erreichbar</li>
-          </ul>
+        <div className="footer-main">
+          <div className="footer-brand-panel">
+            <BrandLogo footer market={market} />
+            <p className="footer-brand-kicker">Dating · Szene · Orientierung</p>
+            <p className="footer-brand-copy">
+              Dich mit Stich verbindet Szene-Feeling, Dating-Ratgeber, Stadtseiten und echte Erfolgsgeschichten in einer
+              klaren, vertrauensvollen Oberfläche für Menschen mit eigenem Stil.
+            </p>
+            <ul className="footer-trust-list" aria-label="Vertrauensmerkmale">
+              <li>Eigener Szene-Fokus statt Massenbörse</li>
+              <li>Magazin + Stadtseiten mit klarer Orientierung</li>
+              <li>Alle wichtigen Magazin-Menüpunkte auch direkt im Footer erreichbar</li>
+            </ul>
+          </div>
+
+          <nav className="footer-link-grid" aria-label="Footer Navigation">
+            {footerGroups.map((group) => (
+              <section className="footer-topic-group" key={group.title}>
+                <p className="footer-topic-label">{group.title}</p>
+                <div className="footer-topic-columns">
+                  {group.columns.map((column) => (
+                    <div className="footer-column" key={column.title}>
+                      <h2>{column.title}</h2>
+                      <ul>
+                        {column.links.map((link) => (
+                          <li key={`${column.title}-${link.label}`}>
+                            <a href={marketHref(link, market)} {...externalAttrs(link.external)}>{link.label}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </nav>
         </div>
 
-        <nav className="footer-link-grid" aria-label="Footer Navigation">
-          {footerColumns.map((column) => (
-            <div className="footer-column" key={column.title}>
-              <h2>{column.title}</h2>
-              <ul>
-                {column.links.map((link) => (
-                  <li key={`${column.title}-${link.label}`}>
-                    <a href={marketHref(link, market)} {...externalAttrs(link.external)}>{link.label}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
-      </div>
-
-      <div className="sub-footer">
-        <div>
-          <span>© {new Date().getFullYear()} Dich mit Stich</span>
-        </div>
-        <div className="sub-footer-links">
-          <a href={publicUrl(market, "/registration/")}>Registrieren</a>
-          <a href={publicUrl(market, "/login/")}>Login</a>
+        <div className="sub-footer">
+          <div>
+            <span>© {new Date().getFullYear()} Dich mit Stich</span>
+          </div>
+          <div className="sub-footer-links">
+            <a href={publicUrl(market, "/registration/")}>Registrieren</a>
+            <a href={publicUrl(market, "/login/")}>Login</a>
+          </div>
         </div>
       </div>
     </footer>

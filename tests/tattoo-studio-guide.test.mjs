@@ -76,6 +76,8 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(overview, /publicUrl\("de", "\/tattoo-studios"\)/);
   assert.match(overview, /\/tattoo-studios\/\$\{city\.slug\}/);
   assert.match(overview, /Tattoo-Studio-Guide für Deutschland/);
+  assert.match(overview, /<MarketLink[^>]+targetMarket="ch"[^>]+pathname="\/tattoo-studios"[^>]*>Tattoo-Studios Schweiz<\/MarketLink>/);
+  assert.match(overview, /Vorschau verfügbar/);
   assert.match(overview, /city\.region/);
   assert.doesNotMatch(overview, /Niedersachsen ·/);
 

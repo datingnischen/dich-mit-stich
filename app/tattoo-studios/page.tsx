@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { publicUrl } from "@/lib/markets";
 import { getTattooStudioCities } from "@/lib/tattoo-studio-guide";
@@ -29,6 +30,7 @@ export default function TattooStudioGuidePage() {
             </p>
             <div className="button-row">
               <Link className="button button-primary" href="/tattoo-studios/berlin">Studios in Berlin entdecken</Link>
+              <MarketLink className="button button-secondary" targetMarket="ch" pathname="/tattoo-studios">Tattoo-Studios Schweiz</MarketLink>
               <a className="button button-secondary" href="#guide-prinzipien">So prüfen wir Studios</a>
             </div>
           </div>
@@ -48,7 +50,7 @@ export default function TattooStudioGuidePage() {
         <section className="content-section studio-guide-country-strip" aria-label="Länder des Studio-Guides">
           <div><span>Jetzt verfügbar</span><strong>Deutschland</strong></div>
           <div><span>Nächste Ausbaustufe</span><strong>Österreich</strong></div>
-          <div><span>Nächste Ausbaustufe</span><strong>Schweiz</strong></div>
+          <div><span>Vorschau verfügbar</span><strong>Schweiz</strong></div>
         </section>
 
         <section className="content-section">

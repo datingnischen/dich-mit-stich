@@ -57,5 +57,9 @@ test("footer styles provide a cohesive responsive hierarchy without hiding navig
   assert.match(css, /\.footer-topic-group\s*\{/);
   assert.match(css, /\.footer-topic-columns\s*\{/);
   assert.match(css, /@media \(max-width: 900px\)[\s\S]*\.footer-link-grid[\s\S]*grid-template-columns:\s*1fr/s);
+  assert.match(
+    css,
+    /@media \(max-width: 900px\)[\s\S]*?\.footer-surface\s*\{[\s\S]*?padding-bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom, 0px\)\);/s,
+  );
   assert.doesNotMatch(css, /\.footer-column\s*\{[^}]*border-radius:\s*28px/s);
 });

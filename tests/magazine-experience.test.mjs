@@ -66,6 +66,15 @@ test("matching magazine entries render an approved responsive YouTube video befo
   assert.match(css, /\.magazine-video-frame\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*9/s);
 });
 
+test("Christina magazine detail replaces the legacy diagram with a local editorial feature image", async () => {
+  const detail = await readSource("../app/magazin/[slug]/page.tsx");
+
+  assert.match(detail, /import \{ getMagazineFeaturedImage \} from "@\/lib\/magazine-featured-images"/);
+  assert.match(detail, /getMagazineFeaturedImage\(entry\.slug, \{[\s\S]*src: entry\.featuredImage,[\s\S]*alt: entry\.featuredImageAlt \|\| entry\.title,[\s\S]*\}\)/);
+  assert.match(detail, /src=\{featuredImage\.src\}/);
+  assert.match(detail, /alt=\{featuredImage\.alt\}/);
+});
+
 test("magazine cards and Flirtradar conversion have explicit responsive layouts", async () => {
   const css = await readSource("../app/globals.css");
 

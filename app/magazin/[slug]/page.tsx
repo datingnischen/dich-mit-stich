@@ -6,6 +6,7 @@ import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineVideo } from "@/components/magazine-video";
 import { getAuthorProfile } from "@/lib/author-profiles";
+import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
 import { getMagazineVideo } from "@/lib/magazine-videos";
 import { publicUrl } from "@/lib/markets";
 import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
@@ -40,6 +41,10 @@ export default async function MagazineDetailPage({ params }: PageProps) {
 
   const authorProfile = entry.authorSlug ? await getAuthorProfile(entry.authorSlug) : null;
   const authorHref = authorProfile?.profileUrl;
+  const featuredImage = getMagazineFeaturedImage(entry.slug, {
+    src: entry.featuredImage,
+    alt: entry.featuredImageAlt || entry.title,
+  });
   const magazineVideo = getMagazineVideo(entry.slug);
 
   return (
@@ -58,12 +63,12 @@ export default async function MagazineDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {entry.featuredImage ? (
+      {featuredImage ? (
         <section className="content-section">
           <figure className="article-hero-media">
             <Image
-              src={entry.featuredImage}
-              alt={entry.featuredImageAlt || entry.title}
+              src={featuredImage.src}
+              alt={featuredImage.alt}
               width={1200}
               height={675}
               sizes="(max-width: 900px) 100vw, 900px"

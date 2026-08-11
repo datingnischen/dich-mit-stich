@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Christina-Piercing – redaktionelles Schmuckmotiv</title>
+  <desc id="desc">Ein Titan-Surface-Barbell mit roséfarbenen Opalsteinen auf abstrakten, weich gefalteten Flächen in Pflaume und Rosé.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#180d14"/>
+      <stop offset="0.48" stop-color="#34111f"/>
+      <stop offset="1" stop-color="#120b10"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="52%" cy="46%" r="58%">
+      <stop offset="0" stop-color="#c62a68" stop-opacity=".3"/>
+      <stop offset=".52" stop-color="#6d173f" stop-opacity=".13"/>
+      <stop offset="1" stop-color="#10080d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="satinA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7f2349"/>
+      <stop offset=".24" stop-color="#da7d98"/>
+      <stop offset=".43" stop-color="#5c1836"/>
+      <stop offset=".74" stop-color="#bc506f"/>
+      <stop offset="1" stop-color="#3b1126"/>
+    </linearGradient>
+    <linearGradient id="satinB" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#51152f"/>
+      <stop offset=".28" stop-color="#bf5876"/>
+      <stop offset=".53" stop-color="#efb4bd"/>
+      <stop offset=".72" stop-color="#7f2348"/>
+      <stop offset="1" stop-color="#2c101e"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6d6970"/>
+      <stop offset=".16" stop-color="#f6f2f5"/>
+      <stop offset=".36" stop-color="#9f9aa2"/>
+      <stop offset=".56" stop-color="#ffffff"/>
+      <stop offset=".78" stop-color="#777179"/>
+      <stop offset="1" stop-color="#d4ced4"/>
+    </linearGradient>
+    <radialGradient id="opal" cx="35%" cy="28%" r="74%">
+      <stop offset="0" stop-color="#fff8fb"/>
+      <stop offset=".2" stop-color="#ffd7e8"/>
+      <stop offset=".46" stop-color="#f16d9e"/>
+      <stop offset=".72" stop-color="#a81959"/>
+      <stop offset="1" stop-color="#5a1236"/>
+    </radialGradient>
+    <radialGradient id="opalGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ff7bab" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#ff3d84" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur40" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="shadow" x="-60%" y="-60%" width="220%" height="240%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#050203" flood-opacity=".72"/>
+    </filter>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#080306" flood-opacity=".48"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="17" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+      <feComponentTransfer in="mono" result="faded"><feFuncA type="table" tableValues="0 .075"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="faded" mode="soft-light"/>
+    </filter>
+    <clipPath id="canvas"><rect width="1600" height="900" rx="0"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#canvas)">
+    <rect width="1600" height="900" fill="url(#bg)"/>
+    <ellipse cx="820" cy="410" rx="710" ry="570" fill="url(#halo)"/>
+
+    <g opacity=".94" filter="url(#softShadow)">
+      <path d="M-180 830 C145 468 392 188 685 228 C902 257 929 590 1172 613 C1370 631 1515 436 1760 94 L1760 980 L-180 980 Z" fill="url(#satinA)"/>
+      <path d="M-120 914 C278 698 500 579 757 611 C1003 642 1166 770 1720 422 L1720 980 L-120 980 Z" fill="url(#satinB)" opacity=".74"/>
+      <path d="M315 -70 C487 164 647 252 877 197 C1101 143 1270 40 1522 -62 L1605 -62 L1605 114 C1291 243 1022 344 769 329 C558 315 399 196 250 11 Z" fill="#7d2349" opacity=".36"/>
+    </g>
+
+    <path d="M-95 850 C270 491 414 284 673 306 C900 326 949 652 1192 680 C1404 704 1542 507 1714 245" fill="none" stroke="#f8d6df" stroke-opacity=".24" stroke-width="4"/>
+    <path d="M-120 936 C322 737 507 664 760 694 C1040 726 1199 817 1724 524" fill="none" stroke="#4b102c" stroke-opacity=".62" stroke-width="18"/>
+    <path d="M229 20 C502 273 658 351 908 281 C1133 218 1320 100 1548 16" fill="none" stroke="#ecb5c6" stroke-opacity=".15" stroke-width="3"/>
+
+    <ellipse cx="815" cy="470" rx="320" ry="250" fill="#10080d" opacity=".28" filter="url(#blur40)"/>
+    <path d="M548 557 C684 393 904 300 1099 334" fill="none" stroke="#f4bfd0" stroke-opacity=".13" stroke-width="2"/>
+    <path d="M592 621 C729 474 922 399 1081 422" fill="none" stroke="#f4bfd0" stroke-opacity=".1" stroke-width="2"/>
+
+    <g filter="url(#shadow)" transform="rotate(-19 806 450)">
+      <rect x="785" y="278" width="42" height="320" rx="21" fill="url(#metal)"/>
+      <rect x="794" y="300" width="7" height="270" rx="3.5" fill="#ffffff" opacity=".76"/>
+      <circle cx="806" cy="260" r="85" fill="url(#opalGlow)" opacity=".58"/>
+      <circle cx="806" cy="260" r="61" fill="#ece9ec"/>
+      <circle cx="806" cy="260" r="53" fill="url(#opal)"/>
+      <ellipse cx="789" cy="241" rx="19" ry="12" fill="#fff" opacity=".72" transform="rotate(-28 789 241)"/>
+      <circle cx="806" cy="625" r="132" fill="url(#opalGlow)" opacity=".54"/>
+      <circle cx="806" cy="625" r="94" fill="#f1edf0"/>
+      <circle cx="806" cy="625" r="84" fill="url(#opal)"/>
+      <ellipse cx="778" cy="594" rx="31" ry="18" fill="#fff" opacity=".72" transform="rotate(-28 778 594)"/>
+      <path d="M744 647 Q806 708 868 647" fill="none" stroke="#5a1236" stroke-opacity=".35" stroke-width="8" stroke-linecap="round"/>
+    </g>
+
+    <g fill="#fff" opacity=".74">
+      <path d="M1103 212 l8 22 22 8-22 8-8 22-8-22-22-8 22-8z"/>
+      <path d="M528 285 l5 14 14 5-14 5-5 14-5-14-14-5 14-5z" opacity=".58"/>
+      <circle cx="1184" cy="588" r="5" opacity=".62"/>
+      <circle cx="478" cy="618" r="4" opacity=".5"/>
+    </g>
+
+    <rect width="1600" height="900" fill="transparent" filter="url(#grain)"/>
+    <rect x="28" y="28" width="1544" height="844" rx="34" fill="none" stroke="#fff" stroke-opacity=".06" stroke-width="2"/>
+  </g>
+</svg>

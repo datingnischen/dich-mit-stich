@@ -33,8 +33,8 @@ export function MagazineDatingCta() {
           <Image
             src={FLIRTRADAR_IMAGE}
             alt="Flirtradar mit Umkreissuche für Tattoo- und Piercing-Singles"
-            width={1200}
-            height={675}
+            width={320}
+            height={480}
             sizes="(max-width: 900px) 100vw, 420px"
           />
         </div>

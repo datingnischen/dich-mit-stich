@@ -30,6 +30,17 @@ test("normal magazine entries render one reusable Flirtradar conversion after ed
   assert.doesNotMatch(detail, /registration\/">Kostenlos registrieren/);
 
   assert.match(component, /staticAsset\("\/brand\/flirtradar-umkreissuche\.png"\)/);
+  const flirtradarImage = await readFile(
+    new URL("../public/brand/flirtradar-umkreissuche.png", import.meta.url),
+  );
+  const declaredDimensions = component.match(
+    /width=\{(\d+)\}[\s\S]*height=\{(\d+)\}/,
+  );
+  assert.ok(declaredDimensions, "Flirtradar Image must declare intrinsic dimensions");
+  assert.deepEqual(
+    declaredDimensions.slice(1).map(Number),
+    [flirtradarImage.readUInt32BE(16), flirtradarImage.readUInt32BE(20)],
+  );
   assert.match(component, /registration\/\?AID=magazin/);
   assert.match(component, /alt="Flirtradar mit Umkreissuche für Tattoo- und Piercing-Singles"/);
   assert.match(component, /aria-labelledby="magazine-dating-title"/);

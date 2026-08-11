@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
+import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { getAuthorProfile } from "@/lib/author-profiles";
 import { publicUrl } from "@/lib/markets";
 import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
@@ -51,7 +52,6 @@ export default async function MagazineDetailPage({ params }: PageProps) {
             </span>
           ) : null}
           {entry.date ? <span>{entry.date.slice(0, 10)}</span> : null}
-          <Link href="https://dich-mit-stich.de/registration/">Kostenlos registrieren</Link>
         </div>
       </section>
 
@@ -85,6 +85,8 @@ export default async function MagazineDetailPage({ params }: PageProps) {
       <section className="rich-content">
         <div dangerouslySetInnerHTML={{ __html: entry.content }} />
       </section>
+
+      <MagazineDatingCta />
 
       {entry.slug !== "unser-datingexperte" && authorProfile ? (
         <section className="content-section">

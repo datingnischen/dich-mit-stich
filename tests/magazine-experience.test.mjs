@@ -46,6 +46,26 @@ test("normal magazine entries render one reusable Flirtradar conversion after ed
   assert.match(component, /aria-labelledby="magazine-dating-title"/);
 });
 
+test("matching magazine entries render an approved responsive YouTube video before conversion", async () => {
+  const [detail, component, registry, css] = await Promise.all([
+    readSource("../app/magazin/[slug]/page.tsx"),
+    readSource("../components/magazine-video.tsx"),
+    readSource("../lib/magazine-videos.ts"),
+    readSource("../app/globals.css"),
+  ]);
+
+  assert.match(detail, /getMagazineVideo\(entry\.slug\)/);
+  assert.match(detail, /magazineVideo \? <MagazineVideo video=\{magazineVideo\} \/> : null/);
+  assert.ok(detail.indexOf("<MagazineVideo") > detail.indexOf('className="rich-content"'));
+  assert.ok(detail.indexOf("<MagazineVideo") < detail.indexOf("<MagazineDatingCta />"));
+  assert.match(registry, /"christina-piercing":\s*\{/);
+  assert.match(registry, /videoId:\s*"p4-qTtyMegM"/);
+  assert.match(component, /https:\/\/www\.youtube-nocookie\.com\/embed\/\$\{video\.videoId\}/);
+  assert.match(component, /title=\{video\.embedTitle\}/);
+  assert.match(component, /loading="lazy"/);
+  assert.match(css, /\.magazine-video-frame\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*9/s);
+});
+
 test("magazine cards and Flirtradar conversion have explicit responsive layouts", async () => {
   const css = await readSource("../app/globals.css");
 

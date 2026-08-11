@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
+import { MagazineVideo } from "@/components/magazine-video";
 import { getAuthorProfile } from "@/lib/author-profiles";
+import { getMagazineVideo } from "@/lib/magazine-videos";
 import { publicUrl } from "@/lib/markets";
 import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
 
@@ -38,6 +40,7 @@ export default async function MagazineDetailPage({ params }: PageProps) {
 
   const authorProfile = entry.authorSlug ? await getAuthorProfile(entry.authorSlug) : null;
   const authorHref = authorProfile?.profileUrl;
+  const magazineVideo = getMagazineVideo(entry.slug);
 
   return (
     <main className="shell shell-narrow">
@@ -85,6 +88,8 @@ export default async function MagazineDetailPage({ params }: PageProps) {
       <section className="rich-content">
         <div dangerouslySetInnerHTML={{ __html: entry.content }} />
       </section>
+
+      {magazineVideo ? <MagazineVideo video={magazineVideo} /> : null}
 
       <MagazineDatingCta />
 

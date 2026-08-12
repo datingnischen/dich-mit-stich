@@ -17,6 +17,29 @@ test("magazine overview uses broad editorial grids without equal-height split pa
   assert.match(source, /registration\/\?AID=magazin/);
 });
 
+test("normal magazine entries use a structured editorial detail layout", async () => {
+  const [detail, css] = await Promise.all([
+    readSource("../app/magazin/[slug]/page.tsx"),
+    readSource("../app/globals.css"),
+  ]);
+
+  assert.match(detail, /formatGermanDate/);
+  assert.match(detail, /const isPiercingArticle = \[entry\.title, entry\.slug/);
+  assert.match(detail, /className="[^"]*magazine-detail-shell[^"]*"/);
+  assert.match(detail, /className="magazine-breadcrumb" aria-label="Brotkrümelnavigation"/);
+  assert.match(detail, /className="[^"]*magazine-detail-hero[^"]*"/);
+  assert.match(detail, /className="magazine-detail-topics"/);
+  assert.match(detail, /className="magazine-detail-media"/);
+  assert.match(detail, /className="rich-content magazine-article-body"/);
+  assert.doesNotMatch(detail, /entry\.date\.slice\(0, 10\)/);
+
+  assert.match(css, /\.magazine-detail-shell\s*\{[^}]*width:/s);
+  assert.match(css, /\.magazine-detail-hero\s*\{/);
+  assert.match(css, /\.magazine-article-body\s*\{[^}]*max-width:\s*760px/s);
+  assert.match(css, /\.magazine-article-body\s+h2\s*\{[^}]*font-size:/s);
+  assert.match(css, /\.magazine-article-body\s*:\s*where\(p,\s*ul,\s*ol\)\s*\{[^}]*line-height:/s);
+});
+
 test("normal magazine entries render one reusable Flirtradar conversion after editorial content", async () => {
   const [detail, component] = await Promise.all([
     readSource("../app/magazin/[slug]/page.tsx"),
@@ -41,7 +64,8 @@ test("normal magazine entries render one reusable Flirtradar conversion after ed
     declaredDimensions.slice(1).map(Number),
     [flirtradarImage.readUInt32BE(16), flirtradarImage.readUInt32BE(20)],
   );
-  assert.match(component, /registration\/\?AID=magazin/);
+  assert.match(component, /https:\/\/dich-mit-stich\.de\/suche\/\?AID=magazin/);
+  assert.doesNotMatch(component, /https:\/\/dich-mit-stich\.de\/registration\/\?AID=magazin/);
   assert.match(component, /alt="Flirtradar mit Umkreissuche für Tattoo- und Piercing-Singles"/);
   assert.match(component, /aria-labelledby="magazine-dating-title"/);
 });

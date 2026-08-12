@@ -9,7 +9,7 @@ import { getAuthorProfile } from "@/lib/author-profiles";
 import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
 import { getMagazineVideo } from "@/lib/magazine-videos";
 import { publicUrl } from "@/lib/markets";
-import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
+import { formatGermanDate, getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -46,25 +46,47 @@ export default async function MagazineDetailPage({ params }: PageProps) {
     alt: entry.featuredImageAlt || entry.title,
   });
   const magazineVideo = getMagazineVideo(entry.slug);
+  const isPiercingArticle = [entry.title, entry.slug, ...entry.categories.flatMap((category) => [category.name, category.slug])]
+    .join(" ")
+    .toLocaleLowerCase("de")
+    .includes("piercing");
 
   return (
-    <main className="shell shell-narrow">
-      <section className="hero-card hero-magazine hero-magazine-editorial">
-        <span className="eyebrow">{entry.type === "post" ? "Magazin-Artikel" : "Magazin-Seite"}</span>
+    <main className="shell magazine-detail-shell">
+      <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
+        <Link href="/magazin">Magazin</Link>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{entry.title}</span>
+      </nav>
+
+      <header className="hero-card hero-magazine hero-magazine-editorial magazine-detail-hero">
+        <span className="eyebrow">
+          {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
+        </span>
         <h1>{entry.title}</h1>
-        <p>{stripHtml(entry.excerpt || entry.content).slice(0, 220)}…</p>
-        <div className="meta-row">
+        <p className="magazine-detail-lead">{stripHtml(entry.excerpt || entry.content).slice(0, 220)}…</p>
+        <div className="meta-row magazine-detail-meta">
           {entry.authorName ? (
             <span>
               Von {authorHref ? <Link href={authorHref}>{entry.authorName}</Link> : entry.authorName}
             </span>
           ) : null}
-          {entry.date ? <span>{entry.date.slice(0, 10)}</span> : null}
+          {entry.date ? <time dateTime={entry.date}>{formatGermanDate(entry.date)}</time> : null}
         </div>
-      </section>
+
+        {entry.categories.length ? (
+          <div className="magazine-detail-topics" aria-label="Themen dieses Beitrags">
+            {entry.categories.map((category) => (
+              <Link key={category.slug} className="chip" href={`/magazin/thema/${category.slug}`}>
+                {category.name}
+              </Link>
+            ))}
+          </div>
+        ) : null}
+      </header>
 
       {featuredImage ? (
-        <section className="content-section">
+        <section className="magazine-detail-media" aria-label="Beitragsbild">
           <figure className="article-hero-media">
             <Image
               src={featuredImage.src}
@@ -78,19 +100,7 @@ export default async function MagazineDetailPage({ params }: PageProps) {
         </section>
       ) : null}
 
-      {entry.categories.length ? (
-        <section className="content-section">
-          <div className="chip-row">
-            {entry.categories.map((category) => (
-              <Link key={category.slug} className="chip" href={`/magazin/thema/${category.slug}`}>
-                {category.name}
-              </Link>
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      <section className="rich-content">
+      <section className="rich-content magazine-article-body">
         <div dangerouslySetInnerHTML={{ __html: entry.content }} />
       </section>
 

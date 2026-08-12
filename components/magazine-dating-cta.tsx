@@ -19,7 +19,7 @@ export function MagazineDatingCta() {
           <li>Kostenlos starten und den Suchradius selbst bestimmen</li>
         </ul>
         <div className="button-row">
-          <Link className="button button-primary" href="https://dich-mit-stich.de/registration/?AID=magazin">
+          <Link className="button button-primary" href="https://dich-mit-stich.de/suche/?AID=magazin">
             Flirtradar kostenlos nutzen
           </Link>
           <Link className="button button-secondary" href="/tattoo-singles">

@@ -1430,6 +1430,114 @@ img {
   text-underline-offset: 0.18em;
 }
 
+.magazine-article-intro {
+  color: var(--foreground) !important;
+  font-size: clamp(1.1rem, 2vw, 1.22rem) !important;
+  line-height: 1.75 !important;
+}
+
+.magazine-quick-guide,
+.magazine-safety-note,
+.magazine-related-reading,
+.magazine-source-list {
+  margin: 2.35rem 0;
+  padding: clamp(22px, 4vw, 30px);
+  border: 1px solid rgba(103, 19, 60, 0.14);
+  border-radius: 22px;
+  background: #fff8fb;
+}
+
+.magazine-quick-guide h2,
+.magazine-safety-note h2,
+.magazine-related-reading h2,
+.magazine-source-list h2 {
+  margin-top: 0.75rem;
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+}
+
+.magazine-quick-guide ul,
+.magazine-source-list ul {
+  margin-bottom: 0;
+}
+
+.magazine-safety-note {
+  border-left: 6px solid var(--brand);
+  background: linear-gradient(135deg, #fff1f6, #fffaf7);
+}
+
+.magazine-safety-note p,
+.magazine-source-list p {
+  margin-bottom: 0;
+}
+
+.magazine-check-list {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  padding-left: 0 !important;
+}
+
+.magazine-check-list li {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.magazine-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--brand);
+  font-weight: 900;
+}
+
+.magazine-related-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 1.25rem;
+}
+
+.magazine-related-links a {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.magazine-related-links a:hover,
+.magazine-related-links a:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(103, 19, 60, 0.34);
+  box-shadow: 0 12px 26px rgba(74, 39, 56, 0.1);
+}
+
+.magazine-related-links span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.magazine-source-list {
+  background: #fff;
+}
+
+.magazine-source-list a {
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magazine-related-links a {
+    transition: none;
+  }
+}
+
 .magazine-intro-card {
   display: grid;
   gap: 22px;
@@ -1701,6 +1809,14 @@ img {
   .magazine-article-body :where(p, ul, ol) {
     font-size: 1rem;
     line-height: 1.78;
+  }
+
+  .magazine-related-links {
+    grid-template-columns: 1fr;
+  }
+
+  .magazine-related-links a {
+    min-height: 0;
   }
 
   .editorial-feature-card,

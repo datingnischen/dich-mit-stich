@@ -9,6 +9,10 @@ type MagazineFeaturedImageFallback = {
 };
 
 const featuredImageOverrides: Record<string, MagazineFeaturedImage> = {
+  "anti-eyebrow-piercing": {
+    src: "/images/magazine/anti-eyebrow-piercing-featured.svg",
+    alt: "Redaktionelle Illustration der Anti-Eyebrow-Position unterhalb des äußeren Auges",
+  },
   "christina-piercing": {
     src: "/images/magazine/christina-piercing-featured.webp",
     alt: "Roséfarbener Christina-Piercing-Schmuck auf bordeauxfarbenem Satin",

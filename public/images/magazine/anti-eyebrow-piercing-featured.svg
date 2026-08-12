@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Redaktionelle Illustration eines Anti-Eyebrow-Piercings</title>
+  <desc id="desc">Abstrakte seitliche Gesichtskontur mit zwei dezenten Schmuckpunkten unterhalb des äußeren Auges in Bordeaux und Rosé.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7fa"/>
+      <stop offset="0.48" stop-color="#f7d9e6"/>
+      <stop offset="1" stop-color="#f3b993"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="38%" r="52%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".94"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#67133c" flood-opacity=".24"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="935" cy="105" r="320" fill="url(#glow)"/>
+  <path d="M0 548 C188 461 310 489 441 577 C514 626 593 650 705 675 H0Z" fill="#67133c" opacity=".94"/>
+  <path d="M1200 0H865C934 76 982 162 989 260C998 389 946 503 842 579C808 604 771 636 744 675H1200Z" fill="#2a1821" opacity=".96"/>
+  <path d="M754 102C658 118 579 175 544 266C504 368 535 483 620 548C669 586 724 598 783 579C849 557 895 508 922 440C940 393 949 344 943 293C934 211 872 120 754 102Z" fill="#f9d8c4" stroke="#67133c" stroke-width="9"/>
+  <path d="M650 278C690 247 747 242 791 268" fill="none" stroke="#40202e" stroke-width="14" stroke-linecap="round"/>
+  <path d="M666 301C702 329 748 330 784 303" fill="none" stroke="#40202e" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="725" cy="298" r="13" fill="#67133c"/>
+  <path d="M864 270C892 310 893 350 873 392" fill="none" stroke="#b66c78" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+  <path d="M807 403C776 421 733 422 697 402" fill="none" stroke="#b66c78" stroke-width="8" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <circle cx="835" cy="335" r="20" fill="#fff" stroke="#67133c" stroke-width="8"/>
+    <circle cx="858" cy="366" r="20" fill="#fff" stroke="#67133c" stroke-width="8"/>
+    <circle cx="835" cy="335" r="7" fill="#db3987"/>
+    <circle cx="858" cy="366" r="7" fill="#db3987"/>
+  </g>
+  <path d="M840 339L854 361" stroke="#67133c" stroke-width="7" stroke-linecap="round" opacity=".72"/>
+  <circle cx="108" cy="598" r="12" fill="#ff6ba9"/>
+</svg>

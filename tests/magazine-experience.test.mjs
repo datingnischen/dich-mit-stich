@@ -70,6 +70,45 @@ test("normal magazine entries render one reusable Flirtradar conversion after ed
   assert.match(component, /aria-labelledby="magazine-dating-title"/);
 });
 
+test("Anti-Eyebrow pilot replaces unsafe legacy guidance with sourced editorial content", async () => {
+  const [detail, editorial, registry, featuredImages, featuredAsset] = await Promise.all([
+    readSource("../app/magazin/[slug]/page.tsx"),
+    readSource("../components/anti-eyebrow-editorial.tsx"),
+    readSource("../lib/magazine-editorial-overrides.ts"),
+    readSource("../lib/magazine-featured-images.ts"),
+    readSource("../public/images/magazine/anti-eyebrow-piercing-featured.svg"),
+  ]);
+
+  assert.match(detail, /getMagazineEditorialOverride\(entry\.slug\)/);
+  assert.match(detail, /getMagazineEditorialOverride\(slug\)/);
+  assert.match(detail, /description:\s*editorialOverride\?\.summary/);
+  assert.match(detail, /<AntiEyebrowEditorial \/>/);
+  assert.match(detail, /editorialOverride\?\.summary/);
+  assert.match(registry, /"anti-eyebrow-piercing":\s*\{/);
+  assert.match(registry, /Professionell planen, schonend pflegen und Warnzeichen richtig einordnen/);
+  assert.match(registry, /reviewedAt:\s*"2026-08-12"/);
+  assert.match(detail, /Fachlich aktualisiert:/);
+
+  assert.match(editorial, /Was ist ein Anti-Eyebrow-Piercing\?/);
+  assert.match(editorial, /Schmuck und professionelle Planung/);
+  assert.match(editorial, /Heilung und alltagstaugliche Pflege/);
+  assert.match(editorial, /Wann du Hilfe holen solltest/);
+  assert.match(editorial, /https:\/\/safepiercing\.org\/aftercare\//);
+  assert.match(editorial, /https:\/\/safepiercing\.org\/jewelry-for-initial-piercings\//);
+  assert.match(editorial, /https:\/\/www\.nhs\.uk\/conditions\/infected-piercings\//);
+  assert.match(editorial, /rel="noopener noreferrer nofollow"/);
+  assert.match(editorial, /\/magazin\/surface-piercing/);
+  assert.match(editorial, /\/magazin\/augenbrauen-piercing/);
+  assert.match(editorial, /\/magazin\/piercingarten/);
+  assert.doesNotMatch(editorial, /stark eitert, ist das ganz normal/i);
+  assert.doesNotMatch(editorial, /Schmerzen beim Stechen:\s*schwer/i);
+  assert.doesNotMatch(editorial, /40\s*[–-]\s*80\s*EUR/i);
+
+  assert.match(featuredImages, /"anti-eyebrow-piercing":\s*\{/);
+  assert.match(featuredImages, /anti-eyebrow-piercing-featured\.svg/);
+  assert.doesNotMatch(featuredAsset, /<text\b/);
+});
+
 test("matching magazine entries render an approved responsive YouTube video before conversion", async () => {
   const [detail, component, registry, css] = await Promise.all([
     readSource("../app/magazin/[slug]/page.tsx"),

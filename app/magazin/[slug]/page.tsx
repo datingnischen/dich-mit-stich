@@ -64,51 +64,53 @@ export default async function MagazineDetailPage({ params }: PageProps) {
         <span aria-current="page">{entry.title}</span>
       </nav>
 
-      <header className="hero-card hero-magazine hero-magazine-editorial magazine-detail-hero">
-        <span className="eyebrow">
-          {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
-        </span>
-        <h1>{entry.title}</h1>
-        <p className="magazine-detail-lead">{articleSummary}{editorialOverride ? null : "…"}</p>
-        <div className="meta-row magazine-detail-meta">
-          {entry.authorName ? (
-            <span>
-              Von {authorHref ? <Link href={authorHref}>{entry.authorName}</Link> : entry.authorName}
-            </span>
-          ) : null}
-          {entry.date ? <time dateTime={entry.date}>{formatGermanDate(entry.date)}</time> : null}
-          {editorialOverride ? (
-            <span>
-              Fachlich aktualisiert: <time dateTime={editorialOverride.reviewedAt}>{editorialOverride.reviewedAtLabel}</time>
-            </span>
-          ) : null}
-        </div>
-
-        {entry.categories.length ? (
-          <div className="magazine-detail-topics" aria-label="Themen dieses Beitrags">
-            {entry.categories.map((category) => (
-              <Link key={category.slug} className="chip" href={`/magazin/thema/${category.slug}`}>
-                {category.name}
-              </Link>
-            ))}
+      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}`}>
+        <header className="hero-card hero-magazine hero-magazine-editorial magazine-detail-hero">
+          <span className="eyebrow">
+            {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
+          </span>
+          <h1>{entry.title}</h1>
+          <p className="magazine-detail-lead">{articleSummary}{editorialOverride ? null : "…"}</p>
+          <div className="meta-row magazine-detail-meta">
+            {entry.authorName ? (
+              <span>
+                Von {authorHref ? <Link href={authorHref}>{entry.authorName}</Link> : entry.authorName}
+              </span>
+            ) : null}
+            {entry.date ? <time dateTime={entry.date}>{formatGermanDate(entry.date)}</time> : null}
+            {editorialOverride ? (
+              <span>
+                Fachlich aktualisiert: <time dateTime={editorialOverride.reviewedAt}>{editorialOverride.reviewedAtLabel}</time>
+              </span>
+            ) : null}
           </div>
-        ) : null}
-      </header>
 
-      {featuredImage ? (
-        <section className="magazine-detail-media" aria-label="Beitragsbild">
-          <figure className="article-hero-media">
-            <Image
-              src={featuredImage.src}
-              alt={featuredImage.alt}
-              width={1200}
-              height={675}
-              sizes="(max-width: 900px) 100vw, 900px"
-              priority
-            />
-          </figure>
-        </section>
-      ) : null}
+          {entry.categories.length ? (
+            <div className="magazine-detail-topics" aria-label="Themen dieses Beitrags">
+              {entry.categories.map((category) => (
+                <Link key={category.slug} className="chip" href={`/magazin/thema/${category.slug}`}>
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          ) : null}
+        </header>
+
+        {featuredImage ? (
+          <section className="magazine-detail-media" aria-label="Beitragsbild">
+            <figure className="article-hero-media">
+              <Image
+                src={featuredImage.src}
+                alt={featuredImage.alt}
+                width={1200}
+                height={675}
+                sizes="(max-width: 900px) 100vw, 1000px"
+                priority
+              />
+            </figure>
+          </section>
+        ) : null}
+      </div>
 
       <section className="rich-content magazine-article-body">
         {editorialOverride?.kind === "anti-eyebrow" ? (

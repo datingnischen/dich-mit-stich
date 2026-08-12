@@ -30,9 +30,19 @@ test("normal magazine entries use a structured editorial detail layout", async (
   assert.match(detail, /className="[^"]*magazine-detail-hero[^"]*"/);
   assert.match(detail, /className="magazine-detail-topics"/);
   assert.match(detail, /className="magazine-detail-media"/);
+
   assert.match(detail, /className="rich-content magazine-article-body"/);
   assert.doesNotMatch(detail, /entry\.date\.slice\(0, 10\)/);
 
+  assert.match(detail, /className=\{`magazine-detail-cover\$\{featuredImage \? "" : " magazine-detail-cover-text-only"\}`\}/);
+  assert.ok(detail.indexOf("magazine-detail-hero") > detail.indexOf("magazine-detail-cover"));
+  assert.ok(detail.indexOf("magazine-detail-media") > detail.indexOf("magazine-detail-hero"));
+  assert.match(css, /\.magazine-detail-cover\s*\{[^}]*width:\s*min\(1000px,\s*100%\)[^}]*overflow:\s*hidden/s);
+  assert.match(css, /\.magazine-detail-cover\s*\{[^}]*box-shadow:/s);
+  assert.match(css, /\.magazine-detail-hero\s*\{[^}]*width:\s*100%[^}]*border-radius:\s*0/s);
+  assert.match(css, /\.magazine-detail-media\s*\{[^}]*width:\s*100%/s);
+  assert.match(css, /\.magazine-detail-media \.article-hero-media\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*9[^}]*border-radius:\s*0/s);
+  assert.match(css, /\.magazine-detail-cover-text-only \.magazine-detail-hero\s*\{[^}]*border-radius:/s);
   assert.match(css, /\.magazine-detail-shell\s*\{[^}]*width:/s);
   assert.match(css, /\.magazine-detail-hero\s*\{/);
   assert.match(css, /\.magazine-article-body\s*\{[^}]*max-width:\s*760px/s);

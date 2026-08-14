@@ -232,7 +232,7 @@ test("every DE page family emits a prefix-free public-domain canonical", async (
     ["../app/magazin/page.tsx", /publicUrl\("de", "\/magazin"\)/],
     ["../app/magazin/[slug]/page.tsx", /publicUrl\("de", `\/magazin\/\$\{slug\}`\)/],
     ["../app/magazin/thema/[slug]/page.tsx", /publicUrl\("de", `\/magazin\/thema\/\$\{slug\}`\)/],
-    ["../app/magazin/author/[slug]/page.tsx", /publicUrl\("de", `\/magazin\/author\/\$\{slug\}`\)/],
+    ["../app/magazin/author/[slug]/page.tsx", /publicUrl\("de", profile\.profileUrl\)/],
     ["../app/tattoo-singles/page.tsx", /publicUrl\("de", "\/tattoo-singles"\)/],
     ["../app/tattoo-singles/[slug]/page.tsx", /publicUrl\("de", `\/tattoo-singles\/\$\{slug\}`\)/],
     ["../app/tattoo-studios/page.tsx", /publicUrl\("de", "\/tattoo-studios"\)/],

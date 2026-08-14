@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAuthorPosts, getAuthorProfile, getKnownAuthorSlugs } from "@/lib/author-profiles";
+import { buildAuthorProfileGraph } from "@/lib/editorial-entities";
+import { serializeJsonLd } from "@/lib/json-ld";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import { stripHtml } from "@/lib/wordpress";
@@ -28,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${profile.name} | dich-mit-stich Magazin`,
     description: profile.bio.slice(0, 155),
-    alternates: { canonical: publicUrl("de", `/magazin/author/${slug}`) },
+    alternates: { canonical: publicUrl("de", profile.profileUrl) },
   };
 }
 
@@ -36,9 +38,14 @@ export default async function MagazineAuthorPage({ params }: PageProps) {
   const { slug } = await params;
   const [profile, posts] = await Promise.all([getAuthorProfile(slug), getAuthorPosts(slug)]);
   if (!profile) notFound();
+  const profileGraph = buildAuthorProfileGraph(profile);
 
   return (
     <main className="shell shell-narrow">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(profileGraph) }}
+      />
       <section className="hero-card hero-magazine hero-magazine-editorial author-hero-inline">
         <div className="author-hero-inline-media">
           {profile.imageUrl ? (

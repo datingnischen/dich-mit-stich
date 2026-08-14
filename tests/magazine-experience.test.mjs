@@ -91,7 +91,7 @@ test("Anti-Eyebrow pilot replaces unsafe legacy guidance with sourced editorial 
 
   assert.match(detail, /getMagazineEditorialOverride\(entry\.slug\)/);
   assert.match(detail, /getMagazineEditorialOverride\(slug\)/);
-  assert.match(detail, /description:\s*editorialOverride\?\.summary/);
+  assert.match(detail, /description:\s*answerEngineEntry\?\.directAnswer\s*\?\?\s*editorialOverride\?\.summary/);
   assert.match(detail, /<AntiEyebrowEditorial \/>/);
   assert.match(detail, /editorialOverride\?\.summary/);
   assert.match(registry, /"anti-eyebrow-piercing":\s*\{/);
@@ -161,4 +161,59 @@ test("magazine cards and Flirtradar conversion have explicit responsive layouts"
   assert.match(mobileCss, /\.magazine-story-grid[\s\S]*grid-template-columns:\s*1fr/);
   assert.match(mobileCss, /\.magazine-guide-grid[\s\S]*grid-template-columns:\s*1fr/);
   assert.match(mobileCss, /\.magazine-dating-cta[\s\S]*grid-template-columns:\s*1fr/);
+});
+
+test("magazine details expose visible answer-engine context and article JSON-LD", async () => {
+  const [detail, answerSummary] = await Promise.all([
+    readSource("../app/magazin/[slug]/page.tsx"),
+    readSource("../components/magazine-answer-summary.tsx"),
+  ]);
+
+  assert.match(detail, /getAnswerEnginePilotEntry\(entry\.slug\)/);
+  assert.match(detail, /<MagazineAnswerSummary entry=\{answerEngineEntry\} \/>/);
+  assert.match(detail, /buildMagazineArticleGraph\(/);
+  assert.match(detail, /type="application\/ld\+json"/);
+  assert.match(detail, /serializeJsonLd\(articleGraph\)/);
+  assert.match(answerSummary, /rel="noopener noreferrer nofollow"/);
+});
+
+test("author profiles enrich the same canonical person entity used by articles", async () => {
+  const [authorPage, entities] = await Promise.all([
+    readSource("../app/magazin/author/[slug]/page.tsx"),
+    readSource("../lib/editorial-entities.ts"),
+  ]);
+
+  assert.match(authorPage, /buildAuthorProfileGraph\(profile\)/);
+  assert.match(authorPage, /alternates:\s*\{ canonical: publicUrl\("de", profile\.profileUrl\) \}/);
+  assert.match(authorPage, /type="application\/ld\+json"/);
+  assert.match(authorPage, /serializeJsonLd\(profileGraph\)/);
+  assert.match(entities, /authorEntityId\(profile\.profileUrl\)/);
+  assert.match(entities, /publisher:\s*\{\s*"@id": EDITORIAL_ENTITY_IDS\.operator\s*\}/s);
+  assert.doesNotMatch(entities, /worksFor|parentOrganization|founder:/);
+});
+
+test("JSON-LD serialization cannot break out of its script element", async () => {
+  const [detail, authorPage] = await Promise.all([
+    readSource("../app/magazin/[slug]/page.tsx"),
+    readSource("../app/magazin/author/[slug]/page.tsx"),
+  ]);
+
+  assert.match(detail, /serializeJsonLd\(articleGraph\)/);
+  assert.match(authorPage, /serializeJsonLd\(profileGraph\)/);
+  assert.doesNotMatch(detail, /__html:\s*JSON\.stringify/);
+  assert.doesNotMatch(authorPage, /__html:\s*JSON\.stringify/);
+});
+
+test("pilot direct answers stay consistent across metadata, hero and schema", async () => {
+  const detail = await readSource("../app/magazin/[slug]/page.tsx");
+
+  assert.match(detail, /const answerEngineEntry = getAnswerEnginePilotEntry\(slug\);/);
+  assert.match(detail, /description:\s*answerEngineEntry\?\.directAnswer/);
+  assert.match(detail, /\{\(answerEngineEntry \|\| editorialOverride\) \? null : "…"\}/);
+});
+
+test("article dateModified keeps the latest CMS or editorial change", async () => {
+  const entities = await readSource("../lib/editorial-entities.ts");
+
+  assert.match(entities, /dateModified:\s*latestIsoDate\(entry\.modified, pilotEntry\?\.reviewedAt, entry\.date\)/);
 });

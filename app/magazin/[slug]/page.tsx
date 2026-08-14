@@ -5,8 +5,12 @@ import Link from "next/link";
 import { AntiEyebrowEditorial } from "@/components/anti-eyebrow-editorial";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
+import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
 import { getAuthorProfile } from "@/lib/author-profiles";
+import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
+import { getAnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
+import { serializeJsonLd } from "@/lib/json-ld";
 import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
 import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
 import { getMagazineVideo } from "@/lib/magazine-videos";
@@ -29,10 +33,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const entry = await getMagazineEntryBySlug(slug);
   if (!entry) return {};
   const editorialOverride = getMagazineEditorialOverride(slug);
+  const answerEngineEntry = getAnswerEnginePilotEntry(slug);
 
   return {
     title: `${entry.title} | dich-mit-stich Magazin`,
-    description: editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 155),
+    description: answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 155),
     alternates: { canonical: publicUrl("de", `/magazin/${slug}`) },
   };
 }
@@ -50,7 +55,15 @@ export default async function MagazineDetailPage({ params }: PageProps) {
   });
   const magazineVideo = getMagazineVideo(entry.slug);
   const editorialOverride = getMagazineEditorialOverride(entry.slug);
-  const articleSummary = editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 220);
+  const answerEngineEntry = getAnswerEnginePilotEntry(entry.slug);
+  const articleSummary = answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 220);
+  const articleGraph = buildMagazineArticleGraph({
+    entry,
+    description: articleSummary,
+    authorProfile,
+    featuredImage,
+    pilotEntry: answerEngineEntry,
+  });
   const isPiercingArticle = [entry.title, entry.slug, ...entry.categories.flatMap((category) => [category.name, category.slug])]
     .join(" ")
     .toLocaleLowerCase("de")
@@ -58,6 +71,10 @@ export default async function MagazineDetailPage({ params }: PageProps) {
 
   return (
     <main className="shell magazine-detail-shell">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleGraph) }}
+      />
       <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
         <Link href="/magazin">Magazin</Link>
         <span aria-hidden="true">/</span>
@@ -70,7 +87,7 @@ export default async function MagazineDetailPage({ params }: PageProps) {
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
           </span>
           <h1>{entry.title}</h1>
-          <p className="magazine-detail-lead">{articleSummary}{editorialOverride ? null : "…"}</p>
+          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride) ? null : "…"}</p>
           <div className="meta-row magazine-detail-meta">
             {entry.authorName ? (
               <span>
@@ -111,6 +128,10 @@ export default async function MagazineDetailPage({ params }: PageProps) {
           </section>
         ) : null}
       </div>
+
+      {answerEngineEntry && editorialOverride?.kind !== "anti-eyebrow" ? (
+        <MagazineAnswerSummary entry={answerEngineEntry} />
+      ) : null}
 
       <section className="rich-content magazine-article-body">
         {editorialOverride?.kind === "anti-eyebrow" ? (

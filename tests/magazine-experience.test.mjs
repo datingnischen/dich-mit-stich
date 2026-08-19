@@ -133,6 +133,8 @@ test("matching magazine entries render an approved responsive YouTube video befo
   assert.ok(detail.indexOf("<MagazineVideo") < detail.indexOf("<MagazineDatingCta />"));
   assert.match(registry, /"christina-piercing":\s*\{/);
   assert.match(registry, /videoId:\s*"p4-qTtyMegM"/);
+  assert.match(registry, /"conch-piercing":\s*\{/);
+  assert.match(registry, /videoId:\s*"r4n8QoYg9kk"/);
   assert.match(component, /https:\/\/www\.youtube-nocookie\.com\/embed\/\$\{video\.videoId\}/);
   assert.match(component, /title=\{video\.embedTitle\}/);
   assert.match(component, /loading="lazy"/);

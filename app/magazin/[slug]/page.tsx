@@ -15,6 +15,7 @@ import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
 import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
 import { getMagazineVideo } from "@/lib/magazine-videos";
 import { publicUrl } from "@/lib/markets";
+import { buildPublishedAuthorProfileGraph } from "@/lib/published-book";
 import { formatGermanDate, getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
@@ -64,6 +65,15 @@ export default async function MagazineDetailPage({ params }: PageProps) {
     featuredImage,
     pilotEntry: answerEngineEntry,
   });
+  const publishedProfileGraph = buildPublishedAuthorProfileGraph({
+    slug: entry.slug,
+    title: entry.title,
+    description: articleSummary,
+    content: entry.content,
+    modified: entry.modified,
+    personImage: authorProfile?.imageUrl,
+  });
+  const pageGraph = publishedProfileGraph ?? articleGraph;
   const isPiercingArticle = [entry.title, entry.slug, ...entry.categories.flatMap((category) => [category.name, category.slug])]
     .join(" ")
     .toLocaleLowerCase("de")
@@ -73,7 +83,7 @@ export default async function MagazineDetailPage({ params }: PageProps) {
     <main className="shell magazine-detail-shell">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleGraph) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(pageGraph) }}
       />
       <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
         <Link href="/magazin">Magazin</Link>

@@ -175,7 +175,7 @@ test("magazine details expose visible answer-engine context and article JSON-LD"
   assert.match(detail, /<MagazineAnswerSummary entry=\{answerEngineEntry\} \/>/);
   assert.match(detail, /buildMagazineArticleGraph\(/);
   assert.match(detail, /type="application\/ld\+json"/);
-  assert.match(detail, /serializeJsonLd\(articleGraph\)/);
+  assert.match(detail, /serializeJsonLd\(pageGraph\)/);
   assert.match(answerSummary, /rel="noopener noreferrer nofollow"/);
 });
 
@@ -200,7 +200,7 @@ test("JSON-LD serialization cannot break out of its script element", async () =>
     readSource("../app/magazin/author/[slug]/page.tsx"),
   ]);
 
-  assert.match(detail, /serializeJsonLd\(articleGraph\)/);
+  assert.match(detail, /serializeJsonLd\(pageGraph\)/);
   assert.match(authorPage, /serializeJsonLd\(profileGraph\)/);
   assert.doesNotMatch(detail, /__html:\s*JSON\.stringify/);
   assert.doesNotMatch(authorPage, /__html:\s*JSON\.stringify/);

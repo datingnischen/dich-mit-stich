@@ -47,4 +47,11 @@ test("magazine profile route selects the CMS-gated profile graph", () => {
   const source = readFileSync(new URL("../app/magazin/[slug]/page.tsx", import.meta.url), "utf8");
   assert.match(source, /buildPublishedAuthorProfileGraph\s*\(/);
   assert.match(source, /publishedProfileGraph\s*\?\?\s*articleGraph/);
+  assert.match(source, /stripPublishedBookSchema\(entry\.content\)/);
+});
+
+test("CMS Book schema is removed from rendered content to avoid duplicate nodes", async () => {
+  const { stripPublishedBookSchema } = await import(modulePath.href);
+  const content = 'before<!-- dating-ohne-bullshit-schema:start --><script type="application/ld+json">{"@type":"Book"}</script><!-- dating-ohne-bullshit-schema:end -->after';
+  assert.equal(stripPublishedBookSchema(content), "beforeafter");
 });

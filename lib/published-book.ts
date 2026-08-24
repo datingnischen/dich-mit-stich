@@ -7,6 +7,8 @@ const BOOK_ID = `${PROFILE_URL}#book-isbn-9783696371210`;
 const AMAZON_URL = "https://www.amazon.de/dp/3696371211/";
 const START = "<!-- dating-ohne-bullshit-book:start -->";
 const END = "<!-- dating-ohne-bullshit-book:end -->";
+const SCHEMA_START = "<!-- dating-ohne-bullshit-schema:start -->";
+const SCHEMA_END = "<!-- dating-ohne-bullshit-schema:end -->";
 
 type PublishedAuthorProfileInput = {
   slug: string;
@@ -37,6 +39,18 @@ function extractBoundedBookCover(content: string) {
   const image = block.match(/<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/i)?.[1];
   if (!image) return null;
   return decodeHtmlAttribute(image);
+}
+
+export function stripPublishedBookSchema(content: string) {
+  let result = content;
+  let start = result.indexOf(SCHEMA_START);
+  while (start >= 0) {
+    const end = result.indexOf(SCHEMA_END, start + SCHEMA_START.length);
+    if (end < 0) break;
+    result = result.slice(0, start) + result.slice(end + SCHEMA_END.length);
+    start = result.indexOf(SCHEMA_START);
+  }
+  return result;
 }
 
 export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileInput) {

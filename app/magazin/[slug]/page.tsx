@@ -15,7 +15,7 @@ import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
 import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
 import { getMagazineVideo } from "@/lib/magazine-videos";
 import { publicUrl } from "@/lib/markets";
-import { buildPublishedAuthorProfileGraph } from "@/lib/published-book";
+import { buildPublishedAuthorProfileGraph, stripPublishedBookSchema } from "@/lib/published-book";
 import { formatGermanDate, getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
 
 type PageProps = {
@@ -74,6 +74,7 @@ export default async function MagazineDetailPage({ params }: PageProps) {
     personImage: authorProfile?.imageUrl,
   });
   const pageGraph = publishedProfileGraph ?? articleGraph;
+  const renderedContent = stripPublishedBookSchema(entry.content);
   const isPiercingArticle = [entry.title, entry.slug, ...entry.categories.flatMap((category) => [category.name, category.slug])]
     .join(" ")
     .toLocaleLowerCase("de")
@@ -147,7 +148,7 @@ export default async function MagazineDetailPage({ params }: PageProps) {
         {editorialOverride?.kind === "anti-eyebrow" ? (
           <AntiEyebrowEditorial />
         ) : (
-          <div dangerouslySetInnerHTML={{ __html: entry.content }} />
+          <div dangerouslySetInnerHTML={{ __html: renderedContent }} />
         )}
       </section>
 

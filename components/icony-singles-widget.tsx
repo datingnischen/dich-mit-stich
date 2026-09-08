@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { publicUrl, type MarketCode } from '@/lib/markets';
+import { buildIconyCitySearchPath } from '@/lib/icony-city-widgets';
 
 type IconySinglesWidgetProps = {
   market: MarketCode;
@@ -197,7 +198,7 @@ export function IconySinglesWidget({ market, cityName, projectKey, postalCode }:
         </div>
 
         <div className="icony-widget-actions">
-          <a className="button button-primary icony-widget-link" href={publicUrl(market, '/suche/')}>
+          <a className="button button-primary icony-widget-link" href={publicUrl(market, buildIconyCitySearchPath(market, postalCode))}>
             Ausführlicher in {cityName} suchen
           </a>
           <span className="icony-widget-footnote">Kostenlos starten · Umkreis selbst erweitern · diskret stöbern</span>

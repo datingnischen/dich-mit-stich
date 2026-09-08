@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { getIconyCityWidgetConfig, listIconyWidgetCities } from "../lib/icony-city-widgets.ts";
+import { buildIconyCitySearchPath, getIconyCityWidgetConfig, listIconyWidgetCities } from "../lib/icony-city-widgets.ts";
 
 const EXPECTED = {
   de: [
@@ -23,11 +23,20 @@ test("every supported DE, AT, and CH city has a local ICONY widget configuration
     for (const slug of slugs) {
       const config = getIconyCityWidgetConfig(market, slug);
       assert.ok(config, `${market}/${slug} must have a widget config`);
-      assert.match(config.postalCode, /^\d{4,5}$/);
+      assert.match(config.postalCode, market === "de" ? /^\d{5}$/ : /^\d{4}$/);
       assert.ok(config.projectKey);
       assert.match(config.legacyCounter, /^\d+$/);
     }
   }
+});
+
+test("postcode search paths reject malformed and wrong-country values", () => {
+  assert.equal(buildIconyCitySearchPath("de", "10117"), "/suche/?plz=10117&AID=location");
+  assert.equal(buildIconyCitySearchPath("at", "1010"), "/suche/?plz=1010&AID=location");
+  assert.equal(buildIconyCitySearchPath("ch", "8000"), "/suche/?plz=8000&AID=location");
+  assert.throws(() => buildIconyCitySearchPath("de", "1234"), /Invalid postcode/);
+  assert.throws(() => buildIconyCitySearchPath("at", "ABCDE"), /Invalid postcode/);
+  assert.throws(() => buildIconyCitySearchPath("ch", "12345"), /Invalid postcode/);
 });
 
 test("all country city renderers mount the shared local singles widget", async () => {
@@ -41,7 +50,8 @@ test("all country city renderers mount the shared local singles widget", async (
   assert.match(marketSource, /getIconyCityWidgetConfig\(market, slug\)/);
   assert.doesNotMatch(marketSource, /market === "at" && widgetPostalCode/);
   assert.match(widgetSource, /market: MarketCode/);
-  assert.match(widgetSource, /publicUrl\(market, '\/suche\/'\)/);
+  assert.match(widgetSource, /publicUrl\(market, buildIconyCitySearchPath\(market, postalCode\)\)/);
+  assert.doesNotMatch(widgetSource, /publicUrl\(market, '\/suche\/'\)/);
   assert.match(widgetSource, /Singles aus \{cityName\} und Umgebung/);
   assert.doesNotMatch(widgetSource, /ICONY-Netzwerk/);
   assert.match(widgetSource, /https:\/\/js\.icony\.com\/api\.js/);

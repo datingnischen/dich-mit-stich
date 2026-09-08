@@ -161,7 +161,7 @@ test("AT city pages expose a styled legacy-matching ICONY singles widget with ci
   assert.match(widgetSource, /Frauen anzeigen/);
   assert.match(widgetSource, /Männer anzeigen/);
   assert.match(widgetSource, /className="button button-primary icony-widget-link"/);
-  assert.match(widgetSource, /publicUrl\(market, (?:"|\')\/suche\/(?:"|\')\)/);
+  assert.match(widgetSource, /publicUrl\(market, buildIconyCitySearchPath\(market, postalCode\)\)/);
   assert.match(widgetSource, /Ausführlicher in \{cityName\} suchen/);
   assert.match(widgetSource, /<button[\s\S]*?type="button"/);
   assert.match(widgetSource, /setSelectedGender/);

@@ -67,7 +67,20 @@ export function getIconyCityWidgetConfig(market: MarketCode, slug: string): Icon
   const marketConfig = MARKET_WIDGET_CONFIG[market];
   const postalCode = marketConfig.postalCodes[slug];
   if (!postalCode) return null;
+  assertIconyPostcode(market, postalCode);
   return { projectKey: marketConfig.projectKey, postalCode, legacyCounter: marketConfig.legacyCounter };
+}
+
+export function assertIconyPostcode(market: MarketCode, postalCode: string): void {
+  const pattern = market === 'de' ? /^\d{5}$/ : /^\d{4}$/;
+  if (!pattern.test(postalCode)) {
+    throw new Error(`Invalid postcode for ${market}: ${postalCode}`);
+  }
+}
+
+export function buildIconyCitySearchPath(market: MarketCode, postalCode: string): string {
+  assertIconyPostcode(market, postalCode);
+  return `/suche/?plz=${postalCode}&AID=location`;
 }
 
 export function listIconyWidgetCities(market: MarketCode): string[] {

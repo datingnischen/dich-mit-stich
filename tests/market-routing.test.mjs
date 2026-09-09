@@ -251,6 +251,10 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
   const previewSource = await readFile(new URL("../app/market-preview/[market]/page.tsx", import.meta.url), "utf8");
   const robotsSource = await readFile(new URL("../app/market-robots/[market]/route.ts", import.meta.url), "utf8");
   const sitemapSource = await readFile(new URL("../app/market-sitemap/[market]/route.ts", import.meta.url), "utf8");
+  const [atSitemapRoute, chSitemapRoute] = await Promise.all([
+    readFile(new URL("../app/at/sitemap.xml/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/ch/sitemap.xml/route.ts", import.meta.url), "utf8"),
+  ]);
   const shellSource = await readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8");
 
   assert.match(previewSource, /index:\s*false/);
@@ -261,6 +265,8 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
   assert.match(robotsSource, /Allow:\s*\/tattoo-studio\//);
   assert.match(sitemapSource, /<urlset/);
   assert.match(sitemapSource, /chTattooCitySlugs/);
+  assert.match(atSitemapRoute, /market:\s*"at"/);
+  assert.match(chSitemapRoute, /market:\s*"ch"/);
 
   // Reverse-proxy HTML must not expose Vercel's internal market prefixes.
   assert.match(previewSource, /<MarketLink[^>]*targetMarket="de"/);

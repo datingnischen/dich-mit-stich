@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { ABOUT_PATHS } from "@/lib/about-pages";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
 import { getTattooStudioCities, getTattooStudioSlugs } from "@/lib/tattoo-studio-guide";
@@ -6,7 +7,9 @@ import { getTattooStudioCities, getTattooStudioSlugs } from "@/lib/tattoo-studio
 const SITE_URL = "https://dich-mit-stich.de";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [entries, categories] = await Promise.all([getMagazineRouteEntries(), getMagazineCategories()]);
+  const [rawEntries, rawCategories] = await Promise.all([getMagazineRouteEntries(), getMagazineCategories()]);
+  const entries = rawEntries.filter((entry) => entry.slug !== "expertenteam");
+  const categories = rawCategories.filter((category) => category.slug !== "erfolgsgeschichten");
   const studioCities = getTattooStudioCities("de");
   const studioSlugs = getTattooStudioSlugs("de");
 
@@ -15,6 +18,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/magazin`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/tattoo-singles`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/tattoo-studios`, changeFrequency: "weekly", priority: 0.9 },
+    ...ABOUT_PATHS.map((path) => ({
+      url: `${SITE_URL}${path}`,
+      changeFrequency: "monthly" as const,
+      priority: path === "/ueber-uns" ? 0.8 : 0.7,
+    })),
     ...entries.map((entry) => ({
       url: `${SITE_URL}/magazin/${entry.slug}`,
       changeFrequency: "weekly" as const,

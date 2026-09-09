@@ -16,17 +16,19 @@ export async function GET(_request: Request, { params }: RouteProps) {
     return new Response("Not found", { status: 404 });
   }
 
-  const body = market === "ch"
-    ? [
-        "User-agent: *",
-        "Allow: /tattoo-singles",
-        "Allow: /tattoo-studios",
-        "Allow: /tattoo-studio/",
-        "Disallow: /",
-        `Sitemap: ${publicUrl("ch", "/sitemap.xml")}`,
-        "",
-      ].join("\n")
-    : "User-agent: *\nDisallow: /\n";
+  const allowedPaths = [
+    "Allow: /ueber-uns",
+    ...(market === "ch"
+      ? ["Allow: /tattoo-singles", "Allow: /tattoo-studios", "Allow: /tattoo-studio/"]
+      : []),
+  ];
+  const body = [
+    "User-agent: *",
+    ...allowedPaths,
+    "Disallow: /",
+    `Sitemap: ${publicUrl(market, "/sitemap.xml")}`,
+    "",
+  ].join("\n");
 
   return new Response(body, {
     headers: {

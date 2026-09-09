@@ -9,16 +9,26 @@ type NavLink = {
   external?: boolean;
 };
 
+const aboutLinks: NavLink[] = [
+  { label: "Über uns", href: "/ueber-uns" },
+  { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
+  { label: "Erfolgsgeschichten", href: "/ueber-uns/erfolgsgeschichten" },
+  { label: "Kooperationen", href: "/ueber-uns/kooperationen" },
+  { label: "Bewertungen", href: "/ueber-uns/bewertungen" },
+  { label: "Social Media", href: "/ueber-uns/social-media" },
+];
+
 const headerMenuItems: NavLink[] = [
+  { label: "Über uns", href: "/ueber-uns" },
   { label: "FAQ", href: "https://dich-mit-stich.de/faq/", external: true },
-  { label: "Erfahrungen", href: "https://dich-mit-stich.de/bewertungen-und-erfahrungen/", external: true },
+  { label: "Bewertungen", href: "/ueber-uns/bewertungen" },
   { label: "Region eingrenzen", href: "/tattoo-singles" },
   { label: "Lieblings-Studios", href: "/tattoo-studios" },
   { label: "Tattoo-Motive", href: "/magazin/tattoo-motive" },
-  { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
-  { label: "Unser Expertenteam", href: "/magazin/expertenteam" },
+  { label: "Erfolgsgeschichten", href: "/ueber-uns/erfolgsgeschichten" },
+  { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
   { label: "Piercings", href: "/magazin/piercing" },
-  { label: "Social Media", href: "https://dich-mit-stich.de/social-media/", external: true },
+  { label: "Social Media", href: "/ueber-uns/social-media" },
 ];
 
 const footerColumns: Array<{
@@ -62,11 +72,12 @@ const footerColumns: Array<{
   {
     title: "Über uns & Stories",
     links: [
-      { label: "Unser Expertenteam", href: "/magazin/expertenteam" },
-      { label: "Erfolgsgeschichten", href: "/magazin/thema/erfolgsgeschichten" },
-      { label: "Christian M. Haas", href: "/magazin/unser-datingexperte" },
-      { label: "Anne Schweitzer", href: "/magazin/author/anne-schweitzer" },
-      { label: "Magazin-Start", href: "/magazin" },
+      { label: "Über uns", href: "/ueber-uns" },
+      { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
+      { label: "Erfolgsgeschichten", href: "/ueber-uns/erfolgsgeschichten" },
+      { label: "Kooperationen", href: "/ueber-uns/kooperationen" },
+      { label: "Bewertungen", href: "/ueber-uns/bewertungen" },
+      { label: "Social Media", href: "/ueber-uns/social-media" },
     ],
   },
   {
@@ -159,10 +170,10 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
   );
 }
 
-export function SiteHeader({ market = "de" }: { market?: MarketCode }) {
+export function SiteHeader({ market = "de", sectionLive = false }: { market?: MarketCode; sectionLive?: boolean }) {
   const config = getMarket(market);
 
-  if (!config.contentEnabled) {
+  if (!config.contentEnabled && !sectionLive) {
     return (
       <header className="site-header-shell">
         <div className="site-header-bar compact-header-bar shell">
@@ -189,8 +200,12 @@ export function SiteHeader({ market = "de" }: { market?: MarketCode }) {
             </summary>
             <div className="header-menu-panel">
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">
-                {headerMenuItems.map((item) => (
-                  <a href={marketHref(item, market)} key={item.href} {...externalAttrs(item.external)}>{item.label}</a>
+                {(config.contentEnabled ? headerMenuItems : aboutLinks).map((item) => (
+                  item.external ? (
+                    <a href={marketHref(item, market)} key={item.href} {...externalAttrs(true)}>{item.label}</a>
+                  ) : (
+                    <MarketLink pathname={item.href} targetMarket={market} key={item.href}>{item.label}</MarketLink>
+                  )
                 ))}
               </nav>
             </div>
@@ -213,10 +228,22 @@ export function SiteFooter({ market = "de", sectionLive = false }: { market?: Ma
               <BrandLogo footer market={market} />
               <p>
                 {sectionLive
-                  ? `Entdecke Tattoo-Singles und alternative Szene-Guides ${market === "ch" ? "in der Schweiz" : `in ${config.countryName}`}.`
+                  ? `Entdecke Tattoo-Singles und die Menschen hinter Dich mit Stich ${market === "ch" ? "in der Schweiz" : `in ${config.countryName}`}.`
                   : `Der eigene Länderbereich für ${config.countryName} wird markt- und inhaltssauber vorbereitet.`}
               </p>
             </div>
+            {sectionLive ? (
+              <nav className="footer-column footer-about-links" aria-label="Über uns">
+                <h2>Über uns</h2>
+                <ul>
+                  {aboutLinks.map((link) => (
+                    <li key={link.href}>
+                      <MarketLink pathname={link.href} targetMarket={market}>{link.label}</MarketLink>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ) : null}
           </div>
           <div className="sub-footer">
             <span>© {new Date().getFullYear()} Dich mit Stich {config.countryName}</span>

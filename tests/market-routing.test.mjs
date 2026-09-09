@@ -164,12 +164,12 @@ test("keeps framework assets outside market redirects and handles SEO endpoints 
   assert.deepEqual(resolveMarketRequest("/ch/robots.txt"), {
     action: "market-robots",
     market: "ch",
-    pathname: "/market-robots/ch",
+    pathname: "/ch/robots.txt",
   });
   assert.deepEqual(resolveMarketRequest("/at/sitemap.xml"), {
     action: "market-sitemap",
     market: "at",
-    pathname: "/market-sitemap/at",
+    pathname: "/at/sitemap.xml",
   });
 });
 

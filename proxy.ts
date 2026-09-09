@@ -24,6 +24,10 @@ export function proxy(request: NextRequest) {
     destination.searchParams.set("requestedPath", resolution.requestedPath);
   }
 
+  if (destination.pathname === request.nextUrl.pathname) {
+    return NextResponse.next();
+  }
+
   return NextResponse.rewrite(destination);
 }
 

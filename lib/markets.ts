@@ -111,7 +111,8 @@ type MarketRequestResolution =
 const PASS_PATHS = new Set(["/favicon.ico"]);
 const PASS_PREFIXES = ["/_next/", "/app-assets/", "/api/"];
 const STATIC_FILE_PATTERN = /\.(?:avif|css|gif|ico|jpe?g|js|json|map|png|svg|webp|woff2?)$/i;
-const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
+const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
+const ABOUT_PATH_PATTERN = /^\/ueber-uns(?:\/(expertenteam|erfolgsgeschichten|kooperationen|bewertungen|social-media))?$/;
 
 function shouldPass(pathname: string): boolean {
   return (
@@ -161,7 +162,7 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
     return {
       action: "market-robots",
       market,
-      pathname: `/market-robots/${market}`,
+      pathname: `/${market}/robots.txt`,
     };
   }
 
@@ -169,12 +170,21 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
     return {
       action: "market-sitemap",
       market,
-      pathname: `/market-sitemap/${market}`,
+      pathname: `/${market}/sitemap.xml`,
     };
   }
 
   if (market === "at" || market === "ch") {
     const contentPath = requestedPath.length > 1 ? requestedPath.replace(/\/+$/, "") : requestedPath;
+    const aboutMatch = contentPath.match(ABOUT_PATH_PATTERN);
+
+    if (aboutMatch) {
+      return {
+        action: "market-content",
+        market,
+        pathname: `/${market}${contentPath}`,
+      };
+    }
 
     if (market === "ch" && contentPath === "/tattoo-studios") {
       return {

@@ -1,3 +1,4 @@
+import { ABOUT_PATHS } from "@/lib/about-pages";
 import { chTattooCitySlugs, isMarketCode, publicUrl } from "@/lib/markets";
 
 export const dynamic = "force-static";
@@ -20,12 +21,15 @@ export async function GET(_request: Request, { params }: RouteProps) {
     return new Response("Not found", { status: 404 });
   }
 
-  const locations = market === "ch"
-    ? [
-        publicUrl("ch", "/tattoo-singles"),
-        ...chTattooCitySlugs.map((slug) => publicUrl("ch", `/tattoo-singles/${slug}`)),
-      ]
-    : [];
+  const locations = [
+    ...ABOUT_PATHS.map((path) => publicUrl(market, path)),
+    ...(market === "ch"
+      ? [
+          publicUrl("ch", "/tattoo-singles"),
+          ...chTattooCitySlugs.map((slug) => publicUrl("ch", `/tattoo-singles/${slug}`)),
+        ]
+      : []),
+  ];
   const urls = locations.map(xmlUrl).join("\n");
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls ? `\n${urls}\n` : ""}</urlset>\n`;
 

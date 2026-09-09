@@ -14,7 +14,7 @@ export function SiteFrame({ children, market = "de", sectionLive = false }: Site
 
   return (
     <>
-      <SiteHeader market={market} />
+      <SiteHeader market={market} sectionLive={sectionLive} />
       {children}
       <SiteFooter market={market} sectionLive={sectionLive} />
       {config.contentEnabled ? <StickyCTAButton market={market} /> : null}

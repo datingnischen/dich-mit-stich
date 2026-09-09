@@ -40,6 +40,41 @@ export default function nextConfig(phase: string): NextConfig {
     async redirects() {
       return [
         {
+          source: "/magazin/expertenteam",
+          destination: "/ueber-uns/expertenteam",
+          permanent: true,
+        },
+        {
+          source: "/magazin/thema/erfolgsgeschichten",
+          destination: "/ueber-uns/erfolgsgeschichten",
+          permanent: true,
+        },
+        {
+          source: "/social-media",
+          destination: "/ueber-uns/social-media",
+          permanent: true,
+        },
+        {
+          source: "/bewertungen-und-erfahrungen",
+          destination: "/ueber-uns/bewertungen",
+          permanent: true,
+        },
+        {
+          source: "/wir-suchen",
+          destination: "/ueber-uns/kooperationen",
+          permanent: true,
+        },
+        {
+          source: "/kooperation-mit-tattoo-studios",
+          destination: "/ueber-uns/kooperationen",
+          permanent: true,
+        },
+        {
+          source: "/kooperation-mit-influencern",
+          destination: "/ueber-uns/kooperationen",
+          permanent: true,
+        },
+        {
           source: "/tattoo-studio/prime-ink-tattoo-hannover-hannover",
           destination: "/tattoo-studio/prime-ink-tattoo-hannover",
           permanent: true,

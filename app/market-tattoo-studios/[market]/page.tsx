@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -58,8 +59,17 @@ export default async function SwissTattooStudioGuidePage({ params }: PageProps) 
         <div className="studio-city-grid">
           {cities.map((city) => (
             <MarketLink className="studio-city-card" targetMarket="ch" pathname={`/tattoo-studios/${city.slug}`} key={city.identity}>
-              {city.imageUrl ? <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={1200} height={675} sizes="(max-width: 760px) 100vw, 60vw" /> : null}
-              <div className="studio-city-card-overlay"><span>{city.region} · {city.studios.length} Studios</span><h2>{city.cityName}</h2><strong>Stadtguide öffnen →</strong></div>
+              {city.imageUrl ? (
+                <span className="studio-city-card-media">
+                  <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" />
+                </span>
+              ) : null}
+              <span className="studio-city-card-copy">
+                <span>{city.region} · {city.studios.length} Studios</span>
+                <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
+                <small>Redaktioneller Studio-Guide</small>
+                <b>Stadtguide öffnen →</b>
+              </span>
             </MarketLink>
           ))}
         </div>

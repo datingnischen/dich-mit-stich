@@ -904,6 +904,19 @@ img {
   display: inline-block;
 }
 
+.footer-column a.footer-city-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.footer-city-link-icon {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  color: #f292b6;
+}
+
 .footer-column a:hover,
 .sub-footer a:hover {
   color: #fff;
@@ -2426,14 +2439,32 @@ img {
 
 .studio-guide-section-header { max-width: 760px; margin-bottom: 24px; }
 .studio-guide-section-header p { color: var(--muted); line-height: 1.7; }
-.studio-city-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
-.studio-city-card { position: relative; min-height: 430px; overflow: hidden; border-radius: 28px; background: var(--ink); }
-.studio-city-card img { width: 100%; height: 100%; min-height: 430px; object-fit: cover; opacity: 0.72; transition: transform 300ms ease, opacity 300ms ease; }
-.studio-city-card:hover img { transform: scale(1.015); opacity: 0.62; }
-.studio-city-card-overlay { position: absolute; inset: 0; display: grid; align-content: end; gap: 10px; padding: clamp(28px, 5vw, 54px); background: linear-gradient(transparent 20%, rgba(20, 12, 16, 0.92)); color: #fff; }
-.studio-city-card-overlay span { color: rgba(255, 255, 255, 0.72); text-transform: uppercase; letter-spacing: 0.1em; }
-.studio-city-card-overlay h2 { color: #fff; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: -0.06em; }
-.studio-city-card-overlay strong { color: #ffc1d8; }
+.studio-city-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.studio-city-card { display: grid; grid-template-columns: 180px minmax(0, 1fr); min-height: 0; overflow: hidden; border: 1px solid #eadde3; border-radius: 22px; background: #fff; box-shadow: 0 12px 34px rgba(66, 35, 49, 0.07); transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+.studio-city-card:hover { transform: translateY(-2px); border-color: rgba(182, 38, 91, 0.34); box-shadow: 0 18px 42px rgba(66, 35, 49, 0.11); }
+.studio-city-card-media { min-height: 0; overflow: hidden; background: var(--paper); }
+.studio-city-card img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; transition: transform 220ms ease; }
+.studio-city-card:hover img { transform: scale(1.025); }
+.studio-city-card-copy { display: grid; align-content: center; gap: 8px; min-width: 0; padding: 22px; }
+.studio-city-card-copy > span:first-child { color: var(--studio-accent); font-size: 0.72rem; font-weight: 850; letter-spacing: 0.06em; text-transform: uppercase; }
+.studio-city-card-title { display: flex; align-items: center; gap: 8px; color: var(--ink); }
+.studio-city-card-title svg { width: 22px; height: 22px; flex: 0 0 auto; color: var(--studio-accent); }
+.studio-city-card-title strong { font-size: 1.55rem; }
+.studio-city-card-copy small { color: var(--muted); }
+.studio-city-card-copy b { margin-top: 4px; color: var(--brand); }
+
+.studio-all-cities-section { margin-top: 42px; }
+.studio-all-city-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.studio-all-city-card { display: grid; grid-template-rows: 108px minmax(0, 1fr); overflow: hidden; border: 1px solid #eadde3; border-radius: 18px; background: #fff; box-shadow: 0 10px 28px rgba(66, 35, 49, 0.06); transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+.studio-all-city-card:hover { transform: translateY(-2px); border-color: rgba(182, 38, 91, 0.34); box-shadow: 0 16px 34px rgba(66, 35, 49, 0.1); }
+.studio-all-city-media { overflow: hidden; background: var(--paper); }
+.studio-all-city-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 220ms ease; }
+.studio-all-city-card:hover img { transform: scale(1.03); }
+.studio-all-city-copy { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 15px 16px; }
+.studio-all-city-copy > svg { width: 23px; height: 23px; flex: 0 0 auto; color: var(--studio-accent); }
+.studio-all-city-copy > span { display: grid; min-width: 0; gap: 2px; }
+.studio-all-city-copy strong { color: var(--ink); font-size: 1.02rem; }
+.studio-all-city-copy small { overflow: hidden; color: var(--muted); font-size: 0.76rem; text-overflow: ellipsis; white-space: nowrap; }
 
 .studio-guide-principles { padding: clamp(28px, 5vw, 52px); border-radius: 28px; background: var(--paper); }
 .studio-principle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
@@ -2479,11 +2510,28 @@ img {
 .studio-style-row { display: flex; flex-wrap: wrap; gap: 7px; }
 .studio-style-row span { padding: 6px 10px; border: 1px solid #e8ccd8; border-radius: 999px; background: #fff7fa; color: #7d2046; font-size: 0.78rem; font-weight: 700; }
 .studio-card-address { display: flex; gap: 8px; color: var(--muted); font-size: 0.9rem; }
+.studio-place-card { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid #ecd7e0; border-radius: 16px; background: linear-gradient(135deg, #fff8fb, #fff); }
+.studio-place-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 13px; background: #f8dfe9; color: var(--studio-accent); }
+.studio-place-icon svg { width: 23px; height: 23px; }
+.studio-place-copy { display: grid; min-width: 0; gap: 3px; }
+.studio-place-copy small { color: var(--studio-accent); font-size: 0.7rem; font-weight: 850; letter-spacing: 0.07em; text-transform: uppercase; }
+.studio-place-copy strong { color: var(--ink); font-size: 0.9rem; line-height: 1.45; overflow-wrap: anywhere; }
 .studio-card-link { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--line); color: var(--brand); font-weight: 800; }
 
 .studio-editorial-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr); gap: 24px; align-items: start; }
 .studio-editorial-card,
 .studio-transparency-card { padding: clamp(24px, 4vw, 38px); border: 1px solid var(--line); border-radius: 24px; background: #fff; }
+.studio-editorial-card a[href*="/tattoo-singles/"]::before {
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  margin-right: 0.28em;
+  background: currentColor;
+  content: "";
+  vertical-align: -0.14em;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 .studio-transparency-card { display: grid; gap: 16px; position: sticky; top: 24px; }
 .studio-transparency-card > p,
 .studio-transparency-copy { color: var(--muted); line-height: 1.65; }
@@ -2520,6 +2568,10 @@ img {
 .studio-fact-card dl > div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 15px 0; border-top: 1px solid var(--line); }
 .studio-fact-card dt { color: var(--muted); font-size: 0.86rem; }
 .studio-fact-card dd { font-weight: 700; overflow-wrap: anywhere; }
+.studio-detail-place dt { display: flex; align-items: center; gap: 7px; color: var(--studio-accent); font-weight: 800; }
+.studio-detail-place dt svg { width: 20px; height: 20px; }
+.studio-detail-place dd { display: grid; gap: 3px; }
+.studio-detail-place dd small { color: var(--muted); font-size: 0.76rem; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; }
 .studio-fact-card a,
 .studio-trust-card a { color: var(--brand); }
 .studio-trust-card { align-content: start; background: #21191d; color: #fff; }
@@ -2541,6 +2593,9 @@ img {
   .studio-city-hero-media { min-height: 340px; }
   .studio-detail-monogram { min-height: 320px; }
   .studio-transparency-card { position: static; }
+  .studio-city-grid { grid-template-columns: 1fr; }
+  .studio-all-city-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-surface-compact.footer-surface-sticky { padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
   .studio-principle-grid,
   .studio-choice-grid,
   .studio-related-grid { grid-template-columns: 1fr; }
@@ -2557,6 +2612,11 @@ img {
   .studio-guide-country-strip { grid-template-columns: 1fr; }
   .studio-guide-country-strip div { border-top: 1px solid var(--line); border-left: 0; }
   .studio-guide-country-strip div:first-child { border-top: 0; border-left: 4px solid var(--studio-accent); }
+  .studio-city-card { grid-template-columns: 120px minmax(0, 1fr); }
+  .studio-city-card-copy { padding: 16px; }
+  .studio-city-card-title strong { font-size: 1.25rem; }
+  .studio-all-city-grid { grid-template-columns: 1fr; }
+  .studio-all-city-card { grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: 96px; }
   .tattoo-studio-card { grid-template-columns: 1fr; }
   .tattoo-studio-card-mark { min-height: 88px; padding: 18px 22px; }
   .tattoo-studio-card-mark strong { font-size: 2.7rem; }

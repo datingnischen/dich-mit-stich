@@ -27,7 +27,7 @@ test("footer keeps its link diversity inside four intentional topic groups", asy
   const shell = await read("components/site-shell.tsx");
 
   assert.match(shell, /<footer className="site-footer-shell" id="site-footer">/);
-  assert.match(shell, /className="footer-surface footer-surface-compact"/);
+  assert.match(shell, /footer-surface footer-surface-compact/);
   assert.match(shell, /className="footer-compact-main"/);
   assert.match(shell, /className="footer-surface"/);
   assert.match(shell, /const footerGroups/);

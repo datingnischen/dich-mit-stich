@@ -10,5 +10,5 @@ type LayoutProps = {
 
 export default async function MarketTattooStudiosLayout({ children, params }: LayoutProps) {
   if ((await params).market !== "ch") notFound();
-  return <SiteFrame market="ch" sectionLive aid="location">{children}</SiteFrame>;
+  return <SiteFrame market="ch" sectionLive aid="location" stickyCta>{children}</SiteFrame>;
 }

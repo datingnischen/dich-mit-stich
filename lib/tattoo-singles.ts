@@ -1,6 +1,6 @@
 import { cache } from "react";
-import tattooCityImages from "@/data/tattoo-city-images.json";
-import { decodeHtmlEntities } from "@/lib/wordpress";
+import tattooCityImages from "../data/tattoo-city-images.json" with { type: "json" };
+import { decodeHtmlEntities } from "./wordpress.ts";
 
 export const tattooCitySlugs = [
   "berlin",
@@ -55,6 +55,14 @@ const cityDisplayNames: Record<string, string> = {
   nuernberg: "Nürnberg",
   stuttgart: "Stuttgart",
 };
+
+export function getTattooCityDirectory() {
+  return tattooCitySlugs.map((slug) => ({
+    slug,
+    label: cityDisplayNames[slug],
+    imageUrl: `/cities/${slug}.jpg`,
+  }));
+}
 
 export type TattooSinglesOverview = {
   title: string;

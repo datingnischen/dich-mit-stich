@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { publicUrl } from "@/lib/markets";
+import { getTattooCityDirectory } from "@/lib/tattoo-singles";
 import { getTattooStudioCities } from "@/lib/tattoo-studio-guide";
 
 export const metadata: Metadata = {
@@ -15,6 +17,7 @@ export const metadata: Metadata = {
 
 export default function TattooStudioGuidePage() {
   const cities = getTattooStudioCities("de");
+  const allTattooCities = getTattooCityDirectory();
   const studioCount = cities.reduce((total, city) => total + city.studios.length, 0);
 
   return (
@@ -56,20 +59,44 @@ export default function TattooStudioGuidePage() {
         <section className="content-section">
           <div className="section-header studio-guide-section-header">
             <span className="eyebrow">Stadtguides</span>
-            <h2>Starte mit einer Stadt, nicht mit einer endlosen Linkliste</h2>
-            <p>Jeder Guide verbindet lokale Szene-Einordnung mit strukturierten Studio-Profilen.</p>
+            <h2>Redaktionelle Studio-Guides nach Stadt</h2>
+            <p>Für Berlin und Hannover findest du geprüfte Profile, Quellen und konkrete Auswahlhilfen.</p>
           </div>
           <div className="studio-city-grid">
             {cities.map((city) => (
               <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}`} key={city.identity}>
                 {city.imageUrl ? (
-                  <Image src={city.imageUrl} alt={`Stadtansicht von ${city.cityName}`} width={1200} height={675} sizes="(max-width: 760px) 100vw, 60vw" />
+                  <span className="studio-city-card-media">
+                    <Image src={city.imageUrl} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" />
+                  </span>
                 ) : null}
-                <div className="studio-city-card-overlay">
+                <span className="studio-city-card-copy">
                   <span>{city.region} · {city.studios.length} Studios</span>
-                  <h2>{city.cityName}</h2>
-                  <strong>Stadtguide öffnen →</strong>
-                </div>
+                  <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
+                  <small>Redaktioneller Studio-Guide</small>
+                  <b>Stadtguide öffnen →</b>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="content-section studio-all-cities-section" aria-labelledby="all-tattoo-cities-heading">
+          <div className="section-header studio-guide-section-header">
+            <span className="eyebrow">Tattoo-Städte</span>
+            <h2 id="all-tattoo-cities-heading">Alle Tattoo-Städte auf einen Blick</h2>
+            <p>Hier findest du alle veröffentlichten Tattoo-Stadtseiten. Berlin und Hannover haben zusätzlich einen redaktionellen Studio-Guide.</p>
+          </div>
+          <div className="studio-all-city-grid">
+            {allTattooCities.map((city) => (
+              <Link className="studio-all-city-card" href={`/tattoo-singles/${city.slug}`} key={city.slug}>
+                <span className="studio-all-city-media">
+                  <Image src={city.imageUrl} alt={`Stadtansicht von ${city.label}`} width={220} height={150} sizes="(max-width: 640px) 112px, 150px" />
+                </span>
+                <span className="studio-all-city-copy">
+                  <LocationPinIcon />
+                  <span><strong>{city.label}</strong><small>Tattoo-Singles in {city.label}</small></span>
+                </span>
               </Link>
             ))}
           </div>

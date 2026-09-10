@@ -7,18 +7,19 @@ type SiteFrameProps = {
   children: ReactNode;
   market?: MarketCode;
   sectionLive?: boolean;
+  stickyCta?: boolean;
   aid?: ConversionAid;
 };
 
-export function SiteFrame({ children, market = "de", sectionLive = false, aid }: SiteFrameProps) {
+export function SiteFrame({ children, market = "de", sectionLive = false, stickyCta = false, aid }: SiteFrameProps) {
   const config = getMarket(market);
 
   return (
     <>
       <SiteHeader market={market} sectionLive={sectionLive} aid={aid} />
       {children}
-      <SiteFooter market={market} sectionLive={sectionLive} aid={aid} />
-      {config.contentEnabled ? <StickyCTAButton market={market} aid={aid} /> : null}
+      <SiteFooter market={market} sectionLive={sectionLive} stickyCta={sectionLive && stickyCta} aid={aid} />
+      {config.contentEnabled || (sectionLive && stickyCta) ? <StickyCTAButton market={market} aid={aid} /> : null}
     </>
   );
 }

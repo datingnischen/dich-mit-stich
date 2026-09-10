@@ -53,10 +53,12 @@ test("Zürich studio guide reuses the licensed Swiss city image with provenance"
 });
 
 test("Swiss studio guide preview routes stay noindex and declare .ch canonicals", async () => {
-  const [overview, city, studio] = await Promise.all([
+  const [overview, city, studio, sharedCity, sharedStudio] = await Promise.all([
     readFile(new URL("app/market-tattoo-studios/[market]/page.tsx", root), "utf8"),
     readFile(new URL("app/market-tattoo-studios/[market]/[city]/page.tsx", root), "utf8"),
     readFile(new URL("app/market-tattoo-studio/[market]/[slug]/page.tsx", root), "utf8"),
+    readFile(new URL("components/tattoo-studio-city-guide.tsx", root), "utf8"),
+    readFile(new URL("components/tattoo-studio-detail.tsx", root), "utf8"),
   ]);
 
   for (const source of [overview, city, studio]) {
@@ -65,13 +67,21 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
   }
   assert.match(overview, /publicUrl\("ch", "\/tattoo-studios"\)/);
   assert.match(city, /publicUrl\("ch", `\/tattoo-studios\/\$\{city\}`\)/);
-  assert.match(city, /href=\{studio\.sourceUrl\}/);
-  assert.match(city, /Datenquelle ansehen/);
-  assert.match(city, /rel="noopener noreferrer nofollow"/);
+  assert.match(sharedCity, /<MarketHtmlContent html=\{guide\.editorialHtml\} market=\{market\}/);
+  assert.doesNotMatch(sharedCity, /dangerouslySetInnerHTML=\{\{ __html: guide\.editorialHtml \}\}/);
+  assert.match(sharedCity, /href=\{studio\.sourceUrl\}/);
+  assert.match(sharedCity, /Datenquelle ansehen/);
+  assert.match(sharedCity, /rel="noopener noreferrer nofollow"/);
   assert.match(studio, /publicUrl\("ch", `\/tattoo-studio\/\$\{slug\}`\)/);
   assert.match(overview, /targetMarket="ch"/);
-  assert.match(city, /targetMarket="ch"/);
-  assert.match(studio, /targetMarket="ch"/);
+  assert.match(overview, /<LocationPinIcon/);
+  assert.match(overview, /className="studio-city-card-media"/);
+  assert.match(overview, /className="studio-city-card-copy"/);
+  assert.match(overview, /sizes="\(max-width: 640px\) 120px, 180px"/);
+  assert.doesNotMatch(overview, /studio-city-card-overlay/);
+  assert.match(city, /<TattooStudioCityGuide guide=\{guide\} market="ch"/);
+  assert.match(studio, /<TattooStudioDetail studio=\{studio\} city=\{city\} market="ch"/);
+  assert.match(sharedStudio, /targetMarket=\{market\}/);
 });
 
 test("shared tattoo studio loader isolates and resolves the Zürich pilot", async () => {

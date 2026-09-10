@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -14,6 +15,7 @@ export type ConversionAid = "location" | "magazin";
 type ShellProps = {
   market?: MarketCode;
   sectionLive?: boolean;
+  stickyCta?: boolean;
   aid?: ConversionAid;
 };
 
@@ -142,6 +144,10 @@ const BRAND_LOGOS: Record<MarketCode, { src: string; alt: string; width: number;
   ch: { src: CH_HEADER_LOGO_URL, alt: "dich-mit-stich.ch", width: 1417, height: 283 },
 };
 
+function isCityLink(href: string) {
+  return /^\/(?:tattoo-singles|tattoo-studios)\/[^/]+\/?$/.test(href);
+}
+
 function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;
 }
@@ -233,13 +239,13 @@ export function SiteHeader({ market = "de", sectionLive = false, aid }: ShellPro
   );
 }
 
-export function SiteFooter({ market = "de", sectionLive = false, aid }: ShellProps) {
+export function SiteFooter({ market = "de", sectionLive = false, stickyCta = false, aid }: ShellProps) {
   const config = getMarket(market);
 
   if (!config.contentEnabled) {
     return (
       <footer className="site-footer-shell" id="site-footer">
-        <div className="footer-surface footer-surface-compact">
+        <div className={`footer-surface footer-surface-compact${stickyCta ? " footer-surface-sticky" : ""}`}>
           <div className="footer-compact-main">
             <div className="footer-brand-panel">
               <BrandLogo footer market={market} />
@@ -309,11 +315,17 @@ export function SiteFooter({ market = "de", sectionLive = false, aid }: ShellPro
                     <div className="footer-column" key={column.title}>
                       <h2>{column.title}</h2>
                       <ul>
-                        {column.links.map((link) => (
-                          <li key={`${column.title}-${link.label}`}>
-                            <a href={marketHref(link, market, aid)} {...externalAttrs(link.external)}>{link.label}</a>
-                          </li>
-                        ))}
+                        {column.links.map((link) => {
+                          const cityLink = isCityLink(link.href);
+                          return (
+                            <li key={`${column.title}-${link.label}`}>
+                              <a className={cityLink ? "footer-city-link" : undefined} href={marketHref(link, market, aid)} {...externalAttrs(link.external)}>
+                                {cityLink ? <LocationPinIcon className="footer-city-link-icon" /> : null}
+                                <span>{link.label}</span>
+                              </a>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   ))}

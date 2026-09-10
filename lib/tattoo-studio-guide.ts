@@ -154,6 +154,11 @@ function normalizeStudio(studio: SourceStudio): TattooStudio {
   };
 }
 
+const LOCAL_GUIDE_IMAGES: Partial<Record<string, string>> = {
+  berlin: "/studio-guides/berlin.jpg",
+  hannover: "/studio-guides/hannover.jpg",
+};
+
 export function normalizeTattooStudioManifest(source: SourceManifest): { guide: TattooStudioCityGuide } {
   const image = (cityImages as Record<string, {
     imageUrl: string;
@@ -174,9 +179,7 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
       selectionMethodHtml: sanitizeHtml(source.guide.selectionMethodHtml || "", EDITORIAL_HTML_POLICY),
       lastVerified: source.guide.lastVerified,
       imageUrl: market === "de"
-        ? source.guide.citySlug === "berlin"
-          ? "/studio-guides/berlin.jpg"
-          : `/cities/${source.guide.citySlug}.jpg`
+        ? LOCAL_GUIDE_IMAGES[source.guide.citySlug] || `/cities/${source.guide.citySlug}.jpg`
         : image?.imageUrl || null,
       imageAttribution: image?.imageAttribution || { title: "", creator: "", license: "", sourceUrl: "" },
       studios: source.studios.map(normalizeStudio),

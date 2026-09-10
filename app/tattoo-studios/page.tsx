@@ -18,7 +18,7 @@ export default function TattooStudioGuidePage() {
   const studioCount = cities.reduce((total, city) => total + city.studios.length, 0);
 
   return (
-    <SiteFrame market="de" sectionLive>
+    <SiteFrame market="de" sectionLive aid="location">
       <main className="shell studio-guide-shell">
         <section className="studio-guide-hero">
           <div className="studio-guide-hero-copy">

@@ -173,7 +173,11 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
       editorialHtml: sanitizeHtml(source.guide.editorialHtml || source.guide.contentHtml || "", EDITORIAL_HTML_POLICY),
       selectionMethodHtml: sanitizeHtml(source.guide.selectionMethodHtml || "", EDITORIAL_HTML_POLICY),
       lastVerified: source.guide.lastVerified,
-      imageUrl: image?.imageUrl || null,
+      imageUrl: market === "de"
+        ? source.guide.citySlug === "berlin"
+          ? "/studio-guides/berlin.jpg"
+          : `/cities/${source.guide.citySlug}.jpg`
+        : image?.imageUrl || null,
       imageAttribution: image?.imageAttribution || { title: "", creator: "", license: "", sourceUrl: "" },
       studios: source.studios.map(normalizeStudio),
     },

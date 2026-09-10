@@ -9,6 +9,14 @@ type NavLink = {
   external?: boolean;
 };
 
+export type ConversionAid = "location" | "magazin";
+
+type ShellProps = {
+  market?: MarketCode;
+  sectionLive?: boolean;
+  aid?: ConversionAid;
+};
+
 const aboutLinks: NavLink[] = [
   { label: "Über uns", href: "/ueber-uns" },
   { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
@@ -138,13 +146,22 @@ function externalAttrs(external?: boolean) {
   return external ? { target: "_blank", rel: "noopener" } : undefined;
 }
 
-function marketHref(link: NavLink, market: MarketCode) {
+function marketHref(link: NavLink, market: MarketCode, aid?: ConversionAid) {
   if (!link.external) return link.href;
 
   const url = new URL(link.href);
   if (url.hostname === "dich-mit-stich.de") {
     url.hostname = getMarket(market).domain;
   }
+  if (aid && (url.pathname === "/" || url.pathname === "/registration/")) {
+    url.searchParams.set("AID", aid);
+  }
+  return url.toString();
+}
+
+function conversionHref(market: MarketCode, pathname: string, aid?: ConversionAid) {
+  const url = new URL(publicUrl(market, pathname));
+  if (aid) url.searchParams.set("AID", aid);
   return url.toString();
 }
 
@@ -170,7 +187,7 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
   );
 }
 
-export function SiteHeader({ market = "de", sectionLive = false }: { market?: MarketCode; sectionLive?: boolean }) {
+export function SiteHeader({ market = "de", sectionLive = false, aid }: ShellProps) {
   const config = getMarket(market);
 
   if (!config.contentEnabled && !sectionLive) {
@@ -191,7 +208,7 @@ export function SiteHeader({ market = "de", sectionLive = false }: { market?: Ma
 
         <div className="header-actions compact-header-actions" aria-label="Nutzeraktionen">
           <a className="login-link" href={publicUrl(market, "/login/")}>Login</a>
-          <a className="header-register header-register-primary" href={publicUrl(market, "/registration/")}>Registrieren</a>
+          <a className="header-register header-register-primary" href={conversionHref(market, "/registration/", aid)}>Registrieren</a>
 
           <details className="header-menu">
             <summary aria-label="Menü öffnen">
@@ -202,7 +219,7 @@ export function SiteHeader({ market = "de", sectionLive = false }: { market?: Ma
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">
                 {(config.contentEnabled ? headerMenuItems : aboutLinks).map((item) => (
                   item.external ? (
-                    <a href={marketHref(item, market)} key={item.href} {...externalAttrs(true)}>{item.label}</a>
+                    <a href={marketHref(item, market, aid)} key={item.href} {...externalAttrs(true)}>{item.label}</a>
                   ) : (
                     <MarketLink pathname={item.href} targetMarket={market} key={item.href}>{item.label}</MarketLink>
                   )
@@ -216,7 +233,7 @@ export function SiteHeader({ market = "de", sectionLive = false }: { market?: Ma
   );
 }
 
-export function SiteFooter({ market = "de", sectionLive = false }: { market?: MarketCode; sectionLive?: boolean }) {
+export function SiteFooter({ market = "de", sectionLive = false, aid }: ShellProps) {
   const config = getMarket(market);
 
   if (!config.contentEnabled) {
@@ -262,7 +279,7 @@ export function SiteFooter({ market = "de", sectionLive = false }: { market?: Ma
             <h2>Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</h2>
             <p>Magazin, Stadtseiten und echte Erfolgsgeschichten helfen dir beim Einstieg — und führen direkt zu neuen Kontakten.</p>
           </div>
-          <a className="footer-cta-button" href={publicUrl(market, "/registration/")}>
+          <a className="footer-cta-button" href={conversionHref(market, "/registration/", aid)}>
             <span>Jetzt kostenlos registrieren</span>
             <span aria-hidden="true">→</span>
           </a>
@@ -294,7 +311,7 @@ export function SiteFooter({ market = "de", sectionLive = false }: { market?: Ma
                       <ul>
                         {column.links.map((link) => (
                           <li key={`${column.title}-${link.label}`}>
-                            <a href={marketHref(link, market)} {...externalAttrs(link.external)}>{link.label}</a>
+                            <a href={marketHref(link, market, aid)} {...externalAttrs(link.external)}>{link.label}</a>
                           </li>
                         ))}
                       </ul>
@@ -311,7 +328,7 @@ export function SiteFooter({ market = "de", sectionLive = false }: { market?: Ma
             <span>© {new Date().getFullYear()} Dich mit Stich</span>
           </div>
           <div className="sub-footer-links">
-            <a href={publicUrl(market, "/registration/")}>Registrieren</a>
+            <a href={conversionHref(market, "/registration/", aid)}>Registrieren</a>
             <a href={publicUrl(market, "/login/")}>Login</a>
           </div>
         </div>

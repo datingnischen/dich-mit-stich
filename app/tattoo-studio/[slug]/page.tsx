@@ -27,6 +27,10 @@ function formatDate(value: string) {
   return new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(`${value}T00:00:00Z`));
 }
 
+function hasCompleteStreetAddress(value: string) {
+  return /\b\d+[a-zA-Z]?\s*,\s*\d{5}\b/.test(value);
+}
+
 export default async function TattooStudioDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const studio = getTattooStudio("de", slug);
@@ -34,30 +38,53 @@ export default async function TattooStudioDetailPage({ params }: PageProps) {
   const city = getTattooStudioCityGuide("de", studio.citySlug);
   if (!city) notFound();
   const related = city.studios.filter((item) => item.slug !== studio.slug).slice(0, 3);
+  const sourceIsGuide = studio.sourceUrl === city.sourceUrl;
+  const pageUrl = publicUrl("de", `/tattoo-studio/${studio.slug}`);
+  const cityUrl = publicUrl("de", `/tattoo-studios/${studio.citySlug}`);
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "TattooParlor",
-    name: studio.name,
-    description: studio.description,
-    url: publicUrl("de", `/tattoo-studio/${studio.slug}`),
-    ...(studio.websiteUrl ? { sameAs: studio.websiteUrl } : {}),
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: studio.address,
-      addressLocality: studio.cityName,
-      addressCountry: studio.country,
-    },
+    "@graph": [
+      {
+        "@type": "TattooParlor",
+        "@id": `${pageUrl}#studio`,
+        name: studio.name,
+        description: studio.description,
+        url: pageUrl,
+        ...(studio.websiteUrl ? { sameAs: studio.websiteUrl } : {}),
+        address: {
+          "@type": "PostalAddress",
+          ...(hasCompleteStreetAddress(studio.address) ? { streetAddress: studio.address } : {}),
+          addressLocality: studio.cityName,
+          addressCountry: studio.country,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Startseite", item: publicUrl("de", "/") },
+          { "@type": "ListItem", position: 2, name: "Tattoo-Studio-Guide", item: publicUrl("de", "/tattoo-studios") },
+          { "@type": "ListItem", position: 3, name: studio.cityName, item: cityUrl },
+          { "@type": "ListItem", position: 4, name: studio.name, item: pageUrl },
+        ],
+      },
+    ],
   };
 
   return (
-    <SiteFrame market="de" sectionLive>
+    <SiteFrame market="de" sectionLive aid="location">
       <main className="shell studio-guide-shell studio-detail-shell">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
 
         <nav className="studio-breadcrumb" aria-label="Breadcrumb">
-          <Link href="/tattoo-studios">Studio-Guide</Link><span>›</span>
-          <Link href={`/tattoo-studios/${studio.citySlug}`}>{studio.cityName}</Link><span>›</span><span>{studio.name}</span>
+          <ol>
+            <li><Link href="/">Startseite</Link></li>
+            <li><Link href="/tattoo-studios">Studio-Guide</Link></li>
+            <li><Link href={`/tattoo-studios/${studio.citySlug}`}>{studio.cityName}</Link></li>
+            <li aria-current="page">{studio.name}</li>
+          </ol>
         </nav>
 
         <section className="studio-detail-hero">
@@ -96,7 +123,11 @@ export default async function TattooStudioDetailPage({ params }: PageProps) {
               <li>Keine bezahlte Platzierung</li>
               <li>Angaben basieren auf öffentlich zugänglichen Studioinformationen</li>
             </ul>
-            <a href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Redaktionelle Quelle öffnen →</a>
+            {sourceIsGuide ? (
+              <Link href={`/tattoo-studios/${studio.citySlug}`}>Redaktionelle Ausgangsseite öffnen →</Link>
+            ) : (
+              <a href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Redaktionelle Quelle öffnen →</a>
+            )}
             <a href={publicUrl("de", "/kontakt/")}>Datenänderung melden →</a>
           </aside>
         </section>

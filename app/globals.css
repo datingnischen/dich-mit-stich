@@ -2516,7 +2516,15 @@ img {
 .studio-place-copy { display: grid; min-width: 0; gap: 3px; }
 .studio-place-copy small { color: var(--studio-accent); font-size: 0.7rem; font-weight: 850; letter-spacing: 0.07em; text-transform: uppercase; }
 .studio-place-copy strong { color: var(--ink); font-size: 0.9rem; line-height: 1.45; overflow-wrap: anywhere; }
-.studio-card-link { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--line); color: var(--brand); font-weight: 800; }
+.studio-card-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
+.studio-card-action { display: inline-flex; flex: 1 1 160px; min-height: 44px; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; border-radius: 12px; font-size: 0.88rem; font-weight: 850; line-height: 1.25; text-align: center; transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease; }
+.studio-card-action:hover { transform: translateY(-1px); }
+.studio-card-action:focus-visible { outline: 3px solid #7b0f45; outline-offset: 3px; }
+.studio-card-action-primary { background: var(--brand); color: #fff; box-shadow: 0 8px 18px rgba(159, 18, 87, 0.18); }
+.studio-card-action-primary:hover { background: var(--brand-dark); color: #fff; }
+.studio-card-action-secondary { border: 1px solid var(--brand); background: #fff; color: var(--brand); }
+.studio-card-action-secondary:hover { background: #fff1f6; color: var(--brand-dark); }
+.studio-card-source-missing { display: flex; flex: 1 1 100%; align-items: center; color: var(--muted); font-size: 0.88rem; font-weight: 700; }
 
 .studio-editorial-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr); gap: 24px; align-items: start; }
 .studio-editorial-card,

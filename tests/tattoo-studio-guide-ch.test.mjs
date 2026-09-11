@@ -70,7 +70,7 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
   assert.match(sharedCity, /<MarketHtmlContent html=\{guide\.editorialHtml\} market=\{market\}/);
   assert.doesNotMatch(sharedCity, /dangerouslySetInnerHTML=\{\{ __html: guide\.editorialHtml \}\}/);
   assert.match(sharedCity, /href=\{studio\.sourceUrl\}/);
-  assert.match(sharedCity, /Datenquelle ansehen/);
+  assert.match(sharedCity, /\? "Webseite" : "Datenquelle"/);
   assert.match(sharedCity, /rel="noopener noreferrer nofollow"/);
   assert.match(studio, /publicUrl\("ch", `\/tattoo-studio\/\$\{slug\}`\)/);
   assert.match(overview, /targetMarket="ch"/);

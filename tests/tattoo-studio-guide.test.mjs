@@ -198,7 +198,7 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(city, /Zuletzt redaktionell geprüft/);
   assert.match(city, /Keine bezahlte Platzierung/);
   assert.match(city, /href=\{studio\.sourceUrl\}/);
-  assert.match(city, /Datenquelle ansehen/);
+  assert.match(city, /\? "Webseite" : "Datenquelle"/);
   assert.match(city, /rel="noopener noreferrer nofollow"/);
 
   assert.match(studioRoute, /getTattooStudio/);
@@ -297,6 +297,23 @@ test("studio locations and city text links use a consistent place treatment", as
   assert.match(css, /\.studio-place-icon\s*\{/);
   assert.match(css, /\.footer-city-link\s*\{/);
   assert.match(css, /\.studio-editorial-card a\[href\*="\/tattoo-singles\/"\]::before/);
+});
+
+test("studio card profile and website links render as accessible buttons", async () => {
+  const [city, css] = await Promise.all([
+    source("components/tattoo-studio-city-guide.tsx"),
+    source("app/globals.css"),
+  ]);
+
+  assert.match(city, /className="studio-card-actions"/);
+  assert.match(city, /className="studio-card-source studio-card-action studio-card-action-secondary"/);
+  assert.match(city, /className="studio-card-link studio-card-action studio-card-action-primary"/);
+  assert.match(city, /rel="noopener noreferrer nofollow"/);
+  assert.match(css, /\.studio-card-actions\s*\{[^}]*display:\s*flex/s);
+  assert.match(css, /\.studio-card-action\s*\{[^}]*min-height:\s*44px/s);
+  assert.match(css, /\.studio-card-action:focus-visible\s*\{[^}]*outline:\s*3px solid #7b0f45/s);
+  assert.match(css, /\.studio-card-action-primary\s*\{[^}]*background:\s*var\(--brand\)/s);
+  assert.match(css, /\.studio-card-action-secondary\s*\{[^}]*border:\s*1px solid/s);
 });
 
 test("city guide keeps comparison, FAQ and studio cards compact and responsive", async () => {

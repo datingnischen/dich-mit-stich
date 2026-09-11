@@ -167,12 +167,18 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
                     <span className="studio-place-icon"><LocationPinIcon /></span>
                     <span className="studio-place-copy"><small>Standort in {guide.cityName}</small><strong>{studio.address}</strong></span>
                   </div>
-                  {sourceIsGuide && !studio.websiteUrl ? (
-                    <span className="studio-card-source-missing">Keine offizielle Studioseite verifiziert</span>
-                  ) : (
-                    <a className="studio-card-source" href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">{studio.websiteUrl && normalizeUrl(studio.websiteUrl) === normalizeUrl(studio.sourceUrl) ? "Offizielle Studioseite" : "Datenquelle ansehen"} ↗</a>
-                  )}
-                  <MarketLink className="studio-card-link" targetMarket={market} pathname={`/tattoo-studio/${studio.slug}`}>Studio-Profil ansehen <span>→</span></MarketLink>
+                  <div className="studio-card-actions">
+                    {sourceIsGuide && !studio.websiteUrl ? (
+                      <span className="studio-card-source-missing">Keine offizielle Studioseite verifiziert</span>
+                    ) : (
+                      <a className="studio-card-source studio-card-action studio-card-action-secondary" href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
+                        {studio.websiteUrl && normalizeUrl(studio.websiteUrl) === normalizeUrl(studio.sourceUrl) ? "Webseite" : "Datenquelle"} <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                    <MarketLink className="studio-card-link studio-card-action studio-card-action-primary" targetMarket={market} pathname={`/tattoo-studio/${studio.slug}`}>
+                      Studio-Profil ansehen <span aria-hidden="true">→</span>
+                    </MarketLink>
+                  </div>
                 </div>
               </article>
             );

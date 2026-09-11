@@ -18,9 +18,9 @@ export async function GET(_request: Request, { params }: RouteProps) {
 
   const allowedPaths = [
     "Allow: /ueber-uns",
-    ...(market === "ch"
-      ? ["Allow: /tattoo-singles", "Allow: /tattoo-studios", "Allow: /tattoo-studio/"]
-      : []),
+    "Allow: /tattoo-singles",
+    "Allow: /tattoo-studios",
+    "Allow: /tattoo-studio/",
   ];
   const body = [
     "User-agent: *",

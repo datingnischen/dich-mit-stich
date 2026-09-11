@@ -11,22 +11,23 @@ type FaqItem = { question: string; answer: string };
 
 type TattooStudioCityGuideProps = {
   guide: TattooStudioCityGuideData;
-  market: Extract<MarketCode, "de" | "ch">;
+  market: MarketCode;
 };
 
 export function tattooStudioCityDescription(cityName: string, studioCount: number) {
   return `${studioCount} ausgewählte Tattoo-Studios in ${cityName} mit Adressen, Quellen und Prüfdatum. Stilhinweise nur, soweit sie öffentlich belegt sind.`;
 }
 
-function formatDate(value: string, market: "de" | "ch") {
-  return new Intl.DateTimeFormat(market === "ch" ? "de-CH" : "de-DE", {
+function formatDate(value: string, market: MarketCode) {
+  const locale = market === "ch" ? "de-CH" : market === "at" ? "de-AT" : "de-DE";
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   }).format(new Date(`${value}T00:00:00Z`));
 }
 
-function faqItems(cityName: string, market: "de" | "ch"): FaqItem[] {
+function faqItems(cityName: string, market: MarketCode): FaqItem[] {
   const size = market === "ch" ? "Grösse" : "Größe";
   const openingHours = market === "ch" ? "Öffnungszeiten" : "Öffnungszeiten";
 
@@ -63,7 +64,8 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
   const breadcrumbId = `${pageUrl}#breadcrumb`;
   const sourceIsPage = normalizeUrl(guide.sourceUrl) === normalizeUrl(pageUrl);
   const isSwiss = market === "ch";
-  const imageUrl = guide.imageUrl ? (isSwiss ? staticAsset(guide.imageUrl) : guide.imageUrl) : null;
+  const marketGuideLabel = market === "ch" ? "Schweizer " : market === "at" ? "Österreichischer " : "";
+  const imageUrl = guide.imageUrl ? (market !== "de" ? staticAsset(guide.imageUrl) : guide.imageUrl) : null;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -127,7 +129,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
 
       <section className="studio-city-hero">
         <div className="studio-city-hero-copy">
-          <span className="eyebrow studio-guide-eyebrow">{guide.region} · {isSwiss ? "Schweizer " : ""}Studio Guide</span>
+          <span className="eyebrow studio-guide-eyebrow">{guide.region} · {marketGuideLabel}Studio Guide</span>
           <h1>Tattoo-Studios in {guide.cityName}</h1>
           <p>{studios.length} redaktionell erfasste Studios mit Adressen, Quellen und ausdrücklich belegten Stilhinweisen – transparent und ohne Rangliste.</p>
           <div className="studio-hero-actions">

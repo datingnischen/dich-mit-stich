@@ -4,23 +4,30 @@ import { notFound } from "next/navigation";
 import { TattooStudioCityGuide, tattooStudioCityDescription } from "@/components/tattoo-studio-city-guide";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
-import { getTattooStudioCities, getTattooStudioCityGuide } from "@/lib/tattoo-studio-guide";
+import {
+  getTattooStudioCities,
+  getTattooStudioCityGuide,
+  isTattooStudioMarket,
+  TATTOO_STUDIO_MARKETS,
+} from "@/lib/tattoo-studio-guide";
 
 type PageProps = { params: Promise<{ market: string; city: string }> };
 
 export function generateStaticParams() {
-  return getTattooStudioCities("ch").map((city) => ({ market: "ch", city: city.slug }));
+  return TATTOO_STUDIO_MARKETS.flatMap((market) =>
+    getTattooStudioCities(market).map((city) => ({ market, city: city.slug })),
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { market, city } = await params;
-  if (market !== "ch") return { robots: { index: false, follow: false } };
-  const guide = getTattooStudioCityGuide("ch", city);
+  if (!isTattooStudioMarket(market)) return { robots: { index: false, follow: false } };
+  const guide = getTattooStudioCityGuide(market, city);
   if (!guide) return { robots: { index: false, follow: false } };
 
   const title = `Tattoo-Studios in ${guide.cityName}: redaktioneller Guide`;
   const description = tattooStudioCityDescription(guide.cityName, guide.studios.length);
-  const url = publicUrl("ch", `/tattoo-studios/${city}`);
+  const url = publicUrl(market, `/tattoo-studios/${city}`);
   const imageUrl = guide.imageUrl ? staticAsset(guide.imageUrl) : null;
 
   return {
@@ -44,11 +51,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function SwissTattooStudioCityPage({ params }: PageProps) {
+export default async function MarketTattooStudioCityPage({ params }: PageProps) {
   const { market, city } = await params;
-  if (market !== "ch") notFound();
-  const guide = getTattooStudioCityGuide("ch", city);
+  if (!isTattooStudioMarket(market)) notFound();
+  const guide = getTattooStudioCityGuide(market, city);
   if (!guide) notFound();
 
-  return <TattooStudioCityGuide guide={guide} market="ch" />;
+  return <TattooStudioCityGuide guide={guide} market={market} />;
 }

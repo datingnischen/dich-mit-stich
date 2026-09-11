@@ -100,6 +100,24 @@ export default function TattooStudioGuidePage() {
               </Link>
             ))}
           </div>
+          <details className="city-preview-sources">
+            <summary>Bildquellen der Stadtmotive</summary>
+            <ul>
+              {allTattooCities.map((city) => (
+                <li key={city.slug}>
+                  <strong>{city.label}:</strong>{" "}
+                  <a href={city.imageAttribution.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
+                    {city.imageAttribution.title}
+                  </a>{" "}
+                  von {city.imageAttribution.creator},{" "}
+                  <a href={city.imageAttribution.licenseUrl} target="_blank" rel="noopener noreferrer nofollow">
+                    {city.imageAttribution.license}
+                  </a>{" "}
+                  <span>– Bearbeitung: {city.imageAttribution.modifications}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
         </section>
 
         <section className="content-section studio-guide-principles" id="guide-prinzipien">

@@ -113,6 +113,10 @@ const PASS_PREFIXES = ["/_next/", "/app-assets/", "/api/"];
 const STATIC_FILE_PATTERN = /\.(?:avif|css|gif|ico|jpe?g|js|json|map|png|svg|webp|woff2?)$/i;
 const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
 const ABOUT_PATH_PATTERN = /^\/ueber-uns(?:\/(expertenteam|erfolgsgeschichten|kooperationen|bewertungen|social-media))?$/;
+const TATTOO_STUDIO_CITY_SLUGS: Record<"at" | "ch", ReadonlySet<string>> = {
+  at: new Set(["graz", "linz", "salzburg", "wien"]),
+  ch: new Set(["zuerich"]),
+};
 
 function shouldPass(pathname: string): boolean {
   return (
@@ -186,28 +190,29 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
       };
     }
 
-    if (market === "ch" && contentPath === "/tattoo-studios") {
+    if (contentPath === "/tattoo-studios") {
       return {
         action: "market-content",
         market,
-        pathname: "/market-tattoo-studios/ch",
+        pathname: `/market-tattoo-studios/${market}`,
       };
     }
 
-    if (market === "ch" && contentPath === "/tattoo-studios/zuerich") {
+    const studioCityMatch = contentPath.match(/^\/tattoo-studios\/([a-z0-9]+(?:-[a-z0-9]+)*)$/);
+    if (studioCityMatch && TATTOO_STUDIO_CITY_SLUGS[market].has(studioCityMatch[1])) {
       return {
         action: "market-content",
         market,
-        pathname: "/market-tattoo-studios/ch/zuerich",
+        pathname: `/market-tattoo-studios/${market}/${studioCityMatch[1]}`,
       };
     }
 
     const studioMatch = contentPath.match(/^\/tattoo-studio\/([a-z0-9]+(?:-[a-z0-9]+)*)$/);
-    if (market === "ch" && studioMatch) {
+    if (studioMatch) {
       return {
         action: "market-content",
         market,
-        pathname: `/market-tattoo-studio/ch/${studioMatch[1]}`,
+        pathname: `/market-tattoo-studio/${market}/${studioMatch[1]}`,
       };
     }
 

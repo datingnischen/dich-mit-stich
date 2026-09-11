@@ -1,4 +1,5 @@
 import { cache } from "react";
+import tattooCityPreviewImages from "../data/tattoo-city-preview-images.json" with { type: "json" };
 import tattooCityImages from "../data/tattoo-city-images.json" with { type: "json" };
 import { decodeHtmlEntities } from "./wordpress.ts";
 
@@ -35,7 +36,18 @@ type CityImage = {
   imageAttribution: CityImageAttribution;
 };
 
+export type CityPreviewImage = {
+  imageUrl: string;
+  title: string;
+  creator: string;
+  sourceUrl: string;
+  license: string;
+  licenseUrl: string;
+  modifications: string;
+};
+
 const cityImageInventory: Record<TattooCitySlug, CityImage> = tattooCityImages;
+const cityPreviewImageInventory: Record<TattooCitySlug, CityPreviewImage> = tattooCityPreviewImages;
 
 const cityDisplayNames: Record<string, string> = {
   berlin: "Berlin",
@@ -60,7 +72,8 @@ export function getTattooCityDirectory() {
   return tattooCitySlugs.map((slug) => ({
     slug,
     label: cityDisplayNames[slug],
-    imageUrl: `/cities/${slug}.jpg`,
+    imageUrl: cityPreviewImageInventory[slug].imageUrl,
+    imageAttribution: cityPreviewImageInventory[slug],
   }));
 }
 

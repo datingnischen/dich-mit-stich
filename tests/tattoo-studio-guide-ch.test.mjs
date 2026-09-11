@@ -65,22 +65,25 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
     assert.match(source, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
     assert.doesNotMatch(source, /vercel\.app/);
   }
-  assert.match(overview, /publicUrl\("ch", "\/tattoo-studios"\)/);
-  assert.match(city, /publicUrl\("ch", `\/tattoo-studios\/\$\{city\}`\)/);
+  assert.match(overview, /publicUrl\(market, "\/tattoo-studios"\)/);
+  assert.match(city, /publicUrl\(market, `\/tattoo-studios\/\$\{city\}`\)/);
   assert.match(sharedCity, /<MarketHtmlContent html=\{guide\.editorialHtml\} market=\{market\}/);
   assert.doesNotMatch(sharedCity, /dangerouslySetInnerHTML=\{\{ __html: guide\.editorialHtml \}\}/);
   assert.match(sharedCity, /href=\{studio\.sourceUrl\}/);
   assert.match(sharedCity, /\? "Webseite" : "Datenquelle"/);
   assert.match(sharedCity, /rel="noopener noreferrer nofollow"/);
-  assert.match(studio, /publicUrl\("ch", `\/tattoo-studio\/\$\{slug\}`\)/);
-  assert.match(overview, /targetMarket="ch"/);
+  assert.match(studio, /publicUrl\(market, `\/tattoo-studio\/\$\{slug\}`\)/);
+  assert.match(overview, /targetMarket=\{market\}/);
+  assert.match(overview, /ch:\s*\{[\s\S]*regionLabel:\s*"CH"/);
+  assert.match(overview, /href="#stadtguides">Stadtguides ansehen/);
+  assert.doesNotMatch(overview, /pilotCity|pilotSlug|· PILOT/);
   assert.match(overview, /<LocationPinIcon/);
   assert.match(overview, /className="studio-city-card-media"/);
   assert.match(overview, /className="studio-city-card-copy"/);
   assert.match(overview, /sizes="\(max-width: 640px\) 120px, 180px"/);
   assert.doesNotMatch(overview, /studio-city-card-overlay/);
-  assert.match(city, /<TattooStudioCityGuide guide=\{guide\} market="ch"/);
-  assert.match(studio, /<TattooStudioDetail studio=\{studio\} city=\{city\} market="ch"/);
+  assert.match(city, /<TattooStudioCityGuide guide=\{guide\} market=\{market\}/);
+  assert.match(studio, /<TattooStudioDetail studio=\{studio\} city=\{city\} market=\{market\}/);
   assert.match(sharedStudio, /targetMarket=\{market\}/);
 });
 

@@ -139,7 +139,9 @@ test("studio overview lists every existing German tattoo city with compact image
 
   assert.equal(cities.length, 16);
   assert.equal(new Set(cities.map((city) => city.slug)).size, 16);
-  assert.ok(cities.every((city) => city.imageUrl === `/cities/${city.slug}.jpg`));
+  assert.ok(cities.every((city) => city.imageUrl === `/city-previews/${city.slug}.jpg`));
+  assert.ok(cities.every((city) => city.imageAttribution.sourceUrl.startsWith("https://commons.wikimedia.org/wiki/File:")));
+  assert.ok(cities.every((city) => city.imageAttribution.creator && city.imageAttribution.licenseUrl));
   assert.match(overview, /getTattooCityDirectory/);
   assert.match(overview, /Redaktionelle Studio-Guides nach Stadt/);
   assert.doesNotMatch(overview, /nicht mit einer endlosen Linkliste/);
@@ -147,6 +149,12 @@ test("studio overview lists every existing German tattoo city with compact image
   assert.match(overview, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
   assert.match(overview, /<LocationPinIcon/);
   assert.match(overview, /className="studio-all-city-grid"/);
+  assert.match(overview, /className="city-preview-sources"/);
+  assert.match(overview, /Bildquellen der Stadtmotive/);
+  assert.match(overview, /city\.imageAttribution\.sourceUrl/);
+  assert.match(overview, /city\.imageAttribution\.licenseUrl/);
+  assert.match(overview, /city\.imageAttribution\.modifications/);
+  assert.match(overview, /rel="noopener noreferrer nofollow"/);
   assert.match(css, /\.studio-city-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,/s);
   assert.match(css, /\.studio-city-card\s*\{[^}]*grid-template-columns:\s*180px/s);
   assert.match(css, /\.studio-city-card img\s*\{[^}]*min-height:\s*0/s);
@@ -172,7 +180,7 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.doesNotMatch(overview, /Niedersachsen ·/);
 
   assert.match(cityRoute, /getTattooStudioCityGuide/);
-  assert.match(city, /\{guide\.region\} · \{isSwiss \? "Schweizer " : ""\}Studio Guide/);
+  assert.match(city, /\{guide\.region\} · \{marketGuideLabel\}Studio Guide/);
   assert.match(city, /alt=\{`\$\{guide\.cityName\} als Standort des Tattoo-Studio-Guides`\}/);
   assert.doesNotMatch(city, /Niedersachsen · Studio Guide|Hannover als Standort/);
   assert.match(city, /"@type": "ItemList"/);
@@ -231,8 +239,8 @@ test("studio city and detail pages keep every shell conversion CTA on AID locati
 
   assert.match(city, /<SiteFrame market="de" sectionLive aid="location">/);
   assert.match(studio, /<SiteFrame market="de" sectionLive aid="location">/);
-  assert.match(chCityLayout, /<SiteFrame market="ch" sectionLive aid="location" stickyCta>/);
-  assert.match(chStudioLayout, /<SiteFrame market="ch" sectionLive aid="location" stickyCta>/);
+  assert.match(chCityLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
+  assert.match(chStudioLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
   assert.match(frame, /config\.contentEnabled \|\| \(sectionLive && stickyCta\)/);
   assert.match(frame, /<SiteHeader market=\{market\} sectionLive=\{sectionLive\} aid=\{aid\}/);
   assert.match(frame, /<SiteFooter market=\{market\} sectionLive=\{sectionLive\} stickyCta=\{sectionLive && stickyCta\} aid=\{aid\}/);
@@ -242,7 +250,7 @@ test("studio city and detail pages keep every shell conversion CTA on AID locati
   assert.match(sticky, /aid === 'location'/);
 });
 
-test("DE and CH city routes use the same complete studio-guide architecture", async () => {
+test("DE, AT and CH city routes use the same complete studio-guide architecture", async () => {
   const [deRoute, chRoute, shared] = await Promise.all([
     source("app/tattoo-studios/[city]/page.tsx"),
     source("app/market-tattoo-studios/[market]/[city]/page.tsx"),
@@ -250,7 +258,7 @@ test("DE and CH city routes use the same complete studio-guide architecture", as
   ]);
 
   assert.match(deRoute, /<TattooStudioCityGuide guide=\{guide\} market="de"/);
-  assert.match(chRoute, /<TattooStudioCityGuide guide=\{guide\} market="ch"/);
+  assert.match(chRoute, /<TattooStudioCityGuide guide=\{guide\} market=\{market\}/);
   for (const marker of ["CollectionPage", "BreadcrumbList", "ItemList", "FAQPage", 'id="studio-auswahl"', 'id="auswahl-check"', 'id="haeufige-fragen"', "studio-place-card"]) {
     assert.match(shared, new RegExp(marker));
   }
@@ -259,7 +267,7 @@ test("DE and CH city routes use the same complete studio-guide architecture", as
   assert.match(shared, /Einzelquellen findest du direkt bei den Studios/);
 });
 
-test("DE and CH detail routes use the same honest studio-profile architecture", async () => {
+test("DE, AT and CH detail routes use the same honest studio-profile architecture", async () => {
   const [deRoute, chRoute, shared] = await Promise.all([
     source("app/tattoo-studio/[slug]/page.tsx"),
     source("app/market-tattoo-studio/[market]/[slug]/page.tsx"),
@@ -267,7 +275,7 @@ test("DE and CH detail routes use the same honest studio-profile architecture", 
   ]);
 
   assert.match(deRoute, /<TattooStudioDetail studio=\{studio\} city=\{city\} market="de"/);
-  assert.match(chRoute, /<TattooStudioDetail studio=\{studio\} city=\{city\} market="ch"/);
+  assert.match(chRoute, /<TattooStudioDetail studio=\{studio\} city=\{city\} market=\{market\}/);
   assert.match(shared, /"@type": "TattooParlor"/);
   assert.match(shared, /"@type": "BreadcrumbList"/);
   assert.match(shared, /hasCompleteStreetAddress\(studio\.address\)/);

@@ -1,7 +1,11 @@
 import sanitizeHtml from "sanitize-html";
 
 import berlinManifest from "../data/tattoo-studio-guide-berlin.json" with { type: "json" };
+import grazManifest from "../data/tattoo-studio-guide-graz.json" with { type: "json" };
 import hannoverManifest from "../data/tattoo-studio-guide-hannover.json" with { type: "json" };
+import linzManifest from "../data/tattoo-studio-guide-linz.json" with { type: "json" };
+import salzburgManifest from "../data/tattoo-studio-guide-salzburg.json" with { type: "json" };
+import wienManifest from "../data/tattoo-studio-guide-wien.json" with { type: "json" };
 import zuerichManifest from "../data/tattoo-studio-guide-zuerich.json" with { type: "json" };
 import cityImages from "../data/tattoo-city-images.json" with { type: "json" };
 import type { MarketCode } from "./markets.ts";
@@ -30,6 +34,8 @@ const STYLE_LABELS: Record<string, string> = {
   color: "Color",
   "concept-tattoo": "Concept Tattoo",
   custom: "Custom",
+  dotwork: "Dotwork",
+  engraving: "Engraving",
   fineline: "Fineline",
   floral: "Floral",
   geometric: "Geometric",
@@ -37,6 +43,7 @@ const STYLE_LABELS: Record<string, string> = {
   linework: "Linework",
   mandala: "Mandala",
   maori: "Maori",
+  japanese: "Japanese",
   microrealism: "Microrealism",
   "neo-traditional": "Neo Traditional",
   ornamental: "Ornamental",
@@ -57,6 +64,13 @@ type SourceGuide = {
   editorialHtml?: string;
   selectionMethodHtml: string;
   lastVerified: string;
+  imageUrl?: string;
+  imageAttribution?: {
+    title: string;
+    creator: string;
+    license: string;
+    sourceUrl: string;
+  };
   acf: Record<string, unknown>;
 };
 
@@ -87,6 +101,19 @@ type SourceManifest = {
   guide: SourceGuide;
   studios: SourceStudio[];
 };
+
+export const TATTOO_STUDIO_MARKETS = ["at", "ch"] as const;
+export type TattooStudioMarket = (typeof TATTOO_STUDIO_MARKETS)[number];
+
+export function isTattooStudioMarket(value: string): value is TattooStudioMarket {
+  return TATTOO_STUDIO_MARKETS.includes(value as TattooStudioMarket);
+}
+
+export function hasCompleteStreetAddress(value: string): boolean {
+  const [streetSegment] = value.split(",", 1);
+  return /^[\p{L}][\p{L}\s.'’\-]*\s+\d+[a-zA-Z]?(?:\/(?:\d+|Top\s+\d+))*$/iu.test(streetSegment.trim())
+    && /\b\d{4,5}\s+[\p{L}]/u.test(value);
+}
 
 export type TattooStyle = { slug: string; label: string };
 
@@ -178,16 +205,16 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
       editorialHtml: sanitizeHtml(source.guide.editorialHtml || source.guide.contentHtml || "", EDITORIAL_HTML_POLICY),
       selectionMethodHtml: sanitizeHtml(source.guide.selectionMethodHtml || "", EDITORIAL_HTML_POLICY),
       lastVerified: source.guide.lastVerified,
-      imageUrl: market === "de"
+      imageUrl: source.guide.imageUrl || (market === "de"
         ? LOCAL_GUIDE_IMAGES[source.guide.citySlug] || `/cities/${source.guide.citySlug}.jpg`
-        : image?.imageUrl || null,
-      imageAttribution: image?.imageAttribution || { title: "", creator: "", license: "", sourceUrl: "" },
+        : image?.imageUrl || null),
+      imageAttribution: source.guide.imageAttribution || image?.imageAttribution || { title: "", creator: "", license: "", sourceUrl: "" },
       studios: source.studios.map(normalizeStudio),
     },
   };
 }
 
-const guides = [berlinManifest, hannoverManifest, zuerichManifest]
+const guides = [berlinManifest, grazManifest, hannoverManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest]
   .map((manifest) => normalizeTattooStudioManifest(manifest as SourceManifest).guide)
   .sort((left, right) => left.cityName.localeCompare(right.cityName, "de"));
 

@@ -1,24 +1,25 @@
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import type { TattooStudio as TattooStudioData, TattooStudioCityGuide } from "@/lib/tattoo-studio-guide";
+import {
+  hasCompleteStreetAddress,
+  type TattooStudio as TattooStudioData,
+  type TattooStudioCityGuide,
+} from "@/lib/tattoo-studio-guide";
 
 type TattooStudioDetailProps = {
   studio: TattooStudioData;
   city: TattooStudioCityGuide;
-  market: Extract<MarketCode, "de" | "ch">;
+  market: MarketCode;
 };
 
-function formatDate(value: string, market: "de" | "ch") {
-  return new Intl.DateTimeFormat(market === "ch" ? "de-CH" : "de-DE", {
+function formatDate(value: string, market: MarketCode) {
+  const locale = market === "ch" ? "de-CH" : market === "at" ? "de-AT" : "de-DE";
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   }).format(new Date(`${value}T00:00:00Z`));
-}
-
-function hasCompleteStreetAddress(value: string) {
-  return /\b\d+[a-zA-Z]?\s*,\s*\d{4,5}\b/.test(value);
 }
 
 function normalizeUrl(value: string) {

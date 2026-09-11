@@ -104,10 +104,22 @@ test("gates untagged content while allowing the imported CH tattoo city family",
     pathname: "/market-tattoo-studio/ch/example-zuerich",
   });
   assert.deepEqual(resolveMarketRequest("/at/tattoo-studios"), {
+    action: "market-content",
+    market: "at",
+    pathname: "/market-tattoo-studios/at",
+  });
+  for (const city of ["graz", "linz", "salzburg", "wien"]) {
+    assert.deepEqual(resolveMarketRequest(`/at/tattoo-studios/${city}`), {
+      action: "market-content",
+      market: "at",
+      pathname: `/market-tattoo-studios/at/${city}`,
+    });
+  }
+  assert.deepEqual(resolveMarketRequest("/at/tattoo-studios/klagenfurt"), {
     action: "placeholder",
     market: "at",
     pathname: "/market-preview/at",
-    requestedPath: "/tattoo-studios",
+    requestedPath: "/tattoo-studios/klagenfurt",
   });
   assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/berlin"), {
     action: "placeholder",

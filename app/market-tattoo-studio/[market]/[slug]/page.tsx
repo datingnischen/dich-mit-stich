@@ -3,34 +3,42 @@ import { notFound } from "next/navigation";
 
 import { TattooStudioDetail } from "@/components/tattoo-studio-detail";
 import { publicUrl } from "@/lib/markets";
-import { getTattooStudio, getTattooStudioCityGuide, getTattooStudioSlugs } from "@/lib/tattoo-studio-guide";
+import {
+  getTattooStudio,
+  getTattooStudioCityGuide,
+  getTattooStudioSlugs,
+  isTattooStudioMarket,
+  TATTOO_STUDIO_MARKETS,
+} from "@/lib/tattoo-studio-guide";
 
 type PageProps = { params: Promise<{ market: string; slug: string }> };
 
 export function generateStaticParams() {
-  return getTattooStudioSlugs("ch").map((slug) => ({ market: "ch", slug }));
+  return TATTOO_STUDIO_MARKETS.flatMap((market) =>
+    getTattooStudioSlugs(market).map((slug) => ({ market, slug })),
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { market, slug } = await params;
-  if (market !== "ch") return { robots: { index: false, follow: false } };
-  const studio = getTattooStudio("ch", slug);
+  if (!isTattooStudioMarket(market)) return { robots: { index: false, follow: false } };
+  const studio = getTattooStudio(market, slug);
   if (!studio) return { robots: { index: false, follow: false } };
   return {
     title: `${studio.name} in ${studio.cityName}: Studio-Profil`,
     description: `${studio.name} in ${studio.cityName}: Stilrichtungen, Adresse, Website und transparente redaktionelle Einordnung.`,
-    alternates: { canonical: publicUrl("ch", `/tattoo-studio/${slug}`) },
+    alternates: { canonical: publicUrl(market, `/tattoo-studio/${slug}`) },
     robots: { index: false, follow: true },
   };
 }
 
-export default async function SwissTattooStudioDetailPage({ params }: PageProps) {
+export default async function MarketTattooStudioDetailPage({ params }: PageProps) {
   const { market, slug } = await params;
-  if (market !== "ch") notFound();
-  const studio = getTattooStudio("ch", slug);
+  if (!isTattooStudioMarket(market)) notFound();
+  const studio = getTattooStudio(market, slug);
   if (!studio) notFound();
-  const city = getTattooStudioCityGuide("ch", studio.citySlug);
+  const city = getTattooStudioCityGuide(market, studio.citySlug);
   if (!city) notFound();
 
-  return <TattooStudioDetail studio={studio} city={city} market="ch" />;
+  return <TattooStudioDetail studio={studio} city={city} market={market} />;
 }

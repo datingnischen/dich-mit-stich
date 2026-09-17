@@ -1502,6 +1502,12 @@ img {
   text-underline-offset: 0.18em;
 }
 
+.magazine-answer-sources a:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 .magazine-article-body {
   max-width: 760px;
   margin: 42px auto 0;

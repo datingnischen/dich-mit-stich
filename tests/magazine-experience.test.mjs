@@ -179,6 +179,15 @@ test("magazine details expose visible answer-engine context and article JSON-LD"
   assert.match(answerSummary, /rel="noopener noreferrer nofollow"/);
 });
 
+test("answer-engine source links expose a visible keyboard focus ring", async () => {
+  const css = await readSource("../app/globals.css");
+
+  assert.match(
+    css,
+    /\.magazine-answer-sources a:focus-visible\s*\{[^}]*outline:\s*3px solid var\(--brand\);[^}]*outline-offset:\s*3px;/s,
+  );
+});
+
 test("author profiles enrich the same canonical person entity used by articles", async () => {
   const [authorPage, entities] = await Promise.all([
     readSource("../app/magazin/author/[slug]/page.tsx"),

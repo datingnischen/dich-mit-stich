@@ -1,4 +1,5 @@
 import { ABOUT_PATHS } from "@/lib/about-pages";
+import { FAQ_PATH } from "@/lib/faq";
 import { atTattooCitySlugs, chTattooCitySlugs, isMarketCode, publicUrl } from "@/lib/markets";
 
 export const dynamic = "force-static";
@@ -22,6 +23,7 @@ export async function GET(_request: Request, { params }: RouteProps) {
   }
 
   const locations = [
+    publicUrl(market, FAQ_PATH),
     ...ABOUT_PATHS.map((path) => publicUrl(market, path)),
     ...(market === "ch"
       ? [

@@ -117,7 +117,7 @@ test("wires FAQ rendering, metadata, navigation and sitemap", async () => {
   assert.match(css, /\.faq-item summary:focus-visible/);
 });
 
-test("wires AT and CH FAQ routes into navigation and crawlable noindex handling", async () => {
+test("publishes indexable AT and CH FAQ routes through navigation, robots and market sitemaps", async () => {
   const [marketRoute, shell, sitemap, robots] = await Promise.all([
     readFile(new URL("../app/[market]/faq/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8"),
@@ -127,7 +127,9 @@ test("wires AT and CH FAQ routes into navigation and crawlable noindex handling"
 
   assert.match(marketRoute, /generateStaticParams/);
   assert.match(marketRoute, /FaqPageView market=\{market\}/);
+  assert.match(marketRoute, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true\s*\}/);
   assert.match(shell, /const aboutLinks:[\s\S]*\{ label: "FAQ", href: "\/faq" \}/);
-  assert.doesNotMatch(sitemap, /FAQ_PATH/);
+  assert.match(sitemap, /FAQ_PATH/);
+  assert.match(sitemap, /publicUrl\(market, FAQ_PATH\)/);
   assert.match(robots, /Allow: \/faq/);
 });

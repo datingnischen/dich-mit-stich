@@ -31,7 +31,7 @@ const aboutLinks: NavLink[] = [
 
 const headerMenuItems: NavLink[] = [
   { label: "Über uns", href: "/ueber-uns" },
-  { label: "FAQ", href: "https://dich-mit-stich.de/faq/", external: true },
+  { label: "FAQ", href: "/faq" },
   { label: "Bewertungen", href: "/ueber-uns/bewertungen" },
   { label: "Region eingrenzen", href: "/tattoo-singles" },
   { label: "Lieblings-Studios", href: "/tattoo-studios" },
@@ -121,6 +121,7 @@ const footerColumns: Array<{
   {
     title: "Service",
     links: [
+      { label: "Häufige Fragen (FAQ)", href: "/faq" },
       { label: "Datenschutz", href: "https://dich-mit-stich.de/datenschutz.html", external: true },
       { label: "Impressum", href: "https://dich-mit-stich.de/impressum.html", external: true },
       { label: "AGB", href: "https://dich-mit-stich.de/agb.html", external: true },

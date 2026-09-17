@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { ABOUT_PATHS } from "@/lib/about-pages";
+import { FAQ_PATH } from "@/lib/faq";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
@@ -21,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/magazin`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/tattoo-singles`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/tattoo-studios`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}${FAQ_PATH}`, changeFrequency: "monthly", priority: 0.8 },
     ...ABOUT_PATHS.map((path) => ({
       url: `${SITE_URL}${path}`,
       changeFrequency: "monthly" as const,

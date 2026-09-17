@@ -1375,6 +1375,7 @@ img {
 
 .magazine-detail-hero h1 {
   max-width: 18ch;
+  overflow-wrap: anywhere;
   font-size: clamp(2.7rem, 6vw, 5rem);
   line-height: 0.98;
   letter-spacing: -0.055em;
@@ -2047,6 +2048,10 @@ img {
 }
 
 @media (max-width: 480px) {
+  .magazine-detail-hero h1 {
+    font-size: 2.25rem;
+  }
+
   .footer-topic-columns {
     grid-template-columns: 1fr;
     gap: 30px;

@@ -22,6 +22,7 @@ type ShellProps = {
 
 const aboutLinks: NavLink[] = [
   { label: "Über uns", href: "/ueber-uns" },
+  { label: "FAQ", href: "/faq" },
   { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
   { label: "Erfolgsgeschichten", href: "/ueber-uns/erfolgsgeschichten" },
   { label: "Kooperationen", href: "/ueber-uns/kooperationen" },

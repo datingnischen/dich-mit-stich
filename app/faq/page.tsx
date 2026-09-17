@@ -22,5 +22,5 @@ export const metadata: Metadata = {
 };
 
 export default function FaqPage() {
-  return <FaqPageView />;
+  return <FaqPageView market="de" />;
 }

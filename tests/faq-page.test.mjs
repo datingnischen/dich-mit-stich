@@ -11,7 +11,8 @@ async function loadFaq() {
 }
 
 test("migrates the complete existing DE FAQ inventory", async () => {
-  const { FAQ_PATH, faqSections, faqAnswerText } = await loadFaq();
+  const { FAQ_PATH, getFaqSections, faqAnswerText } = await loadFaq();
+  const faqSections = getFaqSections("de");
 
   assert.equal(FAQ_PATH, "/faq");
   assert.equal(faqSections.length, 8);
@@ -48,30 +49,50 @@ test("migrates the complete existing DE FAQ inventory", async () => {
   assert.ok(items.every((item) => faqAnswerText(item.answer).length > 20));
 });
 
-test("builds FAQPage schema from every migrated question", async () => {
-  const { buildFaqGraph, faqSections } = await loadFaq();
-  const graph = buildFaqGraph();
-  const faqNode = graph["@graph"].find((node) => node["@type"] === "FAQPage");
-  const expectedCount = faqSections.flatMap((section) => section.items).length;
+test("localizes the complete FAQ inventory for all three public markets", async () => {
+  const { getFaqSections } = await loadFaq();
+  const domains = {
+    de: "dich-mit-stich.de",
+    at: "dich-mit-stich.at",
+    ch: "dich-mit-stich.ch",
+  };
 
-  assert.equal(graph["@context"], "https://schema.org");
-  assert.equal(faqNode.url, "https://dich-mit-stich.de/faq");
-  assert.equal(faqNode.mainEntity.length, expectedCount);
-  assert.ok(faqNode.mainEntity.every((entity) => entity["@type"] === "Question"));
-  assert.ok(faqNode.mainEntity.every((entity) => entity.acceptedAnswer["@type"] === "Answer"));
+  for (const [market, domain] of Object.entries(domains)) {
+    const sections = getFaqSections(market);
+    const serialized = JSON.stringify(sections);
+    assert.equal(sections.length, 8);
+    assert.equal(sections.flatMap((section) => section.items).length, 25);
+    assert.match(serialized, new RegExp(domain.replaceAll(".", "\\.")));
+    for (const otherDomain of Object.values(domains).filter((value) => value !== domain)) {
+      assert.doesNotMatch(serialized, new RegExp(otherDomain.replaceAll(".", "\\.")));
+    }
+  }
 });
 
-test("publishes the FAQ as a DE-only Vercel content route", async () => {
+test("builds market-specific FAQPage schema from every migrated question", async () => {
+  const { buildFaqGraph, getFaqSections } = await loadFaq();
+
+  for (const market of ["de", "at", "ch"]) {
+    const graph = buildFaqGraph(market);
+    const faqNode = graph["@graph"].find((node) => node["@type"] === "FAQPage");
+    const expectedCount = getFaqSections(market).flatMap((section) => section.items).length;
+    const domain = market === "de" ? "dich-mit-stich.de" : `dich-mit-stich.${market}`;
+
+    assert.equal(graph["@context"], "https://schema.org");
+    assert.equal(faqNode.url, `https://${domain}/faq`);
+    assert.equal(faqNode.mainEntity.length, expectedCount);
+    assert.ok(faqNode.mainEntity.every((entity) => entity["@type"] === "Question"));
+    assert.ok(faqNode.mainEntity.every((entity) => entity.acceptedAnswer["@type"] === "Answer"));
+  }
+});
+
+test("publishes the FAQ as live market content for DE, AT and CH", async () => {
   const { resolveMarketRequest } = await import("../lib/markets.ts");
 
   assert.deepEqual(resolveMarketRequest("/faq"), { action: "rewrite", market: "de", pathname: "/faq" });
   assert.deepEqual(resolveMarketRequest("/de/faq"), { action: "rewrite", market: "de", pathname: "/faq" });
-  assert.deepEqual(resolveMarketRequest("/at/faq"), {
-    action: "placeholder",
-    market: "at",
-    pathname: "/market-preview/at",
-    requestedPath: "/faq",
-  });
+  assert.deepEqual(resolveMarketRequest("/at/faq"), { action: "market-content", market: "at", pathname: "/at/faq" });
+  assert.deepEqual(resolveMarketRequest("/ch/faq"), { action: "market-content", market: "ch", pathname: "/ch/faq" });
 });
 
 test("wires FAQ rendering, metadata, navigation and sitemap", async () => {
@@ -88,10 +109,25 @@ test("wires FAQ rendering, metadata, navigation and sitemap", async () => {
   assert.match(component, /serializeJsonLd/);
   assert.match(component, /<details/);
   assert.match(component, /<summary/);
-  assert.match(component, /<SiteFrame market="de" sectionLive>/);
+  assert.match(component, /<SiteFrame market=\{market\} sectionLive>/);
   assert.match(shell, /\{ label: "FAQ", href: "\/faq" \}/);
   assert.doesNotMatch(shell, /label: "FAQ", href: "https:\/\/dich-mit-stich\.de\/faq\//);
   assert.match(sitemap, /FAQ_PATH/);
   assert.match(css, /\.faq-section/);
   assert.match(css, /\.faq-item summary:focus-visible/);
+});
+
+test("wires AT and CH FAQ routes into navigation and crawlable noindex handling", async () => {
+  const [marketRoute, shell, sitemap, robots] = await Promise.all([
+    readFile(new URL("../app/[market]/faq/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/market-sitemap/[market]/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/market-robots/[market]/route.ts", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(marketRoute, /generateStaticParams/);
+  assert.match(marketRoute, /FaqPageView market=\{market\}/);
+  assert.match(shell, /const aboutLinks:[\s\S]*\{ label: "FAQ", href: "\/faq" \}/);
+  assert.doesNotMatch(sitemap, /FAQ_PATH/);
+  assert.match(robots, /Allow: \/faq/);
 });

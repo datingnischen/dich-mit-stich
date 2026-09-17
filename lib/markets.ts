@@ -182,6 +182,14 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
     const contentPath = requestedPath.length > 1 ? requestedPath.replace(/\/+$/, "") : requestedPath;
     const aboutMatch = contentPath.match(ABOUT_PATH_PATTERN);
 
+    if (contentPath === "/faq") {
+      return {
+        action: "market-content",
+        market,
+        pathname: `/${market}/faq`,
+      };
+    }
+
     if (aboutMatch) {
       return {
         action: "market-content",

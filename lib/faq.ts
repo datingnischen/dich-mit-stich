@@ -1,4 +1,4 @@
-import { getMarket, publicUrl } from "./markets.ts";
+import { getMarket, publicUrl, type MarketCode } from "./markets.ts";
 
 export const FAQ_PATH = "/faq";
 
@@ -165,14 +165,54 @@ export const faqSections: FaqSection[] = [
   },
 ];
 
+export function getFaqSections(market: MarketCode): FaqSection[] {
+  if (market === "de") return faqSections;
+
+  const sourceOrigin = publicUrl("de");
+  const marketOrigin = publicUrl(market);
+  const sourceDomain = getMarket("de").domain;
+  const marketDomain = getMarket(market).domain;
+  const localize = (value: string) => value.split(sourceDomain).join(marketDomain);
+
+  return faqSections.map((section) => ({
+    ...section,
+    title: localize(section.title),
+    lead: section.lead ? localize(section.lead) : undefined,
+    items: section.items.map((item) => {
+      const question = localize(item.question);
+      if (item.question === "Gibt es externe Bewertungen zu dich-mit-stich.de?") {
+        return {
+          question,
+          answer: [
+            text("Ja. "),
+            link("Singlebörsen-Überblick", "https://singleboersen-ueberblick.de/partnersuche/dich-mit-stich/", true),
+            text(" stellt die Singlebörse vor. Bewertungsstände können sich verändern; deshalb verlinken wir auf die aktuelle externe Quelle."),
+          ],
+        };
+      }
+
+      return {
+        question,
+        answer: item.answer.map((part) => {
+          if (part.type === "text") return { ...part, value: localize(part.value) };
+          if (part.href.startsWith(sourceOrigin)) {
+            return { ...part, href: `${marketOrigin}${part.href.slice(sourceOrigin.length)}` };
+          }
+          return part;
+        }),
+      };
+    }),
+  }));
+}
+
 export function faqAnswerText(answer: FaqAnswerPart[]): string {
   return answer.map((part) => part.type === "text" ? part.value : part.label).join("").replace(/\s+/g, " ").trim();
 }
 
-export function buildFaqGraph() {
-  const canonical = publicUrl("de", FAQ_PATH);
-  const siteRoot = publicUrl("de");
-  const items = faqSections.flatMap((section) => section.items);
+export function buildFaqGraph(market: MarketCode = "de") {
+  const canonical = publicUrl(market, FAQ_PATH);
+  const siteRoot = publicUrl(market);
+  const items = getFaqSections(market).flatMap((section) => section.items);
 
   return {
     "@context": "https://schema.org",
@@ -182,7 +222,7 @@ export function buildFaqGraph() {
         "@id": `${siteRoot}#website`,
         name: "Dich mit Stich",
         url: siteRoot,
-        inLanguage: getMarket("de").locale,
+        inLanguage: getMarket(market).locale,
       },
       {
         "@type": "FAQPage",
@@ -190,7 +230,7 @@ export function buildFaqGraph() {
         url: canonical,
         name: "Häufig gestellte Fragen zu Dich mit Stich",
         description: "Antworten zu Anmeldung, Mitgliedschaft, Funktionen, Sicherheit, Datenschutz und Support bei Dich mit Stich.",
-        inLanguage: getMarket("de").locale,
+        inLanguage: getMarket(market).locale,
         isPartOf: { "@id": `${siteRoot}#website` },
         mainEntity: items.map((item) => ({
           "@type": "Question",

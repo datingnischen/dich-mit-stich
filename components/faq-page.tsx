@@ -1,26 +1,27 @@
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
-import { buildFaqGraph, FAQ_PATH, faqSections, type FaqAnswerPart } from "@/lib/faq";
+import { buildFaqGraph, FAQ_PATH, getFaqSections, type FaqAnswerPart } from "@/lib/faq";
 import { serializeJsonLd } from "@/lib/json-ld";
-import { publicUrl } from "@/lib/markets";
+import { publicUrl, type MarketCode } from "@/lib/markets";
 
-function AnswerPart({ part }: { part: FaqAnswerPart }) {
+function AnswerPart({ market, part }: { market: MarketCode; part: FaqAnswerPart }) {
   if (part.type === "text") return part.value;
   if (part.external) {
     return <a href={part.href} target="_blank" rel="nofollow noopener noreferrer">{part.label}</a>;
   }
   if (part.href.startsWith("/")) {
-    return <MarketLink targetMarket="de" pathname={part.href}>{part.label}</MarketLink>;
+    return <MarketLink targetMarket={market} pathname={part.href}>{part.label}</MarketLink>;
   }
   return <a href={part.href}>{part.label}</a>;
 }
 
-export function FaqPageView() {
-  const graph = buildFaqGraph();
+export function FaqPageView({ market }: { market: MarketCode }) {
+  const faqSections = getFaqSections(market);
+  const graph = buildFaqGraph(market);
   const questionCount = faqSections.reduce((total, section) => total + section.items.length, 0);
 
   return (
-    <SiteFrame market="de" sectionLive>
+    <SiteFrame market={market} sectionLive>
       <main className="shell faq-shell">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(graph) }} />
 
@@ -62,7 +63,7 @@ export function FaqPageView() {
                   <details className="faq-item" key={item.question}>
                     <summary>{item.question}</summary>
                     <div className="faq-answer">
-                      <p>{item.answer.map((part, index) => <AnswerPart part={part} key={`${item.question}-${index}`} />)}</p>
+                      <p>{item.answer.map((part, index) => <AnswerPart market={market} part={part} key={`${item.question}-${index}`} />)}</p>
                     </div>
                   </details>
                 ))}
@@ -77,14 +78,14 @@ export function FaqPageView() {
             <h2>Finde Menschen, die deinen Stil verstehen.</h2>
             <p>Die Registrierung ist kostenlos. Leistungen und Preise einer Premium-Mitgliedschaft werden vor dem Abschluss angezeigt.</p>
           </div>
-          <a className="button button-primary" href={publicUrl("de", "/registration/")}>Kostenlos registrieren</a>
+          <a className="button button-primary" href={publicUrl(market, "/registration/")}>Kostenlos registrieren</a>
         </section>
 
         <nav className="faq-related-links" aria-label="Weitere Informationen">
-          <MarketLink targetMarket="de" pathname="/ueber-uns">Über Dich mit Stich</MarketLink>
-          <MarketLink targetMarket="de" pathname="/ueber-uns/bewertungen">Bewertungen und Erfahrungen</MarketLink>
-          <a href={publicUrl("de", "/datenschutz.html")}>Datenschutz</a>
-          <a href={publicUrl("de", "/impressum.html")}>Impressum</a>
+          <MarketLink targetMarket={market} pathname="/ueber-uns">Über Dich mit Stich</MarketLink>
+          <MarketLink targetMarket={market} pathname="/ueber-uns/bewertungen">Bewertungen und Erfahrungen</MarketLink>
+          <a href={publicUrl(market, "/datenschutz.html")}>Datenschutz</a>
+          <a href={publicUrl(market, "/impressum.html")}>Impressum</a>
         </nav>
       </main>
     </SiteFrame>

@@ -3,7 +3,10 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 test("homepage exposes country-specific city entrypoints for DE, AT, and CH", async () => {
-  const source = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const source = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../components/home-page.tsx", import.meta.url), "utf8"),
+  ]).then((parts) => parts.join("\n"));
 
   assert.match(source, /getWordPressCityOverview/);
   assert.match(source, /countryLabel:\s*"Deutschland"/);

@@ -1,6 +1,7 @@
-import Link from "next/link";
+import { MarketLink } from "@/components/market-link";
+import type { MarketCode } from "@/lib/markets";
 
-export function AntiEyebrowEditorial() {
+export function AntiEyebrowEditorial({ market }: { market: MarketCode }) {
   return (
     <>
       <p className="magazine-article-intro">
@@ -98,18 +99,18 @@ export function AntiEyebrowEditorial() {
         <span className="eyebrow">Passend weiterlesen</span>
         <h2 id="anti-eyebrow-weiterlesen">Mehr zu Platzierung und Piercingarten</h2>
         <div className="magazine-related-links">
-          <Link href="/magazin/surface-piercing">
+          <MarketLink targetMarket={market} pathname="/magazin/surface-piercing">
             <strong>Surface Piercing</strong>
             <span>Grundlagen zu Oberflächenpiercings</span>
-          </Link>
-          <Link href="/magazin/augenbrauen-piercing">
+          </MarketLink>
+          <MarketLink targetMarket={market} pathname="/magazin/augenbrauen-piercing">
             <strong>Augenbrauenpiercing</strong>
             <span>Die klassische Alternative an der Braue</span>
-          </Link>
-          <Link href="/magazin/piercingarten">
+          </MarketLink>
+          <MarketLink targetMarket={market} pathname="/magazin/piercingarten">
             <strong>Piercingarten im Überblick</strong>
             <span>Weitere Platzierungen entdecken</span>
-          </Link>
+          </MarketLink>
         </div>
       </section>
 

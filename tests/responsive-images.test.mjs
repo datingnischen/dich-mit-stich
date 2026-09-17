@@ -5,9 +5,9 @@ import test from "node:test";
 const responsiveImageFiles = [
   "../app/tattoo-singles/page.tsx",
   "../app/tattoo-singles/[slug]/page.tsx",
-  "../app/magazin/page.tsx",
-  "../app/magazin/[slug]/page.tsx",
-  "../app/magazin/thema/[slug]/page.tsx",
+  "../components/magazine-overview.tsx",
+  "../components/magazine-detail.tsx",
+  "../components/magazine-category.tsx",
 ];
 
 test("city and magazine routes use responsive Next.js images", async () => {
@@ -20,7 +20,7 @@ test("city and magazine routes use responsive Next.js images", async () => {
 });
 
 test("author pages keep one prominent profile and show responsive article thumbnails", async () => {
-  const source = await readFile(new URL("../app/magazin/author/[slug]/page.tsx", import.meta.url), "utf8");
+  const source = await readFile(new URL("../components/magazine-author.tsx", import.meta.url), "utf8");
 
   assert.match(source, /author-hero-inline/);
   assert.doesNotMatch(source, /ExpertTrustCard/);

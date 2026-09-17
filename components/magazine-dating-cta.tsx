@@ -1,10 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
+import { MarketLink } from "@/components/market-link";
+import { conversionUrl } from "@/lib/conversion-links";
+import { publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
 const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.png");
 
-export function MagazineDatingCta() {
+export function MagazineDatingCta({ market }: { market: MarketCode }) {
   return (
     <aside className="content-section magazine-dating-cta" aria-labelledby="magazine-dating-title">
       <div className="magazine-dating-copy">
@@ -19,12 +21,12 @@ export function MagazineDatingCta() {
           <li>Kostenlos starten und den Suchradius selbst bestimmen</li>
         </ul>
         <div className="button-row">
-          <Link className="button button-primary" href="https://dich-mit-stich.de/suche/?AID=magazin">
+          <a className="button button-primary" href={conversionUrl(publicUrl(market), "/", "magazin")}>
             Flirtradar kostenlos nutzen
-          </Link>
-          <Link className="button button-secondary" href="/tattoo-singles">
+          </a>
+          <MarketLink className="button button-secondary" targetMarket={market} pathname="/tattoo-singles">
             Tattoo-Singles nach Stadt
-          </Link>
+          </MarketLink>
         </div>
       </div>
 

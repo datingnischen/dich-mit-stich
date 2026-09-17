@@ -17,7 +17,9 @@ export async function GET(_request: Request, { params }: RouteProps) {
   }
 
   const allowedPaths = [
+    "Allow: /$",
     "Allow: /faq",
+    "Allow: /magazin",
     "Allow: /ueber-uns",
     "Allow: /tattoo-singles",
     "Allow: /tattoo-studios",

@@ -2,8 +2,9 @@
 
 import type { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
+import { localizeFirstPartyHtmlLinks } from "@/lib/market-html";
 import { isPrefixFreeInternalPath, shouldInterceptPreviewClick } from "@/lib/market-navigation";
-import { marketPreviewPath, type MarketCode } from "@/lib/markets";
+import { marketPreviewPath, publicUrl, type MarketCode } from "@/lib/markets";
 
 type MarketHtmlContentProps = {
   className?: string;
@@ -13,6 +14,7 @@ type MarketHtmlContentProps = {
 
 export function MarketHtmlContent({ className, html, market }: MarketHtmlContentProps) {
   const router = useRouter();
+  const localizedHtml = localizeFirstPartyHtmlLinks(html, publicUrl(market));
 
   function handleClick(event: MouseEvent<HTMLDivElement>) {
     if (!(event.target instanceof Element)) return;
@@ -21,7 +23,17 @@ export function MarketHtmlContent({ className, html, market }: MarketHtmlContent
     if (!anchor) return;
 
     const href = anchor.getAttribute("href");
-    if (!href || !isPrefixFreeInternalPath(href)) return;
+    if (!href) return;
+    let previewPath = href;
+    if (!isPrefixFreeInternalPath(previewPath)) {
+      try {
+        const target = new URL(previewPath);
+        if (target.origin !== publicUrl(market)) return;
+        previewPath = `${target.pathname}${target.search}${target.hash}`;
+      } catch {
+        return;
+      }
+    }
     if (!shouldInterceptPreviewClick({
       hostname: window.location.hostname,
       button: event.button,
@@ -35,8 +47,8 @@ export function MarketHtmlContent({ className, html, market }: MarketHtmlContent
     })) return;
 
     event.preventDefault();
-    router.push(marketPreviewPath(market, href));
+    router.push(marketPreviewPath(market, previewPath));
   }
 
-  return <div className={className} onClick={handleClick} dangerouslySetInnerHTML={{ __html: html }} />;
+  return <div className={className} onClick={handleClick} dangerouslySetInnerHTML={{ __html: localizedHtml }} />;
 }

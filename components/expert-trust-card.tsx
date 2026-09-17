@@ -1,6 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
+import { MarketLink } from "@/components/market-link";
 import type { ExpertProfile } from "@/lib/expert-profile";
+import { localizeFirstPartyText } from "@/lib/market-html";
+import { publicUrl, type MarketCode } from "@/lib/markets";
 
 type ExpertTrustCardProps = {
   profile: ExpertProfile;
@@ -8,6 +10,7 @@ type ExpertTrustCardProps = {
   title?: string;
   primaryLabel?: string;
   primaryHref?: string;
+  market?: MarketCode;
 };
 
 export function ExpertTrustCard({
@@ -16,6 +19,7 @@ export function ExpertTrustCard({
   title = "Vertrauen statt Blindflug: Die Inhalte orientieren sich am echten Szene- und Dating-Know-how von Christian M. Haas.",
   primaryLabel = "Zum Expertenprofil",
   primaryHref,
+  market = "de",
 }: ExpertTrustCardProps) {
   return (
     <article className="expert-card panel-card">
@@ -44,21 +48,21 @@ export function ExpertTrustCard({
         <h2>{title}</h2>
         <h3>{profile.name}</h3>
         <p className="expert-role">{profile.role}</p>
-        <p>{profile.bio}</p>
+        <p>{localizeFirstPartyText(profile.bio, publicUrl(market))}</p>
 
         <ul className="expert-facts" aria-label="Expertise und Vertrauenssignale">
           {profile.facts.map((fact) => (
-            <li key={fact}>{fact}</li>
+            <li key={fact}>{localizeFirstPartyText(fact, publicUrl(market))}</li>
           ))}
         </ul>
 
         <div className="button-row">
-          <Link className="button button-primary" href={primaryHref || profile.profileUrl}>
+          <MarketLink className="button button-primary" targetMarket={market} pathname={primaryHref || profile.profileUrl}>
             {primaryLabel}
-          </Link>
-          <Link className="button button-secondary" href="https://dich-mit-stich.de/registration/">
+          </MarketLink>
+          <a className="button button-secondary" href={publicUrl(market, "/registration/")}>
             Kostenlos registrieren
-          </Link>
+          </a>
         </div>
       </div>
     </article>

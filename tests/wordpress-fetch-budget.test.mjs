@@ -6,6 +6,7 @@ const wordpressModule = await import("../lib/wordpress.ts");
 const wordpressSource = await readFile(new URL("../lib/wordpress.ts", import.meta.url), "utf8");
 const authorProfileSource = await readFile(new URL("../lib/author-profiles.ts", import.meta.url), "utf8");
 const payloadBudgetSource = await readFile(new URL("../scripts/check-wordpress-payload-budget.mjs", import.meta.url), "utf8");
+const { localizeFirstPartyHtmlLinks } = await import("../lib/market-html.ts");
 
 const {
   WORDPRESS_FETCH_POLICY,
@@ -47,6 +48,20 @@ test("magazine link sanitization canonicalizes external URLs and removes arbitra
   assert.match(html, /<a href="http:\/\/evil\.example\/noncanonical" rel="noopener noreferrer nofollow">Nichtkanonisch<\/a>/);
   assert.match(html, /<a href="\/magazin\/intern">Intern<\/a>/);
   assert.doesNotMatch(html, /named-window|other-window/);
+});
+
+test("magazine link sanitization repairs the exact duplicated-scheme first-party legacy URL", () => {
+  const sanitized = sanitizeMagazineHtml(`
+    <a href="https://https://dich-mit-stich.de/magazin/intimpiercing/">Intern</a>
+    <a href="https://https://evil.example/magazin/intimpiercing/">Extern</a>
+  `);
+
+  assert.match(sanitized, /href="https:\/\/dich-mit-stich\.de\/magazin\/intimpiercing\/"/);
+  assert.match(sanitized, /href="https:\/\/https\/\/evil\.example\/magazin\/intimpiercing\/"/);
+  assert.match(
+    localizeFirstPartyHtmlLinks(sanitized, "https://dich-mit-stich.at"),
+    /href="https:\/\/dich-mit-stich\.at\/magazin\/intimpiercing\/"/,
+  );
 });
 
 test("WordPress route, list, and detail requests use distinct payload budgets", () => {

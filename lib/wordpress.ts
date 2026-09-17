@@ -221,6 +221,7 @@ export function stripHtml(text = "") {
 
 const MAGAZINE_MEDIA_PREFIX = "/magazin/wp-content/uploads/";
 const MAGAZINE_MEDIA_ORIGIN = "https://dich-mit-stich.de";
+const DUPLICATED_SCHEME_FIRST_PARTY_PREFIX = "https://https://dich-mit-stich.de/";
 
 function absoluteMagazineMediaUrl(value = "") {
   return value.startsWith(MAGAZINE_MEDIA_PREFIX) ? `${MAGAZINE_MEDIA_ORIGIN}${value}` : value;
@@ -243,9 +244,12 @@ function hardenMagazineLink(attributes: Record<string, string>) {
 
   if (rawHref) {
     try {
-      const parsed = new URL(rawHref, MAGAZINE_MEDIA_ORIGIN);
+      const normalizedHref = rawHref.startsWith(DUPLICATED_SCHEME_FIRST_PARTY_PREFIX)
+        ? `${MAGAZINE_MEDIA_ORIGIN}/${rawHref.slice(DUPLICATED_SCHEME_FIRST_PARTY_PREFIX.length)}`
+        : rawHref;
+      const parsed = new URL(normalizedHref, MAGAZINE_MEDIA_ORIGIN);
       const isHttp = parsed.protocol === "http:" || parsed.protocol === "https:";
-      const isAbsoluteHttpInput = /^(?:https?:)?\/\//i.test(rawHref) || /^https?:/i.test(rawHref);
+      const isAbsoluteHttpInput = /^(?:https?:)?\/\//i.test(normalizedHref) || /^https?:/i.test(normalizedHref);
       if (isHttp && isAbsoluteHttpInput) hardened.href = parsed.href;
 
       if (isHttp && parsed.origin !== MAGAZINE_MEDIA_ORIGIN) {

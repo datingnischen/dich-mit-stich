@@ -3,9 +3,14 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const readSource = (path) => readFile(new URL(path, import.meta.url), "utf8");
+const readCombinedSource = async (...paths) => (await Promise.all(paths.map(readSource))).join("\n");
+const readMagazineOverviewSource = () => readCombinedSource("../app/magazin/page.tsx", "../components/magazine-overview.tsx");
+const readMagazineDetailSource = () => readCombinedSource("../app/magazin/[slug]/page.tsx", "../components/magazine-detail.tsx");
+const readMagazineAuthorSource = () => readCombinedSource("../app/magazin/author/[slug]/page.tsx", "../components/magazine-author.tsx");
+const readMagazineCategorySource = () => readCombinedSource("../app/magazin/thema/[slug]/page.tsx", "../components/magazine-category.tsx");
 
 test("magazine overview uses broad editorial grids without equal-height split panels", async () => {
-  const source = await readSource("../app/magazin/page.tsx");
+  const source = await readMagazineOverviewSource();
 
   assert.match(source, /className="magazine-story-grid"/);
   assert.match(source, /className="magazine-guide-grid"/);
@@ -14,8 +19,8 @@ test("magazine overview uses broad editorial grids without equal-height split pa
   assert.doesNotMatch(source, /<section className="grid-two">/);
   assert.doesNotMatch(source, /Aktuelle Magazinbeiträge für deinen Einstieg/);
   assert.doesNotMatch(source, /Artikel kurz anhören/);
-  assert.match(source, /https:\/\/dich-mit-stich\.de\/suche\/\?AID=magazin/);
-  assert.doesNotMatch(source, /https:\/\/dich-mit-stich\.de\/registration\/\?AID=magazin/);
+  assert.match(source, /conversionUrl\(publicUrl\(market\), "\/", "magazin"\)/);
+  assert.doesNotMatch(source, /registration\/\?AID=magazin/);
   assert.match(source, /title:\s*"Flirtradar: Tattoo-, Piercing- & Szene-Magazin"/);
   assert.match(source, /description:\s*"Tattoo-Wissen, Piercing-Ratgeber, Motive und echte Geschichten/);
 });
@@ -51,7 +56,7 @@ test("magazine shell propagates the exact magazine attribution context", async (
 
 test("normal magazine entries use a structured editorial detail layout", async () => {
   const [detail, css] = await Promise.all([
-    readSource("../app/magazin/[slug]/page.tsx"),
+    readMagazineDetailSource(),
     readSource("../app/globals.css"),
   ]);
 
@@ -84,14 +89,14 @@ test("normal magazine entries use a structured editorial detail layout", async (
 
 test("normal magazine entries render one reusable Flirtradar conversion after editorial content", async () => {
   const [detail, component] = await Promise.all([
-    readSource("../app/magazin/[slug]/page.tsx"),
+    readMagazineDetailSource(),
     readSource("../components/magazine-dating-cta.tsx"),
   ]);
 
   assert.match(detail, /import \{ MagazineDatingCta \} from "@\/components\/magazine-dating-cta"/);
-  assert.equal((detail.match(/<MagazineDatingCta \/>/g) || []).length, 1);
-  assert.ok(detail.indexOf("<MagazineDatingCta />") > detail.indexOf('className="rich-content"'));
-  assert.ok(detail.indexOf("<MagazineDatingCta />") < detail.indexOf("<ExpertTrustCard"));
+  assert.equal((detail.match(/<MagazineDatingCta market=\{market\} \/>/g) || []).length, 1);
+  assert.ok(detail.indexOf("<MagazineDatingCta market={market} />") > detail.indexOf('className="rich-content"'));
+  assert.ok(detail.indexOf("<MagazineDatingCta market={market} />") < detail.indexOf("<ExpertTrustCard"));
   assert.doesNotMatch(detail, /registration\/">Kostenlos registrieren/);
 
   assert.match(component, /staticAsset\("\/brand\/flirtradar-umkreissuche\.png"\)/);
@@ -106,15 +111,15 @@ test("normal magazine entries render one reusable Flirtradar conversion after ed
     declaredDimensions.slice(1).map(Number),
     [flirtradarImage.readUInt32BE(16), flirtradarImage.readUInt32BE(20)],
   );
-  assert.match(component, /https:\/\/dich-mit-stich\.de\/suche\/\?AID=magazin/);
-  assert.doesNotMatch(component, /https:\/\/dich-mit-stich\.de\/registration\/\?AID=magazin/);
+  assert.match(component, /conversionUrl\(publicUrl\(market\), "\/", "magazin"\)/);
+  assert.doesNotMatch(component, /registration\/\?AID=magazin/);
   assert.match(component, /alt="Flirtradar mit Umkreissuche für Tattoo- und Piercing-Singles"/);
   assert.match(component, /aria-labelledby="magazine-dating-title"/);
 });
 
 test("Anti-Eyebrow pilot replaces unsafe legacy guidance with sourced editorial content", async () => {
   const [detail, editorial, registry, featuredImages, featuredAsset] = await Promise.all([
-    readSource("../app/magazin/[slug]/page.tsx"),
+    readMagazineDetailSource(),
     readSource("../components/anti-eyebrow-editorial.tsx"),
     readSource("../lib/magazine-editorial-overrides.ts"),
     readSource("../lib/magazine-featured-images.ts"),
@@ -123,8 +128,8 @@ test("Anti-Eyebrow pilot replaces unsafe legacy guidance with sourced editorial 
 
   assert.match(detail, /getMagazineEditorialOverride\(entry\.slug\)/);
   assert.match(detail, /getMagazineEditorialOverride\(slug\)/);
-  assert.match(detail, /description:\s*answerEngineEntry\?\.directAnswer\s*\?\?\s*editorialOverride\?\.summary/);
-  assert.match(detail, /<AntiEyebrowEditorial \/>/);
+  assert.match(detail, /answerEngineEntry\?\.directAnswer\s*\?\?\s*editorialOverride\?\.summary/);
+  assert.match(detail, /<AntiEyebrowEditorial market=\{market\} \/>/);
   assert.match(detail, /editorialOverride\?\.summary/);
   assert.match(registry, /"anti-eyebrow-piercing":\s*\{/);
   assert.match(registry, /Professionell planen, schonend pflegen und Warnzeichen richtig einordnen/);
@@ -153,7 +158,7 @@ test("Anti-Eyebrow pilot replaces unsafe legacy guidance with sourced editorial 
 
 test("matching magazine entries render an approved responsive YouTube video before conversion", async () => {
   const [detail, component, registry, css] = await Promise.all([
-    readSource("../app/magazin/[slug]/page.tsx"),
+    readMagazineDetailSource(),
     readSource("../components/magazine-video.tsx"),
     readSource("../lib/magazine-videos.ts"),
     readSource("../app/globals.css"),
@@ -162,7 +167,7 @@ test("matching magazine entries render an approved responsive YouTube video befo
   assert.match(detail, /getMagazineVideo\(entry\.slug\)/);
   assert.match(detail, /magazineVideo \? <MagazineVideo video=\{magazineVideo\} \/> : null/);
   assert.ok(detail.indexOf("<MagazineVideo") > detail.indexOf('className="rich-content"'));
-  assert.ok(detail.indexOf("<MagazineVideo") < detail.indexOf("<MagazineDatingCta />"));
+  assert.ok(detail.indexOf("<MagazineVideo") < detail.indexOf("<MagazineDatingCta market={market} />"));
   assert.match(registry, /"christina-piercing":\s*\{/);
   assert.match(registry, /videoId:\s*"p4-qTtyMegM"/);
   assert.match(registry, /"conch-piercing":\s*\{/);
@@ -174,7 +179,7 @@ test("matching magazine entries render an approved responsive YouTube video befo
 });
 
 test("Christina magazine detail replaces the legacy diagram with a local editorial feature image", async () => {
-  const detail = await readSource("../app/magazin/[slug]/page.tsx");
+  const detail = await readMagazineDetailSource();
 
   assert.match(detail, /import \{ getMagazineFeaturedImage \} from "@\/lib\/magazine-featured-images"/);
   assert.match(detail, /getMagazineFeaturedImage\(entry\.slug, \{[\s\S]*src: entry\.featuredImage,[\s\S]*alt: entry\.featuredImageAlt \|\| entry\.title,[\s\S]*\}\)/);
@@ -199,7 +204,7 @@ test("magazine cards and Flirtradar conversion have explicit responsive layouts"
 
 test("magazine details expose visible answer-engine context and article JSON-LD", async () => {
   const [detail, answerSummary] = await Promise.all([
-    readSource("../app/magazin/[slug]/page.tsx"),
+    readMagazineDetailSource(),
     readSource("../components/magazine-answer-summary.tsx"),
   ]);
 
@@ -222,23 +227,23 @@ test("answer-engine source links expose a visible keyboard focus ring", async ()
 
 test("author profiles enrich the same canonical person entity used by articles", async () => {
   const [authorPage, entities] = await Promise.all([
-    readSource("../app/magazin/author/[slug]/page.tsx"),
+    readMagazineAuthorSource(),
     readSource("../lib/editorial-entities.ts"),
   ]);
 
-  assert.match(authorPage, /buildAuthorProfileGraph\(profile\)/);
+  assert.match(authorPage, /buildAuthorProfileGraph\(profile, market\)/);
   assert.match(authorPage, /alternates:\s*\{ canonical: publicUrl\("de", profile\.profileUrl\) \}/);
   assert.match(authorPage, /type="application\/ld\+json"/);
   assert.match(authorPage, /serializeJsonLd\(profileGraph\)/);
-  assert.match(entities, /authorEntityId\(profile\.profileUrl\)/);
-  assert.match(entities, /publisher:\s*\{\s*"@id": EDITORIAL_ENTITY_IDS\.operator\s*\}/s);
+  assert.match(entities, /authorEntityId\(profile\.profileUrl, market\)/);
+  assert.match(entities, /publisher:\s*\{\s*"@id": entityIds\.operator\s*\}/s);
   assert.doesNotMatch(entities, /worksFor|parentOrganization|founder:/);
 });
 
 test("JSON-LD serialization cannot break out of its script element", async () => {
   const [detail, authorPage] = await Promise.all([
-    readSource("../app/magazin/[slug]/page.tsx"),
-    readSource("../app/magazin/author/[slug]/page.tsx"),
+    readMagazineDetailSource(),
+    readMagazineAuthorSource(),
   ]);
 
   assert.match(detail, /serializeJsonLd\(pageGraph\)/);
@@ -249,7 +254,7 @@ test("JSON-LD serialization cannot break out of its script element", async () =>
 
 test("unreviewed legacy medical bodies fail closed instead of inheriting an AEO safety halo", async () => {
   const [detail, sitemap, safety] = await Promise.all([
-    readSource("../app/magazin/[slug]/page.tsx"),
+    readMagazineDetailSource(),
     readSource("../app/sitemap.ts"),
     import("../lib/magazine-content-safety.ts"),
   ]);
@@ -257,9 +262,11 @@ test("unreviewed legacy medical bodies fail closed instead of inheriting an AEO 
   assert.match(detail, /answerEngineEntry\s*\?\s*\(/);
   assert.match(detail, /Die ältere Langfassung wird aktuell fachlich überarbeitet/);
   assert.match(detail, /isMagazineArticleQuarantined\(slug\)/);
-  assert.match(detail, /robots:\s*\{\s*index:\s*false,\s*follow:\s*false\s*\}/);
+  assert.match(detail, /marketEditorialRobots\("de", quarantined\)/);
+  const editorialMetadata = await readSource("../lib/editorial-metadata.ts");
+  assert.match(editorialMetadata, /if \(safetyOverride\) return \{ index: false, follow: false \}/);
   assert.match(sitemap, /!isMagazineArticleQuarantined\(entry\.slug\)/);
-  const categoryPage = await readSource("../app/magazin/thema/[slug]/page.tsx");
+  const categoryPage = await readMagazineCategorySource();
   assert.match(categoryPage, /<h2>\{featuredEntry\.title\}<\/h2>/);
   assert.doesNotMatch(categoryPage, /<h3>\{featuredEntry\.title\}<\/h3>/);
   assert.equal(safety.isMagazineArticleQuarantined("anti-tragus-piercing"), true);
@@ -268,10 +275,10 @@ test("unreviewed legacy medical bodies fail closed instead of inheriting an AEO 
 });
 
 test("pilot direct answers stay consistent across metadata, hero and schema", async () => {
-  const detail = await readSource("../app/magazin/[slug]/page.tsx");
+  const detail = await readMagazineDetailSource();
 
   assert.match(detail, /const answerEngineEntry = getAnswerEnginePilotEntry\(slug\);/);
-  assert.match(detail, /description:\s*answerEngineEntry\?\.directAnswer/);
+  assert.match(detail, /answerEngineEntry\?\.directAnswer\s*\?\?/);
   assert.match(detail, /\{\(answerEngineEntry \|\| editorialOverride\) \? null : "…"\}/);
 });
 

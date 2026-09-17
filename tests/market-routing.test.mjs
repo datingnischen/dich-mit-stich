@@ -64,14 +64,38 @@ test("rewrites DE preview routes to the existing content tree", async () => {
   });
 });
 
-test("gates untagged content while allowing the imported CH tattoo city family", async () => {
+test("routes adapted AT and CH editorial families while gating untagged content", async () => {
   const { resolveMarketRequest } = await loadMarkets();
 
-  assert.deepEqual(resolveMarketRequest("/at/magazin"), {
-    action: "placeholder",
+  assert.deepEqual(resolveMarketRequest("/at"), {
+    action: "market-content",
     market: "at",
-    pathname: "/market-preview/at",
-    requestedPath: "/magazin",
+    pathname: "/at",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/ch",
+  });
+  assert.deepEqual(resolveMarketRequest("/at/magazin"), {
+    action: "market-content",
+    market: "at",
+    pathname: "/at/magazin",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch/magazin/pascal-und-stephanie"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/ch/magazin/pascal-und-stephanie",
+  });
+  assert.deepEqual(resolveMarketRequest("/at/magazin/thema/ratgeber"), {
+    action: "market-content",
+    market: "at",
+    pathname: "/at/magazin/thema/ratgeber",
+  });
+  assert.deepEqual(resolveMarketRequest("/ch/magazin/author/anne-schweitzer"), {
+    action: "market-content",
+    market: "ch",
+    pathname: "/ch/magazin/author/anne-schweitzer",
   });
   assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/zuerich"), {
     action: "market-content",
@@ -126,11 +150,11 @@ test("gates untagged content while allowing the imported CH tattoo city family",
   assert.deepEqual(resolveMarketRequest("/de/market-tattoo-studios/ch/zuerich"), {
     action: "not-found",
   });
-  assert.deepEqual(resolveMarketRequest("/ch/magazin"), {
+  assert.deepEqual(resolveMarketRequest("/ch/not-adapted"), {
     action: "placeholder",
     market: "ch",
     pathname: "/market-preview/ch",
-    requestedPath: "/magazin",
+    requestedPath: "/not-adapted",
   });
 });
 

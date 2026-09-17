@@ -1,9 +1,7 @@
-const SITE_URL = "https://dich-mit-stich.de";
+import { getMarket, publicUrl, type MarketCode } from "./markets.ts";
+
 const PROFILE_SLUG = "unser-datingexperte";
 const PROFILE_PATH = `/magazin/${PROFILE_SLUG}`;
-const PROFILE_URL = `${SITE_URL}${PROFILE_PATH}`;
-const PERSON_ID = `${PROFILE_URL}#person`;
-const BOOK_ID = `${PROFILE_URL}#book-isbn-9783696371210`;
 const AMAZON_URL = "https://www.amazon.de/dp/3696371211/";
 const START = "<!-- dating-ohne-bullshit-book:start -->";
 const END = "<!-- dating-ohne-bullshit-book:end -->";
@@ -17,6 +15,7 @@ type PublishedAuthorProfileInput = {
   content: string;
   modified?: string | null;
   personImage?: string | null;
+  market?: MarketCode;
 };
 
 type JsonLdNode = Record<string, unknown>;
@@ -57,45 +56,50 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
   if (input.slug !== PROFILE_SLUG) return null;
   const bookCover = extractBoundedBookCover(input.content);
   if (!bookCover) return null;
+  const market = input.market ?? "de";
+  const profileUrl = publicUrl(market, PROFILE_PATH);
+  const personId = `${profileUrl}#person`;
+  const bookId = `${profileUrl}#book-isbn-9783696371210`;
+  const locale = getMarket(market).locale;
 
   const nodes: JsonLdNode[] = [
     {
       "@type": "BreadcrumbList",
-      "@id": `${PROFILE_URL}#breadcrumb`,
+      "@id": `${profileUrl}#breadcrumb`,
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Magazin", item: `${SITE_URL}/magazin` },
-        { "@type": "ListItem", position: 2, name: "Christian M. Haas", item: PROFILE_URL },
+        { "@type": "ListItem", position: 1, name: "Magazin", item: publicUrl(market, "/magazin") },
+        { "@type": "ListItem", position: 2, name: "Christian M. Haas", item: profileUrl },
       ],
     },
     {
       "@type": "ProfilePage",
-      "@id": `${PROFILE_URL}#webpage`,
-      url: PROFILE_URL,
+      "@id": `${profileUrl}#webpage`,
+      url: profileUrl,
       name: input.title,
       description: input.description,
-      breadcrumb: { "@id": `${PROFILE_URL}#breadcrumb` },
-      mainEntity: { "@id": PERSON_ID },
+      breadcrumb: { "@id": `${profileUrl}#breadcrumb` },
+      mainEntity: { "@id": personId },
       dateModified: input.modified || undefined,
-      inLanguage: "de-DE",
+      inLanguage: locale,
     },
     {
       "@type": "Person",
-      "@id": PERSON_ID,
+      "@id": personId,
       name: "Christian M. Haas",
-      url: PROFILE_URL,
+      url: profileUrl,
       description: input.description,
       jobTitle: "Datingexperte und Autor für tätowierte Singles",
       image: input.personImage || undefined,
     },
     {
       "@type": "Book",
-      "@id": BOOK_ID,
+      "@id": bookId,
       name: "Dating ohne Bullshit",
       alternateName: "Der ungeschönte Insiderblick ins Online-Dating-Business",
-      author: { "@id": PERSON_ID },
+      author: { "@id": personId },
       isbn: "9783696371210",
       datePublished: "2026-08-21",
-      inLanguage: "de-DE",
+      inLanguage: locale,
       bookFormat: "https://schema.org/Paperback",
       numberOfPages: 136,
       url: AMAZON_URL,

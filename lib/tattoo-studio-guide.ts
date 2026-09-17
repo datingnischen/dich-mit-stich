@@ -3,10 +3,13 @@ import sanitizeHtml from "sanitize-html";
 import berlinManifest from "../data/tattoo-studio-guide-berlin.json" with { type: "json" };
 import grazManifest from "../data/tattoo-studio-guide-graz.json" with { type: "json" };
 import hannoverManifest from "../data/tattoo-studio-guide-hannover.json" with { type: "json" };
+import innsbruckManifest from "../data/tattoo-studio-guide-innsbruck.json" with { type: "json" };
 import linzManifest from "../data/tattoo-studio-guide-linz.json" with { type: "json" };
 import salzburgManifest from "../data/tattoo-studio-guide-salzburg.json" with { type: "json" };
 import wienManifest from "../data/tattoo-studio-guide-wien.json" with { type: "json" };
 import zuerichManifest from "../data/tattoo-studio-guide-zuerich.json" with { type: "json" };
+import atTattooCities from "../data/tattoo-cities-at.json" with { type: "json" };
+import chTattooCities from "../data/tattoo-cities-ch.json" with { type: "json" };
 import cityImages from "../data/tattoo-city-images.json" with { type: "json" };
 import type { MarketCode } from "./markets.ts";
 
@@ -104,6 +107,80 @@ type SourceManifest = {
 
 export const TATTOO_STUDIO_MARKETS = ["at", "ch"] as const;
 export type TattooStudioMarket = (typeof TATTOO_STUDIO_MARKETS)[number];
+
+type DirectoryImageAttribution = {
+  title: string;
+  creator: string;
+  license: string;
+  sourceUrl: string;
+  licenseUrl?: string;
+  modifications?: string;
+};
+type RawDirectoryImageAttribution = Omit<DirectoryImageAttribution, "title"> & { title?: string; label?: string };
+type LargestCityDefinition = { slug: string; label: string; imageUrl: string; imageAttribution: DirectoryImageAttribution };
+type CityImageRecord = { imageUrl: string; imageAttribution: RawDirectoryImageAttribution };
+
+const deCityImageCatalog = cityImages as Record<string, CityImageRecord>;
+const atCityImageCatalog = atTattooCities.cities as Record<string, CityImageRecord>;
+const chCityImageCatalog = chTattooCities.cities as Record<string, CityImageRecord>;
+const innsbruckGuide = (innsbruckManifest as SourceManifest).guide;
+const innsbruckImage: CityImageRecord = {
+  imageUrl: innsbruckGuide.imageUrl ?? "/cities/at/innsbruck.jpg",
+  imageAttribution: innsbruckGuide.imageAttribution ?? {
+    title: "Stadtbild von Innsbruck",
+    creator: "realluca009",
+    license: "Pixabay Content License",
+    sourceUrl: "https://pixabay.com/de/photos/stadtbild-stadt-innsbruck-7361396/",
+  },
+};
+
+function getDirectoryImageAttribution(record: CityImageRecord): DirectoryImageAttribution {
+  return {
+    ...record.imageAttribution,
+    title: record.imageAttribution.title ?? record.imageAttribution.label ?? "Stadtmotiv",
+  };
+}
+
+const LARGEST_TATTOO_STUDIO_CITIES: Record<MarketCode, LargestCityDefinition[]> = {
+  de: [
+    ["berlin", "Berlin"], ["hamburg", "Hamburg"], ["muenchen", "München"], ["koeln", "Köln"],
+    ["frankfurt-am-main", "Frankfurt am Main"], ["duesseldorf", "Düsseldorf"], ["stuttgart", "Stuttgart"],
+    ["leipzig", "Leipzig"], ["dortmund", "Dortmund"], ["bremen", "Bremen"],
+  ].map(([slug, label]) => ({ slug, label, imageUrl: `/city-previews/${slug}.jpg`, imageAttribution: getDirectoryImageAttribution(deCityImageCatalog[slug]) })),
+  at: [
+    ["wien", "Wien"], ["graz", "Graz"], ["linz", "Linz"], ["salzburg", "Salzburg"],
+    ["innsbruck", "Innsbruck"], ["klagenfurt", "Klagenfurt"], ["villach", "Villach"], ["wels", "Wels"],
+    ["sankt-poelten", "Sankt Pölten"], ["dornbirn", "Dornbirn"],
+  ].map(([slug, label]) => ({
+    slug,
+    label,
+    imageUrl: `/cities/at/${slug}.jpg`,
+    imageAttribution: getDirectoryImageAttribution(slug === "innsbruck" ? innsbruckImage : atCityImageCatalog[slug]),
+  })),
+  ch: [
+    ["zuerich", "Zürich"], ["genf", "Genf"], ["basel", "Basel"], ["lausanne", "Lausanne"], ["bern", "Bern"],
+    ["winterthur", "Winterthur"], ["luzern", "Luzern"], ["st-gallen", "St. Gallen"], ["lugano", "Lugano"],
+    ["biel-bienne", "Biel/Bienne"],
+  ].map(([slug, label]) => ({ slug, label, imageUrl: `/cities/ch/${slug}.jpg`, imageAttribution: getDirectoryImageAttribution(chCityImageCatalog[slug]) })),
+};
+
+export const TATTOO_STUDIO_CITY_POPULATION_SOURCES: Record<MarketCode, { label: string; url: string; referenceDate: string }> = {
+  de: {
+    label: "Statistisches Bundesamt: Städte nach Bevölkerung",
+    url: "https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/Administrativ/05-staedte.html",
+    referenceDate: "31.12.2024",
+  },
+  at: {
+    label: "STATISTIK AUSTRIA: Bevölkerung zu Jahresbeginn",
+    url: "https://www.statistik.at/statistiken/bevoelkerung-und-soziales/bevoelkerung/bevoelkerungsstand/bevoelkerung-zu-jahres-/-quartalsanfang",
+    referenceDate: "01.01.2026",
+  },
+  ch: {
+    label: "Bundesamt für Statistik: Bevölkerung nach Gemeinden",
+    url: "https://www.pxweb.bfs.admin.ch/pxweb/en/px-x-0102010000_101/-/px-x-0102010000_101.px/",
+    referenceDate: "31.12.2025",
+  },
+};
 
 export function isTattooStudioMarket(value: string): value is TattooStudioMarket {
   return TATTOO_STUDIO_MARKETS.includes(value as TattooStudioMarket);
@@ -214,9 +291,22 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
   };
 }
 
-const guides = [berlinManifest, grazManifest, hannoverManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest]
+const guides = [berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest]
   .map((manifest) => normalizeTattooStudioManifest(manifest as SourceManifest).guide)
   .sort((left, right) => left.cityName.localeCompare(right.cityName, "de"));
+
+export function getLargestTattooStudioCities(market: MarketCode) {
+  const guideSlugs = new Set(guides.filter((guide) => guide.market === market).map((guide) => guide.slug));
+  return LARGEST_TATTOO_STUDIO_CITIES[market].map((city, index) => {
+    const hasStudioGuide = guideSlugs.has(city.slug);
+    return {
+      ...city,
+      rank: index + 1,
+      hasStudioGuide,
+      href: `/${hasStudioGuide ? "tattoo-studios" : "tattoo-singles"}/${city.slug}`,
+    };
+  });
+}
 
 export function getTattooStudioCities(market: MarketCode): TattooStudioCityGuide[] {
   return guides.filter((guide) => guide.market === market);

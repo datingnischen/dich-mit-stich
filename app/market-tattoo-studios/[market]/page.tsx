@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
+import { TattooStudioLargestCities } from "@/components/tattoo-studio-largest-cities";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import {
@@ -108,6 +109,8 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
           ))}
         </div>
       </section>
+
+      <TattooStudioLargestCities market={market} />
 
       <section className="content-section studio-guide-principles" id="guide-prinzipien">
         <div className="section-header"><span className="eyebrow">Unser Standard</span><h2>Nachvollziehbar statt Bewertungsportal</h2></div>

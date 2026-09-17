@@ -5,9 +5,10 @@ import Link from "next/link";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
+import { TattooStudioLargestCities } from "@/components/tattoo-studio-largest-cities";
 import { publicUrl } from "@/lib/markets";
 import { getTattooCityDirectory } from "@/lib/tattoo-singles";
-import { getTattooStudioCities } from "@/lib/tattoo-studio-guide";
+import { getLargestTattooStudioCities, getTattooStudioCities } from "@/lib/tattoo-studio-guide";
 
 export const metadata: Metadata = {
   title: "Tattoo-Studio-Guide für Deutschland",
@@ -17,7 +18,11 @@ export const metadata: Metadata = {
 
 export default function TattooStudioGuidePage() {
   const cities = getTattooStudioCities("de");
-  const allTattooCities = getTattooCityDirectory();
+  const largestCitySlugs = new Set(getLargestTattooStudioCities("de").map((city) => city.slug));
+  const guideCitySlugs = new Set(cities.map((city) => city.slug));
+  const additionalTattooCities = getTattooCityDirectory().filter(
+    (city) => !largestCitySlugs.has(city.slug) && !guideCitySlugs.has(city.slug),
+  );
   const studioCount = cities.reduce((total, city) => total + city.studios.length, 0);
 
   return (
@@ -53,8 +58,8 @@ export default function TattooStudioGuidePage() {
 
         <section className="content-section studio-guide-country-strip" aria-label="Länder des Studio-Guides">
           <div><span>Jetzt verfügbar</span><strong>Deutschland</strong></div>
-          <div><span>Vier Stadtguides verfügbar</span><strong>Österreich</strong></div>
-          <div><span>Vorschau verfügbar</span><strong>Schweiz</strong></div>
+          <div><span>Fünf Stadtguides verfügbar</span><strong>Österreich</strong></div>
+          <div><span>Zürich-Guide verfügbar</span><strong>Schweiz</strong></div>
         </section>
 
         <section className="content-section">
@@ -82,39 +87,37 @@ export default function TattooStudioGuidePage() {
           </div>
         </section>
 
-        <section className="content-section studio-all-cities-section" aria-labelledby="all-tattoo-cities-heading">
+        <TattooStudioLargestCities market="de" />
+
+        <section className="content-section studio-all-cities-section" aria-labelledby="additional-tattoo-cities-heading">
           <div className="section-header studio-guide-section-header">
-            <span className="eyebrow">Tattoo-Städte</span>
-            <h2 id="all-tattoo-cities-heading">Alle Tattoo-Städte auf einen Blick</h2>
-            <p>Hier findest du alle veröffentlichten Tattoo-Stadtseiten. Berlin und Hannover haben zusätzlich einen redaktionellen Studio-Guide.</p>
+            <span className="eyebrow">Weitere Tattoo-Städte</span>
+            <h2 id="additional-tattoo-cities-heading">Weitere Tattoo-Stadtseiten in Deutschland</h2>
+            <p>Auch diese veröffentlichten Stadtseiten bleiben direkt erreichbar. Einen eigenen Studio-Guide ergänzen wir erst nach der Prüfung offizieller Studioquellen.</p>
           </div>
           <div className="studio-all-city-grid">
-            {allTattooCities.map((city) => (
+            {additionalTattooCities.map((city) => (
               <Link className="studio-all-city-card" href={`/tattoo-singles/${city.slug}`} key={city.slug}>
                 <span className="studio-all-city-media">
                   <Image src={city.imageUrl} alt={`Stadtansicht von ${city.label}`} width={220} height={150} sizes="(max-width: 640px) 112px, 150px" />
                 </span>
                 <span className="studio-all-city-copy">
                   <LocationPinIcon />
-                  <span><strong>{city.label}</strong><small>Tattoo-Singles in {city.label}</small></span>
+                  <span><strong>{city.label}</strong><small>Tattoo-Stadtseite öffnen</small></span>
                 </span>
               </Link>
             ))}
           </div>
           <details className="city-preview-sources">
-            <summary>Bildquellen der Stadtmotive</summary>
+            <summary>Bildquellen der weiteren Stadtmotive</summary>
             <ul>
-              {allTattooCities.map((city) => (
+              {additionalTattooCities.map((city) => (
                 <li key={city.slug}>
                   <strong>{city.label}:</strong>{" "}
                   <a href={city.imageAttribution.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
                     {city.imageAttribution.title}
                   </a>{" "}
-                  von {city.imageAttribution.creator},{" "}
-                  <a href={city.imageAttribution.licenseUrl} target="_blank" rel="noopener noreferrer nofollow">
-                    {city.imageAttribution.license}
-                  </a>{" "}
-                  <span>– Bearbeitung: {city.imageAttribution.modifications}</span>
+                  von {city.imageAttribution.creator}, {city.imageAttribution.license}
                 </li>
               ))}
             </ul>

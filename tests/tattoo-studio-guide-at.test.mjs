@@ -12,6 +12,41 @@ function assertCredentialFreeHttpsUrl(value, label) {
   assert.equal(parsed.password, "", `${label} must not embed a password`);
 }
 
+test("Innsbruck guide fills the missing Austrian top-ten city with official studio sources", async () => {
+  const manifest = JSON.parse(await readFile(new URL("data/tattoo-studio-guide-innsbruck.json", root), "utf8"));
+
+  assert.equal(manifest.guide.identity, "AT:innsbruck");
+  assert.equal(manifest.guide.cityName, "Innsbruck");
+  assert.equal(manifest.guide.imageUrl, "/cities/at/innsbruck.jpg");
+  assert.equal(manifest.guide.imageAttribution.sourceUrl, "https://pixabay.com/de/photos/stadtbild-stadt-innsbruck-7361396/");
+  assert.ok(manifest.studios.length >= 5);
+  assert.equal(manifest.guide.studios.length, manifest.studios.length);
+  assert.deepEqual(manifest.studios.map((studio) => studio.name), [
+    "Black Rose Tattoo Studio",
+    "Datura Tattoo & Piercing",
+    "Inky and the Pain",
+    "Inn the City Ink",
+    "Kingz Ink",
+  ]);
+  assert.doesNotMatch(manifest.guide.title, /stil/i);
+  assert.doesNotMatch(manifest.guide.editorialHtml, /\/magazin\/tattoo-studio|im gewünschten Stil/i);
+  assert.doesNotMatch(manifest.guide.selectionMethodHtml, /Stilhinweise/i);
+
+  for (const studio of manifest.studios) {
+    assert.equal(studio.cityIdentity, "AT:innsbruck");
+    assert.equal(studio.citySlug, "innsbruck");
+    assert.equal(studio.cityName, "Innsbruck");
+    assertCredentialFreeHttpsUrl(studio.websiteUrl, `${studio.identity} website`);
+    assertCredentialFreeHttpsUrl(studio.sourceUrl, `${studio.identity} source`);
+    assert.match(studio.address, /^.+\s\d+[^,]*,\s*6020 Innsbruck$/);
+    assert.doesNotMatch(`${studio.name} ${studio.description}`, /\b(?:beste|besten|top|ranking|sterne|bewertung|beliebt|renommiert)\b/i);
+    assert.equal(studio.acf.editorial_summary, studio.description);
+    assert.deepEqual(studio.acf.tattoo_styles, []);
+    assert.doesNotMatch(studio.description, /fineline|realistic|blackwork|cover-up|pigmentierung|hygienestandard|stilrichtung/i);
+    assert.equal(studio.acf.last_verified, "2026-09-17");
+  }
+});
+
 test("Wien pilot manifest contains a conservative official-source studio slice", async () => {
   const manifest = JSON.parse(await readFile(new URL("data/tattoo-studio-guide-wien.json", root), "utf8"));
 
@@ -93,11 +128,12 @@ test("AT studio guide routes share the market-aware renderers and remain noindex
   assert.match(sharedCity, /market !== "de" \? staticAsset\(guide\.imageUrl\)/);
 });
 
-test("shared tattoo studio loader isolates and resolves four Austrian city guides", async () => {
+test("shared tattoo studio loader isolates and resolves five Austrian city guides", async () => {
   const { getTattooStudioCities, getTattooStudioSlugs } = await import("../lib/tattoo-studio-guide.ts");
   const cities = getTattooStudioCities("at");
   const expected = [
     ["graz", "Graz", "/cities/at/graz.jpg"],
+    ["innsbruck", "Innsbruck", "/cities/at/innsbruck.jpg"],
     ["linz", "Linz", "/cities/at/linz.jpg"],
     ["salzburg", "Salzburg", "/cities/at/salzburg.jpg"],
     ["wien", "Wien", "/cities/at/wien.jpg"],

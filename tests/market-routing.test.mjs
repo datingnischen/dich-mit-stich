@@ -108,7 +108,7 @@ test("gates untagged content while allowing the imported CH tattoo city family",
     market: "at",
     pathname: "/market-tattoo-studios/at",
   });
-  for (const city of ["graz", "linz", "salzburg", "wien"]) {
+  for (const city of ["graz", "innsbruck", "linz", "salzburg", "wien"]) {
     assert.deepEqual(resolveMarketRequest(`/at/tattoo-studios/${city}`), {
       action: "market-content",
       market: "at",

@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
+  getLargestTattooStudioCities,
   getTattooStudio,
   getTattooStudioCities,
   getTattooStudioCityGuide,
@@ -15,6 +16,62 @@ const root = new URL("../", import.meta.url);
 async function source(path) {
   return readFile(new URL(path, root), "utf8");
 }
+
+test("studio overview exposes the ten largest cities per country in population order", async () => {
+  const expected = {
+    de: ["berlin", "hamburg", "muenchen", "koeln", "frankfurt-am-main", "duesseldorf", "stuttgart", "leipzig", "dortmund", "bremen"],
+    at: ["wien", "graz", "linz", "salzburg", "innsbruck", "klagenfurt", "villach", "wels", "sankt-poelten", "dornbirn"],
+    ch: ["zuerich", "genf", "basel", "lausanne", "bern", "winterthur", "luzern", "st-gallen", "lugano", "biel-bienne"],
+  };
+
+  for (const market of ["de", "at", "ch"]) {
+    const cities = getLargestTattooStudioCities(market);
+    assert.equal(cities.length, 10, `${market} must expose exactly ten cities`);
+    assert.deepEqual(cities.map((city) => city.slug), expected[market]);
+    assert.equal(new Set(cities.map((city) => city.slug)).size, 10);
+    assert.deepEqual(cities.map((city) => city.rank), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    assert.ok(cities.every((city) => city.label && city.imageUrl && city.href));
+    assert.ok(cities.every((city) => city.imageAttribution.title && city.imageAttribution.creator && city.imageAttribution.license));
+    assert.ok(cities.every((city) => city.imageAttribution.sourceUrl.startsWith("https://")));
+    assert.ok(cities.every((city) => city.href.startsWith(city.hasStudioGuide ? "/tattoo-studios/" : "/tattoo-singles/")));
+    await Promise.all(cities.map((city) => access(new URL(`public${city.imageUrl}`, root))));
+  }
+
+  assert.equal(getLargestTattooStudioCities("de").find((city) => city.slug === "berlin")?.hasStudioGuide, true);
+  assert.equal(getLargestTattooStudioCities("at").find((city) => city.slug === "innsbruck")?.hasStudioGuide, true);
+  assert.equal(getLargestTattooStudioCities("ch").find((city) => city.slug === "zuerich")?.hasStudioGuide, true);
+});
+
+test("all studio overviews visibly list the ten largest cities with honest destination labels", async () => {
+  const [deOverview, marketOverview, shared] = await Promise.all([
+    source("app/tattoo-studios/page.tsx"),
+    source("app/market-tattoo-studios/[market]/page.tsx"),
+    source("components/tattoo-studio-largest-cities.tsx"),
+  ]);
+
+  assert.match(deOverview, /<TattooStudioLargestCities market="de"/);
+  assert.match(marketOverview, /<TattooStudioLargestCities market=\{market\}/);
+  assert.match(shared, /getLargestTattooStudioCities/);
+  assert.match(shared, /Die 10 größten Städte/);
+  assert.match(shared, /city\.hasStudioGuide \? "Studio-Guide öffnen" : "Tattoo-Stadtseite öffnen"/);
+  assert.match(shared, /targetMarket=\{market\}/);
+  assert.match(shared, /pathname=\{city\.href\}/);
+  assert.match(shared, /rel="noopener noreferrer nofollow"/);
+  assert.match(shared, /Bevölkerungsstand/);
+});
+
+test("German overview preserves useful city pages outside the population top ten", async () => {
+  const topSlugs = new Set(getLargestTattooStudioCities("de").map((city) => city.slug));
+  const guideSlugs = new Set(getTattooStudioCities("de").map((city) => city.slug));
+  const additional = getTattooCityDirectory().filter((city) => !topSlugs.has(city.slug) && !guideSlugs.has(city.slug));
+  const overview = await source("app/tattoo-studios/page.tsx");
+
+  assert.deepEqual(additional.map((city) => city.slug), ["bochum", "dresden", "essen", "mannheim", "nuernberg"]);
+  assert.match(overview, /Weitere Tattoo-Städte/);
+  assert.match(overview, /additionalTattooCities\.map/);
+  assert.match(overview, /city\.imageAttribution\.sourceUrl/);
+  assert.match(overview, /rel="noopener noreferrer nofollow"/);
+});
 
 test("tattoo studio guide loader exposes Hannover and Berlin with their structured studios", () => {
   const cities = getTattooStudioCities("de");
@@ -136,29 +193,20 @@ test("tattoo studio guide normalization sanitizes editorial CMS HTML", () => {
   assert.doesNotMatch(normalized.guide.editorialHtml, /script|onclick|javascript:/i);
 });
 
-test("studio overview lists every existing German tattoo city with compact images", async () => {
-  const cities = getTattooCityDirectory();
-  const overview = await source("app/tattoo-studios/page.tsx");
+test("largest-city sections keep compact responsive images across all markets", async () => {
+  const cities = getLargestTattooStudioCities("de");
+  const shared = await source("components/tattoo-studio-largest-cities.tsx");
   const css = await source("app/globals.css");
 
-  assert.equal(cities.length, 16);
-  assert.equal(new Set(cities.map((city) => city.slug)).size, 16);
-  assert.ok(cities.every((city) => city.imageUrl === `/city-previews/${city.slug}.jpg`));
-  assert.ok(cities.every((city) => city.imageAttribution.sourceUrl.startsWith("https://commons.wikimedia.org/wiki/File:")));
-  assert.ok(cities.every((city) => city.imageAttribution.creator && city.imageAttribution.licenseUrl));
-  assert.match(overview, /getTattooCityDirectory/);
-  assert.match(overview, /Redaktionelle Studio-Guides nach Stadt/);
-  assert.doesNotMatch(overview, /nicht mit einer endlosen Linkliste/);
-  assert.match(overview, /Alle Tattoo-Städte/);
-  assert.match(overview, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
-  assert.match(overview, /<LocationPinIcon/);
-  assert.match(overview, /className="studio-all-city-grid"/);
-  assert.match(overview, /className="city-preview-sources"/);
-  assert.match(overview, /Bildquellen der Stadtmotive/);
-  assert.match(overview, /city\.imageAttribution\.sourceUrl/);
-  assert.match(overview, /city\.imageAttribution\.licenseUrl/);
-  assert.match(overview, /city\.imageAttribution\.modifications/);
-  assert.match(overview, /rel="noopener noreferrer nofollow"/);
+  assert.equal(cities.length, 10);
+  assert.ok(cities.every((city) => city.imageUrl.endsWith(`/${city.slug}.jpg`)));
+  assert.ok(cities.every((city) => city.imageAttribution.title && city.imageAttribution.creator && city.imageAttribution.license));
+  assert.ok(cities.every((city) => city.imageAttribution.sourceUrl.startsWith("https://")));
+  await Promise.all(cities.map((city) => access(new URL(`public${city.imageUrl}`, root))));
+  assert.match(shared, /className="studio-all-city-grid"/);
+  assert.match(shared, /className="studio-all-city-media"/);
+  assert.match(shared, /sizes="\(max-width: 640px\) 112px, 150px"/);
+  assert.match(shared, /<LocationPinIcon/);
   assert.match(css, /\.studio-city-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,/s);
   assert.match(css, /\.studio-city-card\s*\{[^}]*grid-template-columns:\s*180px/s);
   assert.match(css, /\.studio-city-card img\s*\{[^}]*min-height:\s*0/s);
@@ -180,9 +228,9 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(overview, /Tattoo-Studio-Guide für Deutschland/);
   assert.match(overview, /<MarketLink[^>]+targetMarket="ch"[^>]+pathname="\/tattoo-studios"[^>]*>Tattoo-Studios Schweiz<\/MarketLink>/);
   assert.match(overview, /<MarketLink[^>]+targetMarket="at"[^>]+pathname="\/tattoo-studios"[^>]*>Tattoo-Studios Österreich<\/MarketLink>/);
-  assert.match(overview, /Vorschau verfügbar/);
-  assert.match(overview, /Vier Stadtguides verfügbar/);
-  assert.doesNotMatch(overview, /Nächste Ausbaustufe/);
+  assert.match(overview, /Zürich-Guide verfügbar/);
+  assert.match(overview, /Fünf Stadtguides verfügbar/);
+  assert.doesNotMatch(overview, /Vorschau verfügbar|Vier Stadtguides verfügbar|Nächste Ausbaustufe/);
   assert.match(overview, /city\.region/);
   assert.doesNotMatch(overview, /Niedersachsen ·/);
 

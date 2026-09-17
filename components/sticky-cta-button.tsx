@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import type { ConversionAid } from '@/components/site-shell';
+import { conversionUrl, type ConversionAid } from '@/lib/conversion-links';
 import { publicUrl, type MarketCode } from '@/lib/markets';
 
 function withoutMarketPrefix(pathname: string) {
@@ -16,9 +16,10 @@ function ctaFromPathname(pathname: string, market: MarketCode, aid?: ConversionA
     };
   }
 
+  const effectiveAid = aid || 'magazin';
   return {
     text: 'Jetzt kostenlos registrieren',
-    href: `${publicUrl(market)}?AID=${aid || 'magazin'}`,
+    href: conversionUrl(publicUrl(market), '/', effectiveAid),
   };
 }
 

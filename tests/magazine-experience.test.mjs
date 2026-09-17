@@ -20,6 +20,30 @@ test("magazine overview uses broad editorial grids without equal-height split pa
   assert.match(source, /description:\s*"Tattoo-Wissen, Piercing-Ratgeber, Motive und echte Geschichten/);
 });
 
+test("magazine conversion context always resolves to the exact Flirtradar search URL", async () => {
+  const { conversionPathname, conversionUrl } = await import("../lib/conversion-links.ts");
+  assert.equal(conversionPathname("/registration/", "magazin"), "/suche/");
+  assert.equal(conversionPathname("/", "magazin"), "/suche/");
+  assert.equal(conversionPathname("/registration/", "location"), "/registration/");
+  assert.equal(conversionPathname("/login/", "magazin"), "/login/");
+
+  for (const domain of ["dich-mit-stich.de", "dich-mit-stich.at", "dich-mit-stich.ch"]) {
+    const origin = `https://${domain}`;
+    assert.equal(conversionUrl(origin, "/registration/", "magazin"), `${origin}/suche/?AID=magazin`);
+    assert.equal(conversionUrl(origin, "/", "magazin"), `${origin}/suche/?AID=magazin`);
+    assert.equal(conversionUrl(origin, "/registration/", "location"), `${origin}/registration?AID=location`);
+    assert.equal(conversionUrl(origin, "/", "location"), `${origin}/?AID=location`);
+    assert.equal(conversionUrl(origin, "/registration/"), `${origin}/registration`);
+    assert.equal(conversionUrl(origin, "/login/"), `${origin}/login`);
+  }
+
+  const shell = await readSource("../components/site-shell.tsx");
+  const sticky = await readSource("../components/sticky-cta-button.tsx");
+  assert.match(shell, /return conversionUrl\(url\.origin, url\.pathname, aid\)/);
+  assert.match(shell, /return conversionUrl\(publicUrl\(market\), pathname, aid\)/);
+  assert.match(sticky, /conversionUrl\(publicUrl\(market\), '\/', effectiveAid\)/);
+});
+
 test("magazine shell propagates the exact magazine attribution context", async () => {
   const layout = await readSource("../app/magazin/layout.tsx");
   assert.match(layout, /<SiteFrame market="de" aid="magazin">/);

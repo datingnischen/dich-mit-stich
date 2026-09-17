@@ -253,7 +253,7 @@ test("studio city and detail pages keep every shell conversion CTA on AID locati
   assert.match(frame, /<SiteFooter market=\{market\} sectionLive=\{sectionLive\} stickyCta=\{sectionLive && stickyCta\} aid=\{aid\}/);
   assert.match(shell, /stickyCta \? " footer-surface-sticky" : ""/);
   assert.match(frame, /<StickyCTAButton market=\{market\} aid=\{aid\}/);
-  assert.match(shell, /url\.searchParams\.set\("AID", aid\)/);
+  assert.match(shell, /return conversionUrl\(publicUrl\(market\), pathname, aid\)/);
   assert.match(sticky, /aid === 'location'/);
 });
 

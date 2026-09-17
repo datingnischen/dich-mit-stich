@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
+import { conversionUrl, type ConversionAid } from "@/lib/conversion-links";
 import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
@@ -10,7 +11,7 @@ type NavLink = {
   external?: boolean;
 };
 
-export type ConversionAid = "location" | "magazin";
+export type { ConversionAid } from "@/lib/conversion-links";
 
 type ShellProps = {
   market?: MarketCode;
@@ -160,15 +161,13 @@ function marketHref(link: NavLink, market: MarketCode, aid?: ConversionAid) {
     url.hostname = getMarket(market).domain;
   }
   if (aid && (url.pathname === "/" || url.pathname === "/registration/")) {
-    url.searchParams.set("AID", aid);
+    return conversionUrl(url.origin, url.pathname, aid);
   }
   return url.toString();
 }
 
 function conversionHref(market: MarketCode, pathname: string, aid?: ConversionAid) {
-  const url = new URL(publicUrl(market, pathname));
-  if (aid) url.searchParams.set("AID", aid);
-  return url.toString();
+  return conversionUrl(publicUrl(market), pathname, aid);
 }
 
 function BrandLogo({ footer = false, market }: { footer?: boolean; market: MarketCode }) {

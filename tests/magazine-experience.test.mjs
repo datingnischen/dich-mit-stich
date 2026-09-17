@@ -14,7 +14,15 @@ test("magazine overview uses broad editorial grids without equal-height split pa
   assert.doesNotMatch(source, /<section className="grid-two">/);
   assert.doesNotMatch(source, /Aktuelle Magazinbeiträge für deinen Einstieg/);
   assert.doesNotMatch(source, /Artikel kurz anhören/);
-  assert.match(source, /registration\/\?AID=magazin/);
+  assert.match(source, /https:\/\/dich-mit-stich\.de\/suche\/\?AID=magazin/);
+  assert.doesNotMatch(source, /https:\/\/dich-mit-stich\.de\/registration\/\?AID=magazin/);
+  assert.match(source, /title:\s*"Flirtradar: Tattoo-, Piercing- & Szene-Magazin"/);
+  assert.match(source, /description:\s*"Tattoo-Wissen, Piercing-Ratgeber, Motive und echte Geschichten/);
+});
+
+test("magazine shell propagates the exact magazine attribution context", async () => {
+  const layout = await readSource("../app/magazin/layout.tsx");
+  assert.match(layout, /<SiteFrame market="de" aid="magazin">/);
 });
 
 test("normal magazine entries use a structured editorial detail layout", async () => {
@@ -213,6 +221,26 @@ test("JSON-LD serialization cannot break out of its script element", async () =>
   assert.match(authorPage, /serializeJsonLd\(profileGraph\)/);
   assert.doesNotMatch(detail, /__html:\s*JSON\.stringify/);
   assert.doesNotMatch(authorPage, /__html:\s*JSON\.stringify/);
+});
+
+test("unreviewed legacy medical bodies fail closed instead of inheriting an AEO safety halo", async () => {
+  const [detail, sitemap, safety] = await Promise.all([
+    readSource("../app/magazin/[slug]/page.tsx"),
+    readSource("../app/sitemap.ts"),
+    import("../lib/magazine-content-safety.ts"),
+  ]);
+
+  assert.match(detail, /answerEngineEntry\s*\?\s*\(/);
+  assert.match(detail, /Die ältere Langfassung wird aktuell fachlich überarbeitet/);
+  assert.match(detail, /isMagazineArticleQuarantined\(slug\)/);
+  assert.match(detail, /robots:\s*\{\s*index:\s*false,\s*follow:\s*false\s*\}/);
+  assert.match(sitemap, /!isMagazineArticleQuarantined\(entry\.slug\)/);
+  const categoryPage = await readSource("../app/magazin/thema/[slug]/page.tsx");
+  assert.match(categoryPage, /<h2>\{featuredEntry\.title\}<\/h2>/);
+  assert.doesNotMatch(categoryPage, /<h3>\{featuredEntry\.title\}<\/h3>/);
+  assert.equal(safety.isMagazineArticleQuarantined("anti-tragus-piercing"), true);
+  assert.equal(safety.isMagazineArticleQuarantined("suprasorb"), true);
+  assert.equal(safety.isMagazineArticleQuarantined("anti-eyebrow-piercing"), false);
 });
 
 test("pilot direct answers stay consistent across metadata, hero and schema", async () => {

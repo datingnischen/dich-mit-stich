@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { ABOUT_PATHS } from "@/lib/about-pages";
+import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
 import { getTattooStudioCities, getTattooStudioSlugs } from "@/lib/tattoo-studio-guide";
@@ -8,7 +9,9 @@ const SITE_URL = "https://dich-mit-stich.de";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [rawEntries, rawCategories] = await Promise.all([getMagazineRouteEntries(), getMagazineCategories()]);
-  const entries = rawEntries.filter((entry) => entry.slug !== "expertenteam");
+  const entries = rawEntries.filter(
+    (entry) => !["expertenteam", "home", "tattoo-studios"].includes(entry.slug) && !isMagazineArticleQuarantined(entry.slug),
+  );
   const categories = rawCategories.filter((category) => category.slug !== "erfolgsgeschichten");
   const studioCities = getTattooStudioCities("de");
   const studioSlugs = getTattooStudioSlugs("de");

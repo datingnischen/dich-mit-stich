@@ -7,6 +7,8 @@ import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazineP
 export const revalidate = 900;
 
 export const metadata: Metadata = {
+  title: "Flirtradar: Tattoo-, Piercing- & Szene-Magazin",
+  description: "Tattoo-Wissen, Piercing-Ratgeber, Motive und echte Geschichten: Entdecke fundierte Artikel für Menschen mit eigenem Stil.",
   alternates: { canonical: publicUrl("de", "/magazin") },
 };
 
@@ -61,8 +63,8 @@ export default async function MagazineOverviewPage() {
           <Link className="button button-primary" href="#aktuell">
             Neue Artikel entdecken
           </Link>
-          <Link className="button button-secondary" href="https://dich-mit-stich.de/registration/?AID=magazin">
-            Tattoo-Singles kennenlernen
+          <Link className="button button-secondary" href="https://dich-mit-stich.de/suche/?AID=magazin">
+            Flirtradar kostenlos nutzen
           </Link>
         </div>
       </section>

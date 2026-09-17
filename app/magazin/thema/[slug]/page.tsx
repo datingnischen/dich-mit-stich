@@ -68,7 +68,7 @@ export default async function MagazineCategoryPage({ params }: PageProps) {
             ) : null}
             <div className="editorial-feature-copy">
               <span className="eyebrow">Featured aus {category.name}</span>
-              <h3>{featuredEntry.title}</h3>
+              <h2>{featuredEntry.title}</h2>
               <p>{stripHtml(featuredEntry.excerpt || featuredEntry.content).slice(0, 220)}…</p>
             </div>
           </Link>

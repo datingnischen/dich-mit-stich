@@ -115,24 +115,11 @@ test("gates untagged content while allowing the imported CH tattoo city family",
       pathname: `/market-tattoo-studios/at/${city}`,
     });
   }
-  assert.deepEqual(resolveMarketRequest("/at/tattoo-studios/klagenfurt"), {
-    action: "placeholder",
-    market: "at",
-    pathname: "/market-preview/at",
-    requestedPath: "/tattoo-studios/klagenfurt",
-  });
-  assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/berlin"), {
-    action: "placeholder",
-    market: "ch",
-    pathname: "/market-preview/ch",
-    requestedPath: "/tattoo-singles/berlin",
-  });
-  assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/zuerich/more"), {
-    action: "placeholder",
-    market: "ch",
-    pathname: "/market-preview/ch",
-    requestedPath: "/tattoo-singles/zuerich/more",
-  });
+  assert.deepEqual(resolveMarketRequest("/at/tattoo-studios/klagenfurt"), { action: "not-found" });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/berlin"), { action: "not-found" });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/zuerich/more"), { action: "not-found" });
+  assert.deepEqual(resolveMarketRequest("/at/tattoo-studios/graz/extra"), { action: "not-found" });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-studio/absolut-art-tattoo-zuerich/extra"), { action: "not-found" });
   assert.deepEqual(resolveMarketRequest("/de/market-tattoo-singles/ch/zuerich"), {
     action: "not-found",
   });
@@ -277,6 +264,8 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
   assert.match(robotsSource, /Allow:\s*\/tattoo-studio\//);
   assert.match(sitemapSource, /<urlset/);
   assert.match(sitemapSource, /chTattooCitySlugs/);
+  assert.match(sitemapSource, /atTattooCitySlugs/);
+  assert.match(sitemapSource, /publicUrl\("at", "\/tattoo-singles"\)/);
   assert.match(atSitemapRoute, /market:\s*"at"/);
   assert.match(chSitemapRoute, /market:\s*"ch"/);
 
@@ -310,6 +299,80 @@ test("DE sitemap includes the tattoo studio guide city and detail families", asy
   assert.match(sitemapSource, /getTattooStudioSlugs/);
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studios/);
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studio\/\$\{slug\}/);
+});
+
+test("production CSP permits the configured cross-origin Next asset host", async () => {
+  const { default: createNextConfig } = await import(new URL("../next.config.ts", import.meta.url).href);
+  const config = createNextConfig("phase-production-build");
+  const assetOrigin = new URL(config.assetPrefix).origin;
+  const rules = await config.headers();
+  const csp = rules
+    .flatMap((rule) => rule.headers)
+    .find((header) => header.key.toLowerCase() === "content-security-policy")?.value;
+  assert.ok(csp);
+
+  const directives = new Map(
+    csp.split(";").map((directive) => {
+      const [name, ...values] = directive.trim().split(/\s+/);
+      return [name, values];
+    }),
+  );
+  for (const directive of ["script-src", "style-src", "font-src"]) {
+    assert.ok(directives.get(directive)?.includes(assetOrigin), `${directive} must permit ${assetOrigin}`);
+  }
+  assert.ok(directives.get("frame-src")?.includes("https://www.youtube-nocookie.com"));
+});
+
+test("development CSP permits React debugging eval without weakening production", async () => {
+  const [{ default: createNextConfig }, { PHASE_DEVELOPMENT_SERVER }] = await Promise.all([
+    import(new URL("../next.config.ts", import.meta.url).href),
+    import("next/constants.js"),
+  ]);
+
+  async function cspFor(phase) {
+    const rules = await createNextConfig(phase).headers();
+    return rules
+      .flatMap((rule) => rule.headers)
+      .find((header) => header.key.toLowerCase() === "content-security-policy")?.value;
+  }
+
+  const developmentCsp = await cspFor(PHASE_DEVELOPMENT_SERVER);
+  const productionCsp = await cspFor("phase-production-build");
+  assert.match(developmentCsp, /script-src[^;]*'unsafe-eval'/);
+  assert.doesNotMatch(productionCsp, /script-src[^;]*'unsafe-eval'/);
+});
+
+test("application headers constrain scripts, embeds and framing", async () => {
+  const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+  assert.match(config, /Content-Security-Policy/);
+  assert.match(config, /script-src 'self' 'unsafe-inline'/);
+  assert.match(config, /frame-src https:\/\/www\.youtube-nocookie\.com/);
+  assert.match(config, /object-src 'none'/);
+  assert.match(config, /frame-ancestors 'none'/);
+  assert.match(config, /X-Content-Type-Options/);
+  assert.match(config, /Referrer-Policy/);
+});
+
+test("thin legacy magazine routes redirect to their canonical destinations and stay out of the sitemap", async () => {
+  const [config, sitemap] = await Promise.all([
+    readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
+  ]);
+  for (const [source, destination] of [
+    ["/magazin/home", "/magazin"],
+    ["/magazin/tattoo-studios", "/tattoo-studios"],
+    ["/magazin/author/redaktion", "/magazin/unser-datingexperte"],
+  ]) {
+    assert.match(config, new RegExp(`source:\\s*"${source}"[\\s\\S]*?destination:\\s*"${destination}"[\\s\\S]*?permanent:\\s*true`));
+  }
+  assert.match(sitemap, /!\["expertenteam", "home", "tattoo-studios"\]\.includes\(entry\.slug\)/);
+});
+
+test("retired unverified Berlin studio profiles redirect to the sourced city guide", async () => {
+  const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+  for (const slug of ["blackfisk-tattoo-co-berlin", "omen-tattoo-berlin", "pechschwarz-tattoo-berlin"]) {
+    assert.match(config, new RegExp(`source:\\s*"/tattoo-studio/${slug}"[\\s\\S]*?destination:\\s*"/tattoo-studios/berlin"[\\s\\S]*?permanent:\\s*true`));
+  }
 });
 
 test("clean tattoo studio slugs preserve the previously published Prime Ink profile URL", async () => {

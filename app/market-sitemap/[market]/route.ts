@@ -1,5 +1,5 @@
 import { ABOUT_PATHS } from "@/lib/about-pages";
-import { chTattooCitySlugs, isMarketCode, publicUrl } from "@/lib/markets";
+import { atTattooCitySlugs, chTattooCitySlugs, isMarketCode, publicUrl } from "@/lib/markets";
 
 export const dynamic = "force-static";
 
@@ -27,6 +27,12 @@ export async function GET(_request: Request, { params }: RouteProps) {
       ? [
           publicUrl("ch", "/tattoo-singles"),
           ...chTattooCitySlugs.map((slug) => publicUrl("ch", `/tattoo-singles/${slug}`)),
+        ]
+      : []),
+    ...(market === "at"
+      ? [
+          publicUrl("at", "/tattoo-singles"),
+          ...atTattooCitySlugs.map((slug) => publicUrl("at", `/tattoo-singles/${slug}`)),
         ]
       : []),
   ];

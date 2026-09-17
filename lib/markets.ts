@@ -242,6 +242,9 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
         };
       }
     }
+    if (/^\/(?:tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/.test(contentPath)) {
+      return { action: "not-found" };
+    }
   }
 
   return {

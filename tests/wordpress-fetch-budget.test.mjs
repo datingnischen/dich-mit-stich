@@ -11,7 +11,43 @@ const {
   WORDPRESS_FETCH_POLICY,
   collectPaginated,
   fetchWithRetry,
+  sanitizeMagazineHtml,
 } = wordpressModule;
+
+test("magazine HTML is sanitized at the WordPress boundary without breaking editorial structure", () => {
+  const html = sanitizeMagazineHtml(`
+    <h2 id="unsafe">Pflege</h2>
+    <p class="intro" style="position:fixed" onclick="alert(1)">Sicherer Text <strong>bleibt</strong>.</p>
+    <script src="//www.instagram.com/embed.js"></script>
+    <iframe src="https://evil.example/embed"></iframe>
+    <img src="/magazin/wp-content/uploads/2025/09/example.jpg" alt="Beispiel" onerror="alert(2)" decoding="async">
+    <a href="javascript:alert(3)">Unsicher</a>
+    <a href="https://example.org/source" target="_blank">Quelle</a>
+    <ul><li>Ein Punkt</li></ul>
+  `);
+
+  assert.match(html, /<h2>Pflege<\/h2>/);
+  assert.match(html, /<p>Sicherer Text <strong>bleibt<\/strong>\.<\/p>/);
+  assert.match(html, /<img src="https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\/2025\/09\/example\.jpg" alt="Beispiel" decoding="async" loading="lazy" \/>/);
+  assert.match(html, /<a href="https:\/\/example\.org\/source" target="_blank" rel="noopener noreferrer nofollow">Quelle<\/a>/);
+  assert.match(html, /<ul><li>Ein Punkt<\/li><\/ul>/);
+  assert.doesNotMatch(html, /script|iframe|onclick|onerror|style=|javascript:|id=|class=/i);
+});
+
+test("magazine link sanitization canonicalizes external URLs and removes arbitrary targets", () => {
+  const html = sanitizeMagazineHtml(`
+    <a href="//evil.example/x" target="named-window">Protokollrelativ</a>
+    <a href=" https://evil.example/space " target="_blank">Leerzeichen</a>
+    <a href="http:evil.example/noncanonical" target="other-window">Nichtkanonisch</a>
+    <a href="/magazin/intern" target="named-window">Intern</a>
+  `);
+
+  assert.match(html, /<a href="https:\/\/evil\.example\/x" rel="noopener noreferrer nofollow">Protokollrelativ<\/a>/);
+  assert.match(html, /<a href="https:\/\/evil\.example\/space" target="_blank" rel="noopener noreferrer nofollow">Leerzeichen<\/a>/);
+  assert.match(html, /<a href="http:\/\/evil\.example\/noncanonical" rel="noopener noreferrer nofollow">Nichtkanonisch<\/a>/);
+  assert.match(html, /<a href="\/magazin\/intern">Intern<\/a>/);
+  assert.doesNotMatch(html, /named-window|other-window/);
+});
 
 test("WordPress route, list, and detail requests use distinct payload budgets", () => {
   assert.equal(WORDPRESS_FETCH_POLICY.routePageSize, 100);

@@ -33,6 +33,7 @@ export default function TattooStudioGuidePage() {
             </p>
             <div className="button-row">
               <Link className="button button-primary" href="/tattoo-studios/berlin">Studios in Berlin entdecken</Link>
+              <MarketLink className="button button-secondary" targetMarket="at" pathname="/tattoo-studios">Tattoo-Studios Österreich</MarketLink>
               <MarketLink className="button button-secondary" targetMarket="ch" pathname="/tattoo-studios">Tattoo-Studios Schweiz</MarketLink>
               <a className="button button-secondary" href="#guide-prinzipien">So prüfen wir Studios</a>
             </div>
@@ -52,7 +53,7 @@ export default function TattooStudioGuidePage() {
 
         <section className="content-section studio-guide-country-strip" aria-label="Länder des Studio-Guides">
           <div><span>Jetzt verfügbar</span><strong>Deutschland</strong></div>
-          <div><span>Nächste Ausbaustufe</span><strong>Österreich</strong></div>
+          <div><span>Vier Stadtguides verfügbar</span><strong>Österreich</strong></div>
           <div><span>Vorschau verfügbar</span><strong>Schweiz</strong></div>
         </section>
 

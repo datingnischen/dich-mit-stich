@@ -35,6 +35,7 @@ export function TattooStudioDetail({ studio, city, market }: TattooStudioDetailP
   const pageUrl = publicUrl(market, `/tattoo-studio/${studio.slug}`);
   const cityUrl = publicUrl(market, `/tattoo-studios/${studio.citySlug}`);
   const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const correctionHref = `mailto:christian@datingnischen.de?subject=${encodeURIComponent(`Datenkorrektur Studio: ${studio.name}`)}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -120,7 +121,7 @@ export function TattooStudioDetail({ studio, city, market }: TattooStudioDetailP
           ) : (
             <a href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Redaktionelle Quelle öffnen →</a>
           )}
-          <a href={publicUrl(market, "/kontakt/")}>Datenänderung melden →</a>
+          <a href={correctionHref}>Datenänderung melden →</a>
         </aside>
       </section>
 

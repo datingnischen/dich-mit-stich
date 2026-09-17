@@ -1,4 +1,5 @@
 import { cache } from "react";
+import sanitizeHtml from "sanitize-html";
 
 const MAGAZINE_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
 
@@ -218,6 +219,84 @@ export function stripHtml(text = "") {
     .trim();
 }
 
+const MAGAZINE_MEDIA_PREFIX = "/magazin/wp-content/uploads/";
+const MAGAZINE_MEDIA_ORIGIN = "https://dich-mit-stich.de";
+
+function absoluteMagazineMediaUrl(value = "") {
+  return value.startsWith(MAGAZINE_MEDIA_PREFIX) ? `${MAGAZINE_MEDIA_ORIGIN}${value}` : value;
+}
+
+function absoluteMagazineSrcset(value = "") {
+  return value
+    .split(",")
+    .map((candidate) => {
+      const [url, ...descriptor] = candidate.trim().split(/\s+/);
+      return [absoluteMagazineMediaUrl(url), ...descriptor].join(" ");
+    })
+    .join(", ");
+}
+
+function hardenMagazineLink(attributes: Record<string, string>) {
+  const hardened = { ...attributes };
+  const rawHref = attributes.href?.trim();
+  const target = attributes.target === "_blank" ? "_blank" : undefined;
+
+  if (rawHref) {
+    try {
+      const parsed = new URL(rawHref, MAGAZINE_MEDIA_ORIGIN);
+      const isHttp = parsed.protocol === "http:" || parsed.protocol === "https:";
+      const isAbsoluteHttpInput = /^(?:https?:)?\/\//i.test(rawHref) || /^https?:/i.test(rawHref);
+      if (isHttp && isAbsoluteHttpInput) hardened.href = parsed.href;
+
+      if (isHttp && parsed.origin !== MAGAZINE_MEDIA_ORIGIN) {
+        hardened.rel = "noopener noreferrer nofollow";
+      } else if (target) {
+        hardened.rel = "noopener noreferrer";
+      }
+    } catch {
+      delete hardened.href;
+    }
+  }
+
+  if (target) hardened.target = target;
+  else delete hardened.target;
+  return hardened;
+}
+
+export function sanitizeMagazineHtml(html = "") {
+  return sanitizeHtml(html, {
+    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
+    allowedAttributes: {
+      a: ["href", "name", "target", "title", "rel"],
+      blockquote: ["cite"],
+      img: ["src", "srcset", "alt", "title", "width", "height", "loading", "decoding"],
+      li: ["value"],
+      ol: ["start"],
+      td: ["colspan", "rowspan", "headers"],
+      th: ["colspan", "rowspan", "headers", "scope"],
+      time: ["datetime"],
+    },
+    allowedSchemes: ["http", "https", "mailto", "tel"],
+    allowProtocolRelative: false,
+    transformTags: {
+      a: (tagName, attributes) => ({
+        tagName,
+        attribs: hardenMagazineLink(attributes),
+      }),
+      img: (tagName, attributes) => ({
+        tagName,
+        attribs: {
+          ...attributes,
+          ...(attributes.src ? { src: absoluteMagazineMediaUrl(attributes.src) } : {}),
+          ...(attributes.srcset ? { srcset: absoluteMagazineSrcset(attributes.srcset) } : {}),
+          loading: attributes.loading || "lazy",
+          decoding: attributes.decoding || "async",
+        },
+      }),
+    },
+  });
+}
+
 export function formatGermanDate(dateString?: string) {
   if (!dateString) return "";
 
@@ -269,8 +348,8 @@ function normalizeEntry(item: WpRestItem): MagazineEntry {
     .flat()
     .filter((term) => term?.taxonomy === "category")
     .map(normalizeCategory);
-  const content = item.content?.rendered || "";
-  const excerpt = item.excerpt?.rendered || "";
+  const content = sanitizeMagazineHtml(item.content?.rendered || "");
+  const excerpt = sanitizeMagazineHtml(item.excerpt?.rendered || "");
   const featuredImage = sanitizeMediaUrl(featured?.source_url) || extractFirstImageFromHtml(content);
 
   return {

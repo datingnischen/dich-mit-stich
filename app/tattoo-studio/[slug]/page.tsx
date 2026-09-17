@@ -16,9 +16,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const studio = getTattooStudio("de", slug);
   if (!studio) return {};
+  const profileFacts = studio.styles.length
+    ? `Stilrichtungen, Adresse, ${studio.websiteUrl ? "Website" : "Kontakthinweise"} und Quellen`
+    : `Adresse, ${studio.websiteUrl ? "Website" : "Kontakthinweise"} und Quellen`;
   return {
     title: `${studio.name} in ${studio.cityName}: Studio-Profil`,
-    description: `${studio.name} in ${studio.cityName}: Stilrichtungen, Adresse, ${studio.websiteUrl ? "Website" : "Kontakthinweise"} und transparente redaktionelle Einordnung.`,
+    description: `${studio.name} in ${studio.cityName}: ${profileFacts} mit transparenter redaktioneller Einordnung.`,
     alternates: { canonical: publicUrl("de", `/tattoo-studio/${slug}`) },
   };
 }

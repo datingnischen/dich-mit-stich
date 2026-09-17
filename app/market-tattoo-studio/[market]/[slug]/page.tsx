@@ -24,9 +24,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!isTattooStudioMarket(market)) return { robots: { index: false, follow: false } };
   const studio = getTattooStudio(market, slug);
   if (!studio) return { robots: { index: false, follow: false } };
+  const profileFacts = studio.styles.length
+    ? "Stilrichtungen, Adresse, Website und Quellen"
+    : "Adresse, Website und Quellen";
   return {
     title: `${studio.name} in ${studio.cityName}: Studio-Profil`,
-    description: `${studio.name} in ${studio.cityName}: Stilrichtungen, Adresse, Website und transparente redaktionelle Einordnung.`,
+    description: `${studio.name} in ${studio.cityName}: ${profileFacts} mit transparenter redaktioneller Einordnung.`,
     alternates: { canonical: publicUrl(market, `/tattoo-studio/${slug}`) },
     robots: { index: false, follow: true },
   };

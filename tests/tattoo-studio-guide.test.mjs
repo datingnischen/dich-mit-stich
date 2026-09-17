@@ -34,15 +34,19 @@ test("tattoo studio guide loader exposes Hannover and Berlin with their structur
   assert.ok(studio.styles.some((style) => style.slug === "fineline"));
   assert.equal(studio.lastVerified, "2026-06-07");
 
+  const inkJunkies = getTattooStudio("de", "ink-junkies-tattoo-hannover");
+  assert.ok(inkJunkies);
+  assert.deepEqual(inkJunkies.styles, []);
+  assert.doesNotMatch(inkJunkies.description, /Mandala/i);
+
   const berlin = getTattooStudioCityGuide("de", "berlin");
   assert.ok(berlin);
-  assert.equal(berlin.studios.length, 7);
+  assert.equal(berlin.studios.length, 4);
   assert.equal(berlin.imageUrl, "/studio-guides/berlin.jpg");
   assert.equal(berlin.region, "Berlin");
-  const withoutWebsite = berlin.studios.find((item) => item.name === "Bläckfisk Tattoo Co.");
-  assert.ok(withoutWebsite);
-  assert.equal(withoutWebsite.websiteUrl, "");
-  assert.equal(withoutWebsite.sourceUrl, "https://dich-mit-stich.de/tattoo-studios/berlin/");
+  assert.ok(berlin.studios.every((studio) => studio.sourceUrl.startsWith("https://")));
+  assert.ok(berlin.studios.every((studio) => !new URL(studio.sourceUrl).hostname.endsWith("dich-mit-stich.de")));
+  assert.ok(berlin.studios.every((studio) => studio.websiteUrl));
   assert.doesNotMatch(
     berlin.editorialHtml,
     /150 bis 200|Hunderttausend|grobe Annahme|sehr gute Adressen|stark gefragt|besonders bekannt|sehr beliebt/i,
@@ -175,7 +179,10 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(overview, /\/tattoo-studios\/\$\{city\.slug\}/);
   assert.match(overview, /Tattoo-Studio-Guide für Deutschland/);
   assert.match(overview, /<MarketLink[^>]+targetMarket="ch"[^>]+pathname="\/tattoo-studios"[^>]*>Tattoo-Studios Schweiz<\/MarketLink>/);
+  assert.match(overview, /<MarketLink[^>]+targetMarket="at"[^>]+pathname="\/tattoo-studios"[^>]*>Tattoo-Studios Österreich<\/MarketLink>/);
   assert.match(overview, /Vorschau verfügbar/);
+  assert.match(overview, /Vier Stadtguides verfügbar/);
+  assert.doesNotMatch(overview, /Nächste Ausbaustufe/);
   assert.match(overview, /city\.region/);
   assert.doesNotMatch(overview, /Niedersachsen ·/);
 
@@ -299,12 +306,28 @@ test("studio locations and city text links use a consistent place treatment", as
   assert.match(city, /className="studio-place-card"/);
   assert.match(city, /Standort in \{guide\.cityName\}/);
   assert.match(detail, /className="studio-detail-place"/);
+  assert.match(detail, /mailto:christian@datingnischen\.de\?subject=/);
+  assert.match(detail, /encodeURIComponent\(`Datenkorrektur Studio: \$\{studio\.name\}`\)/);
+  assert.doesNotMatch(detail, /publicUrl\(market, "\/kontakt\/"\)/);
   assert.match(shell, /function isCityLink/);
   assert.match(shell, /<LocationPinIcon className="footer-city-link-icon"/);
   assert.match(css, /\.studio-place-card\s*\{/);
   assert.match(css, /\.studio-place-icon\s*\{/);
   assert.match(css, /\.footer-city-link\s*\{/);
   assert.match(css, /\.studio-editorial-card a\[href\*="\/tattoo-singles\/"\]::before/);
+});
+
+test("studio metadata mentions styles only when structured style evidence exists", async () => {
+  const [deRoute, marketRoute] = await Promise.all([
+    source("app/tattoo-studio/[slug]/page.tsx"),
+    source("app/market-tattoo-studio/[market]/[slug]/page.tsx"),
+  ]);
+
+  for (const route of [deRoute, marketRoute]) {
+    assert.match(route, /studio\.styles\.length/);
+    assert.match(route, /Stilrichtungen, Adresse/);
+    assert.match(route, /Adresse, .*Quellen/);
+  }
 });
 
 test("studio card profile and website links render as accessible buttons", async () => {

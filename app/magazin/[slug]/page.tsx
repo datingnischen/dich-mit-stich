@@ -12,6 +12,7 @@ import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
 import { getAnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
+import { getMagazineQuarantineDescription, isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
 import { getMagazineVideo } from "@/lib/magazine-videos";
 import { publicUrl } from "@/lib/markets";
@@ -33,6 +34,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const entry = await getMagazineEntryBySlug(slug);
   if (!entry) return {};
+  if (isMagazineArticleQuarantined(slug)) {
+    return {
+      title: `${entry.title} | dich-mit-stich Magazin`,
+      description: getMagazineQuarantineDescription(),
+      alternates: { canonical: publicUrl("de", `/magazin/${slug}`) },
+      robots: { index: false, follow: false },
+    };
+  }
   const editorialOverride = getMagazineEditorialOverride(slug);
   const answerEngineEntry = getAnswerEnginePilotEntry(slug);
 
@@ -47,6 +56,23 @@ export default async function MagazineDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const entry = await getMagazineEntryBySlug(slug);
   if (!entry) notFound();
+  if (isMagazineArticleQuarantined(slug)) {
+    return (
+      <main className="shell magazine-detail-shell">
+        <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
+          <Link href="/magazin">Magazin</Link>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{entry.title}</span>
+        </nav>
+        <section className="hero-card hero-magazine hero-magazine-editorial magazine-quarantine-hero">
+          <span className="eyebrow">Redaktioneller Hinweis</span>
+          <h1>{entry.title}</h1>
+          <p className="magazine-detail-lead">{getMagazineQuarantineDescription()}</p>
+          <p><Link className="text-link" href="/magazin">Zu den aktuell verfügbaren Magazinbeiträgen →</Link></p>
+        </section>
+      </main>
+    );
+  }
 
   const authorProfile = entry.authorSlug ? await getAuthorProfile(entry.authorSlug) : null;
   const authorHref = authorProfile?.profileUrl;
@@ -147,6 +173,11 @@ export default async function MagazineDetailPage({ params }: PageProps) {
       <section className="rich-content magazine-article-body">
         {editorialOverride?.kind === "anti-eyebrow" ? (
           <AntiEyebrowEditorial />
+        ) : answerEngineEntry ? (
+          <section className="panel-card magazine-editorial-review-note" aria-labelledby="legacy-review-heading">
+            <h2 id="legacy-review-heading">Hinweis zur Langfassung</h2>
+            <p>Die ältere Langfassung wird aktuell fachlich überarbeitet. Bis dahin veröffentlichen wir bewusst nur die oben belegte Kurzantwort und ihre Quellen.</p>
+          </section>
         ) : (
           <div dangerouslySetInnerHTML={{ __html: renderedContent }} />
         )}

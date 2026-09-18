@@ -26,6 +26,16 @@ test("migrates the complete existing DE FAQ inventory", async () => {
     "Konto & Support",
     "Transparenz & häufige Rückfragen zu dich-mit-stich.de",
   ]);
+  assert.deepEqual(faqSections.map((section) => section.eyebrow), [
+    "Plattform kennenlernen",
+    "Vertrauen einordnen",
+    "Mitgliedschaft verstehen",
+    "Dich mit Stich nutzen",
+    "Profil verwalten",
+    "Sicher unterwegs",
+    "Hilfe erhalten",
+    "Offene Antworten",
+  ]);
 
   const items = faqSections.flatMap((section) => section.items);
   assert.equal(items.length, 25);
@@ -109,6 +119,8 @@ test("wires FAQ rendering, metadata, navigation and sitemap", async () => {
   assert.match(component, /serializeJsonLd/);
   assert.match(component, /<details/);
   assert.match(component, /<summary/);
+  assert.match(component, /\{section\.eyebrow\}/);
+  assert.doesNotMatch(component, /Themenbereich \{sectionIndex \+ 1\}/);
   assert.match(component, /<SiteFrame market=\{market\} sectionLive>/);
   assert.match(shell, /\{ label: "FAQ", href: "\/faq" \}/);
   assert.doesNotMatch(shell, /label: "FAQ", href: "https:\/\/dich-mit-stich\.de\/faq\//);

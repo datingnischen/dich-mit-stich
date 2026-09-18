@@ -11,7 +11,7 @@ import { getAuthorProfile } from "@/lib/author-profiles";
 import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
 import { getAnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { serializeJsonLd } from "@/lib/json-ld";
-import { localizeFirstPartyHtmlLinks, localizeFirstPartyText } from "@/lib/market-html";
+import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
 import { getMagazineQuarantineDescription, isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
@@ -72,7 +72,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     market,
   });
   const pageGraph = publishedProfileGraph ?? articleGraph;
-  const renderedContent = localizeFirstPartyHtmlLinks(stripPublishedBookSchema(entry.content), publicUrl(market));
+  const renderedContent = stripPublishedBookSchema(entry.content);
   const isPiercingArticle = [entry.title, entry.slug, ...entry.categories.flatMap((category) => [category.name, category.slug])]
     .join(" ")
     .toLocaleLowerCase("de")

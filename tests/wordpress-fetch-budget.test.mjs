@@ -6,7 +6,7 @@ const wordpressModule = await import("../lib/wordpress.ts");
 const wordpressSource = await readFile(new URL("../lib/wordpress.ts", import.meta.url), "utf8");
 const authorProfileSource = await readFile(new URL("../lib/author-profiles.ts", import.meta.url), "utf8");
 const payloadBudgetSource = await readFile(new URL("../scripts/check-wordpress-payload-budget.mjs", import.meta.url), "utf8");
-const { localizeFirstPartyHtmlLinks } = await import("../lib/market-html.ts");
+const { firstPartyInternalPath } = await import("../lib/market-html.ts");
 
 const {
   WORDPRESS_FETCH_POLICY,
@@ -58,10 +58,22 @@ test("magazine link sanitization repairs the exact duplicated-scheme first-party
 
   assert.match(sanitized, /href="https:\/\/dich-mit-stich\.de\/magazin\/intimpiercing\/"/);
   assert.match(sanitized, /href="https:\/\/https\/\/evil\.example\/magazin\/intimpiercing\/"/);
-  assert.match(
-    localizeFirstPartyHtmlLinks(sanitized, "https://dich-mit-stich.at"),
-    /href="https:\/\/dich-mit-stich\.at\/magazin\/intimpiercing\/"/,
+  assert.equal(
+    firstPartyInternalPath("https://dich-mit-stich.de/magazin/intimpiercing/"),
+    "/magazin/intimpiercing/",
   );
+  assert.equal(firstPartyInternalPath("https://https//evil.example/magazin/intimpiercing/"), null);
+});
+
+test("sanitized foreign anchors preserve their href and external-link attribution", () => {
+  const sanitized = sanitizeMagazineHtml(
+    `<a title="note href='https://dich-mit-stich.de/magazin/x'" href="https://evil.example/y">Fremdlink</a>`,
+  );
+
+  assert.match(sanitized, /href="https:\/\/evil\.example\/y"/);
+  assert.match(sanitized, /rel="noopener noreferrer nofollow"/);
+  assert.match(sanitized, /title="note href='https:\/\/dich-mit-stich\.de\/magazin\/x'"/);
+  assert.equal(firstPartyInternalPath("https://evil.example/y"), null);
 });
 
 test("WordPress route, list, and detail requests use distinct payload budgets", () => {

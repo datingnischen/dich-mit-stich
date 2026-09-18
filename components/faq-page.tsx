@@ -54,7 +54,7 @@ export function FaqPageView({ market }: { market: MarketCode }) {
           {faqSections.map((section, sectionIndex) => (
             <section className="faq-section" id={`faq-section-${sectionIndex + 1}`} key={section.title} aria-labelledby={`faq-heading-${sectionIndex + 1}`}>
               <div className="section-header">
-                <span className="eyebrow">Themenbereich {sectionIndex + 1}</span>
+                <span className="eyebrow">{section.eyebrow}</span>
                 <h2 id={`faq-heading-${sectionIndex + 1}`}>{section.title}</h2>
                 {section.lead ? <p>{section.lead}</p> : null}
               </div>

@@ -28,6 +28,10 @@ export type AboutCard = {
   title: string;
   text: string;
   icon: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
   link?: AboutLink;
 };
 
@@ -84,10 +88,13 @@ const expertCards: AboutCard[] = [
     title: "Christian M. Haas",
     text: "Datingexperte und Autor mit langjähriger Erfahrung in Nischen-Singlebörsen und Online-Dating.",
     icon: "✍",
+    image: {
+      src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png",
+      alt: "Christian M. Haas",
+    },
     link: {
       label: "Expertenprofil lesen",
-      href: "https://dich-mit-stich.de/magazin/unser-datingexperte",
-      external: true,
+      href: "/magazin/unser-datingexperte",
     },
   },
   {
@@ -95,10 +102,13 @@ const expertCards: AboutCard[] = [
     title: "Anne Schweitzer",
     text: "Autorin für Tattoo-Motive, Stilfragen und verwandte Themen aus der Tattoo-Szene.",
     icon: "✦",
+    image: {
+      src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin-300x300.jpg",
+      alt: "Anne Schweitzer",
+    },
     link: {
       label: "Autorenprofil lesen",
-      href: "https://dich-mit-stich.de/magazin/author/anne-schweitzer",
-      external: true,
+      href: "/magazin/author/anne-schweitzer",
     },
   },
   {
@@ -115,10 +125,13 @@ const storyCards: AboutCard[] = [
     title: "Pascal & Stephanie",
     text: "Eine Liebesgeschichte, die in der Dich-mit-Stich-Facebook-Gruppe begann.",
     icon: "♥",
+    image: {
+      src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/12/foto.jpeg",
+      alt: "Pascal und Stephanie",
+    },
     link: {
       label: "Geschichte lesen",
-      href: "https://dich-mit-stich.de/magazin/pascal-und-stephanie",
-      external: true,
+      href: "/magazin/pascal-und-stephanie",
     },
   },
   {
@@ -126,10 +139,13 @@ const storyCards: AboutCard[] = [
     title: "Katharina & Philip",
     text: "Katharina und Philip erzählen, wie sie sich über Dich mit Stich kennenlernten.",
     icon: "♥",
+    image: {
+      src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/10/Katharina-Phillip-Dich-mit-Stich-Lovestory.jpg",
+      alt: "Katharina und Philip",
+    },
     link: {
       label: "Geschichte lesen",
-      href: "https://dich-mit-stich.de/magazin/katharina-und-philip",
-      external: true,
+      href: "/magazin/katharina-und-philip",
     },
   },
   {
@@ -137,10 +153,13 @@ const storyCards: AboutCard[] = [
     title: "Andreas fand sein Gegenstück",
     text: "Andreas berichtet über seine Partnersuche und die Begegnung, die daraus entstand.",
     icon: "♥",
+    image: {
+      src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/10/erfolgsgeschichte.png",
+      alt: "Andreas und Do",
+    },
     link: {
       label: "Geschichte lesen",
-      href: "https://dich-mit-stich.de/magazin/andreas-und-do",
-      external: true,
+      href: "/magazin/andreas-und-do",
     },
   },
 ];

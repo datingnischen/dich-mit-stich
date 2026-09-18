@@ -86,18 +86,68 @@ test("shared magazine rendering keeps preview navigation and country conversion 
   }
 });
 
-test("imported magazine HTML localizes first-party absolute links before rendering", async () => {
-  const { localizeFirstPartyHtmlLinks } = await import("../lib/market-html.ts");
-  const html = '<p>Mehr bei Dich-mit-Stich.de: <a href="https://dich-mit-stich.de/magazin/ratgeber/?x=1#top">Ratgeber</a><a href="https://example.org/">Quelle</a></p>';
+test("sanitized magazine anchors are market-safe before first paint", async () => {
+  const { firstPartyInternalPath, marketizeSanitizedHtml } = await import("../lib/market-html.ts");
 
   assert.equal(
-    localizeFirstPartyHtmlLinks(html, "https://dich-mit-stich.at"),
-    '<p>Mehr bei Dich-mit-Stich.at: <a href="https://dich-mit-stich.at/magazin/ratgeber/?x=1#top">Ratgeber</a><a href="https://example.org/">Quelle</a></p>',
+    firstPartyInternalPath("https://dich-mit-stich.de/magazin/ratgeber/?x=1#top"),
+    "/magazin/ratgeber/?x=1#top",
   );
-  assert.equal(localizeFirstPartyHtmlLinks(html, "https://dich-mit-stich.de"), html);
+  assert.equal(firstPartyInternalPath("https://dich-mit-stich.at/magazin/ratgeber"), "/magazin/ratgeber");
+  assert.equal(firstPartyInternalPath("https://www.dich-mit-stich.ch/magazin/ratgeber"), "/magazin/ratgeber");
+  assert.equal(firstPartyInternalPath("/magazin/tattoo-studio/?x=1#top"), "/magazin/tattoo-studio/?x=1#top");
+  assert.equal(firstPartyInternalPath("/tattoo-singles"), "/tattoo-singles");
+
+  for (const unsafeOrForeignUrl of [
+    "https://example.org/magazin/ratgeber",
+    "http://dich-mit-stich.de/magazin/ratgeber",
+    "https://user@dich-mit-stich.de/magazin/ratgeber",
+    "https://dich-mit-stich.de//evil.example/path",
+    "https://dich-mit-stich.de/%2f%2fevil.example/path",
+    "https://dich-mit-stich.de/%5cevil.example/path",
+    "https://dich-mit-stich.de/%0devil.example/path",
+    "https://dich-mit-stich.de:443/magazin/x",
+    "https://@dich-mit-stich.de/magazin/x",
+    "https://:@dich-mit-stich.de/magazin/x",
+    "https://%64ich-mit-stich.de/magazin/x",
+    "https://dich-mit-stich.de/at/magazin/x",
+    "/at/magazin/ratgeber",
+    "//evil.example/path",
+    "/%2f%2fevil.example/path",
+    "/%5cevil.example/path",
+    "/../magazin/x",
+    "/foo/../../magazin/x",
+    "/%2e%2e/magazin/x",
+    "/%252e%252e/magazin/x",
+    "/foo%252fbar",
+    "/foo%255cbar",
+    "/foo%zzbar",
+    "https://dich-mit-stich.de/magazin/x ",
+    "/AT/magazin/x",
+  ]) {
+    assert.equal(firstPartyInternalPath(unsafeOrForeignUrl), null);
+  }
+
+  assert.equal(
+    marketizeSanitizedHtml(
+      '<p><a href="https://dich-mit-stich.de/magazin/x" target="_blank" rel="nofollow noopener noreferrer">Absolut</a><a href="/tattoo-singles">Relativ</a><a href="https://example.org/x" target="_blank" rel="noopener noreferrer nofollow">Extern</a><a href="/../magazin/x">Unsicher</a></p>',
+      "ch",
+    ),
+    '<p><a href="/ch/magazin/x" data-dms-internal="true">Absolut</a><a href="/ch/tattoo-singles" data-dms-internal="true">Relativ</a><a href="https://example.org/x" target="_blank" rel="noopener noreferrer nofollow">Extern</a><a href="/../magazin/x">Unsicher</a></p>',
+  );
+  assert.equal(
+    marketizeSanitizedHtml('<a href="https://example.org/x" data-dms-internal="true">Extern</a>', "at"),
+    '<a href="https://example.org/x">Extern</a>',
+  );
 
   const renderer = await readSource("../components/market-html-content.tsx");
-  assert.match(renderer, /localizeFirstPartyHtmlLinks\(html, publicUrl\(market\)\)/);
+  const clientRenderer = await readSource("../components/market-html-content-client.tsx");
+  assert.match(renderer, /marketizeSanitizedHtml\(html, market\)/);
+  assert.match(clientRenderer, /useLayoutEffect/);
+  assert.match(clientRenderer, /a\[data-dms-internal="true"\]/);
+  assert.match(clientRenderer, /isPreviewHost\(window\.location\.hostname\)/);
+  assert.match(clientRenderer, /dangerouslySetInnerHTML=\{\{ __html: html \}\}/);
+  assert.doesNotMatch(renderer, /localizeFirstPartyHtmlLinks/);
 });
 
 test("AT and CH editorial previews stay crawlable for noindex but absent from their sitemaps", async () => {

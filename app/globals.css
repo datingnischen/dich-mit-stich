@@ -2787,6 +2787,21 @@ img {
   outline: none;
 }
 
+.about-card-image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  background: var(--brand-soft);
+}
+
+.about-card-image img {
+  object-fit: cover;
+  object-position: center 32%;
+}
+
 .about-card-icon {
   display: grid;
   width: 48px;

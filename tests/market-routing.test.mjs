@@ -211,6 +211,7 @@ test("preview navigation intercepts only ordinary same-context clicks", async ()
   };
 
   assert.equal(shouldInterceptPreviewClick(ordinary), true);
+  assert.equal(shouldInterceptPreviewClick({ ...ordinary, hostname: "dich-mit-stich.vercel.app." }), true);
   assert.equal(shouldInterceptPreviewClick({ ...ordinary, hostname: "dich-mit-stich.ch" }), false);
   assert.equal(shouldInterceptPreviewClick({ ...ordinary, hostname: "preview.example.com" }), false);
   assert.equal(shouldInterceptPreviewClick({ ...ordinary, button: 1 }), false);

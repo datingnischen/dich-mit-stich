@@ -11,7 +11,8 @@ export type PreviewClick = {
 };
 
 export function isPreviewHost(hostname: string) {
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app");
+  const normalizedHostname = hostname.replace(/\.$/, "");
+  return normalizedHostname === "localhost" || normalizedHostname === "127.0.0.1" || normalizedHostname.endsWith(".vercel.app");
 }
 
 export function shouldInterceptPreviewClick(click: PreviewClick) {

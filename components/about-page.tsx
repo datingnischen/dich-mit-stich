@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
@@ -31,6 +32,16 @@ function PageLink({ link, market, className }: { link: AboutLink; market: AboutP
 function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["market"] }) {
   const content = (
     <>
+      {card.image ? (
+        <span className="about-card-image">
+          <Image
+            src={card.image.src}
+            alt={card.image.alt}
+            fill
+            sizes="(max-width: 900px) calc(100vw - 76px), (max-width: 1200px) 28vw, 300px"
+          />
+        </span>
+      ) : null}
       <span className="about-card-icon" aria-hidden="true">{card.icon}</span>
       <span className="eyebrow">{card.eyebrow}</span>
       <h2>{card.title}</h2>

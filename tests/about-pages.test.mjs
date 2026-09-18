@@ -91,6 +91,51 @@ test("builds a market-isolated AboutPage entity graph", async () => {
   }
 });
 
+test("success stories use market-aware internal links and published preview images", async () => {
+  const { getAboutPage } = await loadAboutPages();
+
+  for (const market of ["de", "at", "ch"]) {
+    const page = getAboutPage(market, "erfolgsgeschichten");
+    assert.equal(page.cards.length, 3);
+    assert.deepEqual(
+      page.cards.map((card) => card.link?.href),
+      [
+        "/magazin/pascal-und-stephanie",
+        "/magazin/katharina-und-philip",
+        "/magazin/andreas-und-do",
+      ],
+    );
+    for (const card of page.cards) {
+      assert.equal(card.link?.external, undefined);
+      assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\//);
+      assert.ok(card.image?.alt);
+    }
+  }
+
+  const component = await readFile(new URL("../components/about-page.tsx", import.meta.url), "utf8");
+  assert.match(component, /import Image from "next\/image"/);
+  assert.match(component, /className="about-card-image"/);
+  assert.match(component, /sizes=/);
+});
+
+test("expert cards link to preview-aware profiles and show the published author portraits", async () => {
+  const { getAboutPage } = await loadAboutPages();
+
+  for (const market of ["de", "at", "ch"]) {
+    const page = getAboutPage(market, "expertenteam");
+    assert.deepEqual(
+      page.cards.slice(0, 2).map((card) => card.link?.href),
+      ["/magazin/unser-datingexperte", "/magazin/author/anne-schweitzer"],
+    );
+    for (const card of page.cards.slice(0, 2)) {
+      assert.equal(card.link?.external, undefined);
+      assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\//);
+      assert.ok(card.image?.alt);
+    }
+    assert.equal(page.cards[2].image, undefined);
+  }
+});
+
 test("wires reusable rendered pages with canonical metadata and safe external links", async () => {
   const paths = [
     "../components/about-page.tsx",

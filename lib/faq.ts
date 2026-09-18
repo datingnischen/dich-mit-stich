@@ -12,6 +12,7 @@ export type FaqItem = {
 };
 
 export type FaqSection = {
+  eyebrow: string;
   title: string;
   lead?: string;
   items: FaqItem[];
@@ -23,6 +24,7 @@ const platformLink = (label: string, path: string): FaqAnswerPart => link(label,
 
 export const faqSections: FaqSection[] = [
   {
+    eyebrow: "Plattform kennenlernen",
     title: "Allgemeines über dich-mit-stich.de",
     items: [
       {
@@ -40,6 +42,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
+    eyebrow: "Vertrauen einordnen",
     title: "Erfahrungen & Seriosität von dich-mit-stich.de",
     items: [
       {
@@ -61,6 +64,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
+    eyebrow: "Mitgliedschaft verstehen",
     title: "Anmeldung, Mitgliedschaft & Kosten",
     items: [
       {
@@ -82,6 +86,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
+    eyebrow: "Dich mit Stich nutzen",
     title: "Nutzung & Funktionen",
     items: [
       {
@@ -95,6 +100,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
+    eyebrow: "Profil verwalten",
     title: "Profil & persönliche Einstellungen",
     items: [
       {
@@ -108,6 +114,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
+    eyebrow: "Sicher unterwegs",
     title: "Sicherheit & Datenschutz",
     items: [
       {
@@ -121,6 +128,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
+    eyebrow: "Hilfe erhalten",
     title: "Konto & Support",
     items: [
       {
@@ -130,6 +138,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
+    eyebrow: "Offene Antworten",
     title: "Transparenz & häufige Rückfragen zu dich-mit-stich.de",
     lead: "Online-Dating wirft naturgemäß Fragen auf – besonders bei spezialisierten Plattformen wie dich-mit-stich.de. Uns ist Transparenz wichtig. Deshalb beantworten wir hier offen einige Punkte, die immer wieder angesprochen werden.",
     items: [

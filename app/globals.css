@@ -1510,7 +1510,7 @@ img {
 }
 
 .magazine-article-body {
-  max-width: 760px;
+  width: min(1000px, 100%);
   margin: 42px auto 0;
   padding: clamp(30px, 5vw, 54px);
   border-radius: 24px;

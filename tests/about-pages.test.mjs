@@ -112,6 +112,13 @@ test("summarizes the complete live cooperation offer on the consolidated page", 
   }
   assert.match(serialized, /https:\/\/www\.adcell\.de\/partnerprogramme\/7003\//);
   assert.match(serialized, /mailto:christian@datingnischen\.de/);
+
+  const partnerProgram = page.detailSections.find((section) => section.eyebrow === "Partnerprogramm");
+  assert.deepEqual(partnerProgram?.cta, {
+    label: "Jetzt beim Partnerprogramm anmelden",
+    href: "https://www.adcell.de/partnerprogramme/7003/",
+    external: true,
+  });
 });
 
 test("success stories use market-aware internal links and published preview images", async () => {
@@ -178,6 +185,8 @@ test("wires reusable rendered pages with canonical metadata and safe external li
   assert.match(combined, /<SiteFrame market=\{page\.market\} sectionLive>/);
   assert.match(combined, /page\.detailSections/);
   assert.match(combined, /about-detail-section/);
+  assert.match(combined, /section\.cta \? <PageLink className="button button-primary"/);
+  assert.doesNotMatch(combined, /section\.cta \? <PageLink className="button button-secondary"/);
   assert.doesNotMatch(combined, /elFlirt|vercel\.app/i);
 });
 

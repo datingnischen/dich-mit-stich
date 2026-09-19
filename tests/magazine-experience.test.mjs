@@ -84,7 +84,8 @@ test("normal magazine entries use a structured editorial detail layout", async (
   assert.match(css, /\.magazine-detail-hero\s+h1\s*\{[^}]*overflow-wrap:\s*anywhere/s);
   assert.match(css, /@media\s*\(max-width:\s*480px\)[\s\S]*?\.magazine-detail-hero\s+h1\s*\{[^}]*font-size:\s*2\.25rem/s);
   assert.match(css, /\.magazine-detail-hero\s*\{/);
-  assert.match(css, /\.magazine-article-body\s*\{[^}]*max-width:\s*760px/s);
+  assert.match(css, /\.magazine-article-body\s*\{[^}]*width:\s*min\(1000px,\s*100%\)/s);
+  assert.doesNotMatch(css, /\.magazine-article-body\s*\{[^}]*max-width:\s*760px/s);
   assert.match(css, /\.magazine-article-body\s+h2\s*\{[^}]*font-size:/s);
   assert.match(css, /\.magazine-article-body\s*:\s*where\(p,\s*ul,\s*ol\)\s*\{[^}]*line-height:/s);
 });

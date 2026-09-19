@@ -143,7 +143,7 @@ export function AboutPageView({ page }: { page: AboutPage }) {
                     {section.items.map((item) => <li key={item}>{item}</li>)}
                   </ul>
                 ) : null}
-                {section.cta ? <PageLink className="button button-secondary" link={section.cta} market={page.market} /> : null}
+                {section.cta ? <PageLink className="button button-primary" link={section.cta} market={page.market} /> : null}
               </article>
             ))}
           </section>

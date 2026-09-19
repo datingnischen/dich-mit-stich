@@ -295,6 +295,11 @@ function cooperationPage(market: MarketCode): AboutPage {
           "Schnelle Freigabe: Die vorhandenen Partnerinformationen nennen eine Provisionsfreigabe in weniger als drei Tagen.",
           "Transparente Auswertung: Klicks, Registrierungen und Umsätze lassen sich im Adcell-Konto nachvollziehen.",
         ],
+        cta: {
+          label: "Jetzt beim Partnerprogramm anmelden",
+          href: "https://www.adcell.de/partnerprogramme/7003/",
+          external: true,
+        },
       },
       {
         eyebrow: "So funktioniert es",

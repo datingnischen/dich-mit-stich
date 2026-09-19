@@ -7,7 +7,7 @@ function buildContentSecurityPolicy(assetOrigin: string, isDev: boolean) {
   const developmentEval = isDev ? " 'unsafe-eval'" : "";
   return [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${developmentEval} ${assetOrigin}`,
+    `script-src 'self' 'unsafe-inline'${developmentEval} ${assetOrigin} https://js.icony.com`,
     `style-src 'self' 'unsafe-inline' ${assetOrigin}`,
     "img-src 'self' data: https:",
     `font-src 'self' data: ${assetOrigin}`,

@@ -131,6 +131,24 @@ export function AboutPageView({ page }: { page: AboutPage }) {
           </div>
         </section>
 
+        {page.detailSections ? (
+          <section className="about-detail-sections" aria-label="Kooperationen im Überblick">
+            {page.detailSections.map((section) => (
+              <article className="about-detail-section" key={section.title}>
+                <span className="eyebrow">{section.eyebrow}</span>
+                <h2>{section.title}</h2>
+                {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {section.items ? (
+                  <ul>
+                    {section.items.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                ) : null}
+                {section.cta ? <PageLink className="button button-secondary" link={section.cta} market={page.market} /> : null}
+              </article>
+            ))}
+          </section>
+        ) : null}
+
         {page.slug === null ? (
           <section className="about-split-section">
             <article className="about-info-panel about-info-panel-dark">

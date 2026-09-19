@@ -91,6 +91,29 @@ test("builds a market-isolated AboutPage entity graph", async () => {
   }
 });
 
+test("summarizes the complete live cooperation offer on the consolidated page", async () => {
+  const { getAboutPage } = await loadAboutPages();
+  const page = getAboutPage("at", "kooperationen");
+  const serialized = JSON.stringify(page);
+
+  assert.ok(Array.isArray(page.detailSections));
+  assert.ok(page.detailSections.length >= 3);
+  for (const marker of [
+    "Tattoo- und Piercing-Studios",
+    "Creator und Influencer",
+    "Tattoo-Shops",
+    "35 %",
+    "Lifetime-Provision",
+    "Adcell",
+    "personalisierter Partnerlink",
+    "QR-Code",
+  ]) {
+    assert.match(serialized, new RegExp(marker), `cooperation content must include ${marker}`);
+  }
+  assert.match(serialized, /https:\/\/www\.adcell\.de\/partnerprogramme\/7003\//);
+  assert.match(serialized, /mailto:christian@datingnischen\.de/);
+});
+
 test("success stories use market-aware internal links and published preview images", async () => {
   const { getAboutPage } = await loadAboutPages();
 
@@ -153,6 +176,8 @@ test("wires reusable rendered pages with canonical metadata and safe external li
   assert.match(combined, /<MarketLink/);
   assert.match(combined, /nofollow noopener noreferrer/);
   assert.match(combined, /<SiteFrame market=\{page\.market\} sectionLive>/);
+  assert.match(combined, /page\.detailSections/);
+  assert.match(combined, /about-detail-section/);
   assert.doesNotMatch(combined, /elFlirt|vercel\.app/i);
 });
 

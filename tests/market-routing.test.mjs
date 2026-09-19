@@ -345,6 +345,10 @@ test("production CSP permits the configured cross-origin Next asset host", async
   for (const directive of ["script-src", "style-src", "font-src"]) {
     assert.ok(directives.get(directive)?.includes(assetOrigin), `${directive} must permit ${assetOrigin}`);
   }
+  assert.ok(
+    directives.get("script-src")?.includes("https://js.icony.com"),
+    "script-src must permit the ICONY profile API used by city widgets",
+  );
   assert.ok(directives.get("frame-src")?.includes("https://www.youtube-nocookie.com"));
 });
 

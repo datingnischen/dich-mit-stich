@@ -35,6 +35,14 @@ export type AboutCard = {
   link?: AboutLink;
 };
 
+export type AboutDetailSection = {
+  eyebrow: string;
+  title: string;
+  paragraphs: string[];
+  items?: string[];
+  cta?: AboutLink;
+};
+
 export type AboutPage = {
   market: MarketCode;
   slug: AboutRouteSlug;
@@ -48,6 +56,7 @@ export type AboutPage = {
   sectionEyebrow: string;
   sectionTitle: string;
   sectionLead: string;
+  detailSections?: AboutDetailSection[];
   primaryCta: AboutLink;
   secondaryCta?: AboutLink;
 };
@@ -258,6 +267,66 @@ function cooperationPage(market: MarketCode): AboutPage {
       { eyebrow: "Vor Ort", title: "Tattoo- und Piercing-Studios", text: "Für gemeinsame Inhalte, lokale Guides oder andere nachvollziehbare Ideen mit echtem Szene-Bezug.", icon: "◆" },
       { eyebrow: "Reichweite", title: "Creator & Social Media", text: "Für passende Formate rund um Tattoo-Kultur, Piercings, Singles und Community.", icon: "◎" },
       { eyebrow: "Inhalte", title: "Medien & Communities", text: "Für Interviews, redaktionelle Kooperationen und gemeinsame Themen mit klarer Zielgruppe.", icon: "✦" },
+    ],
+    detailSections: [
+      {
+        eyebrow: "Wen wir suchen",
+        title: "Partner aus der Tattoo- und Piercing-Szene",
+        paragraphs: [
+          "Dich mit Stich bringt tätowierte und gepiercte Singles zusammen. Dafür suchen wir Partner, die zur Szene passen und ihrer Community einen echten Mehrwert bieten möchten.",
+        ],
+        items: [
+          "Tattoo- und Piercing-Studios, die Dich mit Stich auf ihrer Website, im Studio oder über einen QR-Code empfehlen möchten.",
+          "Tätowierte Creator und Influencer mit einer aktiven Community auf Instagram, Facebook, TikTok oder anderen passenden Kanälen.",
+          "Betreiber von Tattoo-Fanseiten, Magazinen und Community-Angeboten, die gemeinsame Inhalte oder Aktionen umsetzen möchten.",
+          "Tattoo-Shops und weitere Szene-Anbieter, deren Angebot zu unserer Community passt.",
+          "Social-Media-Profis, die Erfahrung mit Community-Management und dem Aufbau eigener Kanäle haben.",
+        ],
+      },
+      {
+        eyebrow: "Partnerprogramm",
+        title: "35 % Provision und Beteiligung an Verlängerungen",
+        paragraphs: [
+          "Für Studios und Creator gibt es ein gemeinsames Partnerprogramm über Adcell. Ein personalisierter Partnerlink ordnet vermittelte Premium-Mitgliedschaften eindeutig zu.",
+        ],
+        items: [
+          "35 % Provision pro Sale – auf den bestehenden Partnerseiten werden derzeit 13,96 bis 58,38 Euro pro erfolgreicher Premium-Mitgliedschaft genannt.",
+          "Lifetime-Provision: Auch bei Verlängerungen einer vermittelten Premium-Mitgliedschaft werden 35 % vergütet.",
+          "Schnelle Freigabe: Die vorhandenen Partnerinformationen nennen eine Provisionsfreigabe in weniger als drei Tagen.",
+          "Transparente Auswertung: Klicks, Registrierungen und Umsätze lassen sich im Adcell-Konto nachvollziehen.",
+        ],
+      },
+      {
+        eyebrow: "So funktioniert es",
+        title: "In vier Schritten zur Kooperation",
+        paragraphs: [
+          "Studios können den Partnerlink auf ihrer Website einbinden oder als QR-Code im Studio und auf Flyern einsetzen. Creator teilen ihn in Beiträgen, Stories oder dauerhaft im Profil.",
+        ],
+        items: [
+          "Bei Adcell für das Dich-mit-Stich-Partnerprogramm registrieren und das eigene Studio, die Website oder das Social-Media-Profil angeben.",
+          "Nach der Freischaltung den personalisierten Partnerlink erhalten.",
+          "Den Link passend zur eigenen Community online, in Social Media oder vor Ort teilen.",
+          "Vermittelte Premium-Mitgliedschaften und die daraus entstehende Vergütung im Adcell-Konto verfolgen.",
+        ],
+        cta: {
+          label: "Partnerprogramm bei Adcell öffnen",
+          href: "https://www.adcell.de/partnerprogramme/7003/",
+          external: true,
+        },
+      },
+      {
+        eyebrow: "Weitere Ideen",
+        title: "Gemeinsame Inhalte, Aktionen und Community-Projekte",
+        paragraphs: [
+          "Nicht jede gute Zusammenarbeit passt in ein klassisches Partnerprogramm. Wenn du ein Studio, einen Shop, ein Magazin, eine Fanseite oder einen passenden Kanal betreibst, schick uns deine Idee mit einem kurzen Hinweis zu Zielgruppe, Reichweite und geplantem Format.",
+          "Wir prüfen, ob daraus eine gemeinsame Aktion, ein redaktioneller Beitrag, ein lokaler Guide oder eine andere sinnvolle Kooperation für die Tattoo- und Piercing-Community entstehen kann.",
+        ],
+        cta: {
+          label: "Kooperationsidee per E-Mail senden",
+          href: "mailto:christian@datingnischen.de?subject=Kooperationsanfrage%20Dich%20mit%20Stich",
+          external: true,
+        },
+      },
     ],
     primaryCta: {
       label: "Kooperationsanfrage senden",

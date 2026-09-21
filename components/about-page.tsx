@@ -6,6 +6,7 @@ import { SiteFrame } from "@/components/site-frame";
 import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage } from "@/lib/about-pages";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { publicUrl } from "@/lib/markets";
+import { staticAsset } from "@/lib/static-asset";
 
 function PageLink({ link, market, className }: { link: AboutLink; market: AboutPage["market"]; className?: string }) {
   if (link.external) {
@@ -35,10 +36,11 @@ function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["m
       {card.image ? (
         <span className={`about-card-image${card.image.fit === "contain" ? " about-card-image-contain" : ""}`}>
           <Image
-            src={card.image.src}
+            src={card.image.fit === "contain" ? staticAsset(card.image.src) : card.image.src}
             alt={card.image.alt}
             fill
             sizes="(max-width: 900px) calc(100vw - 76px), (max-width: 1200px) 28vw, 300px"
+            unoptimized={card.image.fit === "contain"}
           />
         </span>
       ) : null}

@@ -178,6 +178,8 @@ test("expert cards link to preview-aware profiles and show the published author 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
   assert.match(component, /about-card-image-contain/);
+  assert.match(component, /staticAsset\(card\.image\.src\)/);
+  assert.match(component, /unoptimized=\{card\.image\.fit === "contain"\}/);
   assert.match(css, /\.about-card-image-contain img[\s\S]*object-fit:\s*contain/);
 });
 

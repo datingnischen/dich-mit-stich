@@ -16,12 +16,19 @@ import {
 
 type PageProps = { params: Promise<{ market: string }> };
 
+type MarketArtwork = {
+  src: string;
+  alt: string;
+};
+
 type MarketCopy = {
   countryName: string;
   countryWithArticle: string;
   locationPhrase: string;
   adjective: string;
   regionLabel: string;
+  directoryBanner: MarketArtwork;
+  cityFinderArtwork: MarketArtwork;
 };
 
 const MARKET_COPY: Record<TattooStudioMarket, MarketCopy> = {
@@ -31,6 +38,14 @@ const MARKET_COPY: Record<TattooStudioMarket, MarketCopy> = {
     locationPhrase: "Österreich",
     adjective: "Österreichische",
     regionLabel: "AT",
+    directoryBanner: {
+      src: "/tattoo-studios/tattoo-studio-verzeichnis-oesterreich.png",
+      alt: "Dich mit Stich Tattoo-Studio-Verzeichnis für Österreich mit Tattoo-Maschine und Standort-Symbolen",
+    },
+    cityFinderArtwork: {
+      src: "/tattoo-studios/tattoo-studios-nach-stadt-oesterreich.png",
+      alt: "Österreichkarte mit markierten Tattoo-Studio-Städten Wien, Graz, Linz, Salzburg und Innsbruck",
+    },
   },
   ch: {
     countryName: "Schweiz",
@@ -38,6 +53,14 @@ const MARKET_COPY: Record<TattooStudioMarket, MarketCopy> = {
     locationPhrase: "der Schweiz",
     adjective: "Schweizer",
     regionLabel: "CH",
+    directoryBanner: {
+      src: "/tattoo-studios/tattoo-studio-verzeichnis-schweiz.png",
+      alt: "Dich mit Stich Tattoo-Studio-Verzeichnis für die Schweiz mit Tattoo-Maschine und Standort-Symbolen",
+    },
+    cityFinderArtwork: {
+      src: "/tattoo-studios/tattoo-studios-nach-stadt-schweiz.png",
+      alt: "Schweizkarte mit markiertem Tattoo-Studio-Stadtguide für Zürich",
+    },
   },
 };
 
@@ -79,11 +102,43 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
         <div className="studio-guide-hero-mark" aria-hidden="true"><span>INK</span><strong>GUIDE</strong><small>{copy.regionLabel} · STÄDTE</small></div>
       </section>
 
+      <figure className="studio-directory-banner">
+        <Image
+          src={copy.directoryBanner.src}
+          alt={copy.directoryBanner.alt}
+          width={1983}
+          height={626}
+          sizes="(max-width: 1152px) calc(100vw - 32px), 1120px"
+          unoptimized
+          priority
+        />
+      </figure>
+
       <ul className="studio-guide-stats" aria-label={`Aktueller Umfang des Tattoo-Studio-Guides für ${copy.countryWithArticle}`}>
         <li><strong>{studioCount}</strong><span>strukturierte Studios</span></li>
         <li><strong>{cities.length}</strong><span>redaktionelle Stadtguides</span></li>
         <li><strong>0</strong><span>gekaufte Rangplätze</span></li>
       </ul>
+
+      <section className="content-section studio-city-finder-feature" aria-labelledby="markt-stadt-finder-heading">
+        <div className="studio-city-finder-copy">
+          <span className="eyebrow">Tattoo-Studios nach Stadt</span>
+          <h2 id="markt-stadt-finder-heading">Finde den passenden Stadtguide</h2>
+          <p>Wähle deine Stadt und vergleiche Studioangaben, Kontaktwege und redaktionelle Auswahlhinweise. Die Reihenfolge ist keine Rangliste.</p>
+          <a className="button button-primary" href="#stadtguides">Zu den Stadtguides</a>
+        </div>
+        <figure className="studio-city-finder-art">
+          <Image
+            src={copy.cityFinderArtwork.src}
+            alt={copy.cityFinderArtwork.alt}
+            width={768}
+            height={768}
+            loading="eager"
+            unoptimized
+            sizes="(max-width: 900px) calc(100vw - 64px), 480px"
+          />
+        </figure>
+      </section>
 
       <section className="content-section" id="stadtguides">
         <div className="section-header studio-guide-section-header">

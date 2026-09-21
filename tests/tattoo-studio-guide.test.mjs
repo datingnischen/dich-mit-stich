@@ -43,6 +43,27 @@ test("studio overview exposes the ten largest cities per country in population o
   assert.equal(getLargestTattooStudioCities("ch").find((city) => city.slug === "zuerich")?.hasVerifiedStudios, true);
 });
 
+test("Austrian and Swiss studio overviews use matching country artwork", async () => {
+  const marketOverview = await source("app/market-tattoo-studios/[market]/page.tsx");
+  const expectedAssets = [
+    "public/tattoo-studios/tattoo-studio-verzeichnis-oesterreich.png",
+    "public/tattoo-studios/tattoo-studios-nach-stadt-oesterreich.png",
+    "public/tattoo-studios/tattoo-studio-verzeichnis-schweiz.png",
+    "public/tattoo-studios/tattoo-studios-nach-stadt-schweiz.png",
+  ];
+
+  assert.match(marketOverview, /directoryBanner/);
+  assert.match(marketOverview, /cityFinderArtwork/);
+  assert.match(marketOverview, /className="studio-directory-banner"/);
+  assert.match(marketOverview, /className="content-section studio-city-finder-feature"/);
+  assert.match(marketOverview, /src=\{copy\.directoryBanner\.src\}/);
+  assert.match(marketOverview, /src=\{copy\.cityFinderArtwork\.src\}/);
+  assert.match(marketOverview, /href="#stadtguides"/);
+  assert.match(marketOverview, /loading="eager"/);
+  assert.match(marketOverview, /\bunoptimized\b/);
+  await Promise.all(expectedAssets.map((path) => access(new URL(path, root))));
+});
+
 test("all studio overviews visibly list the ten largest cities with honest destination labels", async () => {
   const [deOverview, marketOverview, shared, css] = await Promise.all([
     source("app/tattoo-studios/page.tsx"),

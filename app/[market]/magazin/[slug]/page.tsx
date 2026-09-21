@@ -2,34 +2,41 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MagazineDetail } from "@/components/magazine-detail";
 import { marketEditorialRobots } from "@/lib/editorial-metadata";
-import { getAnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
-import { getMagazineQuarantineDescription, isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
-import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
 import { localizeFirstPartyText } from "@/lib/market-html";
+import { getMarketMagazineDetailContext, getMarketMagazineEntryBySlug, getMarketMagazineRouteEntries } from "@/lib/market-magazine";
 import { isMarketCode, publicUrl } from "@/lib/markets";
-import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
+import { stripHtml } from "@/lib/wordpress";
 
 type PageProps = { params: Promise<{ market: string; slug: string }> };
 
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const entries = await getMagazineRouteEntries();
-  return ["at", "ch"].flatMap((market) => entries.map((entry) => ({ market, slug: entry.slug })));
+  const [atEntries, chEntries] = await Promise.all([
+    getMarketMagazineRouteEntries("at"),
+    getMarketMagazineRouteEntries("ch"),
+  ]);
+  return [
+    ...atEntries.map((entry) => ({ market: "at", slug: entry.slug })),
+    ...chEntries.map((entry) => ({ market: "ch", slug: entry.slug })),
+  ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { market, slug } = await params;
   if (!isMarketCode(market) || market === "de") return {};
-  const entry = await getMagazineEntryBySlug(slug);
+  const entry = await getMarketMagazineEntryBySlug(market, slug);
   if (!entry) return {};
-  const quarantined = isMagazineArticleQuarantined(slug);
-  const editorialOverride = getMagazineEditorialOverride(slug);
-  const answerEngineEntry = getAnswerEnginePilotEntry(slug);
+  const detailContext = getMarketMagazineDetailContext(market, slug, {
+    src: entry.featuredImage,
+    alt: entry.featuredImageAlt || entry.title,
+  });
+  if (!detailContext) return {};
+  const { quarantined, quarantineDescription, editorialOverride, answerEngineEntry } = detailContext;
   return {
     title: `${entry.title} | dich-mit-stich Magazin`,
     description: localizeFirstPartyText(
-      quarantined ? getMagazineQuarantineDescription() : answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 155),
+      quarantined ? quarantineDescription : answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 155),
       publicUrl(market),
     ),
     alternates: { canonical: publicUrl(market, `/magazin/${slug}`) },
@@ -40,5 +47,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function MarketMagazineDetailPage({ params }: PageProps) {
   const { market, slug } = await params;
   if (!isMarketCode(market) || market === "de") notFound();
+  if (!await getMarketMagazineEntryBySlug(market, slug)) notFound();
   return <MagazineDetail market={market} slug={slug} />;
 }

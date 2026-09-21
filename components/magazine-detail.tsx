@@ -7,23 +7,28 @@ import { MarketLink } from "@/components/market-link";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
-import { getAuthorProfile } from "@/lib/author-profiles";
 import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
-import { getAnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { localizeFirstPartyText } from "@/lib/market-html";
-import { getMagazineFeaturedImage } from "@/lib/magazine-featured-images";
-import { getMagazineQuarantineDescription, isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
-import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
-import { getMagazineVideo } from "@/lib/magazine-videos";
+import {
+  getMarketMagazineAuthorProfile,
+  getMarketMagazineDetailContext,
+  getMarketMagazineEntryBySlug,
+  getMarketMagazinePublishedProfileGraph,
+} from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { buildPublishedAuthorProfileGraph, stripPublishedBookSchema } from "@/lib/published-book";
-import { formatGermanDate, getMagazineEntryBySlug, stripHtml } from "@/lib/wordpress";
+import { stripPublishedBookSchema } from "@/lib/published-book";
+import { formatGermanDate, stripHtml } from "@/lib/wordpress";
 
 export async function MagazineDetail({ market, slug }: { market: MarketCode; slug: string }) {
-  const entry = await getMagazineEntryBySlug(slug);
+  const entry = await getMarketMagazineEntryBySlug(market, slug);
   if (!entry) notFound();
-  if (isMagazineArticleQuarantined(slug)) {
+  const detailContext = getMarketMagazineDetailContext(market, slug, {
+    src: entry.featuredImage,
+    alt: entry.featuredImageAlt || entry.title,
+  });
+  if (!detailContext) notFound();
+  if (detailContext.quarantined) {
     return (
       <main className="shell magazine-detail-shell">
         <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
@@ -34,22 +39,16 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
         <section className="hero-card hero-magazine hero-magazine-editorial magazine-quarantine-hero">
           <span className="eyebrow">Redaktioneller Hinweis</span>
           <h1>{entry.title}</h1>
-          <p className="magazine-detail-lead">{getMagazineQuarantineDescription()}</p>
+          <p className="magazine-detail-lead">{detailContext.quarantineDescription}</p>
           <p><MarketLink className="text-link" targetMarket={market} pathname="/magazin">Zu den aktuell verfügbaren Magazinbeiträgen →</MarketLink></p>
         </section>
       </main>
     );
   }
 
-  const authorProfile = entry.authorSlug ? await getAuthorProfile(entry.authorSlug) : null;
+  const authorProfile = entry.authorSlug ? await getMarketMagazineAuthorProfile(market, entry.authorSlug) : null;
   const authorHref = authorProfile?.profileUrl;
-  const featuredImage = getMagazineFeaturedImage(entry.slug, {
-    src: entry.featuredImage,
-    alt: entry.featuredImageAlt || entry.title,
-  });
-  const magazineVideo = getMagazineVideo(entry.slug);
-  const editorialOverride = getMagazineEditorialOverride(entry.slug);
-  const answerEngineEntry = getAnswerEnginePilotEntry(entry.slug);
+  const { featuredImage, video: magazineVideo, editorialOverride, answerEngineEntry } = detailContext;
   const articleSummary = localizeFirstPartyText(
     answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 220),
     publicUrl(market),
@@ -62,7 +61,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     pilotEntry: answerEngineEntry,
     market,
   });
-  const publishedProfileGraph = buildPublishedAuthorProfileGraph({
+  const publishedProfileGraph = getMarketMagazinePublishedProfileGraph(market, {
     slug: entry.slug,
     title: entry.title,
     description: articleSummary,
@@ -159,7 +158,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
 
       <MagazineDatingCta market={market} />
 
-      {entry.slug !== "unser-datingexperte" && authorProfile ? (
+      {!publishedProfileGraph && authorProfile ? (
         <section className="content-section">
           <ExpertTrustCard
             profile={authorProfile}

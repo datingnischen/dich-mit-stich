@@ -58,6 +58,81 @@ test("magazine route families reuse shared market-aware renderers", async () => 
   assert.match(layout, /<SiteFrame market=\{market\} aid="magazin">/);
 });
 
+test("AT and CH magazine sources fail closed until complete market loaders exist", async () => {
+  const {
+    emptyMagazineMarketCopy,
+    MAGAZINE_SOURCE_LOADER_KEYS,
+    resolveMagazineMarketSource,
+  } = await import("../lib/market-magazine-policy.ts");
+  let deLoads = 0;
+  let atLoads = 0;
+  const completeSource = (load) => Object.fromEntries(
+    MAGAZINE_SOURCE_LOADER_KEYS.map((key) => [key, async () => { load(); return key; }]),
+  );
+  const deSource = completeSource(() => { deLoads += 1; });
+  const atSource = completeSource(() => { atLoads += 1; });
+
+  assert.equal(resolveMagazineMarketSource("at", { de: deSource }), null);
+  assert.equal(resolveMagazineMarketSource("ch", { de: deSource }), null);
+  assert.equal(resolveMagazineMarketSource("at", { de: deSource, at: { posts: deSource.posts } }), null);
+  assert.equal(deLoads, 0, "an absent or incomplete sibling source must never fall back to DE loaders");
+  assert.equal(resolveMagazineMarketSource("at", { de: deSource, at: atSource }), atSource);
+  await resolveMagazineMarketSource("at", { de: deSource, at: atSource }).posts();
+  assert.equal(atLoads, 1);
+  assert.equal(deLoads, 0);
+
+  assert.deepEqual(emptyMagazineMarketCopy("at"), {
+    country: "Österreich",
+    title: "Flirtradar Österreich: Magazin im Aufbau",
+    description: "Für Österreich sind derzeit noch keine Magazinbeiträge veröffentlicht. Eigene Artikel folgen.",
+  });
+  assert.deepEqual(emptyMagazineMarketCopy("ch"), {
+    country: "die Schweiz",
+    title: "Flirtradar Schweiz: Magazin im Aufbau",
+    description: "Für die Schweiz sind derzeit noch keine Magazinbeiträge veröffentlicht. Eigene Artikel folgen.",
+  });
+
+  const marketMagazine = await readSource("../lib/market-magazine.ts");
+  assert.match(marketMagazine, /MARKET_MAGAZINE_SOURCES/);
+  assert.match(marketMagazine, /resolveMagazineMarketSource/);
+  assert.doesNotMatch(marketMagazine, /ACTIVE_MAGAZINE_MARKETS/);
+});
+
+test("every magazine surface consumes the fail-closed market catalog", async () => {
+  const [home, overview, detail, category, author, detailRoute, categoryRoute, authorRoute] = await Promise.all([
+    readSource("../components/home-page.tsx"),
+    readSource("../components/magazine-overview.tsx"),
+    readSource("../components/magazine-detail.tsx"),
+    readSource("../components/magazine-category.tsx"),
+    readSource("../components/magazine-author.tsx"),
+    readSource("../app/[market]/magazin/[slug]/page.tsx"),
+    readSource("../app/[market]/magazin/thema/[slug]/page.tsx"),
+    readSource("../app/[market]/magazin/author/[slug]/page.tsx"),
+  ]);
+
+  assert.match(home, /getMarketMagazineCatalog\(market\)/);
+  assert.match(overview, /getMarketMagazineCatalog\(market\)/);
+  assert.match(detail, /getMarketMagazineEntryBySlug\(market, slug\)/);
+  assert.match(detail, /getMarketMagazineDetailContext\(market, slug,/);
+  assert.match(detail, /getMarketMagazinePublishedProfileGraph\(market,/);
+  assert.match(detail, /getMarketMagazineAuthorProfile\(market, entry\.authorSlug\)/);
+  assert.doesNotMatch(detail, /from "@\/lib\/author-profiles"/);
+  assert.doesNotMatch(detail, /from "@\/lib\/magazine-(?:answer-engine|content-safety|editorial-overrides|featured-images|videos)"/);
+  assert.match(category, /getMarketMagazineCategoryBySlug\(market, slug\)/);
+  assert.match(category, /getMarketMagazineEntriesForCategory\(market, slug\)/);
+  assert.match(author, /getMarketMagazineAuthorProfile\(market, slug\)/);
+  assert.match(author, /getMarketMagazineAuthorPosts\(market, slug\)/);
+  assert.match(overview, /marketHasMagazineContent\(market\)/);
+  assert.match(detailRoute, /getMarketMagazineRouteEntries\("at"\)/);
+  assert.match(detailRoute, /getMarketMagazineEntryBySlug\(market, slug\)/);
+  assert.match(detailRoute, /getMarketMagazineDetailContext\(market, slug,/);
+  assert.doesNotMatch(detailRoute, /from "@\/lib\/magazine-(?:answer-engine|content-safety|editorial-overrides)"/);
+  assert.match(categoryRoute, /getMarketMagazineCategories\("at"\)/);
+  assert.match(categoryRoute, /getMarketMagazineCategoryBySlug\(market, slug\)/);
+  assert.match(authorRoute, /getMarketMagazineAuthorSlugs\("at"\)/);
+  assert.match(authorRoute, /getMarketMagazineAuthorProfile\(market, slug\)/);
+});
+
 test("shared magazine rendering keeps preview navigation and country conversion URLs correct", async () => {
   const [overview, detail, category, author, cta, expert, override] = await Promise.all([
     readSource("../components/magazine-overview.tsx"),

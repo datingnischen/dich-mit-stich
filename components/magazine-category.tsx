@@ -2,13 +2,14 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MarketLink } from "@/components/market-link";
 import { localizeFirstPartyText } from "@/lib/market-html";
+import { getMarketMagazineCategoryBySlug, getMarketMagazineEntriesForCategory } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { getMagazineCategoryBySlug, getMagazineEntriesForCategory, stripHtml } from "@/lib/wordpress";
+import { stripHtml } from "@/lib/wordpress";
 
 export async function MagazineCategory({ market, slug }: { market: MarketCode; slug: string }) {
   const [category, entries] = await Promise.all([
-    getMagazineCategoryBySlug(slug),
-    getMagazineEntriesForCategory(slug),
+    getMarketMagazineCategoryBySlug(market, slug),
+    getMarketMagazineEntriesForCategory(market, slug),
   ]);
 
   if (!category) notFound();

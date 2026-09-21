@@ -3,22 +3,28 @@ import { notFound } from "next/navigation";
 import { MagazineCategory } from "@/components/magazine-category";
 import { marketEditorialRobots } from "@/lib/editorial-metadata";
 import { localizeFirstPartyText } from "@/lib/market-html";
+import { getMarketMagazineCategories, getMarketMagazineCategoryBySlug } from "@/lib/market-magazine";
 import { isMarketCode, publicUrl } from "@/lib/markets";
-import { getMagazineCategories, getMagazineCategoryBySlug } from "@/lib/wordpress";
 
 type PageProps = { params: Promise<{ market: string; slug: string }> };
 
 export const revalidate = 1800;
 
 export async function generateStaticParams() {
-  const categories = await getMagazineCategories();
-  return ["at", "ch"].flatMap((market) => categories.map((category) => ({ market, slug: category.slug })));
+  const [atCategories, chCategories] = await Promise.all([
+    getMarketMagazineCategories("at"),
+    getMarketMagazineCategories("ch"),
+  ]);
+  return [
+    ...atCategories.map((category) => ({ market: "at", slug: category.slug })),
+    ...chCategories.map((category) => ({ market: "ch", slug: category.slug })),
+  ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { market, slug } = await params;
   if (!isMarketCode(market) || market === "de") return {};
-  const category = await getMagazineCategoryBySlug(slug);
+  const category = await getMarketMagazineCategoryBySlug(market, slug);
   if (!category) return {};
   return {
     title: `${category.name} | dich-mit-stich Magazin`,
@@ -34,5 +40,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function MarketMagazineCategoryPage({ params }: PageProps) {
   const { market, slug } = await params;
   if (!isMarketCode(market) || market === "de") notFound();
+  if (!await getMarketMagazineCategoryBySlug(market, slug)) notFound();
   return <MagazineCategory market={market} slug={slug} />;
 }

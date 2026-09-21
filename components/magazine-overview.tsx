@@ -2,8 +2,10 @@ import Image from "next/image";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { localizeFirstPartyText } from "@/lib/market-html";
+import { getMarketMagazineCatalog, marketHasMagazineContent } from "@/lib/market-magazine";
+import { emptyMagazineMarketCopy } from "@/lib/market-magazine-policy";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
+import { formatGermanDate, stripHtml } from "@/lib/wordpress";
 
 type ArticleCardMediaProps = {
   imageUrl?: string;
@@ -33,11 +35,26 @@ function ArticleCardMedia({ imageUrl, alt, fallbackLabel, fallbackTitle, classNa
 }
 
 export async function MagazineOverview({ market }: { market: MarketCode }) {
-  const [posts, pages, categories] = await Promise.all([
-    getMagazinePosts(),
-    getMagazinePages(),
-    getMagazineCategories(),
-  ]);
+  const { posts, pages, categories } = await getMarketMagazineCatalog(market);
+
+  if (!marketHasMagazineContent(market)) {
+    if (market === "de") throw new Error("The DE magazine source must remain configured");
+    const copy = emptyMagazineMarketCopy(market);
+    return (
+      <main className="shell magazine-overview-shell">
+        <section className="hero-card hero-magazine hero-magazine-editorial magazine-intro-card">
+          <span className="eyebrow">Flirtradar {market.toUpperCase()}</span>
+          <h1>Das Magazin für {copy.country} entsteht gerade.</h1>
+          <p>{copy.description} Inhalte aus dem deutschen Magazin werden nicht automatisch übernommen.</p>
+          <div className="button-row">
+            <a className="button button-primary" href={conversionUrl(publicUrl(market), "/", "magazin")}>
+              Flirtradar kostenlos nutzen
+            </a>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   const featuredPost = posts[0];
   const spotlightPosts = posts.slice(1, 7);

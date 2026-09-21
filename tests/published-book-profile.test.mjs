@@ -48,7 +48,7 @@ test("magazine profile route selects the CMS-gated profile graph", () => {
     readFileSync(new URL("../app/magazin/[slug]/page.tsx", import.meta.url), "utf8"),
     readFileSync(new URL("../components/magazine-detail.tsx", import.meta.url), "utf8"),
   ].join("\n");
-  assert.match(source, /buildPublishedAuthorProfileGraph\s*\(/);
+  assert.match(source, /getMarketMagazinePublishedProfileGraph\(market,/);
   assert.match(source, /publishedProfileGraph\s*\?\?\s*articleGraph/);
   assert.match(source, /stripPublishedBookSchema\(entry\.content\)/);
 });

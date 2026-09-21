@@ -4,10 +4,11 @@ import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { localizeFirstPartyText } from "@/lib/market-html";
+import { getMarketMagazineCatalog } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 import { staticAsset } from "@/lib/static-asset";
-import { formatGermanDate, getMagazineCategories, getMagazinePages, getMagazinePosts, stripHtml } from "@/lib/wordpress";
+import { formatGermanDate, stripHtml } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
@@ -20,13 +21,12 @@ const HOME_MARKET_COPY = {
 } as const;
 
 export async function HomePage({ market }: { market: MarketCode }) {
-  const [overview, posts, pages, categories, expert] = await Promise.all([
+  const [overview, magazineCatalog, expert] = await Promise.all([
     market === "de" ? getTattooSinglesOverview() : getWordPressCityOverview(market),
-    getMagazinePosts(),
-    getMagazinePages(),
-    getMagazineCategories(),
+    getMarketMagazineCatalog(market),
     getDatingExpertProfile(),
   ]);
+  const { posts, pages, categories } = magazineCatalog;
 
   const featuredPost = posts[0];
   const magazineStarts = [...posts.slice(1, 4), ...pages.slice(0, 1)];

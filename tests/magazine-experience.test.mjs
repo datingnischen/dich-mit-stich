@@ -5,7 +5,11 @@ import { readFile } from "node:fs/promises";
 const readSource = (path) => readFile(new URL(path, import.meta.url), "utf8");
 const readCombinedSource = async (...paths) => (await Promise.all(paths.map(readSource))).join("\n");
 const readMagazineOverviewSource = () => readCombinedSource("../app/magazin/page.tsx", "../components/magazine-overview.tsx");
-const readMagazineDetailSource = () => readCombinedSource("../app/magazin/[slug]/page.tsx", "../components/magazine-detail.tsx");
+const readMagazineDetailSource = () => readCombinedSource(
+  "../app/magazin/[slug]/page.tsx",
+  "../components/magazine-detail.tsx",
+  "../lib/market-magazine.ts",
+);
 const readMagazineAuthorSource = () => readCombinedSource("../app/magazin/author/[slug]/page.tsx", "../components/magazine-author.tsx");
 const readMagazineCategorySource = () => readCombinedSource("../app/magazin/thema/[slug]/page.tsx", "../components/magazine-category.tsx");
 
@@ -129,7 +133,7 @@ test("Anti-Eyebrow pilot replaces unsafe legacy guidance with sourced editorial 
     readSource("../public/images/magazine/anti-eyebrow-piercing-featured.svg"),
   ]);
 
-  assert.match(detail, /getMagazineEditorialOverride\(entry\.slug\)/);
+  assert.match(detail, /getMarketMagazineDetailContext\(market, slug,/);
   assert.match(detail, /getMagazineEditorialOverride\(slug\)/);
   assert.match(detail, /answerEngineEntry\?\.directAnswer\s*\?\?\s*editorialOverride\?\.summary/);
   assert.match(detail, /<AntiEyebrowEditorial market=\{market\} \/>/);
@@ -167,7 +171,7 @@ test("matching magazine entries render an approved responsive YouTube video befo
     readSource("../app/globals.css"),
   ]);
 
-  assert.match(detail, /getMagazineVideo\(entry\.slug\)/);
+  assert.match(detail, /video:\s*getMagazineVideo\(slug\)/);
   assert.match(detail, /magazineVideo \? <MagazineVideo video=\{magazineVideo\} \/> : null/);
   assert.ok(detail.indexOf("<MagazineVideo") > detail.indexOf('className="rich-content"'));
   assert.ok(detail.indexOf("<MagazineVideo") < detail.indexOf("<MagazineDatingCta market={market} />"));
@@ -185,7 +189,7 @@ test("Christina magazine detail replaces the legacy diagram with a local editori
   const detail = await readMagazineDetailSource();
 
   assert.match(detail, /import \{ getMagazineFeaturedImage \} from "@\/lib\/magazine-featured-images"/);
-  assert.match(detail, /getMagazineFeaturedImage\(entry\.slug, \{[\s\S]*src: entry\.featuredImage,[\s\S]*alt: entry\.featuredImageAlt \|\| entry\.title,[\s\S]*\}\)/);
+  assert.match(detail, /getMarketMagazineDetailContext\(market, slug, \{[\s\S]*src: entry\.featuredImage,[\s\S]*alt: entry\.featuredImageAlt \|\| entry\.title,[\s\S]*\}\)/);
   assert.match(detail, /src=\{featuredImage\.src\}/);
   assert.match(detail, /alt=\{featuredImage\.alt\}/);
 });
@@ -211,7 +215,7 @@ test("magazine details expose visible answer-engine context and article JSON-LD"
     readSource("../components/magazine-answer-summary.tsx"),
   ]);
 
-  assert.match(detail, /getAnswerEnginePilotEntry\(entry\.slug\)/);
+  assert.match(detail, /answerEngineEntry:\s*getAnswerEnginePilotEntry\(slug\)/);
   assert.match(detail, /<MagazineAnswerSummary entry=\{answerEngineEntry\} \/>/);
   assert.match(detail, /buildMagazineArticleGraph\(/);
   assert.match(detail, /type="application\/ld\+json"/);

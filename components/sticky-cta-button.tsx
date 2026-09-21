@@ -11,7 +11,7 @@ function withoutMarketPrefix(pathname: string) {
 function ctaFromPathname(pathname: string, market: MarketCode, aid?: ConversionAid) {
   if (aid === 'location' || withoutMarketPrefix(pathname).startsWith('/tattoo-singles')) {
     return {
-      text: 'Tattoo-Singles in deiner Stadt finden',
+      text: 'Jetzt kostenlos registrieren',
       href: conversionUrl(publicUrl(market), '/registration/', 'location'),
     };
   }

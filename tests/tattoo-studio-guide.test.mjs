@@ -375,6 +375,8 @@ test("every Tattoo-Singles registration surface uses location attribution", asyn
     assert.doesNotMatch(page, /href="\/registration\/"/);
   }
   assert.match(sticky, /conversionUrl\(publicUrl\(market\), '\/registration\/', 'location'\)/);
+  assert.doesNotMatch(sticky, /Tattoo-Singles in deiner Stadt finden/);
+  assert.match(sticky, /text: 'Jetzt kostenlos registrieren'/);
   assert.doesNotMatch(sticky, /`\$\{publicUrl\(market\)\}\?AID=location`/);
   assert.match(deCity, /<ExpertTrustCard[\s\S]*aid="location"[\s\S]*\/>/);
   assert.match(expertCard, /href=\{conversionUrl\(publicUrl\(market\), "\/registration\/", aid\)\}/);

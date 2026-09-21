@@ -143,6 +143,51 @@
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altes_Schloss_-_Stuttgart_-_Germany_-_panorama.jpg"
     }
   },
+  "bonn": {
+    "imageUrl": "/city-previews/bonn.jpg",
+    "imageAttribution": {
+      "title": "Bonn, Beuel, Kennedybrücke -- 2016 -- 4198",
+      "creator": "Dietmar Rabich",
+      "license": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bonn,_Beuel,_Kennedybr%C3%BCcke_--_2016_--_4198.jpg"
+    }
+  },
+  "duisburg": {
+    "imageUrl": "/city-previews/duisburg.jpg",
+    "imageAttribution": {
+      "title": "Innenhafen Duisburg O (258326221)",
+      "creator": "Simon Samtleben",
+      "license": "CC BY 3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Innenhafen_Duisburg_O_(258326221).jpeg"
+    }
+  },
+  "karlsruhe": {
+    "imageUrl": "/city-previews/karlsruhe.jpg",
+    "imageAttribution": {
+      "title": "Schloss Karlsruhe Panorama (tone-mapping)",
+      "creator": "Guido Radig",
+      "license": "CC BY 3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Schloss_Karlsruhe_Panorama_(tone-mapping).jpg"
+    }
+  },
+  "muenster": {
+    "imageUrl": "/city-previews/muenster.jpg",
+    "imageAttribution": {
+      "title": "Münster, Prinzipalmarkt -- 2023 -- 9216-8",
+      "creator": "Dietmar Rabich",
+      "license": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:M%C3%BCnster,_Prinzipalmarkt_--_2023_--_9216-8.jpg"
+    }
+  },
+  "wuppertal": {
+    "imageUrl": "/city-previews/wuppertal.jpg",
+    "imageAttribution": {
+      "title": "Wuppertal Suspension Railway - Wuppertaler Schwebebahn (21079740406)",
+      "creator": "www.GlynLowe.com from Hamburg, Germany",
+      "license": "CC BY 2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wuppertal_Suspension_Railway_-_Wuppertaler_Schwebebahn_(21079740406).jpg"
+    }
+  },
   "zuerich": {
     "imageUrl": "/cities/ch/zuerich.jpg",
     "imageAttribution": {

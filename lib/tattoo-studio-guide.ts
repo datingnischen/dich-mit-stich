@@ -8,7 +8,7 @@ import linzManifest from "../data/tattoo-studio-guide-linz.json" with { type: "j
 import salzburgManifest from "../data/tattoo-studio-guide-salzburg.json" with { type: "json" };
 import wienManifest from "../data/tattoo-studio-guide-wien.json" with { type: "json" };
 import zuerichManifest from "../data/tattoo-studio-guide-zuerich.json" with { type: "json" };
-import deCityRollouts from "../data/tattoo-studio-city-rollouts-de.json" with { type: "json" };
+import deGuideCatalog from "../data/tattoo-studio-guides-de.json" with { type: "json" };
 import atTattooCities from "../data/tattoo-cities-at.json" with { type: "json" };
 import chTattooCities from "../data/tattoo-cities-ch.json" with { type: "json" };
 import cityImages from "../data/tattoo-city-images.json" with { type: "json" };
@@ -107,11 +107,9 @@ type SourceManifest = {
   studios: SourceStudio[];
 };
 
-type DeCityRolloutCatalog = {
+type DeGuideCatalog = {
   schemaVersion: number;
-  status: "rollout";
-  lastMigrated: string;
-  cities: Array<{ slug: string; name: string; region: string; sourceUrl: string }>;
+  manifests: SourceManifest[];
 };
 
 export const TATTOO_STUDIO_MARKETS = ["at", "ch"] as const;
@@ -242,6 +240,11 @@ export type TattooStudioCityGuide = {
     license: string;
     sourceUrl: string;
   };
+  legacyImageUrl: string | null;
+  legacyImageSourceUrl: string | null;
+  legacyImageAlt: string;
+  legacyImageWidth: number;
+  legacyImageHeight: number;
   publicationStatus: "verified" | "rollout";
   studios: TattooStudio[];
 };
@@ -273,12 +276,36 @@ const LOCAL_GUIDE_IMAGES: Partial<Record<string, string>> = {
   hannover: "/studio-guides/hannover.jpg",
 };
 
+const DE_LEGACY_TATTOO_IMAGE_SLUGS = new Set([
+  "berlin", "bochum", "bonn", "bremen", "dortmund", "dresden", "duisburg", "duesseldorf", "essen",
+  "frankfurt-am-main", "hamburg", "hannover", "karlsruhe", "koeln", "leipzig", "muenchen", "muenster",
+  "nuernberg", "stuttgart", "wuppertal",
+]);
+const DE_WIDE_LEGACY_TATTOO_IMAGES = new Set(["bonn", "dresden", "karlsruhe", "koeln", "muenchen"]);
+
+function getLegacyTattooImage(market: MarketCode, slug: string, cityName: string) {
+  if (market !== "de" || !DE_LEGACY_TATTOO_IMAGE_SLUGS.has(slug)) {
+    return { url: null, sourceUrl: null, alt: "", width: 0, height: 0 };
+  }
+  const width = DE_WIDE_LEGACY_TATTOO_IMAGES.has(slug) ? 1360 : 1024;
+  const filenameSlug = slug === "berlin" ? "berlin-2" : slug;
+  return {
+    url: `/tattoo-studios/cities/${slug}.webp`,
+    sourceUrl: `https://dich-mit-stich.de/tattoo-studios/wp-content/uploads/2026/05/${filenameSlug}-${width}x765.png`,
+    alt: `Tattoo-Illustration zum Stadtguide für ${cityName}`,
+    width,
+    height: 765,
+  };
+}
+
 export function normalizeTattooStudioManifest(source: SourceManifest): { guide: TattooStudioCityGuide } {
   const image = (cityImages as Record<string, {
     imageUrl: string;
     imageAttribution: { title: string; creator: string; license: string; sourceUrl: string };
   }>)[source.guide.citySlug];
   const market = source.guide.market as MarketCode;
+  const publicationStatus = source.guide.publicationStatus === "verified" ? "verified" : "rollout";
+  const legacyImage = getLegacyTattooImage(market, source.guide.citySlug, source.guide.cityName);
   return {
     guide: {
       identity: source.guide.identity,
@@ -296,61 +323,25 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
         ? LOCAL_GUIDE_IMAGES[source.guide.citySlug] || `/cities/${source.guide.citySlug}.jpg`
         : image?.imageUrl || null),
       imageAttribution: source.guide.imageAttribution || image?.imageAttribution || { title: "", creator: "", license: "", sourceUrl: "" },
-      publicationStatus: source.guide.publicationStatus || "verified",
-      studios: source.studios.map(normalizeStudio),
+      legacyImageUrl: legacyImage.url,
+      legacyImageSourceUrl: legacyImage.sourceUrl,
+      legacyImageAlt: legacyImage.alt,
+      legacyImageWidth: legacyImage.width,
+      legacyImageHeight: legacyImage.height,
+      publicationStatus,
+      studios: publicationStatus === "verified" ? source.studios.map(normalizeStudio) : [],
     },
   };
 }
 
-function buildDeRolloutManifests(): SourceManifest[] {
-  const catalog = deCityRollouts as DeCityRolloutCatalog;
-  return catalog.cities.map((city) => {
-    const editorialHtml = [
-      `<h2>Tattoo-Studio in ${city.name} auswählen</h2>`,
-      `<p>Der vorhandene Stadt-Einstieg für Tattoo-Studios in ${city.name} wird in der neuen Guide-Struktur weitergeführt. Einzelne Studio-Profile aus dem Altbestand übernehmen wir nicht ungeprüft. Sie folgen erst, wenn Name, Adresse, Kontaktweg und weitere Angaben über offizielle Studioquellen nachvollziehbar sind.</p>`,
-      "<h2>Portfolio, Beratung und Hygiene prüfen</h2>",
-      "<p>Vergleiche aktuelle und möglichst auch verheilte Arbeiten im gewünschten Stil. Kläre Motiv, Körperstelle, Größe, Ablauf und Nachsorge in einem persönlichen Beratungsgespräch. Preise, Öffnungszeiten und freie Termine solltest du immer direkt beim jeweiligen Studio bestätigen.</p>",
-      "<ul><li><strong>Portfolio:</strong> Passt die tatsächliche Arbeit des Artists zu deinem Motiv?</li><li><strong>Beratung:</strong> Werden Machbarkeit, Grenzen und Nachsorge verständlich erklärt?</li><li><strong>Hygiene:</strong> Verschaffe dir vor Ort einen eigenen Eindruck vom Ablauf.</li><li><strong>Kontakt:</strong> Prüfe Adresse, Terminweg und aktuelle Erreichbarkeit auf der offiziellen Studioseite.</li></ul>",
-      "<h2>Keine Rangliste und keine ungeprüften Empfehlungen</h2>",
-      `<p>Diese Stadtseite ist keine Bestenliste. Bis offizielle Quellen einzeln geprüft sind, veröffentlichen wir für ${city.name} bewusst keine übernommenen Studio-Rankings oder unbelegten Stilversprechen.</p>`,
-    ].join("\n");
-    const selectionMethodHtml = [
-      "<h2>Datenstand und nächste Ausbaustufe</h2>",
-      `<p>Der bestehende Legacy-Pfad für ${city.name} wurde am ${catalog.lastMigrated} in die neue Stadtguide-Struktur aufgenommen. Die früheren Einzelangaben zu Studios werden getrennt gegen offizielle Quellen geprüft.</p>`,
-      "<p>Erst vollständig belegte Profile werden ergänzt. Die Reihenfolge ist dann alphabetisch und weder eine Qualitätsbewertung noch eine bezahlte Rangfolge.</p>",
-    ].join("\n");
-
-    return {
-      schemaVersion: catalog.schemaVersion,
-      guide: {
-        identity: `DE:${city.slug}`,
-        country: "DE",
-        market: "de",
-        citySlug: city.slug,
-        cityName: city.name,
-        title: `Tattoo-Studios in ${city.name}: redaktioneller Stadtguide`,
-        sourceUrl: city.sourceUrl,
-        contentHtml: editorialHtml,
-        editorialHtml,
-        selectionMethodHtml,
-        lastVerified: catalog.lastMigrated,
-        publicationStatus: "rollout",
-        imageUrl: `/city-previews/${city.slug}.jpg`,
-        acf: { guide_region: city.region },
-      },
-      studios: [],
-    };
-  });
-}
-
-const guides = [berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest, ...buildDeRolloutManifests()]
+const guides = [berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest, ...(deGuideCatalog as DeGuideCatalog).manifests]
   .map((manifest) => normalizeTattooStudioManifest(manifest as SourceManifest).guide)
   .sort((left, right) => left.cityName.localeCompare(right.cityName, "de"));
 
 export function getLargestTattooStudioCities(market: MarketCode) {
   const marketGuides = guides.filter((guide) => guide.market === market);
   const guideSlugs = new Set(marketGuides.map((guide) => guide.slug));
-  const verifiedStudioSlugs = new Set(marketGuides.filter((guide) => guide.studios.length > 0).map((guide) => guide.slug));
+  const verifiedStudioSlugs = new Set(marketGuides.filter((guide) => guide.publicationStatus === "verified" && guide.studios.length > 0).map((guide) => guide.slug));
   return LARGEST_TATTOO_STUDIO_CITIES[market].map((city, index) => {
     const hasCityGuide = guideSlugs.has(city.slug);
     return {

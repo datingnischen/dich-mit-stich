@@ -2634,6 +2634,16 @@ img {
 .studio-guide-hero-mark strong { font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: 0.12em; }
 .studio-guide-hero-mark small { margin-top: 18px; letter-spacing: 0.26em; }
 
+.studio-directory-banner {
+  overflow: hidden;
+  margin: 28px 0 0;
+  border: 1px solid #decbd4;
+  border-radius: 24px;
+  background: #f7f4f3;
+  box-shadow: 0 18px 46px rgba(66, 35, 49, 0.1);
+}
+.studio-directory-banner img { display: block; width: 100%; height: auto; }
+
 .studio-guide-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2656,6 +2666,25 @@ img {
 .studio-guide-country-strip div { display: grid; gap: 7px; padding: 20px 24px; border-left: 1px solid var(--line); }
 .studio-guide-country-strip div:first-child { border-left: 4px solid var(--studio-accent); }
 .studio-guide-country-strip span { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.studio-city-finder-feature {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.75fr) minmax(360px, 1fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 56px);
+  overflow: hidden;
+  padding: clamp(24px, 5vw, 52px);
+  border-radius: 28px;
+  background: linear-gradient(135deg, #21191d, #4b2033);
+  color: #fff;
+  box-shadow: 0 22px 54px rgba(33, 25, 29, 0.18);
+}
+.studio-city-finder-copy { display: grid; align-content: center; gap: 18px; }
+.studio-city-finder-copy h2 { color: #fff; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.02; }
+.studio-city-finder-copy p { color: rgba(255, 255, 255, 0.78); line-height: 1.75; }
+.studio-city-finder-copy .button { justify-self: start; }
+.studio-city-finder-art { overflow: hidden; border-radius: 22px; background: #f7f4f3; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24); }
+.studio-city-finder-art img { display: block; width: 100%; height: auto; }
 
 .studio-guide-section-header { max-width: 760px; margin-bottom: 24px; }
 .studio-guide-section-header p { color: var(--muted); line-height: 1.7; }
@@ -2757,6 +2786,18 @@ img {
 .studio-editorial-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr); gap: 24px; align-items: start; }
 .studio-editorial-card,
 .studio-transparency-card { padding: clamp(24px, 4vw, 38px); border: 1px solid var(--line); border-radius: 24px; background: #fff; }
+.studio-editorial-tattoo-image {
+  overflow: hidden;
+  aspect-ratio: auto;
+  margin: 0 0 30px;
+  border: 1px solid #eadde3;
+  border-radius: 20px;
+  background: #f7f4f3;
+}
+.studio-editorial-tattoo-image img { display: block; width: 100%; height: auto; }
+.studio-editorial-tattoo-image figcaption { padding: 10px 14px; color: var(--muted); font-size: 0.78rem; line-height: 1.5; }
+.studio-editorial-tattoo-image a { color: var(--brand); font-weight: 750; text-decoration: underline; text-underline-offset: 2px; }
+.studio-editorial-tattoo-image a:focus-visible { outline: 3px solid #7b0f45; outline-offset: 2px; }
 .studio-editorial-card a[href*="/tattoo-singles/"]::before {
   display: inline-block;
   width: 0.95em;
@@ -2825,6 +2866,8 @@ img {
   .studio-detail-hero,
   .studio-editorial-layout,
   .studio-detail-grid { grid-template-columns: 1fr; }
+  .studio-city-finder-feature { grid-template-columns: 1fr; }
+  .studio-city-finder-art { width: min(100%, 620px); justify-self: center; }
   .studio-guide-hero-mark { min-height: 260px; }
   .studio-city-hero-media { min-height: 340px; }
   .studio-detail-monogram { min-height: 320px; }
@@ -2841,6 +2884,10 @@ img {
   .studio-guide-hero-copy,
   .studio-city-hero-copy,
   .studio-detail-hero-copy { padding: 30px 24px; }
+  .studio-directory-banner { margin-top: 18px; border-radius: 16px; }
+  .studio-city-finder-feature { padding: 24px 20px; border-radius: 22px; }
+  .studio-city-finder-copy .button { width: 100%; }
+  .studio-editorial-tattoo-image { margin-inline: -4px; border-radius: 16px; }
   .studio-guide-stats { grid-template-columns: 1fr; margin: 16px 0 0; }
   .studio-guide-stats li,
   .studio-guide-stats li:first-child { border-top: 1px solid #eadde3; border-left: 0; }

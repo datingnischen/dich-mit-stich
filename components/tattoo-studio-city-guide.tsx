@@ -217,6 +217,22 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
 
       <section className="content-section studio-editorial-layout" id="tattoo-stile">
         <article className="rich-content studio-editorial-card">
+          {guide.legacyImageUrl ? (
+            <figure className="studio-editorial-tattoo-image">
+              <Image
+                src={guide.legacyImageUrl}
+                alt={guide.legacyImageAlt}
+                width={guide.legacyImageWidth}
+                height={guide.legacyImageHeight}
+                loading="eager"
+                sizes="(max-width: 900px) calc(100vw - 64px), 650px"
+              />
+              <figcaption>
+                Tattoo-Illustration aus dem bisherigen Stadtguide
+                {guide.legacyImageSourceUrl ? <>{" · "}<a href={guide.legacyImageSourceUrl} target="_blank" rel="noopener noreferrer nofollow">Originalbild</a></> : null}
+              </figcaption>
+            </figure>
+          ) : null}
           <MarketHtmlContent html={guide.editorialHtml} market={market} />
         </article>
         <aside className="studio-transparency-card">

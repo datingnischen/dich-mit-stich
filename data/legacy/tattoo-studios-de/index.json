@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-21",
+  "sourceOverview": "https://dich-mit-stich.de/tattoo-studios/",
+  "records": [
+    {
+      "slug": "berlin",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/berlin/",
+      "title": "🐴 Tattoo-Studios in Berlin: Die besten Adressen finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Berlin: Die besten Adressen finden",
+      "published": "2026-05-02T00:15:58+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/berlin.html",
+      "textCharacters": 11800,
+      "htmlCharacters": 16392
+    },
+    {
+      "slug": "bochum",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/bochum/",
+      "title": "🐴 Tattoo-Studios in Bochum – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Bochum – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:28:37+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/bochum.html",
+      "textCharacters": 12068,
+      "htmlCharacters": 17146
+    },
+    {
+      "slug": "bonn",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/bonn/",
+      "title": "🐴 Tattoo-Studios in Bonn – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Bonn – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:34:19+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/bonn.html",
+      "textCharacters": 12663,
+      "htmlCharacters": 17340
+    },
+    {
+      "slug": "bremen",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/bremen/",
+      "title": "🐴 Tattoo-Studios in Bremen – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Bremen – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:21:15+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/bremen.html",
+      "textCharacters": 12075,
+      "htmlCharacters": 16745
+    },
+    {
+      "slug": "dortmund",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/dortmund/",
+      "title": "🐴 Tattoo-Studios in Dortmund – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Dortmund – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:12:06+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/dortmund.html",
+      "textCharacters": 12533,
+      "htmlCharacters": 17076
+    },
+    {
+      "slug": "dresden",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/dresden/",
+      "title": "🐴 Tattoo-Studios in Dresden – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Dresden – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:23:36+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/dresden.html",
+      "textCharacters": 11762,
+      "htmlCharacters": 17425
+    },
+    {
+      "slug": "duisburg",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/duisburg/",
+      "title": "🐴 Tattoo-Studios in Duisburg – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Duisburg – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:25:51+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/duisburg.html",
+      "textCharacters": 12690,
+      "htmlCharacters": 18430
+    },
+    {
+      "slug": "duesseldorf",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/duesseldorf/",
+      "title": "🐴 Tattoo-Studios in Düsseldorf – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Düsseldorf – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:07:12+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/duesseldorf.html",
+      "textCharacters": 11269,
+      "htmlCharacters": 15353
+    },
+    {
+      "slug": "essen",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/essen/",
+      "title": "🐴 Tattoo-Studios in Essen – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Essen – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:14:28+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/essen.html",
+      "textCharacters": 12560,
+      "htmlCharacters": 17595
+    },
+    {
+      "slug": "frankfurt-am-main",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/frankfurt-am-main/",
+      "title": "🐴 Tattoo-Studios in Frankfurt am Main – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Frankfurt am Main – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:01:13+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/frankfurt-am-main.html",
+      "textCharacters": 11277,
+      "htmlCharacters": 16323
+    },
+    {
+      "slug": "hamburg",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/hamburg/",
+      "title": "🐴 Tattoo-Studios in Hamburg – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Hamburg – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T10:57:55+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/hamburg.html",
+      "textCharacters": 12162,
+      "htmlCharacters": 16793
+    },
+    {
+      "slug": "hannover",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/hannover/",
+      "title": "🐴 Tattoo-Studios in Hannover – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Hannover – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:17:02+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/hannover.html",
+      "textCharacters": 11728,
+      "htmlCharacters": 16396
+    },
+    {
+      "slug": "karlsruhe",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/karlsruhe/",
+      "title": "🐴 Tattoo-Studios in Karlsruhe – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Karlsruhe – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:39:17+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/karlsruhe.html",
+      "textCharacters": 13002,
+      "htmlCharacters": 18981
+    },
+    {
+      "slug": "koeln",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/koeln/",
+      "title": "🐴 Tattoo-Studios in Köln – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Köln – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T10:59:03+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/koeln.html",
+      "textCharacters": 10813,
+      "htmlCharacters": 16233
+    },
+    {
+      "slug": "leipzig",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/leipzig/",
+      "title": "🐴 Tattoo-Studios in Leipzig – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Leipzig – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:09:34+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/leipzig.html",
+      "textCharacters": 12636,
+      "htmlCharacters": 18135
+    },
+    {
+      "slug": "muenchen",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/muenchen/",
+      "title": "🐴 Tattoo-Studios in München – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in München – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T10:56:51+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/muenchen.html",
+      "textCharacters": 12086,
+      "htmlCharacters": 16870
+    },
+    {
+      "slug": "muenster",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/muenster/",
+      "title": "🐴 Tattoo-Studios in Münster – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Münster – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:36:46+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/muenster.html",
+      "textCharacters": 14543,
+      "htmlCharacters": 19637
+    },
+    {
+      "slug": "nuernberg",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/nuernberg/",
+      "title": "🐴 Tattoo-Studios in Nürnberg – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Nürnberg – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:55:39+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/nuernberg.html",
+      "textCharacters": 10841,
+      "htmlCharacters": 16260
+    },
+    {
+      "slug": "stuttgart",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/stuttgart/",
+      "title": "🐴 Tattoo-Studios in Stuttgart – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Stuttgart – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:04:54+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/stuttgart.html",
+      "textCharacters": 12706,
+      "htmlCharacters": 17387
+    },
+    {
+      "slug": "wuppertal",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/wuppertal/",
+      "title": "🐴 Tattoo-Studios in Wuppertal – Die besten Tattoo-Studios finden - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Wuppertal – Die besten Tattoo-Studios finden",
+      "published": "2026-05-11T11:31:14+02:00",
+      "snapshotPath": "data/legacy/tattoo-studios-de/wuppertal.html",
+      "textCharacters": 13211,
+      "htmlCharacters": 17700
+    },
+    {
+      "slug": "deutschland",
+      "sourceUrl": "https://dich-mit-stich.de/tattoo-studios/deutschland/",
+      "title": "🐴 Tattoo-Studios in Deutschland: Städteübersicht - Tattoo Studios - Dich-mit-Stich.de",
+      "h1": "Tattoo-Studios in Deutschland: Städteübersicht",
+      "published": "",
+      "snapshotPath": "data/legacy/tattoo-studios-de/deutschland.html",
+      "textCharacters": 1546,
+      "htmlCharacters": 3520
+    }
+  ]
+}

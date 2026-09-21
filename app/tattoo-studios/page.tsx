@@ -12,14 +12,14 @@ import { getLargestTattooStudioCities, getTattooStudioCities } from "@/lib/tatto
 
 export const metadata: Metadata = {
   title: "Tattoo-Studio-Guide für Deutschland",
-  description: "Entdecke redaktionell geprüfte Tattoo-Studios nach Stadt und Stil – transparent, aktuell und ohne gekaufte Ranglisten.",
+  description: "Entdecke Tattoo-Studio-Stadtguides mit Auswahlhilfen, sichtbaren Quellen und klar gekennzeichnetem Prüfstatus – ohne gekaufte Ranglisten.",
   alternates: { canonical: publicUrl("de", "/tattoo-studios") },
 };
 
 export default function TattooStudioGuidePage() {
   const cities = getTattooStudioCities("de");
   const largestCities = getLargestTattooStudioCities("de");
-  const verifiedCities = cities.filter((city) => city.studios.length > 0);
+  const guideCities = cities;
   const largestCitySlugs = new Set(largestCities.map((city) => city.slug));
   const guideCitySlugs = new Set(cities.map((city) => city.slug));
   const additionalTattooCities = getTattooCityDirectory().filter(
@@ -52,9 +52,20 @@ export default function TattooStudioGuidePage() {
           </div>
         </section>
 
+        <figure className="studio-directory-banner">
+          <Image
+            src="/tattoo-studios/tattoo-studio-verzeichnis-deutschland.png"
+            alt="Dich mit Stich Tattoo-Studio-Verzeichnis für Deutschland mit Tattoo-Maschine und Standort-Symbolen"
+            width={1983}
+            height={626}
+            sizes="(max-width: 1152px) calc(100vw - 32px), 1120px"
+            priority
+          />
+        </figure>
+
         <ul className="studio-guide-stats" aria-label="Aktueller Umfang des Tattoo-Studio-Guides">
           <li><strong>{studioCount}</strong><span>strukturierte Studios</span></li>
-          <li><strong>{largestCities.length}</strong><span>deutsche Studio-Stadtseiten</span></li>
+          <li><strong>{cities.length}</strong><span>deutsche Studio-Stadtseiten</span></li>
           <li><strong>0</strong><span>gekaufte Rangplätze</span></li>
         </ul>
 
@@ -64,14 +75,34 @@ export default function TattooStudioGuidePage() {
           <div><span>Zürich-Guide verfügbar</span><strong>Schweiz</strong></div>
         </section>
 
-        <section className="content-section">
+        <section className="content-section studio-city-finder-feature" aria-labelledby="stadt-finder-heading">
+          <div className="studio-city-finder-copy">
+            <span className="eyebrow">Tattoo-Studios nach Stadt</span>
+            <h2 id="stadt-finder-heading">Finde den passenden Stadtguide</h2>
+            <p>Wähle deine Stadt und vergleiche vorhandene Studioangaben, Kontaktwege und redaktionelle Auswahlhinweise. Die Reihenfolge ist keine Rangliste.</p>
+            <a className="button button-primary" href="#stadtguides">Zu den Stadtguides</a>
+          </div>
+          <figure className="studio-city-finder-art">
+            <Image
+              src="/tattoo-studios/tattoo-studios-nach-stadt-deutschland.png"
+              alt="Deutschlandkarte mit markierten Tattoo-Studio-Städten Hamburg, Berlin, Köln, Frankfurt und München"
+              width={768}
+              height={768}
+              loading="eager"
+              sizes="(max-width: 900px) calc(100vw - 64px), 480px"
+            />
+          </figure>
+        </section>
+
+        <section className="content-section" id="stadtguides">
           <div className="section-header studio-guide-section-header">
             <span className="eyebrow">Stadtguides</span>
             <h2>Redaktionelle Studio-Guides nach Stadt</h2>
-            <p>Für Berlin und Hannover findest du geprüfte Profile, Quellen und konkrete Auswahlhilfen.</p>
+            <p>Alle Stadtseiten enthalten die übernommenen Auswahlhilfen und Stadttexte. Einzelne Studio-Profile und Kontaktangaben zeigen wir nur dort, wo sie bereits über nachvollziehbare Quellen geprüft wurden.</p>
+            <p>Die Listen sind als Orientierung gedacht und keine bezahlte Rangliste. Vor einem Termin solltest du Portfolio, Stil, Hygiene, Beratung, aktuelle Kontaktdaten und Verfügbarkeit immer direkt beim jeweiligen Studio prüfen.</p>
           </div>
           <div className="studio-city-grid">
-            {verifiedCities.map((city) => (
+            {guideCities.map((city) => (
               <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}`} key={city.identity}>
                 {city.imageUrl ? (
                   <span className="studio-city-card-media">
@@ -79,13 +110,22 @@ export default function TattooStudioGuidePage() {
                   </span>
                 ) : null}
                 <span className="studio-city-card-copy">
-                  <span>{city.region} · {city.studios.length} Studios</span>
+                  <span>{city.region} · {city.publicationStatus === "verified" ? `${city.studios.length} geprüfte Studios` : "Stadtguide übernommen"}</span>
                   <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
-                  <small>Redaktioneller Studio-Guide</small>
+                  <small>{city.publicationStatus === "verified" ? "Redaktioneller Studio-Guide" : "Studio-Profile in Prüfung"}</small>
                   <b>Stadtguide öffnen →</b>
                 </span>
               </Link>
             ))}
+          </div>
+          <div className="studio-guide-overview-copy">
+            <h3>So nutzt du die Tattoo-Studio-Übersicht</h3>
+            <ul>
+              <li>Vergleiche nicht nur die Entfernung, sondern vor allem Stil, Portfolio und abgeheilte Arbeiten.</li>
+              <li>Frage vorab nach Beratung, Motivgröße, Platzierung, Preisrahmen und Pflegehinweisen.</li>
+              <li>Nutze die verlinkten Studio-Webseiten als Ausgangspunkt und prüfe aktuelle Angaben direkt beim Anbieter.</li>
+            </ul>
+            <p>Wenn du außerdem tätowierte Singles kennenlernen möchtest, findest du passende regionale Datingseiten bei den <Link href="/tattoo-singles">Tattoo-Singles</Link>.</p>
           </div>
         </section>
 

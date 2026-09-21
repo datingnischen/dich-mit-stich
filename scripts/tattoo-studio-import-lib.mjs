@@ -15,7 +15,25 @@ const STYLE_PATTERNS = [
 
 const DE_REGION_BY_CITY = {
   berlin: "Berlin",
+  bochum: "Nordrhein-Westfalen",
+  bonn: "Nordrhein-Westfalen",
+  bremen: "Bremen",
+  dortmund: "Nordrhein-Westfalen",
+  dresden: "Sachsen",
+  duisburg: "Nordrhein-Westfalen",
+  duesseldorf: "Nordrhein-Westfalen",
+  essen: "Nordrhein-Westfalen",
+  "frankfurt-am-main": "Hessen",
+  hamburg: "Hamburg",
   hannover: "Niedersachsen",
+  karlsruhe: "Baden-Württemberg",
+  koeln: "Nordrhein-Westfalen",
+  leipzig: "Sachsen",
+  muenchen: "Bayern",
+  muenster: "Nordrhein-Westfalen",
+  nuernberg: "Bayern",
+  stuttgart: "Baden-Württemberg",
+  wuppertal: "Nordrhein-Westfalen",
 };
 
 const LEGACY_STUDIO_MATCHES = {

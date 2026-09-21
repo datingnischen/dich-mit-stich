@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: url },
-    robots: guide.studios.length ? undefined : { index: false, follow: true },
+    robots: guide.publicationStatus === "verified" && guide.studios.length ? undefined : { index: false, follow: true },
     openGraph: {
       type: "website",
       title,

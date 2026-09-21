@@ -148,7 +148,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
         </div>
         {imageUrl ? (
           <figure className="studio-city-hero-media">
-            <Image src={imageUrl} alt={`${guide.cityName} als Standort des Tattoo-Studio-Guides`} width={1200} height={800} sizes="(max-width: 900px) 100vw, 50vw" priority />
+            <Image src={imageUrl} alt={`${guide.cityName} als Standort des Tattoo-Studio-Guides`} width={1200} height={800} sizes="(max-width: 900px) 100vw, 50vw" unoptimized={market === "de"} priority />
             <figcaption>Foto: {guide.imageAttribution.creator} · {guide.imageAttribution.license}</figcaption>
           </figure>
         ) : null}
@@ -226,6 +226,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
                 height={guide.legacyImageHeight}
                 loading="eager"
                 sizes="(max-width: 900px) calc(100vw - 64px), 650px"
+                unoptimized
               />
               <figcaption>
                 Tattoo-Illustration aus dem bisherigen Stadtguide

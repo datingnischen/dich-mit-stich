@@ -59,6 +59,7 @@ export default function TattooStudioGuidePage() {
             width={1983}
             height={626}
             sizes="(max-width: 1152px) calc(100vw - 32px), 1120px"
+            unoptimized
             priority
           />
         </figure>
@@ -89,6 +90,7 @@ export default function TattooStudioGuidePage() {
               width={768}
               height={768}
               loading="eager"
+              unoptimized
               sizes="(max-width: 900px) calc(100vw - 64px), 480px"
             />
           </figure>
@@ -106,7 +108,7 @@ export default function TattooStudioGuidePage() {
               <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}`} key={city.identity}>
                 {city.imageUrl ? (
                   <span className="studio-city-card-media">
-                    <Image src={city.imageUrl} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" />
+                    <Image src={city.imageUrl} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" unoptimized />
                   </span>
                 ) : null}
                 <span className="studio-city-card-copy">
@@ -141,7 +143,7 @@ export default function TattooStudioGuidePage() {
             {additionalTattooCities.map((city) => (
               <Link className="studio-all-city-card" href={`/tattoo-singles/${city.slug}`} key={city.slug}>
                 <span className="studio-all-city-media">
-                  <Image src={city.imageUrl} alt={`Stadtansicht von ${city.label}`} width={220} height={150} sizes="(max-width: 640px) 112px, 150px" />
+                  <Image src={city.imageUrl} alt={`Stadtansicht von ${city.label}`} width={220} height={150} sizes="(max-width: 640px) 112px, 150px" unoptimized />
                 </span>
                 <span className="studio-all-city-copy">
                   <LocationPinIcon />

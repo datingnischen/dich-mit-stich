@@ -534,7 +534,8 @@ test("city guide keeps comparison, FAQ and studio cards compact and responsive",
   ]);
   assert.match(city, /className="studio-editorial-tattoo-image"/);
   assert.match(city, /guide\.legacyImageAlt/);
-  assert.doesNotMatch(city, /\bunoptimized\b/);
+  assert.match(city, /className="studio-city-hero-media"[\s\S]*unoptimized=\{market === "de"\}/);
+  assert.match(city, /src=\{guide\.legacyImageUrl\}[\s\S]*\bunoptimized\b/);
   assert.match(city, /src=\{guide\.legacyImageUrl\}[\s\S]*loading="eager"/);
   assert.match(city, /Tattoo-Illustration aus dem bisherigen Stadtguide/);
   assert.match(css, /\.studio-choice-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s);
@@ -549,17 +550,21 @@ test("city guide keeps comparison, FAQ and studio cards compact and responsive",
 });
 
 test("site navigation links to the new studio guide rather than the singles city list", async () => {
-  const [shell, page] = await Promise.all([
+  const [shell, page, largestCities] = await Promise.all([
     source("components/site-shell.tsx"),
     source("app/tattoo-studios/page.tsx"),
+    source("components/tattoo-studio-largest-cities.tsx"),
   ]);
   assert.match(shell, /Lieblings-Studios", href: "\/tattoo-studios"/);
   assert.match(shell, /Tattoo-Studio-Guide/);
   assert.match(shell, /Tattoo-Studios Berlin/);
   assert.match(page, /Tattoo-Studios Schweiz/);
   assert.match(page, /tattoo-studio-verzeichnis-deutschland\.png/);
+  assert.match(page, /tattoo-studio-verzeichnis-deutschland\.png[\s\S]*\bunoptimized\b/);
   assert.match(page, /tattoo-studios-nach-stadt-deutschland\.png/);
-  assert.match(page, /tattoo-studios-nach-stadt-deutschland\.png[\s\S]*loading="eager"/);
+  assert.match(page, /tattoo-studios-nach-stadt-deutschland\.png[\s\S]*loading="eager"[\s\S]*\bunoptimized\b/);
+  assert.match(page, /src=\{city\.imageUrl\}[\s\S]*\bunoptimized\b/);
+  assert.match(largestCities, /unoptimized=\{market === "de"\}/);
   assert.match(page, /href="#stadtguides"/);
   assert.match(page, /id="stadtguides"/);
   assert.match(page, /cities\.length/);

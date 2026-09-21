@@ -46,6 +46,7 @@ export function TattooStudioLargestCities({ market }: { market: MarketCode }) {
                 width={220}
                 height={150}
                 sizes="(max-width: 640px) 112px, 150px"
+                unoptimized={market === "de"}
               />
             </span>
             <span className="studio-all-city-copy">

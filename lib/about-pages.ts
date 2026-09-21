@@ -31,6 +31,7 @@ export type AboutCard = {
   image?: {
     src: string;
     alt: string;
+    fit?: "cover" | "contain";
   };
   link?: AboutLink;
 };
@@ -125,6 +126,11 @@ const expertCards: AboutCard[] = [
     title: "Icony GmbH",
     text: "Die Icony GmbH betreibt die Dating-Plattform und ist Ansprechpartnerin für Technik, Datenschutz und rechtliche Plattformthemen.",
     icon: "⚙",
+    image: {
+      src: "/brand/icony-gmbh-logo.png",
+      alt: "Icony GmbH",
+      fit: "contain",
+    },
   },
 ];
 

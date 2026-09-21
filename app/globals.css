@@ -2005,8 +2005,8 @@ img {
   }
 
   .header-menu-panel {
-    left: 0;
-    right: auto;
+    left: auto;
+    right: 0;
   }
 
   .hero-card,
@@ -2800,6 +2800,13 @@ img {
 .about-card-image img {
   object-fit: cover;
   object-position: center 32%;
+}
+
+.about-card-image-contain img {
+  padding: 22px;
+  background: #fff;
+  object-fit: contain;
+  object-position: center;
 }
 
 .about-card-icon {

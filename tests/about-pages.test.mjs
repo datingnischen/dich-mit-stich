@@ -144,7 +144,7 @@ test("success stories use market-aware internal links and published preview imag
 
   const component = await readFile(new URL("../components/about-page.tsx", import.meta.url), "utf8");
   assert.match(component, /import Image from "next\/image"/);
-  assert.match(component, /className="about-card-image"/);
+  assert.match(component, /about-card-image/);
   assert.match(component, /sizes=/);
 });
 
@@ -162,8 +162,23 @@ test("expert cards link to preview-aware profiles and show the published author 
       assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\//);
       assert.ok(card.image?.alt);
     }
-    assert.equal(page.cards[2].image, undefined);
+    assert.deepEqual(page.cards[2].image, {
+      src: "/brand/icony-gmbh-logo.png",
+      alt: "Icony GmbH",
+      fit: "contain",
+    });
   }
+
+  await assert.doesNotReject(
+    import("node:fs/promises").then(({ access }) => access(new URL("../public/brand/icony-gmbh-logo.png", import.meta.url))),
+  );
+
+  const [component, css] = await Promise.all([
+    readFile(new URL("../components/about-page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(component, /about-card-image-contain/);
+  assert.match(css, /\.about-card-image-contain img[\s\S]*object-fit:\s*contain/);
 });
 
 test("wires reusable rendered pages with canonical metadata and safe external links", async () => {

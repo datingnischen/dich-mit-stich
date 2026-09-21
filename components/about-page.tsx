@@ -33,7 +33,7 @@ function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["m
   const content = (
     <>
       {card.image ? (
-        <span className="about-card-image">
+        <span className={`about-card-image${card.image.fit === "contain" ? " about-card-image-contain" : ""}`}>
           <Image
             src={card.image.src}
             alt={card.image.alt}
@@ -42,7 +42,7 @@ function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["m
           />
         </span>
       ) : null}
-      <span className="about-card-icon" aria-hidden="true">{card.icon}</span>
+      {card.image?.fit === "contain" ? null : <span className="about-card-icon" aria-hidden="true">{card.icon}</span>}
       <span className="eyebrow">{card.eyebrow}</span>
       <h2>{card.title}</h2>
       <p>{card.text}</p>

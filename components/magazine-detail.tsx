@@ -7,6 +7,7 @@ import { MarketLink } from "@/components/market-link";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
+import { PublishedBookFeature } from "@/components/published-book-feature";
 import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { localizeFirstPartyText } from "@/lib/market-html";
@@ -17,7 +18,8 @@ import {
   getMarketMagazinePublishedProfileGraph,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { stripPublishedBookSchema } from "@/lib/published-book";
+import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
+import { staticAsset } from "@/lib/static-asset";
 import { formatGermanDate, stripHtml } from "@/lib/wordpress";
 
 export async function MagazineDetail({ market, slug }: { market: MarketCode; slug: string }) {
@@ -48,7 +50,14 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
 
   const authorProfile = entry.authorSlug ? await getMarketMagazineAuthorProfile(market, entry.authorSlug) : null;
   const authorHref = authorProfile?.profileUrl;
-  const { featuredImage, video: magazineVideo, editorialOverride, answerEngineEntry } = detailContext;
+  const { featuredImage: defaultFeaturedImage, video: magazineVideo, editorialOverride, answerEngineEntry } = detailContext;
+  const isPublishedExpertProfile = market === "de" && entry.slug === "unser-datingexperte";
+  const featuredImage = isPublishedExpertProfile
+    ? {
+        src: staticAsset("/images/profiles/christian-m-haas-datingexperte.webp"),
+        alt: "Christian M. Haas, Datingexperte und Autor",
+      }
+    : defaultFeaturedImage;
   const articleSummary = localizeFirstPartyText(
     answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 220),
     publicUrl(market),
@@ -67,11 +76,14 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     description: articleSummary,
     content: entry.content,
     modified: entry.modified,
-    personImage: authorProfile?.imageUrl,
+    personImage: isPublishedExpertProfile ? featuredImage?.src : authorProfile?.imageUrl,
     market,
   });
   const pageGraph = publishedProfileGraph ?? articleGraph;
-  const renderedContent = stripPublishedBookSchema(entry.content);
+  const contentWithoutSchema = stripPublishedBookSchema(entry.content);
+  const renderedContent = isPublishedExpertProfile
+    ? stripLegacyExpertPortrait(stripPublishedBookBlock(contentWithoutSchema))
+    : contentWithoutSchema;
   const isPiercingArticle = [entry.title, entry.slug, ...entry.categories.flatMap((category) => [category.name, category.slug])]
     .join(" ")
     .toLocaleLowerCase("de")
@@ -89,7 +101,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
         <span aria-current="page">{entry.title}</span>
       </nav>
 
-      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}`}>
+      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}${isPublishedExpertProfile ? " magazine-detail-cover-profile" : ""}`}>
         <header className="hero-card hero-magazine hero-magazine-editorial magazine-detail-hero">
           <span className="eyebrow">
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
@@ -127,10 +139,11 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
               <Image
                 src={featuredImage.src}
                 alt={featuredImage.alt}
-                width={1200}
-                height={675}
-                sizes="(max-width: 900px) 100vw, 1000px"
+                width={isPublishedExpertProfile ? 1402 : 1200}
+                height={isPublishedExpertProfile ? 1122 : 675}
+                sizes={isPublishedExpertProfile ? "(max-width: 760px) 100vw, 420px" : "(max-width: 900px) 100vw, 1000px"}
                 priority
+                unoptimized={isPublishedExpertProfile}
               />
             </figure>
           </section>
@@ -153,6 +166,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           <MarketHtmlContent market={market} html={renderedContent} />
         )}
       </section>
+
+      {isPublishedExpertProfile ? <PublishedBookFeature /> : null}
 
       {magazineVideo ? <MagazineVideo video={magazineVideo} /> : null}
 

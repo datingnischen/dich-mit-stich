@@ -33,7 +33,7 @@ after`,
   assert.equal(book.isbn, "9783696371210");
   assert.equal(book.datePublished, "2026-08-21");
   assert.equal(book.url, "https://www.amazon.de/dp/3696371211/");
-  assert.equal(book.image, "https://dich-mit-stich.de/magazin/wp-content/uploads/2026/08/dating-ohne-bullshit-cover.jpg");
+  assert.equal(book.image, "https://dich-mit-stich.vercel.app/app-assets/images/books/dating-ohne-bullshit-cover.webp");
 });
 
 test("ordinary pages and incomplete CMS blocks stay graph-free", async () => {
@@ -57,4 +57,19 @@ test("CMS Book schema is removed from rendered content to avoid duplicate nodes"
   const { stripPublishedBookSchema } = await import(modulePath.href);
   const content = 'before<!-- dating-ohne-bullshit-schema:start --><script type="application/ld+json">{"@type":"Book"}</script><!-- dating-ohne-bullshit-schema:end -->after';
   assert.equal(stripPublishedBookSchema(content), "beforeafter");
+});
+
+test("CMS book feature block can be replaced by the polished local component", async () => {
+  const { stripPublishedBookBlock } = await import(modulePath.href);
+  const marked = "before<!-- dating-ohne-bullshit-book:start --><section>legacy book</section><!-- dating-ohne-bullshit-book:end -->after";
+  assert.equal(stripPublishedBookBlock(marked), "beforeafter");
+
+  const unmarked = 'before<section><img src="https://example.com/cover.jpg" alt="Dating ohne Bullshit"><h2>Dating ohne Bullshit</h2><p>ISBN 978-3-6963-7121-0</p><a href="https://www.amazon.de/dp/3696371211/">Amazon</a></section>after';
+  assert.equal(stripPublishedBookBlock(unmarked), "beforeafter");
+});
+
+test("legacy low-resolution expert portrait is removed from the polished profile body", async () => {
+  const { stripLegacyExpertPortrait } = await import(modulePath.href);
+  const content = 'before<p><img src="https://dich-mit-stich.de/magazin/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png" alt="Datingexperte" width="200" height="300"></p><h2>Profil</h2>';
+  assert.equal(stripLegacyExpertPortrait(content), "before<h2>Profil</h2>");
 });

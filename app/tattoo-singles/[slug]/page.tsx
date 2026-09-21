@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { IconySinglesWidget } from "@/components/icony-singles-widget";
+import { conversionUrl } from "@/lib/conversion-links";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
@@ -38,6 +39,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
 
   const cityName = cityPage.cityName;
   const widgetConfig = getIconyCityWidgetConfig("de", slug);
+  const registrationUrl = conversionUrl(publicUrl("de"), "/registration/", "location");
 
   return (
     <main className="shell shell-narrow">
@@ -52,9 +54,9 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
             <li>Direkter Weg zur kostenlosen Registrierung</li>
           </ul>
           <div className="button-row">
-            <Link className="button button-primary" href={cityPage.registrationUrl}>
+            <a className="button button-primary" href={registrationUrl}>
               Kostenlos registrieren
-            </Link>
+            </a>
             <Link className="button button-secondary" href="/tattoo-singles">
               Alle Städte ansehen
             </Link>
@@ -81,9 +83,9 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
               Entdecke neue Singles aus {cityName} und der Umgebung, die deinen Stil teilen und Lust auf echte
               Kontakte haben. Starte kostenlos und schau dir an, wer in deiner Region gerade aktiv ist.
             </p>
-            <Link className="button button-primary" href={cityPage.registrationUrl}>
+            <a className="button button-primary" href={registrationUrl}>
               Jetzt kostenlos starten
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -130,6 +132,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
         <section className="content-section">
           <ExpertTrustCard
             profile={expert}
+            aid="location"
             eyebrow="Begleitet von unserem Datingexperten"
             title={`Die Stadtseite für ${cityName} lehnt sich an den echten Dich-mit-Stich-Stil an und bleibt redaktionell begleitet.`}
           />

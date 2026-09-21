@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage } from "@/lib/about-pages";
+import { conversionUrl } from "@/lib/conversion-links";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -179,7 +180,7 @@ export function AboutPageView({ page }: { page: AboutPage }) {
             <h2>Finde Menschen, die deinen Stil verstehen.</h2>
             <p>Starte kostenlos und entscheide selbst, wen du kennenlernen möchtest.</p>
           </div>
-          <a className="button button-primary" href={publicUrl(page.market, "/registration/")}>Kostenlos registrieren</a>
+          <a className="button button-primary" href={conversionUrl(publicUrl(page.market), "/registration/", "location")}>Kostenlos registrieren</a>
         </section>
       </main>
     </SiteFrame>

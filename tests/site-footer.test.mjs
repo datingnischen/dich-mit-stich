@@ -29,7 +29,7 @@ test("footer keeps its link diversity inside four intentional topic groups", asy
   assert.match(shell, /<footer className="site-footer-shell" id="site-footer">/);
   assert.match(shell, /footer-surface footer-surface-compact/);
   assert.match(shell, /className="footer-compact-main"/);
-  assert.match(shell, /className="footer-surface"/);
+  assert.match(shell, /className=\{`footer-surface\$\{stickyCta \? " footer-surface-sticky" : ""\}`\}/);
   assert.match(shell, /const footerGroups/);
   assert.match(shell, /className="footer-topic-group"/);
   assert.match(shell, /className="footer-topic-columns"/);
@@ -79,9 +79,27 @@ test("footer styles provide a cohesive responsive hierarchy without hiding navig
   assert.match(css, /\.footer-topic-columns\s*\{/);
   assert.match(mobileFooterCss, /\.footer-link-grid[\s\S]*grid-template-columns:\s*1fr/s);
   assert.match(
-    mobileFooterCss,
-    /\.footer-surface:not\(\.footer-surface-compact\)\s*\{[^}]*padding-bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom, 0px\)\);/s,
+    css,
+    /\.site-footer-shell:has\(\+ \.sticky-cta-button\) \.footer-surface\.footer-surface-sticky\s*\{[^}]*padding-bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom, 0px\)\);/s,
   );
   assert.doesNotMatch(mobileFooterCss, /\.footer-surface\s*\{[^}]*padding-bottom:/s);
   assert.doesNotMatch(css, /\.footer-column\s*\{[^}]*border-radius:\s*28px/s);
+});
+
+test("all non-magazine public registration surfaces default to location attribution", async () => {
+  const [frame, home, about, faq, preview, expert] = await Promise.all([
+    read("components/site-frame.tsx"),
+    read("components/home-page.tsx"),
+    read("components/about-page.tsx"),
+    read("components/faq-page.tsx"),
+    read("app/market-preview/[market]/page.tsx"),
+    read("components/expert-trust-card.tsx"),
+  ]);
+
+  assert.match(frame, /aid = "location"/);
+  assert.match(expert, /aid = "location"/);
+  for (const source of [home, about, faq, preview]) {
+    assert.match(source, /conversionUrl\([^\n]+"\/registration\/", "location"\)/);
+    assert.doesNotMatch(source, /href=\{publicUrl\([^\n]+"\/registration\/"\)\}/);
+  }
 });

@@ -11,15 +11,16 @@ type SiteFrameProps = {
   aid?: ConversionAid;
 };
 
-export function SiteFrame({ children, market = "de", sectionLive = false, stickyCta = false, aid }: SiteFrameProps) {
+export function SiteFrame({ children, market = "de", sectionLive = false, stickyCta = false, aid = "location" }: SiteFrameProps) {
   const config = getMarket(market);
+  const showStickyCta = config.contentEnabled || (sectionLive && stickyCta);
 
   return (
     <>
       <SiteHeader market={market} sectionLive={sectionLive} aid={aid} />
       {children}
-      <SiteFooter market={market} sectionLive={sectionLive} stickyCta={sectionLive && stickyCta} aid={aid} />
-      {config.contentEnabled || (sectionLive && stickyCta) ? <StickyCTAButton market={market} aid={aid} /> : null}
+      <SiteFooter market={market} sectionLive={sectionLive} stickyCta={showStickyCta} aid={aid} />
+      {showStickyCta ? <StickyCTAButton market={market} aid={aid} /> : null}
     </>
   );
 }

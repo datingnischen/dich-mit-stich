@@ -279,7 +279,7 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
 
   return (
     <footer className="site-footer-shell" id="site-footer">
-      <div className="footer-surface">
+      <div className={`footer-surface${stickyCta ? " footer-surface-sticky" : ""}`}>
         <section className="footer-cta footer-cta-dark" aria-label="Registrierung">
           <div className="footer-cta-copy">
             <p className="footer-kicker">Szene-Dating mit Profil</p>

@@ -1,5 +1,6 @@
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
+import { conversionUrl } from "@/lib/conversion-links";
 import { buildFaqGraph, FAQ_PATH, getFaqSections, type FaqAnswerPart } from "@/lib/faq";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { publicUrl, type MarketCode } from "@/lib/markets";
@@ -78,7 +79,7 @@ export function FaqPageView({ market }: { market: MarketCode }) {
             <h2>Finde Menschen, die deinen Stil verstehen.</h2>
             <p>Die Registrierung ist kostenlos. Leistungen und Preise einer Premium-Mitgliedschaft werden vor dem Abschluss angezeigt.</p>
           </div>
-          <a className="button button-primary" href={publicUrl(market, "/registration/")}>Kostenlos registrieren</a>
+          <a className="button button-primary" href={conversionUrl(publicUrl(market), "/registration/", "location")}>Kostenlos registrieren</a>
         </section>
 
         <nav className="faq-related-links" aria-label="Weitere Informationen">

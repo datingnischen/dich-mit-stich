@@ -104,6 +104,7 @@ test("normal magazine entries render one reusable Flirtradar conversion after ed
   assert.equal((detail.match(/<MagazineDatingCta market=\{market\} \/>/g) || []).length, 1);
   assert.ok(detail.indexOf("<MagazineDatingCta market={market} />") > detail.indexOf('className="rich-content"'));
   assert.ok(detail.indexOf("<MagazineDatingCta market={market} />") < detail.indexOf("<ExpertTrustCard"));
+  assert.match(detail, /<ExpertTrustCard[\s\S]*aid="magazin"[\s\S]*\/>/);
   assert.doesNotMatch(detail, /registration\/">Kostenlos registrieren/);
 
   assert.match(component, /staticAsset\("\/brand\/flirtradar-umkreissuche\.png"\)/);

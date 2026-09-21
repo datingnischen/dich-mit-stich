@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { MarketLink } from "@/components/market-link";
+import { conversionUrl } from "@/lib/conversion-links";
 import { type MarketCode, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
@@ -17,7 +18,6 @@ const AT_OVERVIEW_HERO = {
   description: "Finde jetzt tätowierte Singles aus Österreich und entdecke als Erstes unsere Städte- und Szenenübersicht.",
   sectionTitle: "Tattoo-Singles in Österreich",
   sectionLead: "Wähle deine Stadt und öffne direkt den passenden Tattoo-Singles-Guide mit Bild, Szene-Tipps und lokalem Einstieg.",
-  registrationUrl: publicUrl("at", "/registration/"),
   image: {
     path: "/images/at/dich-mit-stich-at-overview-hero.webp",
     alt: "Finde jetzt tätowierte Singles aus Österreich",
@@ -89,7 +89,7 @@ function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
           <AttributionCaption sourceUrl={AT_OVERVIEW_HERO.image.sourceUrl} />
         </figure>
         <div className="button-row">
-          <a className="button button-primary" href={AT_OVERVIEW_HERO.registrationUrl}>
+          <a className="button button-primary" href={conversionUrl(publicUrl("at"), "/registration/", "location")}>
             Kostenlos registrieren
           </a>
         </div>
@@ -151,7 +151,7 @@ function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
           <AttributionCaption sourceUrl="https://static-cms.icony-hosting.de/cms/639CB037D8430757BEE61CDBFF2A243E7794CCCBA1E5242CB0B73A56AB076DB4/1000/dich-mit-stich-ch-partnersuche.jpg" />
         </figure>
         <div className="button-row">
-          <a className="button button-primary" href={publicUrl("ch", "/registration/")}>
+          <a className="button button-primary" href={conversionUrl(publicUrl("ch"), "/registration/", "location")}>
             Kostenlos registrieren
           </a>
         </div>

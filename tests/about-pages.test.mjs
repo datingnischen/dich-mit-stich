@@ -38,6 +38,29 @@ test("defines the canonical Dich-mit-Stich about hierarchy for every market", as
   assert.equal(getAboutPage("ch", "presseberichte"), null);
 });
 
+test("every data-driven About registration CTA carries location attribution", async () => {
+  const { ABOUT_SLUGS, getAboutPage } = await loadAboutPages();
+
+  for (const market of ["de", "at", "ch"]) {
+    for (const slug of [null, ...ABOUT_SLUGS]) {
+      const page = getAboutPage(market, slug);
+      const links = [
+        page.primaryCta,
+        page.secondaryCta,
+        ...page.cards.map((card) => card.link),
+        ...(page.detailSections ?? []).map((section) => section.cta),
+      ].filter(Boolean);
+
+      for (const link of links) {
+        const url = new URL(link.href, `https://dich-mit-stich.${market === "de" ? "de" : market}`);
+        if (url.pathname.replace(/\/$/, "") === "/registration") {
+          assert.equal(url.searchParams.get("AID"), "location", `${market}/${slug ?? "root"}: ${link.label}`);
+        }
+      }
+    }
+  }
+});
+
 test("routes the complete about hierarchy to live DE, AT and CH pages", async () => {
   const { ABOUT_PATHS } = await loadAboutPages();
   const { resolveMarketRequest } = await import("../lib/markets.ts");

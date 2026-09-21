@@ -12,7 +12,7 @@ function ctaFromPathname(pathname: string, market: MarketCode, aid?: ConversionA
   if (aid === 'location' || withoutMarketPrefix(pathname).startsWith('/tattoo-singles')) {
     return {
       text: 'Tattoo-Singles in deiner Stadt finden',
-      href: `${publicUrl(market)}?AID=location`,
+      href: conversionUrl(publicUrl(market), '/registration/', 'location'),
     };
   }
 

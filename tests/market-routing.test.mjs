@@ -308,7 +308,7 @@ test("AT market preview exposes all imported Austria city pages", async () => {
   const previewSource = await readFile(new URL("../app/market-preview/[market]/page.tsx", import.meta.url), "utf8");
 
   assert.match(previewSource, /publicUrl\(market, "\/tattoo-singles"\)/);
-  assert.match(previewSource, /publicUrl\(market, "\/registration\/"\)/);
+  assert.match(previewSource, /conversionUrl\(publicUrl\(market\), "\/registration\/", "location"\)/);
   assert.match(previewSource, /pathname=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
   assert.match(previewSource, /label: "Wien"/);
   assert.match(previewSource, /label: "Graz"/);

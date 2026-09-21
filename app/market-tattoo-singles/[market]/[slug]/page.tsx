@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { IconySinglesWidget } from "@/components/icony-singles-widget";
 import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
+import { conversionUrl } from "@/lib/conversion-links";
 import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
@@ -69,6 +70,7 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
   if (!city) notFound();
   const copy = MARKET_COPY[market];
   const widgetConfig = getIconyCityWidgetConfig(market, slug);
+  const registrationUrl = conversionUrl(publicUrl(market), "/registration/", "location");
 
   return (
     <main className="shell shell-narrow">
@@ -83,7 +85,7 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
             <li>Direkter Weg zur kostenlosen Registrierung</li>
           </ul>
           <div className="button-row">
-            <a className="button button-primary" href={city.registrationUrl}>Kostenlos registrieren</a>
+            <a className="button button-primary" href={registrationUrl}>Kostenlos registrieren</a>
             <MarketLink className="button button-secondary" targetMarket={market} pathname="/tattoo-singles">
               {copy.cityIndexLabel}
             </MarketLink>
@@ -107,7 +109,7 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
             <span className="eyebrow">{copy.datingEyebrow}</span>
             <h2>{city.heroTitle}</h2>
             <p>Entdecke tätowierte und gepiercte Singles aus {city.cityName} und der Umgebung.</p>
-            <a className="button button-primary" href={city.registrationUrl}>Jetzt kostenlos starten</a>
+            <a className="button button-primary" href={registrationUrl}>Jetzt kostenlos starten</a>
           </div>
         </div>
       </section>

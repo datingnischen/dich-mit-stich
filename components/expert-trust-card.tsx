@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { MarketLink } from "@/components/market-link";
+import { conversionUrl, type ConversionAid } from "@/lib/conversion-links";
 import type { ExpertProfile } from "@/lib/expert-profile";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import { publicUrl, type MarketCode } from "@/lib/markets";
@@ -11,6 +12,7 @@ type ExpertTrustCardProps = {
   primaryLabel?: string;
   primaryHref?: string;
   market?: MarketCode;
+  aid?: ConversionAid;
 };
 
 export function ExpertTrustCard({
@@ -20,6 +22,7 @@ export function ExpertTrustCard({
   primaryLabel = "Zum Expertenprofil",
   primaryHref,
   market = "de",
+  aid = "location",
 }: ExpertTrustCardProps) {
   return (
     <article className="expert-card panel-card">
@@ -60,7 +63,7 @@ export function ExpertTrustCard({
           <MarketLink className="button button-primary" targetMarket={market} pathname={primaryHref || profile.profileUrl}>
             {primaryLabel}
           </MarketLink>
-          <a className="button button-secondary" href={publicUrl(market, "/registration/")}>
+          <a className="button button-secondary" href={conversionUrl(publicUrl(market), "/registration/", aid)}>
             Kostenlos registrieren
           </a>
         </div>

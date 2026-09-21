@@ -163,6 +163,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           <ExpertTrustCard
             profile={authorProfile}
             market={market}
+            aid="magazin"
             eyebrow={authorProfile.slug === "redaktion" ? "Autor & Datingexperte" : "Autorin im Magazin"}
             title={
               authorProfile.slug === "redaktion"

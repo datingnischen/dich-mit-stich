@@ -332,11 +332,52 @@ test("studio city and detail pages keep every shell conversion CTA on AID locati
   assert.match(chStudioLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
   assert.match(frame, /config\.contentEnabled \|\| \(sectionLive && stickyCta\)/);
   assert.match(frame, /<SiteHeader market=\{market\} sectionLive=\{sectionLive\} aid=\{aid\}/);
-  assert.match(frame, /<SiteFooter market=\{market\} sectionLive=\{sectionLive\} stickyCta=\{sectionLive && stickyCta\} aid=\{aid\}/);
+  assert.match(frame, /<SiteFooter market=\{market\} sectionLive=\{sectionLive\} stickyCta=\{showStickyCta\} aid=\{aid\}/);
   assert.match(shell, /stickyCta \? " footer-surface-sticky" : ""/);
   assert.match(frame, /<StickyCTAButton market=\{market\} aid=\{aid\}/);
   assert.match(shell, /return conversionUrl\(publicUrl\(market\), pathname, aid\)/);
   assert.match(sticky, /aid === 'location'/);
+});
+
+test("sticky conversion bar stays visible on desktop without covering the footer", async () => {
+  const [frame, shell, css] = await Promise.all([
+    source("components/site-frame.tsx"),
+    source("components/site-shell.tsx"),
+    source("app/globals.css"),
+  ]);
+
+  assert.match(frame, /const showStickyCta = config\.contentEnabled \|\| \(sectionLive && stickyCta\)/);
+  assert.match(frame, /stickyCta=\{showStickyCta\}/);
+  assert.match(shell, /className=\{`footer-surface\$\{stickyCta \? " footer-surface-sticky" : ""\}`\}/);
+  assert.match(css, /\.sticky-cta-button\s*\{[^}]*display:\s*flex/s);
+  assert.doesNotMatch(css, /\.sticky-cta-button\s*\{[^}]*display:\s*none/s);
+  assert.match(css, /\.site-footer-shell:has\(\+ \.sticky-cta-button\) \.footer-surface\.footer-surface-sticky\s*\{[^}]*padding-bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom, 0px\)\)/s);
+  assert.doesNotMatch(css, /(?<!\)) \.footer-surface\.footer-surface-sticky\s*\{/);
+});
+
+test("every Tattoo-Singles registration surface uses location attribution", async () => {
+  const [deLayout, marketLayout, deOverview, deCity, marketOverview, marketCity, sticky, expertCard] = await Promise.all([
+    source("app/tattoo-singles/layout.tsx"),
+    source("app/market-tattoo-singles/[market]/layout.tsx"),
+    source("app/tattoo-singles/page.tsx"),
+    source("app/tattoo-singles/[slug]/page.tsx"),
+    source("app/market-tattoo-singles/[market]/page.tsx"),
+    source("app/market-tattoo-singles/[market]/[slug]/page.tsx"),
+    source("components/sticky-cta-button.tsx"),
+    source("components/expert-trust-card.tsx"),
+  ]);
+
+  assert.match(deLayout, /<SiteFrame market="de" aid="location">/);
+  assert.match(marketLayout, /<SiteFrame market=\{market\} sectionLive stickyCta aid="location">/);
+  for (const page of [deOverview, deCity, marketOverview, marketCity]) {
+    assert.match(page, /conversionUrl\([^\n]+"\/registration\/", "location"\)/);
+    assert.doesNotMatch(page, /href=\{?(?:cityPage|city|AT_OVERVIEW_HERO)\.registrationUrl\}?/);
+    assert.doesNotMatch(page, /href="\/registration\/"/);
+  }
+  assert.match(sticky, /conversionUrl\(publicUrl\(market\), '\/registration\/', 'location'\)/);
+  assert.doesNotMatch(sticky, /`\$\{publicUrl\(market\)\}\?AID=location`/);
+  assert.match(deCity, /<ExpertTrustCard[\s\S]*aid="location"[\s\S]*\/>/);
+  assert.match(expertCard, /href=\{conversionUrl\(publicUrl\(market\), "\/registration\/", aid\)\}/);
 });
 
 test("DE, AT and CH city routes use the same complete studio-guide architecture", async () => {
@@ -437,7 +478,7 @@ test("city guide keeps comparison, FAQ and studio cards compact and responsive",
   assert.match(css, /@media \(max-width: 900px\)[\s\S]*\.studio-choice-grid[^{]*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.tattoo-studio-card-mark\s*\{[^}]*min-height:\s*88px/s);
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.studio-city-hero-media\s*\{[^}]*min-height:\s*220px/s);
-  assert.match(css, /@media \(max-width: 900px\)\s*\{(?:(?!@media)[\s\S])*\.footer-surface-compact\.footer-surface-sticky\s*\{[^}]*padding-bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom, 0px\)\)/);
+  assert.match(css, /\.site-footer-shell:has\(\+ \.sticky-cta-button\) \.footer-surface\.footer-surface-sticky\s*\{[^}]*padding-bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom, 0px\)\)/s);
   assert.doesNotMatch(css, /\.footer-surface-compact\s*\{[^}]*padding-bottom:\s*calc\(88px/);
 });
 

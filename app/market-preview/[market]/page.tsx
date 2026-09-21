@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
+import { conversionUrl } from "@/lib/conversion-links";
 import { getMarket, isMarketCode, publicUrl, type MarketCode } from "@/lib/markets";
 
 const AT_IMPORTANT_CITY_LINKS = [
@@ -64,7 +65,7 @@ export default async function MarketPreviewPage({ params }: PageProps) {
             {showAustriaLinks ? (
               <>
                 <a className="button button-primary" href={publicUrl(market, "/tattoo-singles")}>Tattoo-Singles Österreich</a>
-                <a className="button button-secondary" href={publicUrl(market, "/registration/")}>Kostenlos registrieren</a>
+                <a className="button button-secondary" href={conversionUrl(publicUrl(market), "/registration/", "location")}>Kostenlos registrieren</a>
               </>
             ) : (
               <>

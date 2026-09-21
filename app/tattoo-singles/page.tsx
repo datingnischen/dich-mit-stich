@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { conversionUrl } from "@/lib/conversion-links";
 import { publicUrl } from "@/lib/markets";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 
@@ -20,9 +21,9 @@ export default async function TattooSinglesOverviewPage() {
         <h1>{overview.title}</h1>
         <p>{overview.description}</p>
         <div className="button-row">
-          <Link className="button button-primary" href="/registration/">
+          <a className="button button-primary" href={conversionUrl(publicUrl("de"), "/registration/", "location")}>
             Kostenlos registrieren
-          </Link>
+          </a>
           <Link className="button button-secondary" href="/magazin">
             Magazin ansehen
           </Link>

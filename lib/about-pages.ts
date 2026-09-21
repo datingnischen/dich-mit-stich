@@ -1,3 +1,4 @@
+import { conversionUrl } from "./conversion-links.ts";
 import { getMarket, publicUrl, type MarketCode } from "./markets.ts";
 
 export const ABOUT_ROOT_PATH = "/ueber-uns";
@@ -67,6 +68,10 @@ const countryPhrase: Record<MarketCode, string> = {
   at: "in Österreich",
   ch: "in der Schweiz",
 };
+
+function locationRegistrationUrl(market: MarketCode) {
+  return conversionUrl(publicUrl(market), "/registration/", "location");
+}
 
 const socialCards: AboutCard[] = [
   {
@@ -214,7 +219,7 @@ function rootPage(market: MarketCode): AboutPage {
       internalCard("kooperationen", "Gemeinsam aktiv", "Kooperationen", "Möglichkeiten für Studios, Creator, Medien und Szene-Communities.", "↗"),
     ],
     primaryCta: { label: "Expertenteam kennenlernen", href: aboutPath("expertenteam") },
-    secondaryCta: { label: "Kostenlos registrieren", href: publicUrl(market, "/registration/"), external: true },
+    secondaryCta: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },
   };
 }
 
@@ -251,7 +256,7 @@ function storiesPage(market: MarketCode): AboutPage {
     sectionTitle: "Drei Geschichten, drei eigene Wege",
     sectionLead: "Die Beiträge erzählen individuelle Erfahrungen und sind kein Versprechen für einen bestimmten Ausgang deiner Partnersuche.",
     cards: storyCards,
-    primaryCta: { label: "Kostenlos selbst starten", href: publicUrl(market, "/registration/"), external: true },
+    primaryCta: { label: "Kostenlos selbst starten", href: locationRegistrationUrl(market), external: true },
     secondaryCta: { label: "Zur Über-uns-Übersicht", href: ABOUT_ROOT_PATH },
   };
 }
@@ -375,7 +380,7 @@ function reviewsPage(market: MarketCode): AboutPage {
         title: "Kostenlos umsehen",
         text: "Starte kostenlos und entscheide selbst, ob Zielgruppe, Profile und Funktionen zu dir passen.",
         icon: "→",
-        link: { label: "Kostenlos registrieren", href: publicUrl(market, "/registration/"), external: true },
+        link: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },
       },
     ],
     primaryCta: { label: "Aktuelle Bewertungen ansehen", href: "https://de.trustpilot.com/review/dich-mit-stich.de", external: true },

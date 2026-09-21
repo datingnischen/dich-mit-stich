@@ -24,7 +24,7 @@ test("homepage wrappers reuse one country-aware renderer", async () => {
   assert.match(renderer, /Von Wien bis Graz/);
   assert.match(renderer, /Von Zürich bis Basel/);
   assert.match(renderer, /<MarketLink/);
-  assert.match(renderer, /href=\{publicUrl\(market, "\/registration\/"\)\}/);
+  assert.match(renderer, /href=\{conversionUrl\(publicUrl\(market\), "\/registration\/", "location"\)\}/);
   assert.doesNotMatch(renderer, /from "next\/link"/);
 });
 
@@ -152,7 +152,8 @@ test("shared magazine rendering keeps preview navigation and country conversion 
   assert.match(cta, /conversionUrl\(publicUrl\(market\), "\/", "magazin"\)/);
   assert.match(cta, /<MarketLink[^>]*targetMarket=\{market\}[^>]*pathname="\/tattoo-singles"/);
   assert.match(expert, /<MarketLink/);
-  assert.match(expert, /href=\{publicUrl\(market, "\/registration\/"\)\}/);
+  assert.match(expert, /href=\{conversionUrl\(publicUrl\(market\), "\/registration\/", aid\)\}/);
+  assert.match(detail, /<ExpertTrustCard[\s\S]*aid="magazin"[\s\S]*\/>/);
   assert.match(override, /<MarketLink/);
 
   const { conversionUrl } = await import("../lib/conversion-links.ts");

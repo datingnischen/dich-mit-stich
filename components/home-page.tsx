@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
+import { conversionUrl } from "@/lib/conversion-links";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineCatalog } from "@/lib/market-magazine";
@@ -82,7 +83,7 @@ export async function HomePage({ market }: { market: MarketCode }) {
             <li>Szene-Fokus statt austauschbarer Massenbörse</li>
           </ul>
           <div className="button-row">
-            <a className="button button-primary" href={publicUrl(market, "/registration/")}>
+            <a className="button button-primary" href={conversionUrl(publicUrl(market), "/registration/", "location")}>
               Kostenlos registrieren
             </a>
             <MarketLink className="button button-secondary" targetMarket={market} pathname="/tattoo-singles">
@@ -127,7 +128,7 @@ export async function HomePage({ market }: { market: MarketCode }) {
             <li>Ideal für Szene-Dating mit lokalem Fokus</li>
           </ul>
           <div className="button-row">
-            <a className="button button-primary" href={publicUrl(market, "/registration/")}>
+            <a className="button button-primary" href={conversionUrl(publicUrl(market), "/registration/", "location")}>
               Kostenlos anmelden
             </a>
             <MarketLink className="button button-secondary" targetMarket={market} pathname="/tattoo-singles">

@@ -16,5 +16,5 @@ export default async function MarketTattooSinglesLayout({ children, params }: La
     notFound();
   }
 
-  return <SiteFrame market={market} sectionLive>{children}</SiteFrame>;
+  return <SiteFrame market={market} sectionLive stickyCta aid="location">{children}</SiteFrame>;
 }

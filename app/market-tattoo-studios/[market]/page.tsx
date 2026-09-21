@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const copy = MARKET_COPY[market];
   return {
     title: `Tattoo-Studio-Guide ${copy.countryName}`,
-    description: `Ausgewählte Tattoo-Studios in ${copy.locationPhrase} mit nachvollziehbaren Primärquellen, Adressen und transparentem Prüfdatum.`,
+    description: `Entdecke Tattoo-Studios in ${copy.locationPhrase} mit Adressen, direkten Links und praktischen Tipps für deine Auswahl.`,
     alternates: { canonical: publicUrl(market, "/tattoo-studios") },
     robots: { index: false, follow: true },
   };
@@ -85,7 +85,6 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
   if (!isTattooStudioMarket(market)) notFound();
   const copy = MARKET_COPY[market];
   const cities = getTattooStudioCities(market);
-  const studioCount = cities.reduce((total, city) => total + city.studios.length, 0);
 
   return (
     <main className="shell studio-guide-shell">
@@ -93,10 +92,10 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
         <div className="studio-guide-hero-copy">
           <span className="eyebrow studio-guide-eyebrow">Dich mit Stich {copy.countryName} · Studio Guide</span>
           <h1>Tattoo-Studio-Guide für {copy.countryWithArticle}</h1>
-          <p>Entdecke sorgfältig recherchierte Studios nach Stadt und Stil – mit offiziellen Quellen, sichtbarem Prüfdatum und ohne gekaufte Ranglisten.</p>
+          <p>Finde Tattoo-Studios nach Stadt und Stil. Vergleiche Adressen, direkte Links und praktische Tipps für deine Auswahl.</p>
           <div className="button-row">
             <a className="button button-primary" href="#stadtguides">Stadtguides ansehen</a>
-            <a className="button button-secondary" href="#guide-prinzipien">Unser Rechercheprinzip</a>
+            <a className="button button-secondary" href="#guide-prinzipien">Darauf solltest du achten</a>
           </div>
         </div>
         <div className="studio-guide-hero-mark" aria-hidden="true"><span>INK</span><strong>GUIDE</strong><small>{copy.regionLabel} · STÄDTE</small></div>
@@ -114,17 +113,11 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
         />
       </figure>
 
-      <ul className="studio-guide-stats" aria-label={`Aktueller Umfang des Tattoo-Studio-Guides für ${copy.countryWithArticle}`}>
-        <li><strong>{studioCount}</strong><span>strukturierte Studios</span></li>
-        <li><strong>{cities.length}</strong><span>redaktionelle Stadtguides</span></li>
-        <li><strong>0</strong><span>gekaufte Rangplätze</span></li>
-      </ul>
-
       <section className="content-section studio-city-finder-feature" aria-labelledby="markt-stadt-finder-heading">
         <div className="studio-city-finder-copy">
           <span className="eyebrow">Tattoo-Studios nach Stadt</span>
           <h2 id="markt-stadt-finder-heading">Finde den passenden Stadtguide</h2>
-          <p>Wähle deine Stadt und vergleiche Studioangaben, Kontaktwege und redaktionelle Auswahlhinweise. Die Reihenfolge ist keine Rangliste.</p>
+          <p>Wähle deine Stadt und vergleiche Portfolios, Adressen und Kontaktwege. Die Reihenfolge ist keine Rangliste.</p>
           <a className="button button-primary" href="#stadtguides">Zu den Stadtguides</a>
         </div>
         <figure className="studio-city-finder-art">
@@ -144,7 +137,7 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
         <div className="section-header studio-guide-section-header">
           <span className="eyebrow">{copy.adjective} Stadtguides</span>
           <h2>Studio-Guides nach Stadt</h2>
-          <p>Jeder Eintrag wird gegen eine offizielle öffentliche Quelle geprüft, bevor er im Guide erscheint.</p>
+          <p>Wähle deine Stadt und entdecke Studios, direkte Links und Tipps für deine Auswahl.</p>
         </div>
         <div className="studio-city-grid">
           {cities.map((city) => (
@@ -155,10 +148,10 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
                 </span>
               ) : null}
               <span className="studio-city-card-copy">
-                <span>{city.region} · {city.studios.length} Studios</span>
+                <span>{city.region}</span>
                 <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
-                <small>Redaktioneller Studio-Guide</small>
-                <b>Stadtguide öffnen →</b>
+                <small>{city.studios.length} Studios und Tipps zur Auswahl</small>
+                <b>Studios in {city.cityName} entdecken →</b>
               </span>
             </MarketLink>
           ))}
@@ -168,11 +161,11 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
       <TattooStudioLargestCities market={market} />
 
       <section className="content-section studio-guide-principles" id="guide-prinzipien">
-        <div className="section-header"><span className="eyebrow">Unser Standard</span><h2>Nachvollziehbar statt Bewertungsportal</h2></div>
+        <div className="section-header"><span className="eyebrow">Deine Studiosuche</span><h2>Darauf solltest du bei der Studiosuche achten</h2></div>
         <div className="studio-principle-grid">
-          <article><span>01</span><h3>Primärquellen</h3><p>Website, Adresse und Stilprofil stammen nach Möglichkeit direkt vom Studio.</p></article>
-          <article><span>02</span><h3>Keine Rangliste</h3><p>Die Reihenfolge ist keine Qualitätsbewertung und enthält keine erfundenen Sterne.</p></article>
-          <article><span>03</span><h3>Prüfdatum sichtbar</h3><p>Jeder Datensatz zeigt, wann die öffentliche Quelle zuletzt redaktionell geprüft wurde.</p></article>
+          <article><span>01</span><h3>Portfolio vergleichen</h3><p>Achte auf Arbeiten im gewünschten Stil und schau dir nach Möglichkeit auch abgeheilte Tattoos an.</p></article>
+          <article><span>02</span><h3>Persönlich beraten lassen</h3><p>Kläre Motiv, Platzierung, Preisrahmen und Pflegehinweise direkt mit dem Studio.</p></article>
+          <article><span>03</span><h3>Hygiene ernst nehmen</h3><p>Ein sauberes Studio, transparente Abläufe und verständliche Nachsorgehinweise sind wichtiger als Rankings.</p></article>
         </div>
       </section>
     </main>

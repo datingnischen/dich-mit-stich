@@ -45,7 +45,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
         <section className="hero-card hero-magazine hero-magazine-editorial magazine-intro-card">
           <span className="eyebrow">Flirtradar {market.toUpperCase()}</span>
           <h1>Das Magazin für {copy.country} entsteht gerade.</h1>
-          <p>{copy.description} Inhalte aus dem deutschen Magazin werden nicht automatisch übernommen.</p>
+          <p>{copy.description}</p>
           <div className="button-row">
             <a className="button button-primary" href={conversionUrl(publicUrl(market), "/", "magazin")}>
               Flirtradar kostenlos nutzen

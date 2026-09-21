@@ -91,7 +91,7 @@ export function TattooStudioDetail({ studio, city, market }: TattooStudioDetailP
             {studio.websiteUrl ? (
               <a className="button button-primary" href={studio.websiteUrl} target="_blank" rel="noopener noreferrer nofollow">Website des Studios öffnen</a>
             ) : (
-              <span className="button button-primary" aria-disabled="true">Keine verifizierte Website</span>
+              <span className="button button-primary" aria-disabled="true">Keine Website verfügbar</span>
             )}
             <MarketLink className="button button-secondary" targetMarket={market} pathname={`/tattoo-studios/${studio.citySlug}`}>Weitere Studios in {studio.cityName}</MarketLink>
           </div>
@@ -103,23 +103,22 @@ export function TattooStudioDetail({ studio, city, market }: TattooStudioDetailP
           <span className="eyebrow">Studio-Steckbrief</span>
           <dl>
             <div className="studio-detail-place"><dt><LocationPinIcon /> Standort</dt><dd><small>{studio.cityName}</small><strong>{studio.address}</strong></dd></div>
-            <div><dt>Kontakt</dt><dd>{studio.contact || "Keine verifizierten Kontaktdaten"}</dd></div>
-            <div><dt>Website</dt><dd>{studio.websiteUrl ? <a href={studio.websiteUrl} target="_blank" rel="noopener noreferrer nofollow">{new URL(studio.websiteUrl).hostname}</a> : "Nicht belastbar bestätigt"}</dd></div>
-            <div><dt>Datenstatus</dt><dd>Redaktionell erfasst</dd></div>
+            <div><dt>Kontakt</dt><dd>{studio.contact || "Keine Kontaktdaten verfügbar"}</dd></div>
+            <div><dt>Website</dt><dd>{studio.websiteUrl ? <a href={studio.websiteUrl} target="_blank" rel="noopener noreferrer nofollow">{new URL(studio.websiteUrl).hostname}</a> : "Nicht verfügbar"}</dd></div>
           </dl>
         </article>
         <aside className="panel-card studio-trust-card">
-          <span className="eyebrow">Vertrauen & Aktualität</span>
-          <h2>Transparent statt Sterne-Ranking</h2>
+          <span className="eyebrow">Wichtige Hinweise</span>
+          <h2>Angaben vor dem Termin prüfen</h2>
           <ul>
-            <li>Zuletzt redaktionell geprüft: <strong>{formatDate(studio.lastVerified, market)}</strong></li>
+            <li>Stand der Angaben: <strong>{formatDate(studio.lastVerified, market)}</strong></li>
             <li>Keine bezahlte Platzierung</li>
-            <li>Angaben basieren auf öffentlich zugänglichen Studioinformationen</li>
+            <li>Kontaktdaten, Preise und freie Termine immer direkt beim Studio klären</li>
           </ul>
           {sourceIsGuide ? (
-            <MarketLink targetMarket={market} pathname={`/tattoo-studios/${studio.citySlug}`}>Redaktionelle Ausgangsseite öffnen →</MarketLink>
+            <MarketLink targetMarket={market} pathname={`/tattoo-studios/${studio.citySlug}`}>Zum Stadtguide →</MarketLink>
           ) : (
-            <a href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Redaktionelle Quelle öffnen →</a>
+            <a href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Quelle zum Studio öffnen →</a>
           )}
           <a href={correctionHref}>Datenänderung melden →</a>
         </aside>

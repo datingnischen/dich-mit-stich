@@ -66,22 +66,19 @@ test("Austrian and Swiss studio overviews use matching country artwork", async (
 });
 
 test("all studio overviews visibly list the ten largest cities with honest destination labels", async () => {
-  const [deOverview, marketOverview, shared, css] = await Promise.all([
+  const [deOverview, marketOverview, shared] = await Promise.all([
     source("app/tattoo-studios/page.tsx"),
     source("app/market-tattoo-studios/[market]/page.tsx"),
     source("components/tattoo-studio-largest-cities.tsx"),
-    source("app/globals.css"),
   ]);
 
   assert.doesNotMatch(deOverview, /studio-guide-stats/);
-  assert.match(marketOverview, /className="studio-guide-stats"/);
-  assert.match(css, /\.studio-guide-stats\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s);
-  assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.studio-guide-stats\s*\{[^}]*grid-template-columns:\s*1fr/s);
+  assert.doesNotMatch(marketOverview, /studio-guide-stats|strukturierte Studios|redaktionelle Stadtguides|gekaufte Rangplätze/);
   assert.match(deOverview, /<TattooStudioLargestCities market="de"/);
   assert.match(marketOverview, /<TattooStudioLargestCities market=\{market\}/);
   assert.match(shared, /getLargestTattooStudioCities/);
   assert.match(shared, /Die 10 größten Städte/);
-  assert.match(shared, /city\.hasVerifiedStudios \? "Geprüfte Studios ansehen"/);
+  assert.match(shared, /city\.hasVerifiedStudios \? "Tattoo-Studios entdecken"/);
   assert.match(shared, /targetMarket=\{market\}/);
   assert.match(shared, /pathname=\{city\.href\}/);
   assert.match(shared, /rel="noopener noreferrer nofollow"/);
@@ -125,7 +122,7 @@ test("German legacy city pages expose sourced editorial copy and fail closed on 
 
   assert.doesNotMatch(generatedCatalog, /entry-footer|entry-content|post-content|kategorie\/tattoo-studios|<!--\s*\.(?:entry|post)-content|<\/div>/i);
   assert.match(cityRoute, /guide\.publicationStatus === "verified"/);
-  assert.match(cityRenderer, /Noch keine einzeln verifizierten Studio-Profile/);
+  assert.match(cityRenderer, /Noch keine Studio-Profile/);
   assert.match(cityRenderer, /studios\.length \? \(/);
   assert.doesNotMatch(cityRenderer, /<p>\{studios\.length\} redaktionell erfasste Studios/);
 });
@@ -379,7 +376,7 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(city, /<time dateTime=\{guide\.lastVerified\}>/);
   assert.doesNotMatch(city, /String\(index \+ 1\)\.padStart/);
   assert.match(city, /\/tattoo-studio\/\$\{studio\.slug\}/);
-  assert.match(city, /Zuletzt redaktionell geprüft/);
+  assert.match(city, /Stand des Stadtguides/);
   assert.match(city, /Keine bezahlte Platzierung/);
   assert.match(city, /href=\{studio\.sourceUrl\}/);
   assert.match(city, /\? "Webseite" : "Datenquelle"/);
@@ -395,10 +392,13 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(studio, /rel="noopener noreferrer nofollow"/);
   assert.match(studio, /studio\.websiteUrl\s*\?/);
   assert.match(city, /const sourceIsGuide = normalizeUrl\(studio\.sourceUrl\) === normalizeUrl\(guide\.sourceUrl\)/);
-  assert.match(city, /Keine offizielle Studioseite verifiziert/);
+  assert.match(city, /Keine eigene Studio-Webseite verfügbar/);
+  assert.doesNotMatch(city, /guide\.selectionMethodHtml|dangerouslySetInnerHTML=\{\{ __html: guide\.selectionMethodHtml \}\}/);
+  assert.match(city, /So findest du das passende Studio/);
   assert.match(studio, /const sourceIsGuide = normalizeUrl\(studio\.sourceUrl\) === normalizeUrl\(city\.sourceUrl\)/);
-  assert.match(studio, /Redaktionelle Ausgangsseite öffnen/);
-  assert.match(studio, /Keine verifizierte Website/);
+  assert.match(studio, /Zum Stadtguide/);
+  assert.match(studio, /Keine Website verfügbar/);
+  assert.doesNotMatch(`${city}\n${studio}`, /übernommen|in Prüfung|Prüfstatus|Prüfdatum|redaktionellen Check|[Vv]erifizierte(?:n|r)? (?:Website|Kontaktdaten|Studio-Profile)|Redaktionelle Ausgangsseite|Datenstatus/);
   assert.match(studio, /Datenänderung melden/);
 });
 
@@ -483,7 +483,7 @@ test("DE, AT and CH city routes use the same complete studio-guide architecture"
   }
   assert.match(shared, /const studios = \[\.\.\.guide\.studios\]\.sort/);
   assert.match(shared, /sourceIsPage/);
-  assert.match(shared, /Einzelquellen findest du direkt bei den Studios/);
+  assert.match(shared, /Webseiten und Kontaktwege findest du direkt bei den Studios/);
 });
 
 test("DE, AT and CH detail routes use the same honest studio-profile architecture", async () => {
@@ -500,7 +500,7 @@ test("DE, AT and CH detail routes use the same honest studio-profile architectur
   assert.match(shared, /hasCompleteStreetAddress\(studio\.address\)/);
   assert.match(shared, /className="studio-detail-place"/);
   assert.match(shared, /<LocationPinIcon/);
-  assert.match(shared, /Keine verifizierte Website/);
+  assert.match(shared, /Keine Website verfügbar/);
 });
 
 test("studio locations and city text links use a consistent place treatment", async () => {
@@ -569,7 +569,7 @@ test("city guide keeps comparison, FAQ and studio cards compact and responsive",
   assert.match(city, /className="studio-city-hero-media"[\s\S]*unoptimized=\{market === "de"\}/);
   assert.match(city, /src=\{guide\.legacyImageUrl\}[\s\S]*\bunoptimized\b/);
   assert.match(city, /src=\{guide\.legacyImageUrl\}[\s\S]*loading="eager"/);
-  assert.match(city, /Tattoo-Illustration aus dem bisherigen Stadtguide/);
+  assert.match(city, /Tattoo-Illustration aus dem Stadtguide/);
   assert.match(css, /\.studio-choice-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s);
   assert.match(css, /\.studio-faq-list\s*\{/);
   assert.match(css, /\.studio-hero-actions\s*\{/);
@@ -600,8 +600,11 @@ test("site navigation links to the new studio guide rather than the singles city
   assert.match(page, /href="#stadtguides"/);
   assert.match(page, /id="stadtguides"/);
   assert.match(page, /guideCities\.map/);
-  assert.match(page, /Alle Stadtseiten enthalten die übernommenen Auswahlhilfen und Stadttexte/);
-  assert.match(page, /Studio-Profile in Prüfung/);
+  assert.match(page, /Wähle deine Stadt und entdecke hilfreiche Tipps für deine Studiosuche/);
+  assert.match(page, /city\.publicationStatus === "verified" \? `\$\{city\.studios\.length\} Studios und Tipps zur Auswahl` : "Tipps für deine Studiosuche"/);
+  assert.match(page, /city\.publicationStatus === "verified" \? `Studios in \$\{city\.cityName\} entdecken` : `Guide für \$\{city\.cityName\} öffnen`/);
+  assert.match(page, /Darauf solltest du bei der Studiosuche achten/);
   assert.match(page, /Vergleiche nicht nur die Entfernung/);
+  assert.doesNotMatch(`${page}\n${largestCities}`, /übernommen|in Prüfung|Prüfstatus|Prüfdatum|So prüfen wir Studios|redaktionellen Check|[Gg]eprüfte Studios|[Vv]erifizierte Einzelprofile/);
   assert.doesNotMatch(page, /Für Berlin und Hannover findest du/);
 });

@@ -12,15 +12,15 @@ import {
 const MARKET_COPY: Record<MarketCode, { heading: string; intro: string }> = {
   de: {
     heading: "Die 10 größten Städte Deutschlands",
-    intro: "Alle zehn Städte führen jetzt zu einer eigenen Tattoo-Studio-Stadtseite. Verifizierte Einzelprofile zeigen wir nur dort, wo offizielle Studioquellen bereits geprüft sind.",
+    intro: "Von Berlin bis Essen: Wähle deine Stadt und öffne den passenden Guide für deine Studiosuche vor Ort.",
   },
   at: {
     heading: "Die 10 größten Städte Österreichs",
-    intro: "Öffne vorhandene Studio-Guides direkt. Für weitere große Städte führt die Karte zur veröffentlichten Tattoo-Stadtseite, bis ausreichend offizielle Studioquellen für einen eigenen Guide geprüft sind.",
+    intro: "Wähle eine der größten Städte Österreichs und entdecke den passenden Studio- oder Tattoo-Stadtguide.",
   },
   ch: {
     heading: "Die 10 grössten Städte der Schweiz",
-    intro: "Öffne vorhandene Studio-Guides direkt. Für weitere grosse Städte führt die Karte zur veröffentlichten Tattoo-Stadtseite, bis ausreichend offizielle Studioquellen für einen eigenen Guide geprüft sind.",
+    intro: "Wähle eine der grössten Städte der Schweiz und entdecke den passenden Studio- oder Tattoo-Stadtguide.",
   },
 };
 
@@ -54,7 +54,7 @@ export function TattooStudioLargestCities({ market }: { market: MarketCode }) {
               <span>
                 <small>Platz {city.rank}</small>
                 <strong>{city.label}</strong>
-                <small>{city.hasVerifiedStudios ? "Geprüfte Studios ansehen" : city.hasCityGuide ? "Studio-Stadtseite öffnen" : "Tattoo-Stadtseite öffnen"}</small>
+                <small>{city.hasVerifiedStudios ? "Tattoo-Studios entdecken" : city.hasCityGuide ? "Studio-Guide öffnen" : "Tattoo-Stadtguide öffnen"}</small>
               </span>
             </span>
           </MarketLink>

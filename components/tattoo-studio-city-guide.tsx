@@ -16,8 +16,8 @@ type TattooStudioCityGuideProps = {
 
 export function tattooStudioCityDescription(cityName: string, studioCount: number) {
   return studioCount
-    ? `${studioCount} ausgewählte Tattoo-Studios in ${cityName} mit Adressen, Quellen und Prüfdatum. Stilhinweise nur, soweit sie öffentlich belegt sind.`
-    : `Redaktionelle Stadtseite für Tattoo-Studios in ${cityName}. Einzelne Studio-Profile folgen erst nach Prüfung offizieller Quellen.`;
+    ? `${studioCount} Tattoo-Studios in ${cityName} mit Adressen, direkten Links und praktischen Tipps für deine Auswahl.`
+    : `Tattoo-Stadtguide für ${cityName} mit Tipps zu Stil, Portfolio, Beratung und Hygiene.`;
 }
 
 function formatDate(value: string, market: MarketCode) {
@@ -47,8 +47,8 @@ function faqItems(cityName: string, market: MarketCode): FaqItem[] {
       answer: `Diese Angaben können sich kurzfristig ändern. Prüfe Preise, ${openingHours}, Terminverfügbarkeit und den genauen Ablauf deshalb immer direkt beim jeweiligen Studio.`,
     },
     {
-      question: "Welche Angaben prüft Dich mit Stich?",
-      answer: "Wir gleichen öffentlich zugängliche Quellen zu Namen, Standort, Kontaktwegen und ausdrücklich genannten Schwerpunkten ab. Das sichtbare Prüfdatum zeigt, wann die redaktionelle Kontrolle zuletzt erfolgte.",
+      question: "Wo finde ich aktuelle Angaben zum Studio?",
+      answer: "Nutze die verlinkte Studio-Webseite für aktuelle Kontaktdaten, Öffnungszeiten, Preise und freie Termine. Diese Angaben können sich jederzeit ändern.",
     },
   ];
 }
@@ -135,15 +135,15 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           <span className="eyebrow studio-guide-eyebrow">{guide.region} · {marketGuideLabel}Studio Guide</span>
           <h1>Tattoo-Studios in {guide.cityName}</h1>
           <p>{isRollout
-            ? "Die Stadtseite ist bereits verfügbar. Einzelne Studio-Profile folgen erst, wenn ihre Angaben über offizielle Quellen geprüft sind."
-            : `${studios.length} redaktionell erfasste Studios mit Adressen, Quellen und ausdrücklich belegten Stilhinweisen – transparent und ohne Rangliste.`}</p>
+            ? `Nutze den Stadtguide für deine Studiosuche in ${guide.cityName}. Aktuell findest du hier noch keine einzelnen Studio-Profile.`
+            : `${studios.length} Tattoo-Studios mit Adressen, direkten Links und hilfreichen Auswahlhinweisen – alphabetisch und ohne Rangliste.`}</p>
           <div className="studio-hero-actions">
             {studios.length ? <a className="button button-primary" href="#studio-auswahl">Studios vergleichen</a> : null}
             <a className="button button-secondary" href={studios.length ? "#auswahl-check" : "#tattoo-stile"}>{studios.length ? "Auswahl-Check ansehen" : "Stadtguide lesen"}</a>
           </div>
           <div className="studio-verification-line">
             <span aria-hidden="true">✓</span>
-            <div><strong>{isRollout ? "Stadtseite in neue Struktur übernommen" : "Zuletzt redaktionell geprüft"}</strong><time dateTime={guide.lastVerified}>{formatDate(guide.lastVerified, market)}</time></div>
+            <div><strong>Stand des Stadtguides</strong><time dateTime={guide.lastVerified}>{formatDate(guide.lastVerified, market)}</time></div>
           </div>
         </div>
         {imageUrl ? (
@@ -157,10 +157,10 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
       <section className="content-section studio-list-section" id="studio-auswahl" aria-labelledby="studio-auswahl-heading">
         <div className="section-header studio-guide-section-header">
           <span className="eyebrow">Studio-Auswahl</span>
-          <h2 id="studio-auswahl-heading">{studios.length ? `${studios.length} Tattoo-Studios in ${guide.cityName}` : `Studio-Profile für ${guide.cityName} in Prüfung`}</h2>
+          <h2 id="studio-auswahl-heading">{studios.length ? `${studios.length} Tattoo-Studios in ${guide.cityName}` : `So findest du ein Tattoo-Studio in ${guide.cityName}`}</h2>
           <p>{studios.length
-            ? "Alphabetische Auswahl, keine Rangliste. Öffne ein Profil für Quellen, Kontaktangaben und den jeweiligen Datenstand."
-            : "Noch keine einzeln verifizierten Studio-Profile. Der frühere Bestand wird nicht ungeprüft übernommen; neue Profile erscheinen erst mit nachvollziehbarer offizieller Quelle."}</p>
+            ? "Alphabetische Auswahl, keine Rangliste. Öffne ein Profil für Kontaktangaben, Links und weitere Details."
+            : "Vergleiche Portfolios, Stil, Beratung und Hygiene direkt bei den Studios. Der Stadtguide hilft dir mit den wichtigsten Fragen für deine Auswahl."}</p>
         </div>
         {studios.length ? (
           <div className="tattoo-studio-grid">
@@ -170,7 +170,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
                 <article className="tattoo-studio-card" key={studio.identity}>
                   <div className="tattoo-studio-card-mark" aria-hidden="true"><strong>{studio.name.slice(0, 2).toUpperCase()}</strong></div>
                   <div className="tattoo-studio-card-copy">
-                    <div className="tattoo-studio-card-head"><span>{studio.styles.length ? "Stilhinweise vorhanden" : "Redaktionell erfasst"}</span><h3>{studio.name}</h3></div>
+                    <div className="tattoo-studio-card-head"><span>{studio.styles.length ? "Stilhinweise vorhanden" : `Studio in ${guide.cityName}`}</span><h3>{studio.name}</h3></div>
                     <p>{studio.description}</p>
                     {studio.styles.length ? <div className="studio-style-row" aria-label="Öffentlich belegte Stilhinweise">{studio.styles.map((style) => <span key={style.slug}>{style.label}</span>)}</div> : null}
                     <div className="studio-place-card">
@@ -179,7 +179,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
                     </div>
                     <div className="studio-card-actions">
                       {sourceIsGuide && !studio.websiteUrl ? (
-                        <span className="studio-card-source-missing">Keine offizielle Studioseite verifiziert</span>
+                        <span className="studio-card-source-missing">Keine eigene Studio-Webseite verfügbar</span>
                       ) : (
                         <a className="studio-card-source studio-card-action studio-card-action-secondary" href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
                           {studio.websiteUrl && normalizeUrl(studio.websiteUrl) === normalizeUrl(studio.sourceUrl) ? "Webseite" : "Datenquelle"} <span aria-hidden="true">↗</span>
@@ -196,8 +196,8 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           </div>
         ) : (
           <div className="panel-card studio-rollout-empty-state">
-            <strong>Transparenter Zwischenstand</strong>
-            <p>Diese Stadtseite ist live, enthält aber bewusst keine übernommenen Studioempfehlungen ohne aktuelle offizielle Belege.</p>
+            <strong>Noch keine Studio-Profile</strong>
+            <p>Nutze bis dahin den Stadtguide und die Auswahl-Tipps, um passende Studios selbst zu vergleichen.</p>
           </div>
         )}
       </section>
@@ -229,7 +229,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
                 unoptimized
               />
               <figcaption>
-                Tattoo-Illustration aus dem bisherigen Stadtguide
+                Tattoo-Illustration aus dem Stadtguide
                 {guide.legacyImageSourceUrl ? <>{" · "}<a href={guide.legacyImageSourceUrl} target="_blank" rel="noopener noreferrer nofollow">Originalbild</a></> : null}
               </figcaption>
             </figure>
@@ -237,14 +237,14 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           <MarketHtmlContent html={guide.editorialHtml} market={market} />
         </article>
         <aside className="studio-transparency-card">
-          <span className="eyebrow">Transparenz</span>
-          <h2>So ist diese Auswahl entstanden</h2>
-          <p><strong>Keine bezahlte Platzierung.</strong> Wir zeigen öffentlich auffindbare Studios und ordnen ausschließlich nachvollziehbare Angaben redaktionell ein.</p>
-          <div className="studio-transparency-copy" dangerouslySetInnerHTML={{ __html: guide.selectionMethodHtml }} />
+          <span className="eyebrow">Deine Auswahl</span>
+          <h2>So findest du das passende Studio</h2>
+          <p>Sieh dir aktuelle Portfolios an, kläre offene Fragen im Beratungsgespräch und achte auf saubere, verständliche Abläufe.</p>
+          {!isRollout ? <p><strong>Keine bezahlte Platzierung.</strong> Die Reihenfolge ist alphabetisch und keine Qualitätsbewertung.</p> : null}
           {sourceIsPage ? (
-            <p className="studio-card-source-missing">Einzelquellen findest du direkt bei den Studios.</p>
+            <p className="studio-card-source-missing">Webseiten und Kontaktwege findest du direkt bei den Studios.</p>
           ) : (
-            <a href={guide.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Öffentliche Ausgangsquelle ansehen</a>
+            <a href={guide.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Mehr zum Stadtguide</a>
           )}
         </aside>
       </section>

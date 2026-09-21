@@ -12,7 +12,7 @@ import { getLargestTattooStudioCities, getTattooStudioCities } from "@/lib/tatto
 
 export const metadata: Metadata = {
   title: "Tattoo-Studio-Guide für Deutschland",
-  description: "Entdecke Tattoo-Studio-Stadtguides mit Auswahlhilfen, sichtbaren Quellen und klar gekennzeichnetem Prüfstatus – ohne gekaufte Ranglisten.",
+  description: "Entdecke Tattoo-Studio-Stadtguides mit Tipps zu Stil, Portfolio, Beratung und Hygiene – übersichtlich nach Städten und ohne gekaufte Ranglisten.",
   alternates: { canonical: publicUrl("de", "/tattoo-studios") },
 };
 
@@ -33,14 +33,14 @@ export default function TattooStudioGuidePage() {
             <span className="eyebrow studio-guide-eyebrow">Dich mit Stich · Studio Guide</span>
             <h1>Tattoo-Studio-Guide für Deutschland</h1>
             <p>
-              Finde Studios, die zu deinem Stil passen. Redaktionell eingeordnet, mit nachvollziehbaren Quellen und
-              sichtbarem Prüfdatum – statt anonymer Listen oder gekaufter Rangplätze.
+              Finde Tattoo-Studios in deiner Stadt und entdecke, worauf es bei Stil, Portfolio, Hygiene und Beratung
+              ankommt. Unsere Stadtguides helfen dir bei der Auswahl, ohne Studios gegen Bezahlung hervorzuheben.
             </p>
             <div className="button-row">
               <Link className="button button-primary" href="/tattoo-studios/berlin">Studios in Berlin entdecken</Link>
               <MarketLink className="button button-secondary" targetMarket="at" pathname="/tattoo-studios">Tattoo-Studios Österreich</MarketLink>
               <MarketLink className="button button-secondary" targetMarket="ch" pathname="/tattoo-studios">Tattoo-Studios Schweiz</MarketLink>
-              <a className="button button-secondary" href="#guide-prinzipien">So prüfen wir Studios</a>
+              <a className="button button-secondary" href="#guide-prinzipien">Darauf solltest du achten</a>
             </div>
           </div>
           <div className="studio-guide-hero-mark" aria-hidden="true">
@@ -72,7 +72,7 @@ export default function TattooStudioGuidePage() {
           <div className="studio-city-finder-copy">
             <span className="eyebrow">Tattoo-Studios nach Stadt</span>
             <h2 id="stadt-finder-heading">Finde den passenden Stadtguide</h2>
-            <p>Wähle deine Stadt und vergleiche vorhandene Studioangaben, Kontaktwege und redaktionelle Auswahlhinweise. Die Reihenfolge ist keine Rangliste.</p>
+            <p>Wähle deine Stadt und entdecke hilfreiche Tipps für deine Studiosuche. Vergleiche Stil, Portfolio und Kontaktmöglichkeiten, bevor du einen Termin vereinbarst.</p>
             <a className="button button-primary" href="#stadtguides">Zu den Stadtguides</a>
           </div>
           <figure className="studio-city-finder-art">
@@ -91,9 +91,9 @@ export default function TattooStudioGuidePage() {
         <section className="content-section" id="stadtguides">
           <div className="section-header studio-guide-section-header">
             <span className="eyebrow">Stadtguides</span>
-            <h2>Redaktionelle Studio-Guides nach Stadt</h2>
-            <p>Alle Stadtseiten enthalten die übernommenen Auswahlhilfen und Stadttexte. Einzelne Studio-Profile und Kontaktangaben zeigen wir nur dort, wo sie bereits über nachvollziehbare Quellen geprüft wurden.</p>
-            <p>Die Listen sind als Orientierung gedacht und keine bezahlte Rangliste. Vor einem Termin solltest du Portfolio, Stil, Hygiene, Beratung, aktuelle Kontaktdaten und Verfügbarkeit immer direkt beim jeweiligen Studio prüfen.</p>
+            <h2>Tattoo-Studio-Guides nach Stadt</h2>
+            <p>Wähle deinen Stadtguide und finde Tipps für deine Studiosuche vor Ort. Einige Guides enthalten außerdem konkrete Studios mit direkten Links zu ihren Webseiten.</p>
+            <p>Vor einem Termin solltest du Portfolio, Stil, Hygiene, Beratung, aktuelle Kontaktdaten und Verfügbarkeit immer direkt beim jeweiligen Studio prüfen.</p>
           </div>
           <div className="studio-city-grid">
             {guideCities.map((city) => (
@@ -104,10 +104,10 @@ export default function TattooStudioGuidePage() {
                   </span>
                 ) : null}
                 <span className="studio-city-card-copy">
-                  <span>{city.region} · {city.publicationStatus === "verified" ? `${city.studios.length} geprüfte Studios` : "Stadtguide übernommen"}</span>
+                  <span>{city.region}</span>
                   <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
-                  <small>{city.publicationStatus === "verified" ? "Redaktioneller Studio-Guide" : "Studio-Profile in Prüfung"}</small>
-                  <b>Stadtguide öffnen →</b>
+                  <small>{city.publicationStatus === "verified" ? `${city.studios.length} Studios und Tipps zur Auswahl` : "Tipps für deine Studiosuche"}</small>
+                  <b>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</b>
                 </span>
               </Link>
             ))}
@@ -129,7 +129,7 @@ export default function TattooStudioGuidePage() {
           <div className="section-header studio-guide-section-header">
             <span className="eyebrow">Weitere Tattoo-Städte</span>
             <h2 id="additional-tattoo-cities-heading">Weitere Tattoo-Stadtseiten in Deutschland</h2>
-            <p>Auch diese veröffentlichten Stadtseiten bleiben direkt erreichbar. Einen eigenen Studio-Guide ergänzen wir erst nach der Prüfung offizieller Studioquellen.</p>
+            <p>Entdecke weitere Städte mit lokalen Tipps rund um Tattoos, Dating und die Szene vor Ort.</p>
           </div>
           <div className="studio-all-city-grid">
             {additionalTattooCities.map((city) => (
@@ -162,13 +162,13 @@ export default function TattooStudioGuidePage() {
 
         <section className="content-section studio-guide-principles" id="guide-prinzipien">
           <div className="section-header">
-            <span className="eyebrow">Unser Standard</span>
-            <h2>Was einen vertrauenswürdigen Studio-Guide ausmacht</h2>
+            <span className="eyebrow">Deine Studiosuche</span>
+            <h2>Darauf solltest du bei der Studiosuche achten</h2>
           </div>
           <div className="studio-principle-grid">
-            <article><span>01</span><h3>Quellen sichtbar</h3><p>Jedes Profil nennt seine öffentliche Grundlage und den letzten redaktionellen Check.</p></article>
-            <article><span>02</span><h3>Stile statt Sterne</h3><p>Wir helfen bei der fachlichen Vorauswahl, ohne Bewertungen oder Qualität zu erfinden.</p></article>
-            <article><span>03</span><h3>Keine gekauften Rankings</h3><p>Bezahlte Platzierungen werden nicht als unabhängige Empfehlung getarnt.</p></article>
+            <article><span>01</span><h3>Portfolio vergleichen</h3><p>Achte auf Arbeiten im gewünschten Stil und schau dir nach Möglichkeit auch abgeheilte Tattoos an.</p></article>
+            <article><span>02</span><h3>Persönlich beraten lassen</h3><p>Kläre Motiv, Platzierung, Preisrahmen und Pflegehinweise direkt mit dem Studio.</p></article>
+            <article><span>03</span><h3>Hygiene ernst nehmen</h3><p>Ein sauberes Studio, transparente Abläufe und verständliche Nachsorgehinweise sind wichtiger als Rankings.</p></article>
           </div>
         </section>
       </main>

@@ -18,7 +18,9 @@ export const metadata: Metadata = {
 
 export default function TattooStudioGuidePage() {
   const cities = getTattooStudioCities("de");
-  const largestCitySlugs = new Set(getLargestTattooStudioCities("de").map((city) => city.slug));
+  const largestCities = getLargestTattooStudioCities("de");
+  const verifiedCities = cities.filter((city) => city.studios.length > 0);
+  const largestCitySlugs = new Set(largestCities.map((city) => city.slug));
   const guideCitySlugs = new Set(cities.map((city) => city.slug));
   const additionalTattooCities = getTattooCityDirectory().filter(
     (city) => !largestCitySlugs.has(city.slug) && !guideCitySlugs.has(city.slug),
@@ -52,7 +54,7 @@ export default function TattooStudioGuidePage() {
 
         <ul className="studio-guide-stats" aria-label="Aktueller Umfang des Tattoo-Studio-Guides">
           <li><strong>{studioCount}</strong><span>strukturierte Studios</span></li>
-          <li><strong>{cities.length}</strong><span>redaktionelle Stadtguides</span></li>
+          <li><strong>{largestCities.length}</strong><span>deutsche Studio-Stadtseiten</span></li>
           <li><strong>0</strong><span>gekaufte Rangplätze</span></li>
         </ul>
 
@@ -69,7 +71,7 @@ export default function TattooStudioGuidePage() {
             <p>Für Berlin und Hannover findest du geprüfte Profile, Quellen und konkrete Auswahlhilfen.</p>
           </div>
           <div className="studio-city-grid">
-            {cities.map((city) => (
+            {verifiedCities.map((city) => (
               <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}`} key={city.identity}>
                 {city.imageUrl ? (
                   <span className="studio-city-card-media">

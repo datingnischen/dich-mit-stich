@@ -15,7 +15,9 @@ type TattooStudioCityGuideProps = {
 };
 
 export function tattooStudioCityDescription(cityName: string, studioCount: number) {
-  return `${studioCount} ausgewählte Tattoo-Studios in ${cityName} mit Adressen, Quellen und Prüfdatum. Stilhinweise nur, soweit sie öffentlich belegt sind.`;
+  return studioCount
+    ? `${studioCount} ausgewählte Tattoo-Studios in ${cityName} mit Adressen, Quellen und Prüfdatum. Stilhinweise nur, soweit sie öffentlich belegt sind.`
+    : `Redaktionelle Stadtseite für Tattoo-Studios in ${cityName}. Einzelne Studio-Profile folgen erst nach Prüfung offizieller Quellen.`;
 }
 
 function formatDate(value: string, market: MarketCode) {
@@ -63,6 +65,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
   const itemListId = `${pageUrl}#studio-liste`;
   const breadcrumbId = `${pageUrl}#breadcrumb`;
   const sourceIsPage = normalizeUrl(guide.sourceUrl) === normalizeUrl(pageUrl);
+  const isRollout = guide.publicationStatus === "rollout";
   const isSwiss = market === "ch";
   const marketGuideLabel = market === "ch" ? "Schweizer " : market === "at" ? "Österreichischer " : "";
   const imageUrl = guide.imageUrl ? (market !== "de" ? staticAsset(guide.imageUrl) : guide.imageUrl) : null;
@@ -131,14 +134,16 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
         <div className="studio-city-hero-copy">
           <span className="eyebrow studio-guide-eyebrow">{guide.region} · {marketGuideLabel}Studio Guide</span>
           <h1>Tattoo-Studios in {guide.cityName}</h1>
-          <p>{studios.length} redaktionell erfasste Studios mit Adressen, Quellen und ausdrücklich belegten Stilhinweisen – transparent und ohne Rangliste.</p>
+          <p>{isRollout
+            ? "Die Stadtseite ist bereits verfügbar. Einzelne Studio-Profile folgen erst, wenn ihre Angaben über offizielle Quellen geprüft sind."
+            : `${studios.length} redaktionell erfasste Studios mit Adressen, Quellen und ausdrücklich belegten Stilhinweisen – transparent und ohne Rangliste.`}</p>
           <div className="studio-hero-actions">
-            <a className="button button-primary" href="#studio-auswahl">Studios vergleichen</a>
-            <a className="button button-secondary" href="#auswahl-check">Auswahl-Check ansehen</a>
+            {studios.length ? <a className="button button-primary" href="#studio-auswahl">Studios vergleichen</a> : null}
+            <a className="button button-secondary" href={studios.length ? "#auswahl-check" : "#tattoo-stile"}>{studios.length ? "Auswahl-Check ansehen" : "Stadtguide lesen"}</a>
           </div>
           <div className="studio-verification-line">
             <span aria-hidden="true">✓</span>
-            <div><strong>Zuletzt redaktionell geprüft</strong><time dateTime={guide.lastVerified}>{formatDate(guide.lastVerified, market)}</time></div>
+            <div><strong>{isRollout ? "Stadtseite in neue Struktur übernommen" : "Zuletzt redaktionell geprüft"}</strong><time dateTime={guide.lastVerified}>{formatDate(guide.lastVerified, market)}</time></div>
           </div>
         </div>
         {imageUrl ? (
@@ -152,40 +157,49 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
       <section className="content-section studio-list-section" id="studio-auswahl" aria-labelledby="studio-auswahl-heading">
         <div className="section-header studio-guide-section-header">
           <span className="eyebrow">Studio-Auswahl</span>
-          <h2 id="studio-auswahl-heading">{studios.length} Tattoo-Studios in {guide.cityName}</h2>
-          <p>Alphabetische Auswahl, keine Rangliste. Öffne ein Profil für Quellen, Kontaktangaben und den jeweiligen Datenstand.</p>
+          <h2 id="studio-auswahl-heading">{studios.length ? `${studios.length} Tattoo-Studios in ${guide.cityName}` : `Studio-Profile für ${guide.cityName} in Prüfung`}</h2>
+          <p>{studios.length
+            ? "Alphabetische Auswahl, keine Rangliste. Öffne ein Profil für Quellen, Kontaktangaben und den jeweiligen Datenstand."
+            : "Noch keine einzeln verifizierten Studio-Profile. Der frühere Bestand wird nicht ungeprüft übernommen; neue Profile erscheinen erst mit nachvollziehbarer offizieller Quelle."}</p>
         </div>
-        <div className="tattoo-studio-grid">
-          {studios.map((studio) => {
-            const sourceIsGuide = normalizeUrl(studio.sourceUrl) === normalizeUrl(guide.sourceUrl);
-            return (
-              <article className="tattoo-studio-card" key={studio.identity}>
-                <div className="tattoo-studio-card-mark" aria-hidden="true"><strong>{studio.name.slice(0, 2).toUpperCase()}</strong></div>
-                <div className="tattoo-studio-card-copy">
-                  <div className="tattoo-studio-card-head"><span>{studio.styles.length ? "Stilhinweise vorhanden" : "Redaktionell erfasst"}</span><h3>{studio.name}</h3></div>
-                  <p>{studio.description}</p>
-                  {studio.styles.length ? <div className="studio-style-row" aria-label="Öffentlich belegte Stilhinweise">{studio.styles.map((style) => <span key={style.slug}>{style.label}</span>)}</div> : null}
-                  <div className="studio-place-card">
-                    <span className="studio-place-icon"><LocationPinIcon /></span>
-                    <span className="studio-place-copy"><small>Standort in {guide.cityName}</small><strong>{studio.address}</strong></span>
+        {studios.length ? (
+          <div className="tattoo-studio-grid">
+            {studios.map((studio) => {
+              const sourceIsGuide = normalizeUrl(studio.sourceUrl) === normalizeUrl(guide.sourceUrl);
+              return (
+                <article className="tattoo-studio-card" key={studio.identity}>
+                  <div className="tattoo-studio-card-mark" aria-hidden="true"><strong>{studio.name.slice(0, 2).toUpperCase()}</strong></div>
+                  <div className="tattoo-studio-card-copy">
+                    <div className="tattoo-studio-card-head"><span>{studio.styles.length ? "Stilhinweise vorhanden" : "Redaktionell erfasst"}</span><h3>{studio.name}</h3></div>
+                    <p>{studio.description}</p>
+                    {studio.styles.length ? <div className="studio-style-row" aria-label="Öffentlich belegte Stilhinweise">{studio.styles.map((style) => <span key={style.slug}>{style.label}</span>)}</div> : null}
+                    <div className="studio-place-card">
+                      <span className="studio-place-icon"><LocationPinIcon /></span>
+                      <span className="studio-place-copy"><small>Standort in {guide.cityName}</small><strong>{studio.address}</strong></span>
+                    </div>
+                    <div className="studio-card-actions">
+                      {sourceIsGuide && !studio.websiteUrl ? (
+                        <span className="studio-card-source-missing">Keine offizielle Studioseite verifiziert</span>
+                      ) : (
+                        <a className="studio-card-source studio-card-action studio-card-action-secondary" href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
+                          {studio.websiteUrl && normalizeUrl(studio.websiteUrl) === normalizeUrl(studio.sourceUrl) ? "Webseite" : "Datenquelle"} <span aria-hidden="true">↗</span>
+                        </a>
+                      )}
+                      <MarketLink className="studio-card-link studio-card-action studio-card-action-primary" targetMarket={market} pathname={`/tattoo-studio/${studio.slug}`}>
+                        Studio-Profil ansehen <span aria-hidden="true">→</span>
+                      </MarketLink>
+                    </div>
                   </div>
-                  <div className="studio-card-actions">
-                    {sourceIsGuide && !studio.websiteUrl ? (
-                      <span className="studio-card-source-missing">Keine offizielle Studioseite verifiziert</span>
-                    ) : (
-                      <a className="studio-card-source studio-card-action studio-card-action-secondary" href={studio.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
-                        {studio.websiteUrl && normalizeUrl(studio.websiteUrl) === normalizeUrl(studio.sourceUrl) ? "Webseite" : "Datenquelle"} <span aria-hidden="true">↗</span>
-                      </a>
-                    )}
-                    <MarketLink className="studio-card-link studio-card-action studio-card-action-primary" targetMarket={market} pathname={`/tattoo-studio/${studio.slug}`}>
-                      Studio-Profil ansehen <span aria-hidden="true">→</span>
-                    </MarketLink>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="panel-card studio-rollout-empty-state">
+            <strong>Transparenter Zwischenstand</strong>
+            <p>Diese Stadtseite ist live, enthält aber bewusst keine übernommenen Studioempfehlungen ohne aktuelle offizielle Belege.</p>
+          </div>
+        )}
       </section>
 
       <section className="content-section studio-choice-section" id="auswahl-check" aria-labelledby="auswahl-check-heading">

@@ -318,9 +318,9 @@ test("AT market preview exposes all imported Austria city pages", async () => {
   assert.match(previewSource, /label: "Wiener Neustadt"/);
 });
 
-test("DE sitemap includes the tattoo studio guide city and detail families", async () => {
+test("DE sitemap includes only indexable tattoo studio cities plus verified detail families", async () => {
   const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
-  assert.match(sitemapSource, /getTattooStudioCities/);
+  assert.match(sitemapSource, /getIndexableTattooStudioCities/);
   assert.match(sitemapSource, /getTattooStudioSlugs/);
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studios/);
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studio\/\$\{slug\}/);

@@ -3,6 +3,7 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
+  getIndexableTattooStudioCities,
   getLargestTattooStudioCities,
   getTattooStudio,
   getTattooStudioCities,
@@ -19,7 +20,7 @@ async function source(path) {
 
 test("studio overview exposes the ten largest cities per country in population order", async () => {
   const expected = {
-    de: ["berlin", "hamburg", "muenchen", "koeln", "frankfurt-am-main", "duesseldorf", "stuttgart", "leipzig", "dortmund", "bremen"],
+    de: ["berlin", "hamburg", "muenchen", "koeln", "frankfurt-am-main", "duesseldorf", "stuttgart", "leipzig", "dortmund", "essen"],
     at: ["wien", "graz", "linz", "salzburg", "innsbruck", "klagenfurt", "villach", "wels", "sankt-poelten", "dornbirn"],
     ch: ["zuerich", "genf", "basel", "lausanne", "bern", "winterthur", "luzern", "st-gallen", "lugano", "biel-bienne"],
   };
@@ -33,13 +34,13 @@ test("studio overview exposes the ten largest cities per country in population o
     assert.ok(cities.every((city) => city.label && city.imageUrl && city.href));
     assert.ok(cities.every((city) => city.imageAttribution.title && city.imageAttribution.creator && city.imageAttribution.license));
     assert.ok(cities.every((city) => city.imageAttribution.sourceUrl.startsWith("https://")));
-    assert.ok(cities.every((city) => city.href.startsWith(city.hasStudioGuide ? "/tattoo-studios/" : "/tattoo-singles/")));
+    assert.ok(cities.every((city) => city.href.startsWith(city.hasCityGuide ? "/tattoo-studios/" : "/tattoo-singles/")));
     await Promise.all(cities.map((city) => access(new URL(`public${city.imageUrl}`, root))));
   }
 
-  assert.equal(getLargestTattooStudioCities("de").find((city) => city.slug === "berlin")?.hasStudioGuide, true);
-  assert.equal(getLargestTattooStudioCities("at").find((city) => city.slug === "innsbruck")?.hasStudioGuide, true);
-  assert.equal(getLargestTattooStudioCities("ch").find((city) => city.slug === "zuerich")?.hasStudioGuide, true);
+  assert.equal(getLargestTattooStudioCities("de").find((city) => city.slug === "berlin")?.hasVerifiedStudios, true);
+  assert.equal(getLargestTattooStudioCities("at").find((city) => city.slug === "innsbruck")?.hasVerifiedStudios, true);
+  assert.equal(getLargestTattooStudioCities("ch").find((city) => city.slug === "zuerich")?.hasVerifiedStudios, true);
 });
 
 test("all studio overviews visibly list the ten largest cities with honest destination labels", async () => {
@@ -53,29 +54,62 @@ test("all studio overviews visibly list the ten largest cities with honest desti
   assert.match(marketOverview, /<TattooStudioLargestCities market=\{market\}/);
   assert.match(shared, /getLargestTattooStudioCities/);
   assert.match(shared, /Die 10 größten Städte/);
-  assert.match(shared, /city\.hasStudioGuide \? "Studio-Guide öffnen" : "Tattoo-Stadtseite öffnen"/);
+  assert.match(shared, /city\.hasVerifiedStudios \? "Geprüfte Studios ansehen"/);
   assert.match(shared, /targetMarket=\{market\}/);
   assert.match(shared, /pathname=\{city\.href\}/);
   assert.match(shared, /rel="noopener noreferrer nofollow"/);
   assert.match(shared, /Bevölkerungsstand/);
 });
 
-test("German overview preserves useful city pages outside the population top ten", async () => {
+test("German overview exposes ten real studio city pages and preserves useful cities outside the top ten", async () => {
   const topSlugs = new Set(getLargestTattooStudioCities("de").map((city) => city.slug));
   const guideSlugs = new Set(getTattooStudioCities("de").map((city) => city.slug));
   const additional = getTattooCityDirectory().filter((city) => !topSlugs.has(city.slug) && !guideSlugs.has(city.slug));
   const overview = await source("app/tattoo-studios/page.tsx");
 
-  assert.deepEqual(additional.map((city) => city.slug), ["bochum", "dresden", "essen", "mannheim", "nuernberg"]);
+  const topCities = getLargestTattooStudioCities("de");
+  assert.ok(topCities.every((city) => city.hasCityGuide));
+  assert.ok(topCities.every((city) => city.href === `/tattoo-studios/${city.slug}`));
+  assert.ok(topCities.every((city) => getTattooStudioCityGuide("de", city.slug)));
+  assert.deepEqual(additional.map((city) => city.slug), ["bochum", "bremen", "dresden", "mannheim", "nuernberg"]);
   assert.match(overview, /Weitere Tattoo-Städte/);
   assert.match(overview, /additionalTattooCities\.map/);
   assert.match(overview, /city\.imageAttribution\.sourceUrl/);
   assert.match(overview, /rel="noopener noreferrer nofollow"/);
 });
 
-test("tattoo studio guide loader exposes Hannover and Berlin with their structured studios", () => {
+test("German rollout city pages preserve legacy source identity without publishing unverified studios", async () => {
+  const rolloutSlugs = ["hamburg", "muenchen", "koeln", "frankfurt-am-main", "duesseldorf", "stuttgart", "leipzig", "dortmund", "essen"];
+  const cityRoute = await source("app/tattoo-studios/[city]/page.tsx");
+  const cityRenderer = await source("components/tattoo-studio-city-guide.tsx");
+
+  for (const slug of rolloutSlugs) {
+    const guide = getTattooStudioCityGuide("de", slug);
+    assert.ok(guide, `${slug} must resolve as a studio city page`);
+    assert.equal(guide.studios.length, 0, `${slug} must not inherit unverified legacy studios`);
+    assert.equal(guide.sourceUrl, `https://dich-mit-stich.de/tattoo-studios/${slug}/`);
+    assert.equal(guide.imageUrl, `/city-previews/${slug}.jpg`);
+    assert.match(guide.editorialHtml, /Portfolio/);
+    assert.match(guide.editorialHtml, /keine Rangliste/i);
+  }
+
+  assert.match(cityRoute, /robots:\s*guide\.studios\.length/);
+  assert.match(cityRenderer, /Noch keine einzeln verifizierten Studio-Profile/);
+  assert.match(cityRenderer, /studios\.length \? \(/);
+  assert.doesNotMatch(cityRenderer, /<p>\{studios\.length\} redaktionell erfasste Studios/);
+});
+
+test("rollout city pages stay out of the sitemap until verified profiles exist", async () => {
+  const sitemap = await source("app/sitemap.ts");
+  assert.deepEqual(getIndexableTattooStudioCities("de").map((city) => city.slug), ["berlin", "hannover"]);
+  assert.match(sitemap, /getIndexableTattooStudioCities/);
+  assert.doesNotMatch(sitemap, /getTattooStudioCities/);
+});
+
+test("tattoo studio guide loader exposes all German city pages while keeping structured studios scoped", () => {
   const cities = getTattooStudioCities("de");
-  assert.deepEqual(cities.map((city) => city.slug), ["berlin", "hannover"]);
+  assert.deepEqual(cities.map((city) => city.slug), ["berlin", "dortmund", "duesseldorf", "essen", "frankfurt-am-main", "hamburg", "hannover", "koeln", "leipzig", "muenchen", "stuttgart"]);
+  assert.deepEqual(cities.filter((city) => city.studios.length > 0).map((city) => city.slug), ["berlin", "hannover"]);
 
   const city = getTattooStudioCityGuide("de", "hannover");
   assert.ok(city);

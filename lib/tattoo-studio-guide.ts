@@ -8,6 +8,7 @@ import linzManifest from "../data/tattoo-studio-guide-linz.json" with { type: "j
 import salzburgManifest from "../data/tattoo-studio-guide-salzburg.json" with { type: "json" };
 import wienManifest from "../data/tattoo-studio-guide-wien.json" with { type: "json" };
 import zuerichManifest from "../data/tattoo-studio-guide-zuerich.json" with { type: "json" };
+import deCityRollouts from "../data/tattoo-studio-city-rollouts-de.json" with { type: "json" };
 import atTattooCities from "../data/tattoo-cities-at.json" with { type: "json" };
 import chTattooCities from "../data/tattoo-cities-ch.json" with { type: "json" };
 import cityImages from "../data/tattoo-city-images.json" with { type: "json" };
@@ -75,6 +76,7 @@ type SourceGuide = {
     sourceUrl: string;
   };
   acf: Record<string, unknown>;
+  publicationStatus?: "verified" | "rollout";
 };
 
 type SourceStudio = {
@@ -103,6 +105,13 @@ type SourceManifest = {
   schemaVersion: number;
   guide: SourceGuide;
   studios: SourceStudio[];
+};
+
+type DeCityRolloutCatalog = {
+  schemaVersion: number;
+  status: "rollout";
+  lastMigrated: string;
+  cities: Array<{ slug: string; name: string; region: string; sourceUrl: string }>;
 };
 
 export const TATTOO_STUDIO_MARKETS = ["at", "ch"] as const;
@@ -145,7 +154,7 @@ const LARGEST_TATTOO_STUDIO_CITIES: Record<MarketCode, LargestCityDefinition[]> 
   de: [
     ["berlin", "Berlin"], ["hamburg", "Hamburg"], ["muenchen", "München"], ["koeln", "Köln"],
     ["frankfurt-am-main", "Frankfurt am Main"], ["duesseldorf", "Düsseldorf"], ["stuttgart", "Stuttgart"],
-    ["leipzig", "Leipzig"], ["dortmund", "Dortmund"], ["bremen", "Bremen"],
+    ["leipzig", "Leipzig"], ["dortmund", "Dortmund"], ["essen", "Essen"],
   ].map(([slug, label]) => ({ slug, label, imageUrl: `/city-previews/${slug}.jpg`, imageAttribution: getDirectoryImageAttribution(deCityImageCatalog[slug]) })),
   at: [
     ["wien", "Wien"], ["graz", "Graz"], ["linz", "Linz"], ["salzburg", "Salzburg"],
@@ -233,6 +242,7 @@ export type TattooStudioCityGuide = {
     license: string;
     sourceUrl: string;
   };
+  publicationStatus: "verified" | "rollout";
   studios: TattooStudio[];
 };
 
@@ -286,30 +296,79 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
         ? LOCAL_GUIDE_IMAGES[source.guide.citySlug] || `/cities/${source.guide.citySlug}.jpg`
         : image?.imageUrl || null),
       imageAttribution: source.guide.imageAttribution || image?.imageAttribution || { title: "", creator: "", license: "", sourceUrl: "" },
+      publicationStatus: source.guide.publicationStatus || "verified",
       studios: source.studios.map(normalizeStudio),
     },
   };
 }
 
-const guides = [berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest]
+function buildDeRolloutManifests(): SourceManifest[] {
+  const catalog = deCityRollouts as DeCityRolloutCatalog;
+  return catalog.cities.map((city) => {
+    const editorialHtml = [
+      `<h2>Tattoo-Studio in ${city.name} auswählen</h2>`,
+      `<p>Der vorhandene Stadt-Einstieg für Tattoo-Studios in ${city.name} wird in der neuen Guide-Struktur weitergeführt. Einzelne Studio-Profile aus dem Altbestand übernehmen wir nicht ungeprüft. Sie folgen erst, wenn Name, Adresse, Kontaktweg und weitere Angaben über offizielle Studioquellen nachvollziehbar sind.</p>`,
+      "<h2>Portfolio, Beratung und Hygiene prüfen</h2>",
+      "<p>Vergleiche aktuelle und möglichst auch verheilte Arbeiten im gewünschten Stil. Kläre Motiv, Körperstelle, Größe, Ablauf und Nachsorge in einem persönlichen Beratungsgespräch. Preise, Öffnungszeiten und freie Termine solltest du immer direkt beim jeweiligen Studio bestätigen.</p>",
+      "<ul><li><strong>Portfolio:</strong> Passt die tatsächliche Arbeit des Artists zu deinem Motiv?</li><li><strong>Beratung:</strong> Werden Machbarkeit, Grenzen und Nachsorge verständlich erklärt?</li><li><strong>Hygiene:</strong> Verschaffe dir vor Ort einen eigenen Eindruck vom Ablauf.</li><li><strong>Kontakt:</strong> Prüfe Adresse, Terminweg und aktuelle Erreichbarkeit auf der offiziellen Studioseite.</li></ul>",
+      "<h2>Keine Rangliste und keine ungeprüften Empfehlungen</h2>",
+      `<p>Diese Stadtseite ist keine Bestenliste. Bis offizielle Quellen einzeln geprüft sind, veröffentlichen wir für ${city.name} bewusst keine übernommenen Studio-Rankings oder unbelegten Stilversprechen.</p>`,
+    ].join("\n");
+    const selectionMethodHtml = [
+      "<h2>Datenstand und nächste Ausbaustufe</h2>",
+      `<p>Der bestehende Legacy-Pfad für ${city.name} wurde am ${catalog.lastMigrated} in die neue Stadtguide-Struktur aufgenommen. Die früheren Einzelangaben zu Studios werden getrennt gegen offizielle Quellen geprüft.</p>`,
+      "<p>Erst vollständig belegte Profile werden ergänzt. Die Reihenfolge ist dann alphabetisch und weder eine Qualitätsbewertung noch eine bezahlte Rangfolge.</p>",
+    ].join("\n");
+
+    return {
+      schemaVersion: catalog.schemaVersion,
+      guide: {
+        identity: `DE:${city.slug}`,
+        country: "DE",
+        market: "de",
+        citySlug: city.slug,
+        cityName: city.name,
+        title: `Tattoo-Studios in ${city.name}: redaktioneller Stadtguide`,
+        sourceUrl: city.sourceUrl,
+        contentHtml: editorialHtml,
+        editorialHtml,
+        selectionMethodHtml,
+        lastVerified: catalog.lastMigrated,
+        publicationStatus: "rollout",
+        imageUrl: `/city-previews/${city.slug}.jpg`,
+        acf: { guide_region: city.region },
+      },
+      studios: [],
+    };
+  });
+}
+
+const guides = [berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest, ...buildDeRolloutManifests()]
   .map((manifest) => normalizeTattooStudioManifest(manifest as SourceManifest).guide)
   .sort((left, right) => left.cityName.localeCompare(right.cityName, "de"));
 
 export function getLargestTattooStudioCities(market: MarketCode) {
-  const guideSlugs = new Set(guides.filter((guide) => guide.market === market).map((guide) => guide.slug));
+  const marketGuides = guides.filter((guide) => guide.market === market);
+  const guideSlugs = new Set(marketGuides.map((guide) => guide.slug));
+  const verifiedStudioSlugs = new Set(marketGuides.filter((guide) => guide.studios.length > 0).map((guide) => guide.slug));
   return LARGEST_TATTOO_STUDIO_CITIES[market].map((city, index) => {
-    const hasStudioGuide = guideSlugs.has(city.slug);
+    const hasCityGuide = guideSlugs.has(city.slug);
     return {
       ...city,
       rank: index + 1,
-      hasStudioGuide,
-      href: `/${hasStudioGuide ? "tattoo-studios" : "tattoo-singles"}/${city.slug}`,
+      hasCityGuide,
+      hasVerifiedStudios: verifiedStudioSlugs.has(city.slug),
+      href: `/${hasCityGuide ? "tattoo-studios" : "tattoo-singles"}/${city.slug}`,
     };
   });
 }
 
 export function getTattooStudioCities(market: MarketCode): TattooStudioCityGuide[] {
   return guides.filter((guide) => guide.market === market);
+}
+
+export function getIndexableTattooStudioCities(market: MarketCode): TattooStudioCityGuide[] {
+  return getTattooStudioCities(market).filter((guide) => guide.publicationStatus === "verified" && guide.studios.length > 0);
 }
 
 export function getTattooStudioCityGuide(market: MarketCode, slug: string): TattooStudioCityGuide | null {

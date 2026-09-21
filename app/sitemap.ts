@@ -4,7 +4,7 @@ import { FAQ_PATH } from "@/lib/faq";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
-import { getTattooStudioCities, getTattooStudioSlugs } from "@/lib/tattoo-studio-guide";
+import { getIndexableTattooStudioCities, getTattooStudioSlugs } from "@/lib/tattoo-studio-guide";
 
 const SITE_URL = "https://dich-mit-stich.de";
 
@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     (entry) => !["expertenteam", "home", "tattoo-studios"].includes(entry.slug) && !isMagazineArticleQuarantined(entry.slug),
   );
   const categories = rawCategories.filter((category) => category.slug !== "erfolgsgeschichten");
-  const studioCities = getTattooStudioCities("de");
+  const studioCities = getIndexableTattooStudioCities("de");
   const studioSlugs = getTattooStudioSlugs("de");
 
   return [

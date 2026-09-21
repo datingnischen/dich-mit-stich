@@ -25,8 +25,6 @@ export default function TattooStudioGuidePage() {
   const additionalTattooCities = getTattooCityDirectory().filter(
     (city) => !largestCitySlugs.has(city.slug) && !guideCitySlugs.has(city.slug),
   );
-  const studioCount = cities.reduce((total, city) => total + city.studios.length, 0);
-
   return (
     <SiteFrame market="de" sectionLive aid="location">
       <main className="shell studio-guide-shell">
@@ -64,17 +62,11 @@ export default function TattooStudioGuidePage() {
           />
         </figure>
 
-        <ul className="studio-guide-stats" aria-label="Aktueller Umfang des Tattoo-Studio-Guides">
-          <li><strong>{studioCount}</strong><span>strukturierte Studios</span></li>
-          <li><strong>{cities.length}</strong><span>deutsche Studio-Stadtseiten</span></li>
-          <li><strong>0</strong><span>gekaufte Rangplätze</span></li>
-        </ul>
-
-        <section className="content-section studio-guide-country-strip" aria-label="Länder des Studio-Guides">
-          <div><span>Jetzt verfügbar</span><strong>Deutschland</strong></div>
-          <div><span>Fünf Stadtguides verfügbar</span><strong>Österreich</strong></div>
-          <div><span>Zürich-Guide verfügbar</span><strong>Schweiz</strong></div>
-        </section>
+        <nav className="content-section studio-guide-country-strip" aria-label="Tattoo-Studio-Guides nach Land">
+          <MarketLink className="studio-guide-country-link" targetMarket="de" pathname="/tattoo-studios"><strong>Deutschland</strong><span>20 Stadtguides</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="at" pathname="/tattoo-studios"><strong>Österreich</strong><span>5 Stadtguides</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="ch" pathname="/tattoo-studios"><strong>Schweiz</strong><span>Zürich-Guide</span></MarketLink>
+        </nav>
 
         <section className="content-section studio-city-finder-feature" aria-labelledby="stadt-finder-heading">
           <div className="studio-city-finder-copy">

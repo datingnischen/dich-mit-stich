@@ -2663,8 +2663,11 @@ img {
 .studio-guide-stats span { color: var(--muted); font-size: 0.9rem; }
 
 .studio-guide-country-strip { display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
-.studio-guide-country-strip div { display: grid; gap: 7px; padding: 20px 24px; border-left: 1px solid var(--line); }
-.studio-guide-country-strip div:first-child { border-left: 4px solid var(--studio-accent); }
+.studio-guide-country-link { display: grid; gap: 7px; padding: 20px 24px; border-left: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.studio-guide-country-link:first-child { border-left: 4px solid var(--studio-accent); }
+.studio-guide-country-link:hover { background: #faf5f7; }
+.studio-guide-country-link:focus-visible { position: relative; z-index: 1; outline: 3px solid var(--studio-accent); outline-offset: -3px; }
+.studio-guide-country-link strong { font-size: 1.1rem; }
 .studio-guide-country-strip span { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
 
 .studio-city-finder-feature {
@@ -2893,8 +2896,8 @@ img {
   .studio-guide-stats li:first-child { border-top: 1px solid #eadde3; border-left: 0; }
   .studio-guide-stats li:first-child { border-top: 0; }
   .studio-guide-country-strip { grid-template-columns: 1fr; }
-  .studio-guide-country-strip div { border-top: 1px solid var(--line); border-left: 0; }
-  .studio-guide-country-strip div:first-child { border-top: 0; border-left: 4px solid var(--studio-accent); }
+  .studio-guide-country-link { border-top: 1px solid var(--line); border-left: 0; }
+  .studio-guide-country-link:first-child { border-top: 0; border-left: 4px solid var(--studio-accent); }
   .studio-city-card { grid-template-columns: 120px minmax(0, 1fr); }
   .studio-city-card-copy { padding: 16px; }
   .studio-city-card-title strong { font-size: 1.25rem; }

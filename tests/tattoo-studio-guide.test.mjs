@@ -44,12 +44,17 @@ test("studio overview exposes the ten largest cities per country in population o
 });
 
 test("all studio overviews visibly list the ten largest cities with honest destination labels", async () => {
-  const [deOverview, marketOverview, shared] = await Promise.all([
+  const [deOverview, marketOverview, shared, css] = await Promise.all([
     source("app/tattoo-studios/page.tsx"),
     source("app/market-tattoo-studios/[market]/page.tsx"),
     source("components/tattoo-studio-largest-cities.tsx"),
+    source("app/globals.css"),
   ]);
 
+  assert.doesNotMatch(deOverview, /studio-guide-stats/);
+  assert.match(marketOverview, /className="studio-guide-stats"/);
+  assert.match(css, /\.studio-guide-stats\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s);
+  assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.studio-guide-stats\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(deOverview, /<TattooStudioLargestCities market="de"/);
   assert.match(marketOverview, /<TattooStudioLargestCities market=\{market\}/);
   assert.match(shared, /getLargestTattooStudioCities/);
@@ -317,9 +322,13 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(overview, /Tattoo-Studio-Guide für Deutschland/);
   assert.match(overview, /<MarketLink[^>]+targetMarket="ch"[^>]+pathname="\/tattoo-studios"[^>]*>Tattoo-Studios Schweiz<\/MarketLink>/);
   assert.match(overview, /<MarketLink[^>]+targetMarket="at"[^>]+pathname="\/tattoo-studios"[^>]*>Tattoo-Studios Österreich<\/MarketLink>/);
-  assert.match(overview, /Zürich-Guide verfügbar/);
-  assert.match(overview, /Fünf Stadtguides verfügbar/);
-  assert.doesNotMatch(overview, /Vorschau verfügbar|Vier Stadtguides verfügbar|Nächste Ausbaustufe/);
+  assert.match(overview, /<MarketLink[^>]+className="studio-guide-country-link"[^>]+targetMarket="de"[^>]+pathname="\/tattoo-studios"/);
+  assert.match(overview, /<MarketLink[^>]+className="studio-guide-country-link"[^>]+targetMarket="at"[^>]+pathname="\/tattoo-studios"/);
+  assert.match(overview, /<MarketLink[^>]+className="studio-guide-country-link"[^>]+targetMarket="ch"[^>]+pathname="\/tattoo-studios"/);
+  assert.match(overview, /<strong>Deutschland<\/strong><span>20 Stadtguides<\/span>/);
+  assert.match(overview, /<strong>Österreich<\/strong><span>5 Stadtguides<\/span>/);
+  assert.match(overview, /<strong>Schweiz<\/strong><span>Zürich-Guide<\/span>/);
+  assert.doesNotMatch(overview, /studio-guide-stats|strukturierte Studios|deutsche Studio-Stadtseiten|gekaufte Rangplätze|Jetzt verfügbar|Fünf Stadtguides verfügbar|Zürich-Guide verfügbar|Vorschau verfügbar|Vier Stadtguides verfügbar|Nächste Ausbaustufe/);
   assert.match(overview, /city\.region/);
   assert.doesNotMatch(overview, /Niedersachsen ·/);
 
@@ -567,7 +576,7 @@ test("site navigation links to the new studio guide rather than the singles city
   assert.match(largestCities, /unoptimized=\{market === "de"\}/);
   assert.match(page, /href="#stadtguides"/);
   assert.match(page, /id="stadtguides"/);
-  assert.match(page, /cities\.length/);
+  assert.match(page, /guideCities\.map/);
   assert.match(page, /Alle Stadtseiten enthalten die übernommenen Auswahlhilfen und Stadttexte/);
   assert.match(page, /Studio-Profile in Prüfung/);
   assert.match(page, /Vergleiche nicht nur die Entfernung/);

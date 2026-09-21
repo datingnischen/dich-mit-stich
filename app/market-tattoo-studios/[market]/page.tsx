@@ -151,7 +151,7 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
             <MarketLink className="studio-city-card" targetMarket={market} pathname={`/tattoo-studios/${city.slug}`} key={city.identity}>
               {city.imageUrl ? (
                 <span className="studio-city-card-media">
-                  <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" />
+                  <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" unoptimized />
                 </span>
               ) : null}
               <span className="studio-city-card-copy">

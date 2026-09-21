@@ -58,6 +58,7 @@ test("Austrian and Swiss studio overviews use matching country artwork", async (
   assert.match(marketOverview, /className="content-section studio-city-finder-feature"/);
   assert.match(marketOverview, /src=\{copy\.directoryBanner\.src\}/);
   assert.match(marketOverview, /src=\{copy\.cityFinderArtwork\.src\}/);
+  assert.match(marketOverview, /src=\{staticAsset\(city\.imageUrl\)\}[\s\S]*\bunoptimized\b/);
   assert.match(marketOverview, /href="#stadtguides"/);
   assert.match(marketOverview, /loading="eager"/);
   assert.match(marketOverview, /\bunoptimized\b/);
@@ -320,7 +321,8 @@ test("largest-city sections keep compact responsive images across all markets", 
   await Promise.all(cities.map((city) => access(new URL(`public${city.imageUrl}`, root))));
   assert.match(shared, /className="studio-all-city-grid"/);
   assert.match(shared, /className="studio-all-city-media"/);
-  assert.match(shared, /sizes="\(max-width: 640px\) 112px, 150px"/);
+  assert.match(shared, /sizes="\(max-width: 640px\) 112px, 150px"[\s\S]*\n\s+unoptimized\s*\n/);
+  assert.doesNotMatch(shared, /unoptimized=\{market === "de"\}/);
   assert.match(shared, /<LocationPinIcon/);
   assert.match(css, /\.studio-city-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,/s);
   assert.match(css, /\.studio-city-card\s*\{[^}]*grid-template-columns:\s*180px/s);
@@ -594,7 +596,7 @@ test("site navigation links to the new studio guide rather than the singles city
   assert.match(page, /tattoo-studios-nach-stadt-deutschland\.png/);
   assert.match(page, /tattoo-studios-nach-stadt-deutschland\.png[\s\S]*loading="eager"[\s\S]*\bunoptimized\b/);
   assert.match(page, /src=\{city\.imageUrl\}[\s\S]*\bunoptimized\b/);
-  assert.match(largestCities, /unoptimized=\{market === "de"\}/);
+  assert.match(largestCities, /sizes="\(max-width: 640px\) 112px, 150px"[\s\S]*\n\s+unoptimized\s*\n/);
   assert.match(page, /href="#stadtguides"/);
   assert.match(page, /id="stadtguides"/);
   assert.match(page, /guideCities\.map/);

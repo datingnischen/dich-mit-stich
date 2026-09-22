@@ -65,17 +65,18 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const authorProfilePosts = authorProfilePage
     ? await getMarketMagazineAuthorPosts(market, authorProfilePage.authorSlug)
     : [];
+  const authorProfileHero = authorProfilePage?.hero;
   const isAuthorProfileCover = isPublishedExpertProfile || Boolean(authorProfilePage);
   const featuredImage = isPublishedExpertProfile
     ? {
         src: staticAsset("/images/profiles/christian-m-haas-datingexperte.webp"),
         alt: "Christian M. Haas, Datingexperte und Autor",
       }
-    : authorProfilePage
-      ? { src: authorProfilePage.hero.src, alt: authorProfilePage.hero.alt }
+    : authorProfileHero
+      ? { src: authorProfileHero.src, alt: authorProfileHero.alt }
       : defaultFeaturedImage;
   const articleSummary = localizeFirstPartyText(
-    answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 220),
+    authorProfilePage?.lead ?? answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 220),
     publicUrl(market),
   );
   const articleGraph = buildMagazineArticleGraph({
@@ -95,14 +96,17 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     modified: entry.modified,
     personImage: isPublishedExpertProfile ? featuredImage?.src : authorProfile?.imageUrl,
     market,
+    authorProfile,
+    breadcrumb: breadcrumbTrail,
   });
   const pageGraph = publishedProfileGraph ?? articleGraph;
   const contentWithoutSchema = stripPublishedBookSchema(entry.content);
+  const profileBody = authorProfilePage
+    ? stripAuthorProfileDuplicates(contentWithoutSchema, authorProfilePage)
+    : contentWithoutSchema;
   const renderedContent = isPublishedExpertProfile
-    ? stripLegacyExpertPortrait(stripPublishedBookBlock(contentWithoutSchema))
-    : authorProfilePage
-      ? stripAuthorProfileDuplicates(contentWithoutSchema, authorProfilePage)
-      : contentWithoutSchema;
+    ? stripLegacyExpertPortrait(stripPublishedBookBlock(profileBody))
+    : profileBody;
 
   return (
     <main className="shell magazine-detail-shell">
@@ -112,13 +116,13 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       />
       <MagazineBreadcrumb market={market} trail={breadcrumbTrail} />
 
-      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}${isAuthorProfileCover ? " magazine-detail-cover-profile" : ""}${authorProfilePage ? " magazine-detail-cover-portrait" : ""}`}>
+      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}${isAuthorProfileCover ? " magazine-detail-cover-profile" : ""}${authorProfilePage?.portraitCover ? " magazine-detail-cover-portrait" : ""}`}>
         <header className="hero-card hero-magazine hero-magazine-editorial magazine-detail-hero">
           <span className="eyebrow">
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
           </span>
           <h1>{entry.title}</h1>
-          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride) ? null : "…"}</p>
+          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride || authorProfilePage) ? null : "…"}</p>
           <div className="meta-row magazine-detail-meta">
             {entry.authorName ? (
               <span>
@@ -150,8 +154,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
               <Image
                 src={featuredImage.src}
                 alt={featuredImage.alt}
-                width={isPublishedExpertProfile ? 1402 : authorProfilePage ? authorProfilePage.hero.width : 1200}
-                height={isPublishedExpertProfile ? 1122 : authorProfilePage ? authorProfilePage.hero.height : 675}
+                width={isPublishedExpertProfile ? 1402 : authorProfileHero ? authorProfileHero.width : 1200}
+                height={isPublishedExpertProfile ? 1122 : authorProfileHero ? authorProfileHero.height : 675}
                 sizes={isAuthorProfileCover ? "(max-width: 760px) 100vw, 460px" : "(max-width: 900px) 100vw, 1000px"}
                 priority
                 unoptimized={isPublishedExpertProfile}
@@ -172,6 +176,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           <MarketHtmlContent market={market} html={renderedContent} />
         )}
       </section>
+
+      {isPublishedExpertProfile ? <PublishedBookFeature /> : null}
 
       {authorProfilePage && authorProfile ? (
         <AuthorProfileContact profile={authorProfile} page={authorProfilePage} />
@@ -209,8 +215,6 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           </div>
         </section>
       ) : null}
-
-      {isPublishedExpertProfile ? <PublishedBookFeature /> : null}
 
       {magazineVideo ? <MagazineVideo video={magazineVideo} /> : null}
 

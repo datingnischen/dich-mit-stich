@@ -13,6 +13,7 @@ export type AuthorSocialLink = {
 
 type AuthorOverride = {
   sourceUrl?: string;
+  extraSameAs?: string[];
   profileUrl?: string;
   imageUrl?: string;
   role?: string;
@@ -40,8 +41,10 @@ const AUTHOR_OVERRIDES: Record<string, AuthorOverride> = {
     expertise: ["Tattoo Singles", "Online Dating", "Singlebörsen", "Partnersuche"],
     socials: [
       { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/datingnischen/" },
-      { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/christian-m-haas-457323379/" },
+      { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/christian-m-haas-457323379" },
+      { platform: "xing", label: "XING", href: "https://www.xing.com/profile/ChristianM_Haas/web_profiles" },
     ],
+    extraSameAs: ["https://datingnischen.de/christian/"],
   },
   "anne-schweitzer": {
     sourceUrl: "https://dich-mit-stich.de/magazin/author/anne-schweitzer/",
@@ -59,6 +62,7 @@ const AUTHOR_OVERRIDES: Record<string, AuthorOverride> = {
       { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/TattooStudio.Anne.Clemens.Schweitzer" },
       { platform: "youtube", label: "YouTube", href: "https://www.youtube.com/user/schweitzerclemens" },
     ],
+    extraSameAs: ["https://www.anne-schweitzer.de/", "https://www.clemens-schweitzer.de/"],
     facts: [
       "Tätowiert im ältesten Tattoo-Studio Nordhessens – seit 1983 in Kassel",
       "Old School, Black & White, Dotwork und individuelle Custom-Designs",
@@ -78,6 +82,7 @@ export type AuthorProfile = {
   facts: string[];
   expertise: string[];
   socials: AuthorSocialLink[];
+  sameAs: string[];
 };
 
 function firstMatch(text: string, pattern: RegExp) {
@@ -162,6 +167,7 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
     facts,
     expertise: override.expertise || [],
     socials: override.socials || [],
+    sameAs: [...(override.socials || []).map((social) => social.href), ...(override.extraSameAs || [])],
   };
 });
 

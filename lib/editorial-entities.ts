@@ -3,6 +3,7 @@ import type { AnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { latestIsoDate } from "@/lib/json-ld";
 import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
 import type { BreadcrumbTrailItem } from "@/lib/piercing-hub";
+import { BRAND_SAME_AS, editorialEntityIds, OPERATOR_NAME } from "@/lib/site-entities";
 import type { MagazineEntry } from "@/lib/wordpress";
 
 const SITE_URL = publicUrl("de");
@@ -12,15 +13,6 @@ export const EDITORIAL_ENTITY_IDS = {
   brand: `${SITE_URL}#brand`,
   operator: `${SITE_URL}#operator`,
 } as const;
-
-function editorialEntityIds(market: MarketCode) {
-  const siteUrl = publicUrl(market);
-  return {
-    website: `${siteUrl}#website`,
-    brand: `${siteUrl}#brand`,
-    operator: `${siteUrl}#operator`,
-  };
-}
 
 function absolutePublicUrl(path: string, market: MarketCode = "de") {
   return new URL(path, publicUrl(market)).toString();
@@ -43,7 +35,7 @@ export function buildAuthorProfileGraph(profile: AuthorProfile, market: MarketCo
       {
         "@type": "Organization",
         "@id": entityIds.operator,
-        name: "Icony GmbH",
+        name: OPERATOR_NAME,
         url: siteUrl,
       },
       {
@@ -72,7 +64,7 @@ export function buildAuthorProfileGraph(profile: AuthorProfile, market: MarketCo
         jobTitle: profile.jobTitle,
         image: profile.imageUrl,
         knowsAbout: profile.expertise.length ? profile.expertise : undefined,
-        sameAs: profile.socials.length ? profile.socials.map((social) => social.href) : undefined,
+        sameAs: profile.sameAs.length ? profile.sameAs : undefined,
       },
     ],
   };
@@ -109,7 +101,7 @@ export function buildMagazineArticleGraph({
     {
       "@type": "Organization",
       "@id": entityIds.operator,
-      name: "Icony GmbH",
+      name: OPERATOR_NAME,
       url: siteUrl,
     },
     {
@@ -117,6 +109,7 @@ export function buildMagazineArticleGraph({
       "@id": entityIds.brand,
       name: "Dich mit Stich",
       url: siteUrl,
+      sameAs: [...BRAND_SAME_AS],
     },
     {
       "@type": "WebSite",
@@ -170,7 +163,7 @@ export function buildMagazineArticleGraph({
       jobTitle: authorProfile.jobTitle,
       image: authorProfile.imageUrl,
       knowsAbout: authorProfile.expertise.length ? authorProfile.expertise : undefined,
-      sameAs: authorProfile.socials.length ? authorProfile.socials.map((social) => social.href) : undefined,
+      sameAs: authorProfile.sameAs.length ? authorProfile.sameAs : undefined,
     });
   }
 

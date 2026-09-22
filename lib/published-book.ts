@@ -1,4 +1,7 @@
+import type { AuthorProfile } from "./author-profiles.ts";
 import { getMarket, publicUrl, type MarketCode } from "./markets.ts";
+import type { BreadcrumbTrailItem } from "./piercing-hub.ts";
+import { BRAND_SAME_AS, editorialEntityIds, OPERATOR_NAME } from "./site-entities.ts";
 import { staticAsset } from "./static-asset.ts";
 
 const PROFILE_SLUG = "unser-datingexperte";
@@ -17,6 +20,8 @@ type PublishedAuthorProfileInput = {
   modified?: string | null;
   personImage?: string | null;
   market?: MarketCode;
+  authorProfile?: AuthorProfile | null;
+  breadcrumb?: BreadcrumbTrailItem[];
 };
 
 type JsonLdNode = Record<string, unknown>;
@@ -99,14 +104,49 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
   const bookId = `${profileUrl}#book-isbn-9783696371210`;
   const locale = getMarket(market).locale;
 
+  const entityIds = editorialEntityIds(market);
+  const siteUrl = publicUrl(market);
+  const profile = input.authorProfile ?? null;
+  const breadcrumbId = `${profileUrl}#breadcrumb`;
+  const breadcrumbTrail = input.breadcrumb?.length
+    ? input.breadcrumb
+    : [
+        { name: "Magazin", pathname: "/magazin" },
+        { name: "Christian M. Haas", pathname: PROFILE_PATH },
+      ];
+
   const nodes: JsonLdNode[] = [
     {
+      "@type": "Organization",
+      "@id": entityIds.operator,
+      name: OPERATOR_NAME,
+      url: siteUrl,
+    },
+    {
+      "@type": "Brand",
+      "@id": entityIds.brand,
+      name: "Dich mit Stich",
+      url: siteUrl,
+      sameAs: [...BRAND_SAME_AS],
+    },
+    {
+      "@type": "WebSite",
+      "@id": entityIds.website,
+      url: siteUrl,
+      name: "Dich mit Stich",
+      inLanguage: locale,
+      publisher: { "@id": entityIds.operator },
+      about: { "@id": entityIds.brand },
+    },
+    {
       "@type": "BreadcrumbList",
-      "@id": `${profileUrl}#breadcrumb`,
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Magazin", item: publicUrl(market, "/magazin") },
-        { "@type": "ListItem", position: 2, name: "Christian M. Haas", item: profileUrl },
-      ],
+      "@id": breadcrumbId,
+      itemListElement: breadcrumbTrail.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        item: publicUrl(market, item.pathname),
+      })),
     },
     {
       "@type": "ProfilePage",
@@ -114,8 +154,10 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
       url: profileUrl,
       name: input.title,
       description: input.description,
-      breadcrumb: { "@id": `${profileUrl}#breadcrumb` },
+      breadcrumb: { "@id": breadcrumbId },
       mainEntity: { "@id": personId },
+      isPartOf: { "@id": entityIds.website },
+      primaryImageOfPage: input.personImage || undefined,
       dateModified: input.modified || undefined,
       inLanguage: locale,
     },
@@ -124,9 +166,14 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
       "@id": personId,
       name: "Christian M. Haas",
       url: profileUrl,
+      mainEntityOfPage: { "@id": `${profileUrl}#webpage` },
       description: input.description,
-      jobTitle: "Datingexperte und Autor für tätowierte Singles",
+      jobTitle: profile?.jobTitle || "Datingexperte",
       image: input.personImage || undefined,
+      knowsAbout: profile?.expertise.length ? profile.expertise : undefined,
+      sameAs: profile?.sameAs.length ? profile.sameAs : undefined,
+      affiliation: { "@id": entityIds.operator },
+      publishingPrinciples: publicUrl(market, "/ueber-uns/expertenteam"),
     },
     {
       "@type": "Book",
@@ -138,6 +185,7 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
       datePublished: "2026-08-21",
       inLanguage: locale,
       bookFormat: "https://schema.org/Paperback",
+      bookEdition: "1. Auflage",
       numberOfPages: 136,
       url: AMAZON_URL,
       image: staticAsset("/images/books/dating-ohne-bullshit-cover.webp"),

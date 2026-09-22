@@ -9,32 +9,37 @@ export function AuthorProfileContact({
   profile: AuthorProfile;
   page: AuthorProfilePage;
 }) {
-  if (!page.studio && !profile.socials.length) return null;
+  const card = page.contactCard;
+  if (!card && !profile.socials.length) return null;
 
   return (
     <section className="author-contact-panel" aria-label={`Kontakt und Profile von ${profile.name}`}>
-      {page.studio ? (
+      {card ? (
         <article className="author-contact-card panel-card">
-          <span className="eyebrow eyebrow-brand">Studio &amp; Kontakt</span>
-          <h2>{page.studio.name}</h2>
-          <address className="author-contact-address">
-            {page.studio.addressLines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </address>
-          <div className="button-row">
-            {page.studio.websites.map((site, index) => (
-              <a
-                key={site.href}
-                className={`button ${index === 0 ? "button-primary" : "button-secondary"}`}
-                href={site.href}
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-              >
-                {site.label}
-              </a>
-            ))}
-          </div>
+          <span className="eyebrow eyebrow-brand">{card.eyebrow}</span>
+          <h2>{card.heading}</h2>
+          {card.addressLines?.length ? (
+            <address className="author-contact-address">
+              {card.addressLines.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </address>
+          ) : null}
+          {card.websites?.length ? (
+            <div className="button-row">
+              {card.websites.map((site, index) => (
+                <a
+                  key={site.href}
+                  className={`button ${index === 0 ? "button-primary" : "button-secondary"}`}
+                  href={site.href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                >
+                  {site.label}
+                </a>
+              ))}
+            </div>
+          ) : null}
         </article>
       ) : null}
 

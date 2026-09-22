@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MagazineDetail } from "@/components/magazine-detail";
+import { getAuthorProfilePage } from "@/lib/author-profile-pages";
 import { marketEditorialRobots } from "@/lib/editorial-metadata";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineDetailContext, getMarketMagazineEntryBySlug, getMarketMagazineRouteEntries } from "@/lib/market-magazine";
@@ -33,10 +34,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
   if (!detailContext) return {};
   const { quarantined, quarantineDescription, editorialOverride, answerEngineEntry } = detailContext;
+  const authorProfilePage = getAuthorProfilePage(slug);
   return {
     title: `${entry.title} | dich-mit-stich Magazin`,
     description: localizeFirstPartyText(
-      quarantined ? quarantineDescription : answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 155),
+      quarantined
+        ? quarantineDescription
+        : authorProfilePage?.lead ?? answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 155),
       publicUrl(market),
     ),
     alternates: { canonical: publicUrl(market, `/magazin/${slug}`) },

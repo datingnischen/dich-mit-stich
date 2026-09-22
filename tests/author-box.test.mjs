@@ -72,8 +72,8 @@ test("the person schema exposes expertise and social profiles", async () => {
   const entities = await readSource("../lib/editorial-entities.ts");
 
   assert.match(entities, /knowsAbout: profile\.expertise\.length \? profile\.expertise : undefined/);
-  assert.match(entities, /sameAs: profile\.socials\.length \? profile\.socials\.map\(\(social\) => social\.href\) : undefined/);
-  assert.match(entities, /sameAs: authorProfile\.socials\.length/);
+  assert.match(entities, /sameAs: profile\.sameAs\.length \? profile\.sameAs : undefined/);
+  assert.match(entities, /sameAs: authorProfile\.sameAs\.length/);
 });
 
 test("the Anne Schweitzer profile page gets an undistorted portrait and first-party contact blocks", async () => {

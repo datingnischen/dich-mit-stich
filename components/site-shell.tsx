@@ -30,17 +30,35 @@ const aboutLinks: NavLink[] = [
   { label: "Social Media", href: "/ueber-uns/social-media" },
 ];
 
-const headerMenuItems: NavLink[] = [
-  { label: "Über uns", href: "/ueber-uns" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Bewertungen", href: "/ueber-uns/bewertungen" },
-  { label: "Region eingrenzen", href: "/tattoo-singles" },
-  { label: "Lieblings-Studios", href: "/tattoo-studios" },
-  { label: "Tattoo-Motive", href: "/magazin/tattoo-motive" },
-  { label: "Erfolgsgeschichten", href: "/ueber-uns/erfolgsgeschichten" },
-  { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
-  { label: "Piercings", href: "/magazin/piercing" },
-  { label: "Social Media", href: "/ueber-uns/social-media" },
+type NavGroup = {
+  title: string;
+  items: NavLink[];
+};
+
+const headerMenuGroups: NavGroup[] = [
+  {
+    title: "Entdecken",
+    items: [
+      { label: "Region eingrenzen", href: "/tattoo-singles" },
+      { label: "Lieblings-Studios", href: "/tattoo-studios" },
+      { label: "Tattoo-Motive", href: "/magazin/tattoo-motive" },
+      { label: "Piercings", href: "/magazin/piercing" },
+    ],
+  },
+  {
+    title: "Über uns",
+    items: [
+      { label: "Über uns", href: "/ueber-uns" },
+      { label: "Erfolgsgeschichten", href: "/ueber-uns/erfolgsgeschichten" },
+      { label: "Bewertungen", href: "/ueber-uns/bewertungen" },
+      { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
+      { label: "Social Media", href: "/ueber-uns/social-media" },
+    ],
+  },
+  {
+    title: "Hilfe",
+    items: [{ label: "FAQ", href: "/faq" }],
+  },
 ];
 
 const footerColumns: Array<{
@@ -168,6 +186,21 @@ function marketHref(link: NavLink, market: MarketCode, aid?: ConversionAid) {
   return url.toString();
 }
 
+function NavMenuLink({ item, market, aid }: { item: NavLink; market: MarketCode; aid?: ConversionAid }) {
+  if (item.external) {
+    return (
+      <a href={marketHref(item, market, aid)} {...externalAttrs(true)}>
+        {item.label}
+      </a>
+    );
+  }
+  return (
+    <MarketLink pathname={item.href} targetMarket={market}>
+      {item.label}
+    </MarketLink>
+  );
+}
+
 function conversionHref(market: MarketCode, pathname: string, aid?: ConversionAid) {
   return conversionUrl(publicUrl(market), pathname, aid);
 }
@@ -271,14 +304,22 @@ export function SiteHeader({ market = "de", sectionLive = false, aid }: ShellPro
               <span className="sr-only">Menü</span>
             </summary>
             <div className="header-menu-panel">
+              <p className="header-menu-panel-title">Menü</p>
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">
-                {(config.contentEnabled ? headerMenuItems : aboutLinks).map((item) => (
-                  item.external ? (
-                    <a href={marketHref(item, market, aid)} key={item.href} {...externalAttrs(true)}>{item.label}</a>
-                  ) : (
-                    <MarketLink pathname={item.href} targetMarket={market} key={item.href}>{item.label}</MarketLink>
-                  )
-                ))}
+                {config.contentEnabled ? (
+                  headerMenuGroups.map((group) => (
+                    <div className="header-menu-group" key={group.title}>
+                      <p className="header-menu-group-label">{group.title}</p>
+                      {group.items.map((item) => (
+                        <NavMenuLink item={item} market={market} aid={aid} key={item.href} />
+                      ))}
+                    </div>
+                  ))
+                ) : (
+                  aboutLinks.map((item) => (
+                    <NavMenuLink item={item} market={market} aid={aid} key={item.href} />
+                  ))
+                )}
               </nav>
             </div>
           </details>

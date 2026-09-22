@@ -82,8 +82,9 @@ test("every market footer cross-links the remaining country sites", async () => 
 
   assert.match(shell, /function FooterCountryLinks\(\{ market \}: \{ market: MarketCode \}\)/);
   assert.match(shell, /getOtherMarkets\(market\)\.map/);
-  assert.match(shell, /<MarketLink className="footer-country-link" targetMarket=\{entry\.code\} hrefLang=\{entry\.locale\}>/);
-  assert.match(shell, /Dich mit Stich \{entry\.countryName\}/);
+  assert.match(shell, /<MarketLink\s+className="footer-country-link"\s+targetMarket=\{entry\.code\}\s+hrefLang=\{entry\.locale\}/);
+  assert.match(shell, /aria-label=\{`Dich mit Stich \$\{entry\.countryName\}/);
+  assert.match(shell, /<CountryFlag code=\{entry\.code\} \/>/);
   assert.match(shell, /\{entry\.domain\}/);
 
   // Both footer variants (compact placeholder markets and the full DE footer) must render it.

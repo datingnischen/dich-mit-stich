@@ -194,15 +194,45 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
   );
 }
 
+// Inline SVG instead of emoji flags: Windows renders flag emoji as bare letters.
+function CountryFlag({ code }: { code: MarketCode }) {
+  return (
+    <svg className="footer-country-flag" viewBox="0 0 24 16" aria-hidden="true" focusable="false">
+      {code === "de" ? (
+        <>
+          <rect width="24" height="16" fill="#ffce00" />
+          <rect width="24" height="10.67" fill="#dd0000" />
+          <rect width="24" height="5.33" fill="#000" />
+        </>
+      ) : code === "at" ? (
+        <>
+          <rect width="24" height="16" fill="#ed2939" />
+          <rect y="5.33" width="24" height="5.33" fill="#fff" />
+        </>
+      ) : (
+        <>
+          <rect width="24" height="16" fill="#da291c" />
+          <rect x="10.5" y="3.5" width="3" height="9" fill="#fff" />
+          <rect x="7.5" y="6.5" width="9" height="3" fill="#fff" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 function FooterCountryLinks({ market }: { market: MarketCode }) {
   return (
     <nav className="footer-country-links" aria-label="Dich mit Stich Länderseiten">
-      <h2>Dich mit Stich in deinem Land</h2>
       <ul>
         {getOtherMarkets(market).map((entry) => (
           <li key={entry.code}>
-            <MarketLink className="footer-country-link" targetMarket={entry.code} hrefLang={entry.locale}>
-              <span className="footer-country-link-name">Dich mit Stich {entry.countryName}</span>
+            <MarketLink
+              className="footer-country-link"
+              targetMarket={entry.code}
+              hrefLang={entry.locale}
+              aria-label={`Dich mit Stich ${entry.countryName}: ${entry.domain}`}
+            >
+              <CountryFlag code={entry.code} />
               <span className="footer-country-link-domain">{entry.domain}</span>
             </MarketLink>
           </li>

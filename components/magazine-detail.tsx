@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AntiEyebrowEditorial } from "@/components/anti-eyebrow-editorial";
+import { ArticleCardMedia } from "@/components/article-card-media";
 import { AuthorProfileContact } from "@/components/author-profile-contact";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { IconyMagazineWidgets } from "@/components/icony-magazine-widgets";
@@ -11,7 +12,6 @@ import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
 import { PublishedBookFeature } from "@/components/published-book-feature";
-import { MagazineTeaser } from "@/components/magazine-teaser";
 import { getAuthorProfilePage, stripAuthorProfileDuplicates } from "@/lib/author-profile-pages";
 import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
 import { serializeJsonLd } from "@/lib/json-ld";
@@ -185,30 +185,34 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
 
       {authorProfilePage && authorProfilePosts.length ? (
         <section className="content-section">
-          <div className="section-header">
+          <div className="section-header magazine-section-heading">
             <span className="eyebrow">Aus dem Tattoo-Magazin</span>
             <h2>{authorProfilePage.articleListHeading}</h2>
           </div>
-          <div className="stack-list">
-            {authorProfilePosts.slice(0, 8).map((post) => (
+          <div className="magazine-story-grid">
+            {authorProfilePosts.slice(0, 6).map((post) => (
               <MarketLink
                 key={post.id}
                 targetMarket={market}
                 pathname={`/magazin/${post.slug}`}
-                className="article-card article-card-rich author-article-card"
+                className="article-card magazine-story-card"
               >
-                <div className="article-card-media">
-                  <Image
-                    src={post.featuredImage || AUTHOR_ARTICLE_FALLBACK_IMAGE}
-                    alt={post.featuredImage ? post.featuredImageAlt || post.title : "Tätowiertes Paar – Dich mit Stich Magazin"}
-                    width={360}
-                    height={240}
-                    sizes="(max-width: 760px) 112px, 150px"
-                  />
-                </div>
-                <div className="article-card-copy">
+                <ArticleCardMedia
+                  imageUrl={post.featuredImage || AUTHOR_ARTICLE_FALLBACK_IMAGE}
+                  alt={post.featuredImage ? post.featuredImageAlt || post.title : "Tätowiertes Paar – Dich mit Stich Magazin"}
+                  fallbackLabel="Dich mit Stich Magazin"
+                  fallbackTitle={post.title}
+                  className="magazine-story-media"
+                  sizes="(max-width: 900px) 100vw, 460px"
+                />
+                <div className="magazine-story-copy">
+                  <span className="eyebrow eyebrow-muted">{post.categories[0]?.name || "Magazin"}</span>
                   <h3>{post.title}</h3>
-                  <MagazineTeaser entry={post} length={170} origin={publicUrl(market)} />
+                  {post.date ? (
+                    <div className="meta-row magazine-story-meta">
+                      <span>{formatGermanDate(post.date)}</span>
+                    </div>
+                  ) : null}
                 </div>
               </MarketLink>
             ))}

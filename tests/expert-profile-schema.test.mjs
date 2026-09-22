@@ -152,6 +152,20 @@ test("the expert profile keeps its 5:4 cover and its imported vita links move in
   assert.match(stripped, /^<p>Intro<\/p>/);
 });
 
+test("the author article list reuses the uniform magazine story grid", async () => {
+  const [detail, css] = await Promise.all([
+    readSource("../components/magazine-detail.tsx"),
+    readSource("../app/globals.css"),
+  ]);
+
+  assert.match(detail, /className="magazine-story-grid"/);
+  assert.match(detail, /className="article-card magazine-story-card"/);
+  assert.match(detail, /className="magazine-story-media"/);
+  // The ragged full-height thumbnail column is what made the list look broken.
+  assert.doesNotMatch(detail, /author-article-card/);
+  assert.match(css, /\.magazine-story-media\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*10/s);
+});
+
 test("author profiles expose XING and the vita domain as sameAs", async () => {
   const profiles = await readSource("../lib/author-profiles.ts");
 

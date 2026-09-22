@@ -64,3 +64,25 @@ test("the singles bridge card is styled", async () => {
 
   assert.match(css, /\.studio-singles-card\s*\{/, "the bridge card needs its own styling");
 });
+
+test("the bridge card sets its own text colours instead of inheriting section defaults", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const ruleBody = (selector) => {
+    const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return css.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+  };
+
+  // `.content-section h2` sets a colour, so a card that does not declare its own
+  // ends up with dark grey text — unreadable on anything but a light background.
+  assert.match(
+    ruleBody(".studio-singles-card h2"),
+    /color:/,
+    "the heading must declare its colour, otherwise .content-section h2 wins",
+  );
+
+  // The global `.eyebrow` ships a light pill background; a card that only
+  // overrides the text colour can end up white on near-white.
+  const eyebrow = ruleBody(".studio-singles-card .eyebrow");
+  assert.match(eyebrow, /color:/, "the eyebrow must declare its text colour");
+  assert.match(eyebrow, /background:/, "the eyebrow must declare its pill background to stay legible");
+});

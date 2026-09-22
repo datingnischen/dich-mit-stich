@@ -36,6 +36,8 @@ export type AboutCard = {
     src: string;
     alt: string;
     fit?: "cover" | "contain";
+    /** Randloses Titelbild mit Markenverlauf; das Icon sitzt als Chip im Bild. */
+    bleed?: boolean;
   };
   link?: AboutLink;
 };
@@ -206,12 +208,20 @@ function aboutPath(slug: AboutRouteSlug) {
   return slug ? `${ABOUT_ROOT_PATH}/${slug}` : ABOUT_ROOT_PATH;
 }
 
-function internalCard(slug: AboutSlug, eyebrow: string, title: string, text: string, icon: string): AboutCard {
+function internalCard(
+  slug: AboutSlug,
+  eyebrow: string,
+  title: string,
+  text: string,
+  icon: string,
+  image?: AboutCard["image"],
+): AboutCard {
   return {
     eyebrow,
     title,
     text,
     icon,
+    ...(image ? { image } : {}),
     link: { label: `${title} öffnen`, href: aboutPath(slug) },
   };
 }
@@ -230,11 +240,31 @@ function rootPage(market: MarketCode): AboutPage {
     sectionTitle: "Die wichtigsten Hintergrundseiten auf einen Blick",
     sectionLead: "Öffne direkt den Bereich, über den du mehr erfahren möchtest.",
     cards: [
-      internalCard("expertenteam", "Menschen & Rollen", "Unser Expertenteam", "Wer Inhalte prägt und wer die Plattform im Hintergrund betreibt.", "✍"),
-      internalCard("erfolgsgeschichten", "Echte Begegnungen", "Erfolgsgeschichten", "Drei veröffentlichte Geschichten aus der Dich-mit-Stich-Community.", "♥"),
-      internalCard("social-media", "Offizielle Kanäle", "Social Media", "Facebook, Instagram und YouTube von Dich mit Stich.", "◎"),
-      internalCard("bewertungen", "Erfahrungen & Vertrauen", "Bewertungen", "Externe Bewertungen, Community-Geschichten und dein eigener Eindruck.", "★"),
-      internalCard("kooperationen", "Gemeinsam aktiv", "Kooperationen", "Möglichkeiten für Studios, Creator, Medien und Szene-Communities.", "↗"),
+      internalCard("expertenteam", "Menschen & Rollen", "Unser Expertenteam", "Wer Inhalte prägt und wer die Plattform im Hintergrund betreibt.", "✍", {
+        src: "/about/dich-mit-stich-ueber-uns-expertenteam.webp",
+        alt: "Datingexperte Christian M. Haas lächelt in die Kamera",
+        bleed: true,
+      }),
+      internalCard("erfolgsgeschichten", "Echte Begegnungen", "Erfolgsgeschichten", "Drei veröffentlichte Geschichten aus der Dich-mit-Stich-Community.", "♥", {
+        src: "/about/dich-mit-stich-ueber-uns-erfolgsgeschichten.webp",
+        alt: "Pascal und Stephanie, ein Paar aus der Dich-mit-Stich-Community",
+        bleed: true,
+      }),
+      internalCard("social-media", "Offizielle Kanäle", "Social Media", "Facebook, Instagram und YouTube von Dich mit Stich.", "◎", {
+        src: "/about/dich-mit-stich-ueber-uns-social-media.webp",
+        alt: "Tätowiertes Paar liegt lachend im Bett",
+        bleed: true,
+      }),
+      internalCard("bewertungen", "Erfahrungen & Vertrauen", "Bewertungen", "Externe Bewertungen, Community-Geschichten und dein eigener Eindruck.", "★", {
+        src: "/about/dich-mit-stich-ueber-uns-bewertungen.webp",
+        alt: "Zwei Hände mit Partner-Tattoos, Vogel und offener Käfig",
+        bleed: true,
+      }),
+      internalCard("kooperationen", "Gemeinsam aktiv", "Kooperationen", "Möglichkeiten für Studios, Creator, Medien und Szene-Communities.", "↗", {
+        src: "/about/dich-mit-stich-ueber-uns-kooperationen.webp",
+        alt: "Tätowiererin arbeitet in ihrem Studio an einem Tattoo",
+        bleed: true,
+      }),
     ],
     primaryCta: { label: "Expertenteam kennenlernen", href: aboutPath("expertenteam") },
     secondaryCta: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },

@@ -3432,8 +3432,8 @@ img {
   object-position: center;
 }
 
-/* Social-Kanal-Kacheln: randloses Kanalbild mit Markenverlauf und Logo-Chip */
-.about-card-image-channel {
+/* Randlose Titelbilder mit Markenverlauf und Chip (Übersicht + Social-Kanäle) */
+.about-card-image-bleed {
   width: auto;
   margin: calc((var(--about-card-pad) + 1px) * -1) calc((var(--about-card-pad) + 1px) * -1) 5px;
   aspect-ratio: 16 / 9;
@@ -3441,12 +3441,12 @@ img {
   background: #2b0f1d;
 }
 
-.about-card-image-channel img {
+.about-card-image-bleed img {
   object-position: center 42%;
   transition: transform 520ms ease;
 }
 
-.about-card-image-channel::after {
+.about-card-image-bleed::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -3456,8 +3456,8 @@ img {
   pointer-events: none;
 }
 
-.about-topic-card-linked:hover .about-card-image-channel img,
-.about-topic-card-linked:focus-visible .about-card-image-channel img {
+.about-topic-card-linked:hover .about-card-image-bleed img,
+.about-topic-card-linked:focus-visible .about-card-image-bleed img {
   transform: scale(1.05);
 }
 
@@ -3473,6 +3473,14 @@ img {
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 10px 24px rgba(31, 8, 19, 0.38);
+}
+
+/* Icon-Chip der Übersichtskacheln in Markenfarbe */
+.about-card-image-bleed:not(.about-card-image-channel) .about-card-channel-badge {
+  color: var(--brand);
+  font-size: 1.3rem;
+  font-weight: 900;
+  line-height: 1;
 }
 
 .about-card-channel-badge svg {
@@ -3494,12 +3502,12 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-card-image-channel img {
+  .about-card-image-bleed img {
     transition: none;
   }
 
-  .about-topic-card-linked:hover .about-card-image-channel img,
-  .about-topic-card-linked:focus-visible .about-card-image-channel img {
+  .about-topic-card-linked:hover .about-card-image-bleed img,
+  .about-topic-card-linked:focus-visible .about-card-image-bleed img {
     transform: none;
   }
 }

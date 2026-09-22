@@ -54,9 +54,11 @@ const channelLogo: Record<SocialChannel, ReactNode> = {
 };
 
 function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["market"] }) {
+  const bleed = Boolean(card.channel || card.image?.bleed);
   const imageClassName = [
     "about-card-image",
     card.image?.fit === "contain" ? "about-card-image-contain" : null,
+    bleed ? "about-card-image-bleed" : null,
     card.channel ? `about-card-image-channel about-card-image-${card.channel}` : null,
   ]
     .filter(Boolean)
@@ -70,15 +72,19 @@ function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["m
             src={staticAsset(card.image.src)}
             alt={card.image.alt}
             fill
-            sizes={card.channel
+            sizes={bleed
               ? "(max-width: 560px) calc(100vw - 22px), (max-width: 900px) calc(100vw - 34px), (max-width: 1200px) 33vw, 380px"
               : "(max-width: 900px) calc(100vw - 76px), (max-width: 1200px) 28vw, 300px"}
             unoptimized={card.image.fit === "contain"}
           />
-          {card.channel ? <span className="about-card-channel-badge">{channelLogo[card.channel]}</span> : null}
+          {bleed ? (
+            <span className="about-card-channel-badge" aria-hidden="true">
+              {card.channel ? channelLogo[card.channel] : card.icon}
+            </span>
+          ) : null}
         </span>
       ) : null}
-      {card.image?.fit === "contain" || card.channel ? null : <span className="about-card-icon" aria-hidden="true">{card.icon}</span>}
+      {card.image?.fit === "contain" || bleed ? null : <span className="about-card-icon" aria-hidden="true">{card.icon}</span>}
       <span className="eyebrow">{card.eyebrow}</span>
       <h2>{card.title}</h2>
       <p>{card.text}</p>

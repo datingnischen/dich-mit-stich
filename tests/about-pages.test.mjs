@@ -282,3 +282,24 @@ test("redirects legacy trust URLs to exact destinations in the new hierarchy", a
   }
   assert.doesNotMatch(config, /source: "\/unsere-erfolgsgeschichten\.html"/);
 });
+
+test("overview tiles open with an emotional full-bleed image in every market", async () => {
+  const { getAboutPage } = await loadAboutPages();
+  const { existsSync } = await import("node:fs");
+
+  for (const market of ["de", "at", "ch"]) {
+    const page = getAboutPage(market, null);
+    assert.equal(page.cards.length, 5);
+    for (const card of page.cards) {
+      assert.equal(card.image?.bleed, true, `${market}: ${card.title}`);
+      assert.match(card.image.src, /^\/about\/dich-mit-stich-ueber-uns-[a-z-]+\.webp$/);
+      assert.ok(card.image.alt, `${market}: ${card.title} needs alt text`);
+      assert.ok(existsSync(new URL(`../public${card.image.src}`, import.meta.url)), card.image.src);
+    }
+  }
+
+  const component = await readFile(new URL("../components/about-page.tsx", import.meta.url), "utf8");
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(component, /card\.image\?\.bleed/);
+  assert.match(css, /\.about-card-image-bleed::after/);
+});

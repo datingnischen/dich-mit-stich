@@ -20,7 +20,7 @@ import {
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
-import { formatGermanDate, stripHtml } from "@/lib/wordpress";
+import { formatGermanDate, teaserText } from "@/lib/wordpress";
 
 export async function MagazineDetail({ market, slug }: { market: MarketCode; slug: string }) {
   const entry = await getMarketMagazineEntryBySlug(market, slug);
@@ -59,7 +59,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       }
     : defaultFeaturedImage;
   const articleSummary = localizeFirstPartyText(
-    answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 220),
+    answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 220),
     publicUrl(market),
   );
   const articleGraph = buildMagazineArticleGraph({

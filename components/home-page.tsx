@@ -1,15 +1,15 @@
 import Image from "next/image";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
+import { MagazineTeaser } from "@/components/magazine-teaser";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { conversionUrl } from "@/lib/conversion-links";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
-import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineCatalog } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 import { staticAsset } from "@/lib/static-asset";
-import { formatGermanDate, stripHtml } from "@/lib/wordpress";
+import { formatGermanDate } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
@@ -247,7 +247,7 @@ export async function HomePage({ market }: { market: MarketCode }) {
               <span className="eyebrow">Gerade beliebt</span>
               <h2>{featuredPost.title}</h2>
             </div>
-            <p className="home-feature-excerpt">{localizeFirstPartyText(stripHtml(featuredPost.excerpt || featuredPost.content).slice(0, 220), publicUrl(market))}…</p>
+            <MagazineTeaser entry={featuredPost} length={220} origin={publicUrl(market)} className="home-feature-excerpt" />
             <div className="meta-row home-feature-meta">
               {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
               {featuredPost.date ? <span>{formatGermanDate(featuredPost.date)}</span> : null}
@@ -273,7 +273,7 @@ export async function HomePage({ market }: { market: MarketCode }) {
                   {entry.date ? <span>{formatGermanDate(entry.date)}</span> : null}
                 </div>
                 <h3>{entry.title}</h3>
-                <p>{localizeFirstPartyText(stripHtml(entry.excerpt || entry.content).slice(0, 145), publicUrl(market))}…</p>
+                <MagazineTeaser entry={entry} length={145} origin={publicUrl(market)} />
               </MarketLink>
             ))}
           </div>

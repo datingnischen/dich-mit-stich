@@ -1,38 +1,12 @@
 import Image from "next/image";
+import { ArticleCardMedia } from "@/components/article-card-media";
+import { MagazineTeaser } from "@/components/magazine-teaser";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
-import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineCatalog, marketHasMagazineContent } from "@/lib/market-magazine";
 import { emptyMagazineMarketCopy } from "@/lib/market-magazine-policy";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { formatGermanDate, stripHtml } from "@/lib/wordpress";
-
-type ArticleCardMediaProps = {
-  imageUrl?: string;
-  alt: string;
-  fallbackLabel: string;
-  fallbackTitle: string;
-  className?: string;
-};
-
-function ArticleCardMedia({ imageUrl, alt, fallbackLabel, fallbackTitle, className = "" }: ArticleCardMediaProps) {
-  const mediaClassName = `article-card-media ${className}`.trim();
-
-  if (imageUrl) {
-    return (
-      <div className={mediaClassName}>
-        <Image src={imageUrl} alt={alt} width={720} height={405} sizes="(max-width: 760px) 100vw, 520px" />
-      </div>
-    );
-  }
-
-  return (
-    <div className={`${mediaClassName} article-card-media-fallback`} aria-hidden="true">
-      <span>{fallbackLabel}</span>
-      <strong>{fallbackTitle}</strong>
-    </div>
-  );
-}
+import { formatGermanDate } from "@/lib/wordpress";
 
 export async function MagazineOverview({ market }: { market: MarketCode }) {
   const { posts, pages, categories } = await getMarketMagazineCatalog(market);
@@ -101,7 +75,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
             <div className="editorial-feature-copy">
               <span className="eyebrow">{featuredPost.categories[0]?.name || "Magazin"}</span>
               <h3>{featuredPost.title}</h3>
-              <p>{localizeFirstPartyText(stripHtml(featuredPost.excerpt || featuredPost.content).slice(0, 220), publicUrl(market))}…</p>
+              <MagazineTeaser entry={featuredPost} length={220} origin={publicUrl(market)} />
               <div className="meta-row">
                 {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
                 {featuredPost.date ? <span>{formatGermanDate(featuredPost.date)}</span> : null}

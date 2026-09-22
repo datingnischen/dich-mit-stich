@@ -5,7 +5,7 @@ import { getAnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { getMagazineQuarantineDescription, isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
 import { publicUrl } from "@/lib/markets";
-import { getMagazineEntryBySlug, getMagazineRouteEntries, stripHtml } from "@/lib/wordpress";
+import { getMagazineEntryBySlug, getMagazineRouteEntries, teaserText } from "@/lib/wordpress";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const answerEngineEntry = getAnswerEnginePilotEntry(slug);
   return {
     title: `${entry.title} | dich-mit-stich Magazin`,
-    description: quarantined ? getMagazineQuarantineDescription() : answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 155),
+    description: quarantined ? getMagazineQuarantineDescription() : answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 155),
     alternates: { canonical: publicUrl("de", `/magazin/${slug}`) },
     robots: marketEditorialRobots("de", quarantined),
   };

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { MagazineTeaser } from "@/components/magazine-teaser";
 import { MarketLink } from "@/components/market-link";
 import { buildAuthorProfileGraph } from "@/lib/editorial-entities";
 import { serializeJsonLd } from "@/lib/json-ld";
@@ -7,7 +8,6 @@ import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineAuthorPosts, getMarketMagazineAuthorProfile } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
-import { stripHtml } from "@/lib/wordpress";
 
 const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
@@ -91,7 +91,7 @@ export async function MagazineAuthor({ market, slug }: { market: MarketCode; slu
                 )}
                 <div className="article-card-copy">
                   <h3>{post.title}</h3>
-                  <p>{localizeFirstPartyText(stripHtml(post.excerpt || post.content).slice(0, 170), publicUrl(market))}…</p>
+                  <MagazineTeaser entry={post} length={170} origin={publicUrl(market)} />
                 </div>
               </MarketLink>
             ))}

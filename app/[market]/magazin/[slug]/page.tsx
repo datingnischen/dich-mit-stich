@@ -5,7 +5,7 @@ import { marketEditorialRobots } from "@/lib/editorial-metadata";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineDetailContext, getMarketMagazineEntryBySlug, getMarketMagazineRouteEntries } from "@/lib/market-magazine";
 import { isMarketCode, publicUrl } from "@/lib/markets";
-import { stripHtml } from "@/lib/wordpress";
+import { teaserText } from "@/lib/wordpress";
 
 type PageProps = { params: Promise<{ market: string; slug: string }> };
 
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${entry.title} | dich-mit-stich Magazin`,
     description: localizeFirstPartyText(
-      quarantined ? quarantineDescription : answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? stripHtml(entry.excerpt || entry.content).slice(0, 155),
+      quarantined ? quarantineDescription : answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 155),
       publicUrl(market),
     ),
     alternates: { canonical: publicUrl(market, `/magazin/${slug}`) },

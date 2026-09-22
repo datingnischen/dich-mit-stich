@@ -212,11 +212,30 @@ export function decodeHtmlEntities(text = "") {
     .replace(/&#x([\da-fA-F]+);/g, (_, hex: string) => String.fromCodePoint(parseInt(hex, 16)));
 }
 
+// WordPress prefixes many magazine articles with an audio summary. The rendered content wraps that block in
+// markers, the auto-generated excerpt keeps only its plain text – both have to go before we build teasers.
+const AUDIO_SUMMARY_BLOCK = /<!--\s*audio-summary:start\s*-->[\s\S]*?<!--\s*audio-summary:end\s*-->/gi;
+const EMBEDDED_MEDIA_BLOCK = /<(script|style|audio|video)\b[^>]*>[\s\S]*?<\/\1>/gi;
+const AUDIO_SUMMARY_TEXT = /Artikel kurz anhören\s*Die wichtigsten Punkte kurz und verständlich zusammengefasst\.?/gi;
+const AUDIO_FALLBACK_TEXT = /Dein Browser unterstützt das Audio-Element nicht\.?/gi;
+
 export function stripHtml(text = "") {
-  return decodeHtmlEntities(text)
+  return decodeHtmlEntities(text.replace(AUDIO_SUMMARY_BLOCK, " ").replace(EMBEDDED_MEDIA_BLOCK, " "))
     .replace(/<[^>]+>/g, " ")
+    .replace(AUDIO_SUMMARY_TEXT, " ")
+    .replace(AUDIO_FALLBACK_TEXT, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+// Removing the audio summary can leave a WordPress auto-excerpt too short to read as a teaser. List responses carry
+// no content to fall back to, so callers get an empty string and skip the teaser instead of printing a stub.
+const MIN_TEASER_LENGTH = 90;
+
+export function teaserText(entry: { excerpt?: string; content?: string }, maxLength: number) {
+  const excerpt = stripHtml(entry.excerpt);
+  const source = excerpt.length >= MIN_TEASER_LENGTH ? excerpt : stripHtml(entry.content) || excerpt;
+  return source.length >= MIN_TEASER_LENGTH ? source.slice(0, maxLength) : "";
 }
 
 const MAGAZINE_MEDIA_PREFIX = "/magazin/wp-content/uploads/";

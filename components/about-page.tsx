@@ -197,21 +197,21 @@ export function AboutPageView({ page }: { page: AboutPage }) {
         {page.slug === null ? (
           <section className="about-split-section">
             <article className="about-info-panel about-info-panel-dark">
-              <span className="eyebrow">Plattform & Betrieb</span>
-              <h2>Klare Rollen statt anonymer Markenfassade</h2>
+              <span className="eyebrow">Wer dahintersteckt</span>
+              <h2>Echte Menschen statt anonymer Marke</h2>
               <p>
-                Christian M. Haas und Anne Schweitzer stehen sichtbar für redaktionelle Inhalte. Die Icony GmbH
-                betreibt die Dating-Plattform und ist Ansprechpartnerin für technische, rechtliche und datenschutzbezogene Plattformthemen.
+                Christian M. Haas und Anne Schweitzer schreiben die Artikel im Magazin. Die Icony GmbH betreibt die
+                Plattform – bei Fragen zu Technik, Datenschutz oder Rechtlichem ist sie deine Ansprechpartnerin.
               </p>
-              <MarketLink targetMarket={page.market} pathname="/ueber-uns/expertenteam">Menschen und Rollen kennenlernen</MarketLink>
+              <MarketLink targetMarket={page.market} pathname="/ueber-uns/expertenteam">Zum Team</MarketLink>
             </article>
             <article className="about-info-panel">
               <span className="eyebrow">Dein nächster Schritt</span>
-              <h2>Erst informieren, dann selbst entscheiden</h2>
+              <h2>Schau dich in Ruhe um</h2>
               <p>
-                Lies Community-Geschichten, prüfe aktuelle externe Bewertungen oder schau dich kostenlos um – ohne Erfolgsversprechen und ohne festgeschriebene Sternezahl.
+                Lies die Geschichten unserer Paare, schau dir die Bewertungen auf Trustpilot an oder melde dich kostenlos an und sieh selbst, wer dabei ist.
               </p>
-              <MarketLink targetMarket={page.market} pathname="/ueber-uns/bewertungen">Bewertungen realistisch einordnen</MarketLink>
+              <MarketLink targetMarket={page.market} pathname="/ueber-uns/bewertungen">Zu den Bewertungen</MarketLink>
             </article>
           </section>
         ) : null}
@@ -220,7 +220,7 @@ export function AboutPageView({ page }: { page: AboutPage }) {
           <div>
             <span className="eyebrow">Dich mit Stich entdecken</span>
             <h2>Finde Menschen, die deinen Stil verstehen.</h2>
-            <p>Starte kostenlos und entscheide selbst, wen du kennenlernen möchtest.</p>
+            <p>Die Anmeldung ist kostenlos. Wen du anschreibst, entscheidest du.</p>
           </div>
           <a className="button button-primary" href={conversionUrl(publicUrl(page.market), "/registration/", "location")}>Kostenlos registrieren</a>
         </section>

@@ -190,6 +190,11 @@ test("expert cards link to preview-aware profiles and show the published author 
       alt: "Icony GmbH",
       fit: "contain",
     });
+    assert.deepEqual(page.cards[2].link, {
+      label: "Icony GmbH besuchen",
+      href: "https://www.icony.com/",
+      external: true,
+    });
   }
 
   await assert.doesNotReject(

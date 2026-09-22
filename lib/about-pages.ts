@@ -121,7 +121,7 @@ const expertCards: AboutCard[] = [
   {
     eyebrow: "Dating & Redaktion",
     title: "Christian M. Haas",
-    text: "Datingexperte und Autor mit langjähriger Erfahrung in Nischen-Singlebörsen und Online-Dating.",
+    text: "Datingexperte und Autor. Beschäftigt sich seit Jahren mit Online-Dating und Singlebörsen für besondere Zielgruppen.",
     icon: "✍",
     image: {
       src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png",
@@ -135,7 +135,7 @@ const expertCards: AboutCard[] = [
   {
     eyebrow: "Tattoo-Magazin",
     title: "Anne Schweitzer",
-    text: "Autorin für Tattoo-Motive, Stilfragen und verwandte Themen aus der Tattoo-Szene.",
+    text: "Schreibt über Tattoo-Motive, Stile und alles, was die Szene gerade bewegt.",
     icon: "✦",
     image: {
       src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin-300x300.jpg",
@@ -147,14 +147,19 @@ const expertCards: AboutCard[] = [
     },
   },
   {
-    eyebrow: "Plattformbetrieb",
+    eyebrow: "Betreiberin",
     title: "Icony GmbH",
-    text: "Die Icony GmbH betreibt die Dating-Plattform und ist Ansprechpartnerin für Technik, Datenschutz und rechtliche Plattformthemen.",
+    text: "Betreibt die Plattform. An sie wendest du dich bei Fragen zu Technik, Datenschutz und Rechtlichem.",
     icon: "⚙",
     image: {
       src: "/brand/icony-gmbh-logo.png",
       alt: "Icony GmbH",
       fit: "contain",
+    },
+    link: {
+      label: "Icony GmbH besuchen",
+      href: "https://www.icony.com/",
+      external: true,
     },
   },
 ];
@@ -191,7 +196,7 @@ const storyCards: AboutCard[] = [
   {
     eyebrow: "Erfahrung",
     title: "Andreas fand sein Gegenstück",
-    text: "Andreas berichtet über seine Partnersuche und die Begegnung, die daraus entstand.",
+    text: "Andreas erzählt, wie er über Dich mit Stich Do kennengelernt hat.",
     icon: "♥",
     image: {
       src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/10/erfolgsgeschichte.png",
@@ -214,6 +219,7 @@ function internalCard(
   title: string,
   text: string,
   icon: string,
+  linkLabel: string,
   image?: AboutCard["image"],
 ): AboutCard {
   return {
@@ -222,7 +228,7 @@ function internalCard(
     text,
     icon,
     ...(image ? { image } : {}),
-    link: { label: `${title} öffnen`, href: aboutPath(slug) },
+    link: { label: linkLabel, href: aboutPath(slug) },
   };
 }
 
@@ -233,40 +239,40 @@ function rootPage(market: MarketCode): AboutPage {
     path: ABOUT_ROOT_PATH,
     eyebrow: "Hinter den Kulissen",
     title: "Über Dich mit Stich",
-    description: `Lerne die Menschen, Geschichten und Kanäle hinter Dich mit Stich ${countryPhrase[market]} kennen.`,
-    lead: "Dich mit Stich verbindet Tattoo- und Piercing-Singles und ergänzt die Partnersuche mit Stadtseiten, Magazinwissen und echten Geschichten aus der Community.",
-    highlights: ["Menschen hinter der Marke", "echte Community-Geschichten", "offizielle Kanäle", "klare Ansprechpartner"],
+    description: `Wer steckt hinter Dich mit Stich ${countryPhrase[market]}? Das Team, echte Paare aus der Community und unsere Kanäle.`,
+    lead: "Dich mit Stich ist die Singlebörse für Menschen mit Tattoos und Piercings. Hier erfährst du, wer dahintersteckt, welche Paare sich bei uns gefunden haben und wo du uns sonst noch triffst.",
+    highlights: ["Das Team", "Echte Paare", "Facebook, Instagram & YouTube", "Direkter Kontakt"],
     sectionEyebrow: "Mehr über uns",
-    sectionTitle: "Die wichtigsten Hintergrundseiten auf einen Blick",
-    sectionLead: "Öffne direkt den Bereich, über den du mehr erfahren möchtest.",
+    sectionTitle: "Wo willst du weiterlesen?",
+    sectionLead: "Such dir aus, was dich interessiert.",
     cards: [
-      internalCard("expertenteam", "Menschen & Rollen", "Unser Expertenteam", "Wer Inhalte prägt und wer die Plattform im Hintergrund betreibt.", "✎", {
+      internalCard("expertenteam", "Das Team", "Unser Expertenteam", "Wer die Artikel im Magazin schreibt und wer die Plattform betreibt.", "✎", "Team kennenlernen", {
         src: "/about/dich-mit-stich-ueber-uns-expertenteam.webp",
         alt: "Datingexperte Christian M. Haas lächelt in die Kamera",
         bleed: true,
       }),
-      internalCard("erfolgsgeschichten", "Echte Begegnungen", "Erfolgsgeschichten", "Drei veröffentlichte Geschichten aus der Dich-mit-Stich-Community.", "♥", {
+      internalCard("erfolgsgeschichten", "Echte Paare", "Erfolgsgeschichten", "Drei Paare erzählen, wie sie sich bei uns gefunden haben.", "♥", "Geschichten lesen", {
         src: "/about/dich-mit-stich-ueber-uns-erfolgsgeschichten.webp",
         alt: "Pascal und Stephanie, ein Paar aus der Dich-mit-Stich-Community",
         bleed: true,
       }),
-      internalCard("social-media", "Offizielle Kanäle", "Social Media", "Facebook, Instagram und YouTube von Dich mit Stich.", "◎", {
+      internalCard("social-media", "Folg uns", "Social Media", "Du findest uns auf Facebook, Instagram und YouTube.", "◎", "Zu unseren Kanälen", {
         src: "/about/dich-mit-stich-ueber-uns-social-media.webp",
         alt: "Tätowiertes Paar liegt lachend im Bett",
         bleed: true,
       }),
-      internalCard("bewertungen", "Erfahrungen & Vertrauen", "Bewertungen", "Externe Bewertungen, Community-Geschichten und dein eigener Eindruck.", "★", {
+      internalCard("bewertungen", "Was andere sagen", "Bewertungen", "Was Mitglieder auf Trustpilot über uns schreiben.", "★", "Bewertungen ansehen", {
         src: "/about/dich-mit-stich-ueber-uns-bewertungen.webp",
         alt: "Zwei Hände mit Partner-Tattoos, Vogel und offener Käfig",
         bleed: true,
       }),
-      internalCard("kooperationen", "Gemeinsam aktiv", "Kooperationen", "Möglichkeiten für Studios, Creator, Medien und Szene-Communities.", "↗", {
+      internalCard("kooperationen", "Zusammenarbeit", "Kooperationen", "Du hast ein Studio, einen Kanal oder ein Magazin? Lass uns etwas zusammen machen.", "↗", "Mehr zu Kooperationen", {
         src: "/about/dich-mit-stich-ueber-uns-kooperationen.webp",
         alt: "Tätowiererin arbeitet in ihrem Studio an einem Tattoo",
         bleed: true,
       }),
     ],
-    primaryCta: { label: "Expertenteam kennenlernen", href: aboutPath("expertenteam") },
+    primaryCta: { label: "Lern das Team kennen", href: aboutPath("expertenteam") },
     secondaryCta: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },
   };
 }
@@ -276,17 +282,17 @@ function expertPage(market: MarketCode): AboutPage {
     market,
     slug: "expertenteam",
     path: aboutPath("expertenteam"),
-    eyebrow: "Menschen & Verantwortung",
+    eyebrow: "Das Team",
     title: "Unser Expertenteam",
-    description: "Die redaktionellen Stimmen und der Plattformbetrieb hinter Dich mit Stich.",
-    lead: "Hier siehst du, wer Dating- und Tattoo-Themen redaktionell begleitet und wer für den Betrieb der Plattform verantwortlich ist.",
-    highlights: ["klare Rollen", "sichtbare Autorenprofile", "Tattoo- und Datingthemen", "rechtlicher Plattformbetrieb"],
-    sectionEyebrow: "Das Team",
-    sectionTitle: "Menschen und Rollen hinter Dich mit Stich",
-    sectionLead: "Autorenprofile und Plattformbetrieb werden bewusst getrennt dargestellt.",
+    description: "Wer bei Dich mit Stich schreibt und wer die Plattform betreibt.",
+    lead: "Hinter Dich mit Stich stecken echte Menschen: Christian schreibt übers Daten, Anne über Tattoos. Um Technik und Datenschutz kümmert sich die Icony GmbH.",
+    highlights: ["Dating-Know-how", "Tattoo-Wissen", "Autorenprofile", "Betrieb: Icony GmbH"],
+    sectionEyebrow: "Wer wir sind",
+    sectionTitle: "Die Menschen hinter Dich mit Stich",
+    sectionLead: "Zwei Stimmen im Magazin, eine Firma im Hintergrund.",
     cards: expertCards,
     primaryCta: { label: "Erfolgsgeschichten lesen", href: aboutPath("erfolgsgeschichten") },
-    secondaryCta: { label: "Zur Über-uns-Übersicht", href: ABOUT_ROOT_PATH },
+    secondaryCta: { label: "Zurück zu Über uns", href: ABOUT_ROOT_PATH },
   };
 }
 
@@ -295,17 +301,17 @@ function storiesPage(market: MarketCode): AboutPage {
     market,
     slug: "erfolgsgeschichten",
     path: aboutPath("erfolgsgeschichten"),
-    eyebrow: "Echte Begegnungen",
+    eyebrow: "Echte Paare",
     title: "Erfolgsgeschichten bei Dich mit Stich",
-    description: "Veröffentlichte Geschichten von Menschen, die über Dich mit Stich zueinandergefunden haben.",
-    lead: "Hinter Profilen und Nachrichten stehen echte Menschen. Diese veröffentlichten Geschichten zeigen persönliche Wege vom ersten Kontakt bis zum Kennenlernen.",
-    highlights: ["persönliche Geschichten", "direkt nachlesbar", "aus der Community", "ohne Erfolgsversprechen"],
+    description: "Paare, die sich über Dich mit Stich gefunden haben, erzählen ihre Geschichte.",
+    lead: "Erst ein Profil, dann die erste Nachricht, irgendwann das erste Date: Diese Paare erzählen, wie es bei ihnen angefangen hat.",
+    highlights: ["Pascal & Stephanie", "Katharina & Philip", "Andreas & Do", "selbst erzählt"],
     sectionEyebrow: "Aus der Community",
     sectionTitle: "Drei Geschichten, drei eigene Wege",
-    sectionLead: "Die Beiträge erzählen individuelle Erfahrungen und sind kein Versprechen für einen bestimmten Ausgang deiner Partnersuche.",
+    sectionLead: "Jede Liebesgeschichte läuft anders, eine Garantie gibt es beim Daten nicht. Aber diese drei zeigen, dass es klappen kann.",
     cards: storyCards,
-    primaryCta: { label: "Kostenlos selbst starten", href: locationRegistrationUrl(market), external: true },
-    secondaryCta: { label: "Zur Über-uns-Übersicht", href: ABOUT_ROOT_PATH },
+    primaryCta: { label: "Jetzt kostenlos anmelden", href: locationRegistrationUrl(market), external: true },
+    secondaryCta: { label: "Zurück zu Über uns", href: ABOUT_ROOT_PATH },
   };
 }
 
@@ -320,19 +326,19 @@ function cooperationPage(market: MarketCode): AboutPage {
     lead: "Du betreibst ein Tattoo-Studio, einen passenden Kanal, ein Magazin oder eine Community? Dann beschreibe uns kurz deine Zielgruppe und deine Idee.",
     highlights: ["Tattoo- und Piercing-Szene", "Studios & Creator", "Medien & Communities", "direkter Kontakt"],
     sectionEyebrow: "Zusammenarbeit",
-    sectionTitle: "Welche Kooperation zu dir passen kann",
-    sectionLead: "Eine Anfrage sollte nachvollziehbar machen, wer du bist, wen du erreichst und welchen Nutzen die Zusammenarbeit für die Community hat.",
+    sectionTitle: "Mit wem wir gern zusammenarbeiten",
+    sectionLead: "Schreib uns kurz, wer du bist, wen du erreichst und was du dir vorstellst.",
     cards: [
-      { eyebrow: "Vor Ort", title: "Tattoo- und Piercing-Studios", text: "Für gemeinsame Inhalte, lokale Guides oder andere nachvollziehbare Ideen mit echtem Szene-Bezug.", icon: "◆" },
-      { eyebrow: "Reichweite", title: "Creator & Social Media", text: "Für passende Formate rund um Tattoo-Kultur, Piercings, Singles und Community.", icon: "◎" },
-      { eyebrow: "Inhalte", title: "Medien & Communities", text: "Für Interviews, redaktionelle Kooperationen und gemeinsame Themen mit klarer Zielgruppe.", icon: "✦" },
+      { eyebrow: "Vor Ort", title: "Tattoo- und Piercing-Studios", text: "Gemeinsame Aktionen, lokale Guides oder eine Empfehlung im Studio – Hauptsache, es passt zur Szene.", icon: "◆" },
+      { eyebrow: "Reichweite", title: "Creator & Social Media", text: "Beiträge, Stories oder Videos rund um Tattoos, Piercings und Dating.", icon: "◎" },
+      { eyebrow: "Inhalte", title: "Medien & Communities", text: "Interviews, Gastbeiträge und gemeinsame Themen für eure Leserinnen und Leser.", icon: "✦" },
     ],
     detailSections: [
       {
         eyebrow: "Wen wir suchen",
         title: "Partner aus der Tattoo- und Piercing-Szene",
         paragraphs: [
-          "Dich mit Stich bringt tätowierte und gepiercte Singles zusammen. Dafür suchen wir Partner, die zur Szene passen und ihrer Community einen echten Mehrwert bieten möchten.",
+          "Dich mit Stich bringt tätowierte und gepiercte Singles zusammen. Dafür suchen wir Partner aus der Szene, deren Community etwas davon hat.",
         ],
         items: [
           "Tattoo- und Piercing-Studios, die Dich mit Stich auf ihrer Website, im Studio oder über einen QR-Code empfehlen möchten.",
@@ -349,9 +355,9 @@ function cooperationPage(market: MarketCode): AboutPage {
           "Für Studios und Creator gibt es ein gemeinsames Partnerprogramm über Adcell. Ein personalisierter Partnerlink ordnet vermittelte Premium-Mitgliedschaften eindeutig zu.",
         ],
         items: [
-          "35 % Provision pro Sale – auf den bestehenden Partnerseiten werden derzeit 13,96 bis 58,38 Euro pro erfolgreicher Premium-Mitgliedschaft genannt.",
+          "35 % Provision pro Sale – das sind aktuell 13,96 bis 58,38 Euro pro vermittelter Premium-Mitgliedschaft.",
           "Lifetime-Provision: Auch bei Verlängerungen einer vermittelten Premium-Mitgliedschaft werden 35 % vergütet.",
-          "Schnelle Freigabe: Die vorhandenen Partnerinformationen nennen eine Provisionsfreigabe in weniger als drei Tagen.",
+          "Schnelle Freigabe: Provisionen werden in weniger als drei Tagen freigegeben.",
           "Transparente Auswertung: Klicks, Registrierungen und Umsätze lassen sich im Adcell-Konto nachvollziehen.",
         ],
         cta: {
@@ -382,8 +388,8 @@ function cooperationPage(market: MarketCode): AboutPage {
         eyebrow: "Weitere Ideen",
         title: "Gemeinsame Inhalte, Aktionen und Community-Projekte",
         paragraphs: [
-          "Nicht jede gute Zusammenarbeit passt in ein klassisches Partnerprogramm. Wenn du ein Studio, einen Shop, ein Magazin, eine Fanseite oder einen passenden Kanal betreibst, schick uns deine Idee mit einem kurzen Hinweis zu Zielgruppe, Reichweite und geplantem Format.",
-          "Wir prüfen, ob daraus eine gemeinsame Aktion, ein redaktioneller Beitrag, ein lokaler Guide oder eine andere sinnvolle Kooperation für die Tattoo- und Piercing-Community entstehen kann.",
+          "Nicht jede gute Idee passt in ein Partnerprogramm. Du hast ein Studio, einen Shop, ein Magazin, eine Fanseite oder einen Kanal? Dann schreib uns, was du vorhast und wen du damit erreichst.",
+          "Wir melden uns und schauen gemeinsam, was daraus werden kann: eine Aktion, ein Artikel, ein Stadt-Guide oder etwas ganz anderes.",
         ],
         cta: {
           label: "Kooperationsidee per E-Mail senden",
@@ -397,7 +403,7 @@ function cooperationPage(market: MarketCode): AboutPage {
       href: "mailto:christian@datingnischen.de?subject=Kooperationsanfrage%20Dich%20mit%20Stich",
       external: true,
     },
-    secondaryCta: { label: "Zur Über-uns-Übersicht", href: ABOUT_ROOT_PATH },
+    secondaryCta: { label: "Zurück zu Über uns", href: ABOUT_ROOT_PATH },
   };
 }
 
@@ -406,33 +412,33 @@ function reviewsPage(market: MarketCode): AboutPage {
     market,
     slug: "bewertungen",
     path: aboutPath("bewertungen"),
-    eyebrow: "Erfahrungen & Vertrauen",
+    eyebrow: "Was andere sagen",
     title: "Bewertungen und Erfahrungen zu Dich mit Stich",
-    description: "Externe Bewertungen und veröffentlichte Community-Erfahrungen zu Dich mit Stich.",
-    lead: "Bewertungen verändern sich. Deshalb verlinken wir auf den aktuellen Stand bei der externen Quelle und trennen ihn von unseren eigenen veröffentlichten Erfolgsgeschichten.",
-    highlights: ["externe Quelle", "keine festgeschriebene Sternezahl", "Community-Geschichten", "kostenlos selbst ansehen"],
-    sectionEyebrow: "Realistisch einordnen",
-    sectionTitle: "So kannst du dir ein eigenes Bild machen",
-    sectionLead: "Nutze mehrere Perspektiven: aktuelle externe Bewertungen, persönliche Geschichten und einen eigenen kostenlosen Blick auf die Plattform.",
+    description: "Was Mitglieder über Dich mit Stich sagen: Bewertungen auf Trustpilot und Geschichten aus der Community.",
+    lead: "Statt hier Sterne abzudrucken, die morgen schon veraltet sind, schicken wir dich direkt zu Trustpilot. Dort liest du, was Mitglieder gerade über uns schreiben.",
+    highlights: ["Trustpilot", "immer aktuell", "echte Paare", "kostenlos testen"],
+    sectionEyebrow: "Mach dir selbst ein Bild",
+    sectionTitle: "Drei Wege, uns kennenzulernen",
+    sectionLead: "Lies, was andere schreiben, lies die Geschichten unserer Paare oder schau dich einfach selbst kostenlos um.",
     cards: [
       {
-        eyebrow: "Externe Bewertungen",
-        title: "Aktueller Stand bei Trustpilot",
-        text: "Öffne Trustpilot direkt, um den jeweils aktuellen Bewertungsstand und einzelne Erfahrungsberichte zu lesen.",
+        eyebrow: "Trustpilot",
+        title: "Bewertungen auf Trustpilot",
+        text: "Hier schreiben Mitglieder, was ihnen gefällt – und was nicht.",
         icon: "★",
         link: { label: "Trustpilot öffnen", href: "https://de.trustpilot.com/review/dich-mit-stich.de", external: true },
       },
-      internalCard("erfolgsgeschichten", "Veröffentlichte Erfahrungen", "Erfolgsgeschichten", "Lies drei persönliche Geschichten aus der Dich-mit-Stich-Community.", "♥"),
+      internalCard("erfolgsgeschichten", "Echte Paare", "Erfolgsgeschichten", "Drei Paare erzählen, wie sie sich bei uns gefunden haben.", "♥", "Geschichten lesen"),
       {
-        eyebrow: "Eigener Eindruck",
+        eyebrow: "Selbst ausprobieren",
         title: "Kostenlos umsehen",
-        text: "Starte kostenlos und entscheide selbst, ob Zielgruppe, Profile und Funktionen zu dir passen.",
+        text: "Melde dich kostenlos an und schau, wer in deiner Nähe dabei ist.",
         icon: "→",
         link: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },
       },
     ],
     primaryCta: { label: "Aktuelle Bewertungen ansehen", href: "https://de.trustpilot.com/review/dich-mit-stich.de", external: true },
-    secondaryCta: { label: "Zur Über-uns-Übersicht", href: ABOUT_ROOT_PATH },
+    secondaryCta: { label: "Zurück zu Über uns", href: ABOUT_ROOT_PATH },
   };
 }
 
@@ -447,11 +453,11 @@ function socialPage(market: MarketCode): AboutPage {
     lead: "Folge Dich mit Stich für Community-Einblicke, Tattoo- und Piercingthemen sowie neue Videos aus der Szene.",
     highlights: ["Facebook", "Instagram", "YouTube", "offizielle Kanäle"],
     sectionEyebrow: "Kanäle & Community",
-    sectionTitle: "Dich mit Stich auch außerhalb der Plattform",
-    sectionLead: "Alle Links führen direkt zu den jeweiligen öffentlichen Profilen.",
+    sectionTitle: "Hier findest du uns noch",
+    sectionLead: "Ein Klick, und du bist auf unserem Profil.",
     cards: socialCards,
     primaryCta: { label: "Facebook öffnen", href: "https://www.facebook.com/dichmitstich/", external: true },
-    secondaryCta: { label: "Zur Über-uns-Übersicht", href: ABOUT_ROOT_PATH },
+    secondaryCta: { label: "Zurück zu Über uns", href: ABOUT_ROOT_PATH },
   };
 }
 

@@ -8,6 +8,7 @@ import linzManifest from "../data/tattoo-studio-guide-linz.json" with { type: "j
 import salzburgManifest from "../data/tattoo-studio-guide-salzburg.json" with { type: "json" };
 import wienManifest from "../data/tattoo-studio-guide-wien.json" with { type: "json" };
 import zuerichManifest from "../data/tattoo-studio-guide-zuerich.json" with { type: "json" };
+import chGuideCatalog from "../data/tattoo-studio-guides-ch.json" with { type: "json" };
 import deGuideCatalog from "../data/tattoo-studio-guides-de.json" with { type: "json" };
 import atTattooCities from "../data/tattoo-cities-at.json" with { type: "json" };
 import chTattooCities from "../data/tattoo-cities-ch.json" with { type: "json" };
@@ -64,7 +65,8 @@ type SourceGuide = {
   cityName: string;
   title: string;
   sourceUrl: string;
-  contentHtml: string;
+  /** Legacy mirror of the editorial body. The WordPress importer rebuilds it, so new manifests omit it. */
+  contentHtml?: string;
   editorialHtml?: string;
   selectionMethodHtml: string;
   lastVerified: string;
@@ -107,7 +109,7 @@ type SourceManifest = {
   studios: SourceStudio[];
 };
 
-type DeGuideCatalog = {
+type GuideCatalog = {
   schemaVersion: number;
   manifests: SourceManifest[];
 };
@@ -304,6 +306,10 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
     imageAttribution: { title: string; creator: string; license: string; sourceUrl: string };
   }>)[source.guide.citySlug];
   const market = source.guide.market as MarketCode;
+  // AT and CH cities keep their imagery in their own catalogue, so fall back to it
+  // when a city is not present in the DE image list.
+  const marketImageCatalog = market === "at" ? atCityImageCatalog : market === "ch" ? chCityImageCatalog : undefined;
+  const cityImage = image ?? marketImageCatalog?.[source.guide.citySlug];
   const publicationStatus = source.guide.publicationStatus === "verified" ? "verified" : "rollout";
   const legacyImage = getLegacyTattooImage(market, source.guide.citySlug, source.guide.cityName);
   return {
@@ -321,8 +327,10 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
       lastVerified: source.guide.lastVerified,
       imageUrl: source.guide.imageUrl || (market === "de"
         ? LOCAL_GUIDE_IMAGES[source.guide.citySlug] || `/cities/${source.guide.citySlug}.jpg`
-        : image?.imageUrl || null),
-      imageAttribution: source.guide.imageAttribution || image?.imageAttribution || { title: "", creator: "", license: "", sourceUrl: "" },
+        : cityImage?.imageUrl || null),
+      imageAttribution: source.guide.imageAttribution
+        || (cityImage ? getDirectoryImageAttribution(cityImage) : undefined)
+        || { title: "", creator: "", license: "", sourceUrl: "" },
       legacyImageUrl: legacyImage.url,
       legacyImageSourceUrl: legacyImage.sourceUrl,
       legacyImageAlt: legacyImage.alt,
@@ -334,7 +342,11 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
   };
 }
 
-const guides = [berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest, ...(deGuideCatalog as DeGuideCatalog).manifests]
+const guides = [
+  berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest,
+  ...(chGuideCatalog as GuideCatalog).manifests,
+  ...(deGuideCatalog as GuideCatalog).manifests,
+]
   .map((manifest) => normalizeTattooStudioManifest(manifest as SourceManifest).guide)
   .sort((left, right) => left.cityName.localeCompare(right.cityName, "de"));
 

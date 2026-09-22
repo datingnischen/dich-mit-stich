@@ -100,9 +100,10 @@ test("shared tattoo studio loader isolates and resolves the Zürich pilot", asyn
   } = await import("../lib/tattoo-studio-guide.ts");
 
   const swissCities = getTattooStudioCities("ch");
-  assert.equal(swissCities.length, 1);
-  assert.equal(swissCities[0].identity, "CH:zuerich");
-  assert.equal(swissCities[0].studios.length, 7);
+  const zuerich = swissCities.find((city) => city.identity === "CH:zuerich");
+  assert.ok(zuerich, "the Zürich guide must stay available as CH city guides are added");
+  assert.equal(zuerich.studios.length, 7);
+  assert.equal(swissCities.every((city) => city.market === "ch"), true);
   assert.equal(getTattooStudioCities("de").some((city) => city.identity === "CH:zuerich"), false);
 
   const slugs = getTattooStudioSlugs("ch");

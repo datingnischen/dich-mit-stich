@@ -115,7 +115,7 @@ const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|
 const ABOUT_PATH_PATTERN = /^\/ueber-uns(?:\/(expertenteam|erfolgsgeschichten|kooperationen|bewertungen|social-media))?$/;
 const TATTOO_STUDIO_CITY_SLUGS: Record<"at" | "ch", ReadonlySet<string>> = {
   at: new Set(["graz", "innsbruck", "linz", "salzburg", "wien"]),
-  ch: new Set(["zuerich"]),
+  ch: new Set(["zuerich", "genf"]),
 };
 
 function shouldPass(pathname: string): boolean {

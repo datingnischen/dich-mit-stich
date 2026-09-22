@@ -61,8 +61,13 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
     readFile(new URL("components/tattoo-studio-detail.tsx", root), "utf8"),
   ]);
 
+  // Overview and city pages follow the published studio data instead of a blanket noindex.
+  assert.match(overview, /index:\s*getIndexableTattooStudioCities\(market\)\.length\s*>\s*0/);
+  assert.match(city, /index:\s*isIndexableTattooStudioCity\(market,\s*city\)/);
+  // Individual studio detail pages remain noindex until they are reviewed separately.
+  assert.match(studio, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
+
   for (const source of [overview, city, studio]) {
-    assert.match(source, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
     assert.doesNotMatch(source, /vercel\.app/);
   }
   assert.match(overview, /publicUrl\(market, "\/tattoo-studios"\)/);

@@ -251,7 +251,7 @@ test("provides a responsive elFlirt-inspired about composition in the Dich-mit-S
 test("publishes the about hierarchy through sitemaps, crawl rules and navigation", async () => {
   const [mainSitemap, marketSitemap, marketRobots, shell] = await Promise.all([
     readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
-    readFile(new URL("../app/market-sitemap/[market]/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../lib/market-sitemap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/market-robots/[market]/route.ts", import.meta.url), "utf8"),
     readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8"),
   ]);

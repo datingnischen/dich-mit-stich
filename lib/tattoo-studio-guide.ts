@@ -366,6 +366,11 @@ export function getTattooStudioCityGuide(market: MarketCode, slug: string): Tatt
   return guides.find((guide) => guide.market === market && guide.slug === slug) || null;
 }
 
+export function isIndexableTattooStudioCity(market: MarketCode, slug: string): boolean {
+  const guide = getTattooStudioCityGuide(market, slug);
+  return guide !== null && guide.publicationStatus === "verified" && guide.studios.length > 0;
+}
+
 export function getTattooStudio(market: MarketCode, slug: string): TattooStudio | null {
   return getTattooStudioCities(market)
     .flatMap((guide) => guide.studios)

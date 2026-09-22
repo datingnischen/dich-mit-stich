@@ -8,6 +8,7 @@ import { TattooStudioLargestCities } from "@/components/tattoo-studio-largest-ci
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import {
+  getIndexableTattooStudioCities,
   getTattooStudioCities,
   isTattooStudioMarket,
   TATTOO_STUDIO_MARKETS,
@@ -76,7 +77,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `Tattoo-Studio-Guide ${copy.countryName}`,
     description: `Entdecke Tattoo-Studios in ${copy.locationPhrase} mit Adressen, direkten Links und praktischen Tipps für deine Auswahl.`,
     alternates: { canonical: publicUrl(market, "/tattoo-studios") },
-    robots: { index: false, follow: true },
+    robots: { index: getIndexableTattooStudioCities(market).length > 0, follow: true },
   };
 }
 

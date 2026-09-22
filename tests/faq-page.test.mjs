@@ -133,7 +133,7 @@ test("publishes indexable AT and CH FAQ routes through navigation, robots and ma
   const [marketRoute, shell, sitemap, robots] = await Promise.all([
     readFile(new URL("../app/[market]/faq/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/market-sitemap/[market]/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../lib/market-sitemap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/market-robots/[market]/route.ts", import.meta.url), "utf8"),
   ]);
 

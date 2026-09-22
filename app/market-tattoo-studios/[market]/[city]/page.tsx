@@ -7,6 +7,7 @@ import { staticAsset } from "@/lib/static-asset";
 import {
   getTattooStudioCities,
   getTattooStudioCityGuide,
+  isIndexableTattooStudioCity,
   isTattooStudioMarket,
   TATTOO_STUDIO_MARKETS,
 } from "@/lib/tattoo-studio-guide";
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: url },
-    robots: { index: false, follow: true },
+    robots: { index: isIndexableTattooStudioCity(market, city), follow: true },
     openGraph: {
       type: "website",
       title,

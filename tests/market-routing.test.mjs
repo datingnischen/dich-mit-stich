@@ -288,9 +288,11 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
   assert.match(robotsSource, /Allow:\s*\/tattoo-studios/);
   assert.match(robotsSource, /Allow:\s*\/tattoo-studio\//);
   assert.match(sitemapSource, /<urlset/);
-  assert.match(sitemapSource, /chTattooCitySlugs/);
-  assert.match(sitemapSource, /atTattooCitySlugs/);
-  assert.match(sitemapSource, /publicUrl\("at", "\/tattoo-singles"\)/);
+  assert.match(sitemapSource, /marketSitemapLocations\(market\)/);
+  const sitemapLibSource = await readFile(new URL("../lib/market-sitemap.ts", import.meta.url), "utf8");
+  assert.match(sitemapLibSource, /chTattooCitySlugs/);
+  assert.match(sitemapLibSource, /atTattooCitySlugs/);
+  assert.match(sitemapLibSource, /publicUrl\(market, "\/tattoo-singles"\)/);
   assert.match(atSitemapRoute, /market:\s*"at"/);
   assert.match(chSitemapRoute, /market:\s*"ch"/);
 

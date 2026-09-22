@@ -27,13 +27,34 @@ test("the CH market publishes a studio city guide for Genf", async () => {
   assert.equal(guide.country, "CH");
 });
 
-test("a CH city guide without researched studios stays a rollout draft", async () => {
+test("Genf publishes the studios that were checked against their own website", async () => {
   const { getTattooStudioCityGuide, isIndexableTattooStudioCity } = await loadStudioGuides();
   const guide = getTattooStudioCityGuide("ch", "genf");
 
-  assert.equal(guide.publicationStatus, "rollout");
-  assert.deepEqual(guide.studios, [], "a rollout guide must not publish unverified studio records");
-  assert.equal(isIndexableTattooStudioCity("ch", "genf"), false);
+  assert.equal(guide.publicationStatus, "verified");
+  assert.equal(guide.studios.length, 2, "only studios verified at the primary source are published");
+  assert.equal(isIndexableTattooStudioCity("ch", "genf"), true);
+});
+
+test("every published CH studio carries the data a reader needs to act on", async () => {
+  const { getTattooStudioCityGuide, hasCompleteStreetAddress } = await loadStudioGuides();
+
+  for (const studio of getTattooStudioCityGuide("ch", "genf").studios) {
+    assert.ok(studio.name, "a studio needs its name");
+    assert.ok(
+      hasCompleteStreetAddress(studio.address),
+      `${studio.name} needs a street address with postal code, got "${studio.address}"`,
+    );
+    assert.match(studio.address, /Gen[eè]ve$/, `${studio.name} must actually sit in the city of Genève`);
+    assert.match(studio.websiteUrl, /^https:\/\//, `${studio.name} needs its official website`);
+    assert.ok(studio.sourceUrl, `${studio.name} needs the source the data was read from`);
+  }
+});
+
+test("a verified CH city guide reaches the sitemap", async () => {
+  const { marketSitemapLocations } = await import("../lib/market-sitemap.ts");
+
+  assert.ok(marketSitemapLocations("ch").includes("https://dich-mit-stich.ch/tattoo-studios/genf"));
 });
 
 test("CH city guides carry the editorial sections the rollout page renders", async () => {

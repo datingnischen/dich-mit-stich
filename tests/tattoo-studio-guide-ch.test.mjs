@@ -107,8 +107,10 @@ test("shared tattoo studio loader isolates and resolves the Zürich pilot", asyn
   assert.equal(getTattooStudioCities("de").some((city) => city.identity === "CH:zuerich"), false);
 
   const slugs = getTattooStudioSlugs("ch");
-  assert.equal(slugs.length, 7);
-  assert.equal(new Set(slugs).size, 7);
+  assert.equal(new Set(slugs).size, slugs.length, "studio slugs must stay unique across CH cities");
+  for (const studio of zuerich.studios) {
+    assert.ok(slugs.includes(studio.slug), `${studio.slug} must stay reachable through the CH slug list`);
+  }
 
   const sinkply = getTattooStudio("ch", "sinkply-zuerich");
   assert.equal(sinkply?.name, "SINKPLY Zürich");

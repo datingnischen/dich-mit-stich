@@ -1,5 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 
+import { MAGAZINE_APPENDIX_CLASS_TOKENS, normalizeMagazineAppendix } from "./magazine-appendix.ts";
 import { MAGAZINE_MEDIA_CLASS_TOKENS, normalizeMagazineMedia } from "./magazine-media.ts";
 import type { MarketCode } from "./markets.ts";
 
@@ -53,9 +54,11 @@ export function firstPartyInternalPath(href: string) {
 
 const EXTERNAL_REL_TOKENS = new Set(["nofollow", "noopener", "noreferrer"]);
 
+const OWN_CLASS_TOKENS = new Set([...MAGAZINE_MEDIA_CLASS_TOKENS, ...MAGAZINE_APPENDIX_CLASS_TOKENS]);
+
 /** WordPress ships its own class soup; only the classes this app emits itself survive. */
 function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
-  const tokens = (attributes.class || "").split(/\s+/).filter((token) => MAGAZINE_MEDIA_CLASS_TOKENS.has(token));
+  const tokens = (attributes.class || "").split(/\s+/).filter((token) => OWN_CLASS_TOKENS.has(token));
   const attribs = { ...attributes };
   if (tokens.length > 0) attribs.class = tokens.join(" ");
   else delete attribs.class;
@@ -63,7 +66,7 @@ function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
 }
 
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
-  return sanitizeHtml(normalizeMagazineMedia(html), {
+  return sanitizeHtml(normalizeMagazineAppendix(normalizeMagazineMedia(html)), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
     allowedAttributes: {
       a: ["href", "name", "target", "title", "rel", "class", "data-dms-internal"],

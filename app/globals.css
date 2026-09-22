@@ -3647,3 +3647,94 @@ a.pin-cta-follow:hover {
     padding: 22px 18px;
   }
 }
+
+/* Closing reference block: transparency note, sources, image credits. */
+.magazine-appendix {
+  margin: 3rem 0 0;
+  padding: clamp(20px, 3.5vw, 26px) clamp(18px, 3.5vw, 28px);
+  border: 1px solid var(--line);
+  border-top: 3px solid rgba(103, 19, 60, 0.18);
+  border-radius: 18px;
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+.magazine-appendix > :first-child {
+  margin-top: 0;
+}
+
+.magazine-appendix > :last-child {
+  margin-bottom: 0;
+}
+
+.magazine-appendix h2 {
+  margin: 0 0 0.85rem;
+  color: var(--brand);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.magazine-appendix h3,
+.magazine-appendix h4,
+.magazine-appendix h5,
+.magazine-appendix h6 {
+  margin: 1.35rem 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* .rich-content p wins on specificity, so the reference block needs the same weight. */
+.magazine-appendix p,
+.magazine-appendix ul,
+.magazine-appendix ol,
+.magazine-appendix li {
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.magazine-appendix p,
+.magazine-appendix ul,
+.magazine-appendix ol {
+  margin: 0 0 0.7rem;
+}
+
+.magazine-appendix ul {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.magazine-appendix li {
+  position: relative;
+  padding-left: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.magazine-appendix li + li {
+  margin-top: 0;
+}
+
+.magazine-appendix li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(103, 19, 60, 0.35);
+}
+
+.magazine-appendix a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}

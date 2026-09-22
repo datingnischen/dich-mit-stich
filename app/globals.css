@@ -2697,6 +2697,16 @@ img {
 .studio-city-card-copy small { color: var(--muted); }
 .studio-city-card-copy b { margin-top: 4px; color: var(--brand); }
 
+.studio-guide-overview-copy { display: grid; gap: 14px; margin-top: 24px; padding: clamp(22px, 3.4vw, 32px); border: 1px solid #eadde3; border-radius: 22px; background: #fff; box-shadow: 0 12px 34px rgba(66, 35, 49, 0.07); }
+.studio-guide-overview-copy h3 { color: var(--ink); font-size: clamp(1.25rem, 2.2vw, 1.5rem); line-height: 1.25; }
+.studio-guide-overview-copy ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.studio-guide-overview-copy li { position: relative; padding-left: 30px; color: var(--muted); line-height: 1.7; }
+.studio-guide-overview-copy li::before { position: absolute; top: 2px; left: 0; display: grid; width: 20px; height: 20px; place-content: center; border-radius: 50%; background: var(--brand-soft); color: var(--studio-accent); content: "✓"; font-size: 0.72rem; font-weight: 900; line-height: 1; }
+.studio-guide-overview-copy p { margin: 0; padding-top: 14px; border-top: 1px solid #f0e4ea; color: var(--muted); line-height: 1.7; }
+.studio-guide-overview-copy a { color: var(--brand); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.studio-guide-overview-copy a:hover { color: var(--studio-accent); }
+.studio-guide-overview-copy a:focus-visible { border-radius: 4px; outline: 3px solid #7b0f45; outline-offset: 3px; }
+
 .studio-all-cities-section { margin-top: 42px; }
 .studio-all-city-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .studio-all-city-card { display: grid; grid-template-rows: 108px minmax(0, 1fr); overflow: hidden; border: 1px solid #eadde3; border-radius: 18px; background: #fff; box-shadow: 0 10px 28px rgba(66, 35, 49, 0.06); transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
@@ -2868,6 +2878,7 @@ img {
   .studio-detail-monogram { min-height: 320px; }
   .studio-transparency-card { position: static; }
   .studio-city-grid { grid-template-columns: 1fr; }
+  .studio-guide-overview-copy li { padding-left: 26px; }
   .studio-all-city-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .studio-principle-grid,

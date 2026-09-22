@@ -132,14 +132,17 @@ test("routes adapted AT and CH editorial families while gating untagged content"
     market: "at",
     pathname: "/market-tattoo-studios/at",
   });
-  for (const city of ["graz", "innsbruck", "linz", "salzburg", "wien"]) {
+  for (const city of [
+    "dornbirn", "graz", "innsbruck", "klagenfurt", "linz",
+    "salzburg", "sankt-poelten", "villach", "wels", "wien", "wiener-neustadt",
+  ]) {
     assert.deepEqual(resolveMarketRequest(`/at/tattoo-studios/${city}`), {
       action: "market-content",
       market: "at",
       pathname: `/market-tattoo-studios/at/${city}`,
     });
   }
-  assert.deepEqual(resolveMarketRequest("/at/tattoo-studios/klagenfurt"), { action: "not-found" });
+  assert.deepEqual(resolveMarketRequest("/at/tattoo-studios/bregenz"), { action: "not-found" });
   assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/berlin"), { action: "not-found" });
   assert.deepEqual(resolveMarketRequest("/ch/tattoo-singles/zuerich/more"), { action: "not-found" });
   assert.deepEqual(resolveMarketRequest("/at/tattoo-studios/graz/extra"), { action: "not-found" });

@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "manifests": [
+    {
+      "schemaVersion": 1,
+      "generatedFrom": "Rollout scaffold from official city listing; studio pages pending official studio verification.",
+      "guide": {
+        "identity": "AT:dornbirn",
+        "market": "at",
+        "country": "AT",
+        "citySlug": "dornbirn",
+        "cityName": "Dornbirn",
+        "title": "Tattoo-Studios in Dornbirn in Vorbereitung",
+        "sourceUrl": "https://dich-mit-stich.at/tattoo-studios/dornbirn",
+        "editorialHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p><h2>So prüfen wir die Studios</h2><ul><li>Offizieller Nachweis über Website, Adresse und Leistungsaussagen.</li><li>Keine Rankings, keine Ranglisten, kein Inventur-Versprechen.</li><li>Daten werden erst nach redaktioneller Gegenprüfung veröffentlicht.</li></ul>",
+        "selectionMethodHtml": "<h2>Auswahlprinzip</h2><p>Aktuell werden noch keine Studios veröffentlicht. Die Veröffentlichung läuft stufenweise, nach eindeutiger offengelegter Studio-Webseite mit überprüfbaren Adressen und Stilangaben.</p>",
+        "lastVerified": "2026-09-14",
+        "imageUrl": "/cities/at/dornbirn.jpg",
+        "imageAttribution": {
+          "title": "Foto von Pixel-Sepp auf Pixabay",
+          "creator": "Pixel-Sepp",
+          "license": "Pixabay Content License",
+          "sourceUrl": "https://pixabay.com/de/photos/karren-dornbirn-panorama-bregenz-5342438/"
+        },
+        "studios": [],
+        "wpSlug": "at-dornbirn",
+        "contentHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p>",
+        "acf": {
+          "guide_city_id": "AT:dornbirn",
+          "guide_city_name": "Dornbirn",
+          "guide_city_slug": "dornbirn",
+          "guide_country": "AT",
+          "guide_region": "Vorarlberg",
+          "source_url": "https://dich-mit-stich.at/tattoo-studios/dornbirn",
+          "last_verified": "2026-09-14",
+          "selection_method": "<p>Rollout-Stadt: noch kein veröffentlichter Studio-Datensatz.</p>",
+          "schema_type": "ItemList"
+        },
+        "publicationStatus": "rollout"
+      },
+      "studios": []
+    },
+    {
+      "schemaVersion": 1,
+      "generatedFrom": "Rollout scaffold from official city listing; studio pages pending official studio verification.",
+      "guide": {
+        "identity": "AT:klagenfurt",
+        "market": "at",
+        "country": "AT",
+        "citySlug": "klagenfurt",
+        "cityName": "Klagenfurt",
+        "title": "Tattoo-Studios in Klagenfurt in Vorbereitung",
+        "sourceUrl": "https://dich-mit-stich.at/tattoo-studios/klagenfurt",
+        "editorialHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p><h2>So prüfen wir die Studios</h2><ul><li>Offizieller Nachweis über Website, Adresse und Leistungsaussagen.</li><li>Keine Rankings, keine Ranglisten, kein Inventur-Versprechen.</li><li>Daten werden erst nach redaktioneller Gegenprüfung veröffentlicht.</li></ul>",
+        "selectionMethodHtml": "<h2>Auswahlprinzip</h2><p>Aktuell werden noch keine Studios veröffentlicht. Die Veröffentlichung läuft stufenweise, nach eindeutiger offengelegter Studio-Webseite mit überprüfbaren Adressen und Stilangaben.</p>",
+        "lastVerified": "2026-09-14",
+        "imageUrl": "/cities/at/klagenfurt.jpg",
+        "imageAttribution": {
+          "title": "Foto von RoubeOG auf Pixabay",
+          "creator": "RoubeOG",
+          "license": "Pixabay Content License",
+          "sourceUrl": "https://pixabay.com/de/photos/city-klagenfurt-austria-k%C3%A4rnten-4354618/"
+        },
+        "studios": [],
+        "wpSlug": "at-klagenfurt",
+        "contentHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p>",
+        "acf": {
+          "guide_city_id": "AT:klagenfurt",
+          "guide_city_name": "Klagenfurt",
+          "guide_city_slug": "klagenfurt",
+          "guide_country": "AT",
+          "guide_region": "Kärnten",
+          "source_url": "https://dich-mit-stich.at/tattoo-studios/klagenfurt",
+          "last_verified": "2026-09-14",
+          "selection_method": "<p>Rollout-Stadt: noch kein veröffentlichter Studio-Datensatz.</p>",
+          "schema_type": "ItemList"
+        },
+        "publicationStatus": "rollout"
+      },
+      "studios": []
+    },
+    {
+      "schemaVersion": 1,
+      "generatedFrom": "Rollout scaffold from official city listing; studio pages pending official studio verification.",
+      "guide": {
+        "identity": "AT:sankt-poelten",
+        "market": "at",
+        "country": "AT",
+        "citySlug": "sankt-poelten",
+        "cityName": "Sankt Pölten",
+        "title": "Tattoo-Studios in Sankt Pölten in Vorbereitung",
+        "sourceUrl": "https://dich-mit-stich.at/tattoo-studios/sankt-poelten",
+        "editorialHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p><h2>So prüfen wir die Studios</h2><ul><li>Offizieller Nachweis über Website, Adresse und Leistungsaussagen.</li><li>Keine Rankings, keine Ranglisten, kein Inventur-Versprechen.</li><li>Daten werden erst nach redaktioneller Gegenprüfung veröffentlicht.</li></ul>",
+        "selectionMethodHtml": "<h2>Auswahlprinzip</h2><p>Aktuell werden noch keine Studios veröffentlicht. Die Veröffentlichung läuft stufenweise, nach eindeutiger offengelegter Studio-Webseite mit überprüfbaren Adressen und Stilangaben.</p>",
+        "lastVerified": "2026-09-14",
+        "imageUrl": "/cities/at/sankt-poelten.jpg",
+        "imageAttribution": {
+          "title": "Foto von Leonhard_Niederwimmer auf Pixabay",
+          "creator": "Leonhard_Niederwimmer",
+          "license": "Pixabay Content License",
+          "sourceUrl": "https://pixabay.com/de/photos/rathaus-nieder%C3%B6sterreich-7784695/"
+        },
+        "studios": [],
+        "wpSlug": "at-sankt-poelten",
+        "contentHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p>",
+        "acf": {
+          "guide_city_id": "AT:sankt-poelten",
+          "guide_city_name": "Sankt Pölten",
+          "guide_city_slug": "sankt-poelten",
+          "guide_country": "AT",
+          "guide_region": "Niederösterreich",
+          "source_url": "https://dich-mit-stich.at/tattoo-studios/sankt-poelten",
+          "last_verified": "2026-09-14",
+          "selection_method": "<p>Rollout-Stadt: noch kein veröffentlichter Studio-Datensatz.</p>",
+          "schema_type": "ItemList"
+        },
+        "publicationStatus": "rollout"
+      },
+      "studios": []
+    },
+    {
+      "schemaVersion": 1,
+      "generatedFrom": "Rollout scaffold from official city listing; studio pages pending official studio verification.",
+      "guide": {
+        "identity": "AT:villach",
+        "market": "at",
+        "country": "AT",
+        "citySlug": "villach",
+        "cityName": "Villach",
+        "title": "Tattoo-Studios in Villach in Vorbereitung",
+        "sourceUrl": "https://dich-mit-stich.at/tattoo-studios/villach",
+        "editorialHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p><h2>So prüfen wir die Studios</h2><ul><li>Offizieller Nachweis über Website, Adresse und Leistungsaussagen.</li><li>Keine Rankings, keine Ranglisten, kein Inventur-Versprechen.</li><li>Daten werden erst nach redaktioneller Gegenprüfung veröffentlicht.</li></ul>",
+        "selectionMethodHtml": "<h2>Auswahlprinzip</h2><p>Aktuell werden noch keine Studios veröffentlicht. Die Veröffentlichung läuft stufenweise, nach eindeutiger offengelegter Studio-Webseite mit überprüfbaren Adressen und Stilangaben.</p>",
+        "lastVerified": "2026-09-14",
+        "imageUrl": "/cities/at/villach.jpg",
+        "imageAttribution": {
+          "title": "Foto von jonathanjudmaier auf Pixabay",
+          "creator": "jonathanjudmaier",
+          "license": "Pixabay Content License",
+          "sourceUrl": "https://pixabay.com/de/photos/villach-stadt-a-%C3%B6sterreich-fluss-5830292/"
+        },
+        "studios": [],
+        "wpSlug": "at-villach",
+        "contentHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p>",
+        "acf": {
+          "guide_city_id": "AT:villach",
+          "guide_city_name": "Villach",
+          "guide_city_slug": "villach",
+          "guide_country": "AT",
+          "guide_region": "Kärnten",
+          "source_url": "https://dich-mit-stich.at/tattoo-studios/villach",
+          "last_verified": "2026-09-14",
+          "selection_method": "<p>Rollout-Stadt: noch kein veröffentlichter Studio-Datensatz.</p>",
+          "schema_type": "ItemList"
+        },
+        "publicationStatus": "rollout"
+      },
+      "studios": []
+    },
+    {
+      "schemaVersion": 1,
+      "generatedFrom": "Rollout scaffold from official city listing; studio pages pending official studio verification.",
+      "guide": {
+        "identity": "AT:wels",
+        "market": "at",
+        "country": "AT",
+        "citySlug": "wels",
+        "cityName": "Wels",
+        "title": "Tattoo-Studios in Wels in Vorbereitung",
+        "sourceUrl": "https://dich-mit-stich.at/tattoo-studios/wels",
+        "editorialHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p><h2>So prüfen wir die Studios</h2><ul><li>Offizieller Nachweis über Website, Adresse und Leistungsaussagen.</li><li>Keine Rankings, keine Ranglisten, kein Inventur-Versprechen.</li><li>Daten werden erst nach redaktioneller Gegenprüfung veröffentlicht.</li></ul>",
+        "selectionMethodHtml": "<h2>Auswahlprinzip</h2><p>Aktuell werden noch keine Studios veröffentlicht. Die Veröffentlichung läuft stufenweise, nach eindeutiger offengelegter Studio-Webseite mit überprüfbaren Adressen und Stilangaben.</p>",
+        "lastVerified": "2026-09-14",
+        "imageUrl": "/cities/at/wels.jpg",
+        "imageAttribution": {
+          "title": "Foto von maxmann auf Pixabay",
+          "creator": "maxmann",
+          "license": "Pixabay Content License",
+          "sourceUrl": "https://pixabay.com/de/photos/wels-stadt-wels-%C3%B6sterreich-3732831/"
+        },
+        "studios": [],
+        "wpSlug": "at-wels",
+        "contentHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p>",
+        "acf": {
+          "guide_city_id": "AT:wels",
+          "guide_city_name": "Wels",
+          "guide_city_slug": "wels",
+          "guide_country": "AT",
+          "guide_region": "Oberösterreich",
+          "source_url": "https://dich-mit-stich.at/tattoo-studios/wels",
+          "last_verified": "2026-09-14",
+          "selection_method": "<p>Rollout-Stadt: noch kein veröffentlichter Studio-Datensatz.</p>",
+          "schema_type": "ItemList"
+        },
+        "publicationStatus": "rollout"
+      },
+      "studios": []
+    },
+    {
+      "schemaVersion": 1,
+      "generatedFrom": "Rollout scaffold from official city listing; studio pages pending official studio verification.",
+      "guide": {
+        "identity": "AT:wiener-neustadt",
+        "market": "at",
+        "country": "AT",
+        "citySlug": "wiener-neustadt",
+        "cityName": "Wiener Neustadt",
+        "title": "Tattoo-Studios in Wiener Neustadt in Vorbereitung",
+        "sourceUrl": "https://dich-mit-stich.at/tattoo-studios/wiener-neustadt",
+        "editorialHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p><h2>So prüfen wir die Studios</h2><ul><li>Offizieller Nachweis über Website, Adresse und Leistungsaussagen.</li><li>Keine Rankings, keine Ranglisten, kein Inventur-Versprechen.</li><li>Daten werden erst nach redaktioneller Gegenprüfung veröffentlicht.</li></ul>",
+        "selectionMethodHtml": "<h2>Auswahlprinzip</h2><p>Aktuell werden noch keine Studios veröffentlicht. Die Veröffentlichung läuft stufenweise, nach eindeutiger offengelegter Studio-Webseite mit überprüfbaren Adressen und Stilangaben.</p>",
+        "lastVerified": "2026-09-14",
+        "imageUrl": "/cities/at/wiener-neustadt.jpg",
+        "imageAttribution": {
+          "title": "Foto von StockSnap auf Pixabay",
+          "creator": "StockSnap",
+          "license": "Pixabay Content License",
+          "sourceUrl": "https://pixabay.com/de/photos/geb%C3%A4ude-sonnenuntergang-stadt-dorf-2602324/"
+        },
+        "studios": [],
+        "wpSlug": "at-wiener-neustadt",
+        "contentHtml": "<h2>Vorbereitung des Studio-Guides</h2><p>Diese Stadtseite ist im Rollout für die nächste Live-Phase vorgesehen. Sobald verifizierte Studioquellen abgeschlossen sind, ergänzen wir den Stadtguide vollständig.</p>",
+        "acf": {
+          "guide_city_id": "AT:wiener-neustadt",
+          "guide_city_name": "Wiener Neustadt",
+          "guide_city_slug": "wiener-neustadt",
+          "guide_country": "AT",
+          "guide_region": "Niederösterreich",
+          "source_url": "https://dich-mit-stich.at/tattoo-studios/wiener-neustadt",
+          "last_verified": "2026-09-14",
+          "selection_method": "<p>Rollout-Stadt: noch kein veröffentlichter Studio-Datensatz.</p>",
+          "schema_type": "ItemList"
+        },
+        "publicationStatus": "rollout"
+      },
+      "studios": []
+    }
+  ]
+}

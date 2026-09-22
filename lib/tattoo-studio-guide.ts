@@ -8,6 +8,7 @@ import linzManifest from "../data/tattoo-studio-guide-linz.json" with { type: "j
 import salzburgManifest from "../data/tattoo-studio-guide-salzburg.json" with { type: "json" };
 import wienManifest from "../data/tattoo-studio-guide-wien.json" with { type: "json" };
 import zuerichManifest from "../data/tattoo-studio-guide-zuerich.json" with { type: "json" };
+import atGuideCatalog from "../data/tattoo-studio-guides-at.json" with { type: "json" };
 import chGuideCatalog from "../data/tattoo-studio-guides-ch.json" with { type: "json" };
 import deGuideCatalog from "../data/tattoo-studio-guides-de.json" with { type: "json" };
 import atTattooCities from "../data/tattoo-cities-at.json" with { type: "json" };
@@ -344,6 +345,7 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
 
 const guides = [
   berlinManifest, grazManifest, hannoverManifest, innsbruckManifest, linzManifest, salzburgManifest, wienManifest, zuerichManifest,
+  ...(atGuideCatalog as GuideCatalog).manifests,
   ...(chGuideCatalog as GuideCatalog).manifests,
   ...(deGuideCatalog as GuideCatalog).manifests,
 ]

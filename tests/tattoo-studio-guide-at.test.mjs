@@ -134,9 +134,9 @@ test("AT studio guide routes share the market-aware renderers and remain noindex
   assert.match(sharedCity, /market !== "de" \? staticAsset\(guide\.imageUrl\)/);
 });
 
-test("shared tattoo studio loader isolates and resolves five Austrian city guides", async () => {
-  const { getTattooStudioCities, getTattooStudioSlugs } = await import("../lib/tattoo-studio-guide.ts");
-  const cities = getTattooStudioCities("at");
+test("shared tattoo studio loader isolates and resolves five verified Austrian city guides", async () => {
+  const { getIndexableTattooStudioCities, getTattooStudioCities, getTattooStudioSlugs } = await import("../lib/tattoo-studio-guide.ts");
+  const cities = getIndexableTattooStudioCities("at");
   const expected = [
     ["graz", "Graz", "/cities/at/graz.jpg"],
     ["innsbruck", "Innsbruck", "/cities/at/innsbruck.jpg"],
@@ -177,6 +177,28 @@ test("shared tattoo studio loader isolates and resolves five Austrian city guide
   }
   assert.equal(new Set(getTattooStudioSlugs("at")).size, cities.reduce((sum, city) => sum + city.studios.length, 0));
   assert.equal(getTattooStudioCities("ch").some((city) => city.market === "at"), false);
+  assert.equal(getTattooStudioCities("at").every((city) => city.market === "at"), true);
+});
+
+test("Austrian rollout cities load without studios and stay out of the indexable set", async () => {
+  const { getIndexableTattooStudioCities, getTattooStudioCities } = await import("../lib/tattoo-studio-guide.ts");
+  const rolloutSlugs = ["dornbirn", "klagenfurt", "sankt-poelten", "villach", "wels", "wiener-neustadt"];
+  const cities = getTattooStudioCities("at");
+  const indexable = new Set(getIndexableTattooStudioCities("at").map((city) => city.slug));
+
+  assert.equal(cities.length, indexable.size + rolloutSlugs.length);
+  for (const slug of rolloutSlugs) {
+    const city = cities.find((entry) => entry.slug === slug);
+    assert.ok(city, slug);
+    assert.equal(city.market, "at");
+    assert.equal(city.identity, `AT:${slug}`);
+    assert.equal(city.publicationStatus, "rollout");
+    assert.deepEqual(city.studios, []);
+    assert.equal(city.imageUrl, `/cities/at/${slug}.jpg`);
+    assert.ok(city.imageAttribution?.sourceUrl, `${slug} image source`);
+    assert.ok(city.region, `${slug} region`);
+    assert.equal(indexable.has(slug), false, `${slug} must stay noindex`);
+  }
 });
 
 test("AT robots lets crawlers read noindex on the public tattoo routes", async () => {

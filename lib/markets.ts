@@ -118,7 +118,10 @@ const TATTOO_STUDIO_CITY_SLUGS: Record<"at" | "ch", ReadonlySet<string>> = {
     "dornbirn", "graz", "innsbruck", "klagenfurt", "linz",
     "salzburg", "sankt-poelten", "villach", "wels", "wien", "wiener-neustadt",
   ]),
-  ch: new Set(["zuerich", "genf"]),
+  ch: new Set([
+    "zuerich", "genf", "basel", "lausanne", "bern",
+    "winterthur", "luzern", "st-gallen", "lugano", "biel-bienne",
+  ]),
 };
 
 function shouldPass(pathname: string): boolean {

@@ -83,14 +83,58 @@ test("CH city guides resolve their city image from the CH catalogue", async () =
   assert.ok(guide.imageAttribution.creator, "an image needs its creator");
 });
 
-test("the proxy routes the new CH studio city to the market renderer", async () => {
+test("the proxy routes every CH studio city to the market renderer", async () => {
   const { resolveMarketRequest } = await loadMarkets();
+  const { getTattooStudioCities } = await loadStudioGuides();
 
-  assert.deepEqual(resolveMarketRequest("/ch/tattoo-studios/genf"), {
-    action: "market-content",
-    market: "ch",
-    pathname: "/market-tattoo-studios/ch/genf",
-  });
+  for (const city of getTattooStudioCities("ch")) {
+    assert.deepEqual(
+      resolveMarketRequest(`/ch/tattoo-studios/${city.slug}`),
+      { action: "market-content", market: "ch", pathname: `/market-tattoo-studios/ch/${city.slug}` },
+      `${city.slug} has a guide, so the proxy must route it`,
+    );
+  }
+});
+
+test("the CH market covers the ten largest cities with their own guide", async () => {
+  const { getLargestTattooStudioCities } = await loadStudioGuides();
+  const cities = getLargestTattooStudioCities("ch");
+
+  assert.equal(cities.length, 10);
+  for (const city of cities) {
+    assert.equal(city.hasCityGuide, true, `${city.slug} must have a studio city guide`);
+    assert.equal(city.href, `/tattoo-studios/${city.slug}`);
+  }
+});
+
+test("every CH city guide carries a substantial, city-specific editorial body", async () => {
+  const { getTattooStudioCities } = await loadStudioGuides();
+  const scenes = new Map();
+
+  for (const city of getTattooStudioCities("ch")) {
+    assert.ok(
+      city.editorialHtml.includes(city.cityName),
+      `${city.slug} must name its own city in the body`,
+    );
+    assert.match(
+      city.editorialHtml,
+      new RegExp(`href="/tattoo-singles/${city.slug}"`),
+      `${city.slug} must link its own singles page from the body`,
+    );
+
+    // Near-duplicate city pages compete with each other, so the part that
+    // describes the city itself has to differ between guides.
+    // Zürich predates this template: it is deliberately kept short (see
+    // tests/tattoo-studio-guide.test.mjs) and is checked there instead.
+    const scene = city.editorialHtml.split(`<h2>Tattoo-Szene in ${city.cityName}</h2>`)[1]?.split("<h2>")[0];
+    if (!scene) continue;
+    assert.ok(city.editorialHtml.length > 2500, `${city.slug} needs real substance`);
+    assert.ok(scene.length > 400, `${city.slug} needs a substantial scene section`);
+    assert.equal(scenes.has(scene), false, `${city.slug} repeats ${scenes.get(scene)}'s scene text`);
+    scenes.set(scene, city.slug);
+  }
+
+  assert.ok(scenes.size >= 8, `expected the new template on at least 8 cities, saw ${scenes.size}`);
 });
 
 test("the CH studio overview links Genf to its guide instead of the singles page", async () => {

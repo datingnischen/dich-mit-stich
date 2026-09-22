@@ -60,7 +60,7 @@ const MARKET_COPY: Record<TattooStudioMarket, MarketCopy> = {
     },
     cityFinderArtwork: {
       src: "/tattoo-studios/tattoo-studios-nach-stadt-schweiz.png",
-      alt: "Schweizkarte mit markiertem Tattoo-Studio-Stadtguide für Zürich",
+      alt: "Schweizkarte mit markierten Tattoo-Studio-Städten Zürich, Genf, Basel, Lausanne und Bern",
     },
   },
 };

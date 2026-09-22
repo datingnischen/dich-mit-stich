@@ -102,22 +102,21 @@ test("German overview exposes ten real studio city pages and preserves useful ci
   assert.match(overview, /rel="noopener noreferrer nofollow"/);
 });
 
-test("German legacy city pages expose sourced editorial copy and fail closed on profile publication", async () => {
+test("German legacy city pages expose sourced editorial copy and are published with verified studio profiles", async () => {
   const legacySlugs = ["berlin", "bochum", "bonn", "bremen", "dortmund", "dresden", "duisburg", "duesseldorf", "essen", "frankfurt-am-main", "hamburg", "hannover", "karlsruhe", "koeln", "leipzig", "muenchen", "muenster", "nuernberg", "stuttgart", "wuppertal"];
   const [cityRoute, cityRenderer, generatedCatalog] = await Promise.all([
     source("app/tattoo-studios/[city]/page.tsx"),
     source("components/tattoo-studio-city-guide.tsx"),
     source("data/tattoo-studio-guides-de.json"),
   ]);
-  const verifiedSlugs = new Set(["berlin", "hannover"]);
 
   for (const slug of legacySlugs) {
     const guide = getTattooStudioCityGuide("de", slug);
     assert.ok(guide, `${slug} must resolve as a studio city page`);
     assert.equal(guide.sourceUrl, `https://dich-mit-stich.de/tattoo-studios/${slug}/`);
     assert.ok(guide.editorialHtml.length > 500, `${slug} must preserve substantial editorial copy`);
-    assert.equal(guide.publicationStatus, verifiedSlugs.has(slug) ? "verified" : "rollout");
-    assert.equal(guide.studios.length > 0, verifiedSlugs.has(slug), `${slug} profile visibility must follow publication status`);
+    assert.equal(guide.publicationStatus, "verified");
+    assert.ok(guide.studios.length > 0, `${slug} must publish studio profiles`);
   }
 
   assert.doesNotMatch(generatedCatalog, /entry-footer|entry-content|post-content|kategorie\/tattoo-studios|<!--\s*\.(?:entry|post)-content|<\/div>/i);
@@ -164,9 +163,10 @@ test("missing publication status fails closed without publishing profiles", () =
   assert.deepEqual(normalized.studios, []);
 });
 
-test("only independently curated German studio city pages are indexable", async () => {
+test("all published German studio city pages are indexable", async () => {
   const sitemap = await source("app/sitemap.ts");
-  assert.deepEqual(getIndexableTattooStudioCities("de").map((city) => city.slug), ["berlin", "hannover"]);
+  const expectedIndexable = ["berlin", "bochum", "bonn", "bremen", "dortmund", "dresden", "duisburg", "duesseldorf", "essen", "frankfurt-am-main", "hamburg", "hannover", "karlsruhe", "koeln", "leipzig", "muenchen", "muenster", "nuernberg", "stuttgart", "wuppertal"].sort((left, right) => left.localeCompare(right, "de"));
+  assert.deepEqual(getIndexableTattooStudioCities("de").map((city) => city.slug).sort((left, right) => left.localeCompare(right, "de")), expectedIndexable);
   assert.match(sitemap, /getIndexableTattooStudioCities/);
   assert.doesNotMatch(sitemap, /getTattooStudioCities/);
 });
@@ -174,8 +174,7 @@ test("only independently curated German studio city pages are indexable", async 
 test("tattoo studio guide loader exposes all sourced German city pages", async () => {
   const cities = getTattooStudioCities("de");
   assert.deepEqual(cities.map((city) => city.slug), ["berlin", "bochum", "bonn", "bremen", "dortmund", "dresden", "duisburg", "duesseldorf", "essen", "frankfurt-am-main", "hamburg", "hannover", "karlsruhe", "koeln", "leipzig", "muenchen", "muenster", "nuernberg", "stuttgart", "wuppertal"]);
-  assert.deepEqual(cities.filter((city) => city.studios.length > 0).map((city) => city.slug), ["berlin", "hannover"]);
-  assert.ok(cities.filter((city) => !["berlin", "hannover"].includes(city.slug)).every((city) => city.publicationStatus === "rollout" && city.studios.length === 0));
+  assert.ok(cities.every((city) => city.publicationStatus === "verified" && city.studios.length > 0));
   assert.ok(cities.every((city) => city.region));
   assert.ok(cities.every((city) => city.imageUrl && city.imageAttribution.title && city.imageAttribution.creator && city.imageAttribution.license));
   assert.ok(cities.every((city) => city.imageAttribution.sourceUrl.startsWith("https://")));

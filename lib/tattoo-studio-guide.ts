@@ -95,7 +95,7 @@ type SourceStudio = {
   address: string;
   contact: string;
   sourceUrl: string;
-  acf: {
+  acf?: {
     tattoo_styles?: string[];
     verification_status?: string;
     paid_placement?: boolean;
@@ -266,11 +266,11 @@ function normalizeStudio(studio: SourceStudio): TattooStudio {
     address: studio.address.trim(),
     contact: studio.contact.trim(),
     sourceUrl: studio.sourceUrl,
-    styles: (studio.acf.tattoo_styles || []).map((slug) => ({ slug, label: STYLE_LABELS[slug] || slug })),
-    lastVerified: studio.acf.last_verified || "",
-    verificationStatus: studio.acf.verification_status || "needs_review",
-    paidPlacement: Boolean(studio.acf.paid_placement),
-    claimedByStudio: Boolean(studio.acf.claimed_by_studio),
+    styles: (studio.acf?.tattoo_styles || []).map((slug) => ({ slug, label: STYLE_LABELS[slug] || slug })),
+    lastVerified: studio.acf?.last_verified || "",
+    verificationStatus: studio.acf?.verification_status || "needs_review",
+    paidPlacement: Boolean(studio.acf?.paid_placement),
+    claimedByStudio: Boolean(studio.acf?.claimed_by_studio),
   };
 }
 

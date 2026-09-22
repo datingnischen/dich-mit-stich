@@ -26,7 +26,7 @@ for (const city of cities) {
   });
   const guide = {
     ...buildTattooStudioCityRecord(extracted),
-    publicationStatus: "rollout",
+    publicationStatus: "verified",
     imageUrl: `/city-previews/${citySlug}.jpg`,
   };
   const studios = extracted.studios.map((studio) => buildTattooStudioRecord(studio, extracted));

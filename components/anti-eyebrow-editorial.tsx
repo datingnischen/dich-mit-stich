@@ -114,7 +114,7 @@ export function AntiEyebrowEditorial({ market }: { market: MarketCode }) {
         </div>
       </section>
 
-      <section className="magazine-source-list" aria-labelledby="anti-eyebrow-quellen">
+      <aside className="magazine-appendix" aria-labelledby="anti-eyebrow-quellen">
         <span className="eyebrow">Fachlich geprüft</span>
         <h2 id="anti-eyebrow-quellen">Quellen und medizinischer Hinweis</h2>
         <p>
@@ -138,7 +138,7 @@ export function AntiEyebrowEditorial({ market }: { market: MarketCode }) {
             </a>
           </li>
         </ul>
-      </section>
+      </aside>
     </>
   );
 }

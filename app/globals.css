@@ -1725,8 +1725,7 @@ img {
 
 .magazine-quick-guide,
 .magazine-safety-note,
-.magazine-related-reading,
-.magazine-source-list {
+.magazine-related-reading {
   margin: 2.35rem 0;
   padding: clamp(22px, 4vw, 30px);
   border: 1px solid rgba(103, 19, 60, 0.14);
@@ -1736,14 +1735,12 @@ img {
 
 .magazine-quick-guide h2,
 .magazine-safety-note h2,
-.magazine-related-reading h2,
-.magazine-source-list h2 {
+.magazine-related-reading h2 {
   margin-top: 0.75rem;
   font-size: clamp(1.45rem, 3vw, 1.9rem);
 }
 
-.magazine-quick-guide ul,
-.magazine-source-list ul {
+.magazine-quick-guide ul {
   margin-bottom: 0;
 }
 
@@ -1752,8 +1749,7 @@ img {
   background: linear-gradient(135deg, #fff1f6, #fffaf7);
 }
 
-.magazine-safety-note p,
-.magazine-source-list p {
+.magazine-safety-note p {
   margin-bottom: 0;
 }
 
@@ -1809,14 +1805,6 @@ img {
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.5;
-}
-
-.magazine-source-list {
-  background: #fff;
-}
-
-.magazine-source-list a {
-  overflow-wrap: anywhere;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3665,6 +3653,12 @@ a.pin-cta-follow:hover {
 
 .magazine-appendix > :last-child {
   margin-bottom: 0;
+}
+
+.magazine-appendix .eyebrow {
+  margin-bottom: 0.7rem;
+  padding: 4px 10px;
+  font-size: 0.66rem;
 }
 
 .magazine-appendix h2 {

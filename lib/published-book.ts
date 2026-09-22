@@ -1,6 +1,6 @@
 import type { AuthorProfile } from "./author-profiles.ts";
 import { getMarket, publicUrl, type MarketCode } from "./markets.ts";
-import type { BreadcrumbTrailItem } from "./piercing-hub.ts";
+import type { BreadcrumbTrailItem } from "./magazine-hubs.ts";
 import { BRAND_SAME_AS, editorialEntityIds, OPERATOR_NAME } from "./site-entities.ts";
 import { staticAsset } from "./static-asset.ts";
 

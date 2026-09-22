@@ -24,7 +24,7 @@ import {
   getMarketMagazinePublishedProfileGraph,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { buildMagazineBreadcrumbTrail, isPiercingHubChild, isPiercingTopic } from "@/lib/piercing-hub";
+import { buildMagazineBreadcrumbTrail, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { formatGermanDate, teaserText } from "@/lib/wordpress";
@@ -41,7 +41,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   if (!detailContext) notFound();
   const isPiercingArticle = isPiercingTopic(entry);
   const breadcrumbTrail = buildMagazineBreadcrumbTrail(entry, {
-    belowPiercingHub: await isPiercingHubChild(entry),
+    hub: await resolveMagazineHub(entry),
   });
   if (detailContext.quarantined) {
     return (

@@ -1,5 +1,5 @@
 import { MarketLink } from "@/components/market-link";
-import type { BreadcrumbTrailItem } from "@/lib/piercing-hub";
+import type { BreadcrumbTrailItem } from "@/lib/magazine-hubs";
 import type { MarketCode } from "@/lib/markets";
 
 export function MagazineBreadcrumb({ market, trail }: { market: MarketCode; trail: BreadcrumbTrailItem[] }) {

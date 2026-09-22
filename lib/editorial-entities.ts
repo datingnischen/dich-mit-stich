@@ -2,7 +2,7 @@ import type { AuthorProfile } from "@/lib/author-profiles";
 import type { AnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { latestIsoDate } from "@/lib/json-ld";
 import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
-import type { BreadcrumbTrailItem } from "@/lib/piercing-hub";
+import type { BreadcrumbTrailItem } from "@/lib/magazine-hubs";
 import { BRAND_SAME_AS, editorialEntityIds, OPERATOR_NAME } from "@/lib/site-entities";
 import type { MagazineEntry } from "@/lib/wordpress";
 

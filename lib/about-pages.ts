@@ -240,7 +240,7 @@ function rootPage(market: MarketCode): AboutPage {
     sectionTitle: "Die wichtigsten Hintergrundseiten auf einen Blick",
     sectionLead: "Öffne direkt den Bereich, über den du mehr erfahren möchtest.",
     cards: [
-      internalCard("expertenteam", "Menschen & Rollen", "Unser Expertenteam", "Wer Inhalte prägt und wer die Plattform im Hintergrund betreibt.", "✍", {
+      internalCard("expertenteam", "Menschen & Rollen", "Unser Expertenteam", "Wer Inhalte prägt und wer die Plattform im Hintergrund betreibt.", "✎", {
         src: "/about/dich-mit-stich-ueber-uns-expertenteam.webp",
         alt: "Datingexperte Christian M. Haas lächelt in die Kamera",
         bleed: true,

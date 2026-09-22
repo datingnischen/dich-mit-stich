@@ -63,6 +63,10 @@ const MARKET_WIDGET_CONFIG: Record<MarketCode, { projectKey: string; legacyCount
   },
 };
 
+export function getIconyProjectKey(market: MarketCode): string {
+  return MARKET_WIDGET_CONFIG[market].projectKey;
+}
+
 export function getIconyCityWidgetConfig(market: MarketCode, slug: string): IconyCityWidgetConfig | null {
   const marketConfig = MARKET_WIDGET_CONFIG[market];
   const postalCode = marketConfig.postalCodes[slug];

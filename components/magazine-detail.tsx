@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AntiEyebrowEditorial } from "@/components/anti-eyebrow-editorial";
 import { AuthorProfileContact } from "@/components/author-profile-contact";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
+import { IconyMagazineWidgets } from "@/components/icony-magazine-widgets";
 import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
 import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
@@ -212,6 +213,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       {isPublishedExpertProfile ? <PublishedBookFeature /> : null}
 
       {magazineVideo ? <MagazineVideo video={magazineVideo} /> : null}
+
+      <IconyMagazineWidgets market={market} />
 
       <MagazineDatingCta market={market} />
 

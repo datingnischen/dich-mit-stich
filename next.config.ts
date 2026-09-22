@@ -13,7 +13,7 @@ function buildContentSecurityPolicy(assetOrigin: string, isDev: boolean) {
     `font-src 'self' data: ${assetOrigin}`,
     "connect-src 'self' https://dich-mit-stich.de",
     "media-src 'self' https:",
-    "frame-src https://www.youtube-nocookie.com",
+    "frame-src https://www.youtube-nocookie.com https://js.icony.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self' https://dich-mit-stich.de https://dich-mit-stich.at https://dich-mit-stich.ch",

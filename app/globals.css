@@ -2225,6 +2225,66 @@ img {
   border: 0;
 }
 
+.icony-embed-section {
+  display: grid;
+  gap: clamp(20px, 3vw, 30px);
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid rgba(103, 19, 60, 0.16);
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 22px 54px rgba(74, 39, 56, 0.08);
+}
+
+.icony-embed-head {
+  display: grid;
+  gap: 12px;
+}
+
+.icony-embed-head h2 {
+  max-width: 22ch;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.icony-embed-head > p {
+  max-width: 62ch;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.icony-embed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(18px, 3vw, 28px);
+  align-items: start;
+}
+
+.icony-embed-card {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--brand-soft);
+}
+
+.icony-embed-card h3 {
+  justify-self: start;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.icony-embed-frame {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  border: 0;
+  border-radius: 16px;
+  background: #fff;
+}
+
 .magazine-dating-cta {
   display: grid;
   grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);

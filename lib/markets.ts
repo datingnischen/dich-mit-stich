@@ -88,6 +88,10 @@ export function getMarket(code: MarketCode): MarketConfig {
   return MARKETS[code];
 }
 
+export function getOtherMarkets(market: MarketCode): MarketConfig[] {
+  return MARKET_CODES.filter((code) => code !== market).map((code) => MARKETS[code]);
+}
+
 export function publicUrl(market: MarketCode, pathname = "/"): string {
   const normalizedPath = pathname === "/" ? "/" : `/${pathname.replace(/^\/+|\/+$/g, "")}`;
   return `https://${getMarket(market).domain}${normalizedPath}`;

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl, type ConversionAid } from "@/lib/conversion-links";
-import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
+import { getMarket, getOtherMarkets, publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
 type NavLink = {
@@ -194,6 +194,24 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
   );
 }
 
+function FooterCountryLinks({ market }: { market: MarketCode }) {
+  return (
+    <nav className="footer-country-links" aria-label="Dich mit Stich Länderseiten">
+      <h2>Dich mit Stich in deinem Land</h2>
+      <ul>
+        {getOtherMarkets(market).map((entry) => (
+          <li key={entry.code}>
+            <MarketLink className="footer-country-link" targetMarket={entry.code} hrefLang={entry.locale}>
+              <span className="footer-country-link-name">Dich mit Stich {entry.countryName}</span>
+              <span className="footer-country-link-domain">{entry.domain}</span>
+            </MarketLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
 export function SiteHeader({ market = "de", sectionLive = false, aid }: ShellProps) {
   const config = getMarket(market);
 
@@ -255,6 +273,7 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
                   ? `Entdecke Tattoo-Singles und die Menschen hinter Dich mit Stich ${market === "ch" ? "in der Schweiz" : `in ${config.countryName}`}.`
                   : `Der eigene Länderbereich für ${config.countryName} wird markt- und inhaltssauber vorbereitet.`}
               </p>
+              <FooterCountryLinks market={market} />
             </div>
             {sectionLive ? (
               <nav className="footer-column footer-about-links" aria-label="Über uns">
@@ -305,6 +324,7 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
               <li>Inspiration für dein Tattoo-Leben und deine Partnersuche</li>
               <li>Tattoo-Singles, Stadt-Guides und Szene-Wissen direkt für dich</li>
             </ul>
+            <FooterCountryLinks market={market} />
           </div>
 
           <nav className="footer-link-grid" aria-label="Footer Navigation">

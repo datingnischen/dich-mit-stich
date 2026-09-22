@@ -70,6 +70,29 @@ test("footer keeps its link diversity inside four intentional topic groups", asy
   assert.doesNotMatch(shell, /Alle wichtigen Magazin-Menüpunkte auch direkt im Footer erreichbar/);
 });
 
+test("every market footer cross-links the remaining country sites", async () => {
+  const [shell, markets, css] = await Promise.all([
+    read("components/site-shell.tsx"),
+    read("lib/markets.ts"),
+    read("app/globals.css"),
+  ]);
+
+  assert.match(markets, /export function getOtherMarkets\(market: MarketCode\): MarketConfig\[\]/);
+  assert.match(markets, /MARKET_CODES\.filter\(\(code\) => code !== market\)/);
+
+  assert.match(shell, /function FooterCountryLinks\(\{ market \}: \{ market: MarketCode \}\)/);
+  assert.match(shell, /getOtherMarkets\(market\)\.map/);
+  assert.match(shell, /<MarketLink className="footer-country-link" targetMarket=\{entry\.code\} hrefLang=\{entry\.locale\}>/);
+  assert.match(shell, /Dich mit Stich \{entry\.countryName\}/);
+  assert.match(shell, /\{entry\.domain\}/);
+
+  // Both footer variants (compact placeholder markets and the full DE footer) must render it.
+  assert.equal(shell.match(/<FooterCountryLinks market=\{market\} \/>/g)?.length, 2);
+
+  assert.match(css, /\.footer-country-link\s*\{/);
+  assert.match(css, /\.footer-country-link-domain\s*\{/);
+});
+
 test("footer styles provide a cohesive responsive hierarchy without hiding navigation", async () => {
   const css = await read("app/globals.css");
   const mobileFooterCss = cssBlock(css, "@media (max-width: 900px)");

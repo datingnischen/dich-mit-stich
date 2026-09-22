@@ -5,6 +5,7 @@ import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
+import { tattooSinglesPath } from "@/lib/tattoo-singles";
 import type { TattooStudioCityGuide as TattooStudioCityGuideData } from "@/lib/tattoo-studio-guide";
 
 type FaqItem = { question: string; answer: string };
@@ -236,17 +237,35 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           ) : null}
           <MarketHtmlContent html={guide.editorialHtml} market={market} />
         </article>
-        <aside className="studio-transparency-card">
-          <span className="eyebrow">Deine Auswahl</span>
-          <h2>So findest du das passende Studio</h2>
-          <p>Sieh dir aktuelle Portfolios an, kläre offene Fragen im Beratungsgespräch und achte auf saubere, verständliche Abläufe.</p>
-          {!isRollout ? <p><strong>Keine bezahlte Platzierung.</strong> Die Reihenfolge ist alphabetisch und keine Qualitätsbewertung.</p> : null}
-          {sourceIsPage ? (
-            <p className="studio-card-source-missing">Webseiten und Kontaktwege findest du direkt bei den Studios.</p>
-          ) : (
-            <a href={guide.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Mehr zum Stadtguide</a>
-          )}
-        </aside>
+        <div className="studio-guide-sidebar">
+          <aside className="studio-transparency-card">
+            <span className="eyebrow">Deine Auswahl</span>
+            <h2>So findest du das passende Studio</h2>
+            <p>Sieh dir aktuelle Portfolios an, kläre offene Fragen im Beratungsgespräch und achte auf saubere, verständliche Abläufe.</p>
+            {!isRollout ? <p><strong>Keine bezahlte Platzierung.</strong> Die Reihenfolge ist alphabetisch und keine Qualitätsbewertung.</p> : null}
+            {sourceIsPage ? (
+              <p className="studio-card-source-missing">Webseiten und Kontaktwege findest du direkt bei den Studios.</p>
+            ) : (
+              <a href={guide.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">Mehr zum Stadtguide</a>
+            )}
+          </aside>
+          <aside className="studio-singles-card">
+            <span className="eyebrow">Szene-Dating</span>
+            <h2>Tattoo-Singles in {guide.cityName}</h2>
+            <p>
+              Studio gefunden? Dann lern Menschen kennen, die deine Begeisterung für Tattoos teilen —
+              in {guide.cityName} und Umgebung.
+            </p>
+            <MarketLink
+              className="studio-singles-card-link"
+              targetMarket={market}
+              pathname={tattooSinglesPath(market, guide.slug)}
+            >
+              <LocationPinIcon className="studio-singles-card-icon" />
+              <span>Tattoo-Singles in {guide.cityName} entdecken</span>
+            </MarketLink>
+          </aside>
+        </div>
       </section>
 
       <section className="content-section studio-faq-section" id="haeufige-fragen" aria-labelledby="studio-faq-heading">

@@ -2814,7 +2814,35 @@ img {
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.studio-transparency-card { display: grid; gap: 16px; position: sticky; top: 24px; }
+.studio-guide-sidebar { display: grid; gap: 24px; position: sticky; top: 24px; align-content: start; }
+.studio-transparency-card { display: grid; gap: 16px; }
+.studio-singles-card {
+  display: grid;
+  gap: 14px;
+  padding: clamp(24px, 4vw, 34px);
+  border-radius: 24px;
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: #fff;
+  box-shadow: 0 14px 30px rgba(103, 19, 60, 0.22);
+}
+.studio-singles-card .eyebrow { color: rgba(255, 255, 255, 0.78); }
+.studio-singles-card h2 { font-size: 1.22rem; line-height: 1.3; }
+.studio-singles-card p { color: rgba(255, 255, 255, 0.86); line-height: 1.6; }
+.studio-singles-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: start;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--brand-dark);
+  font-weight: 750;
+  line-height: 1.3;
+}
+.studio-singles-card-link:hover { background: var(--brand-soft); }
+.studio-singles-card-link:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.studio-singles-card-icon { width: 1.1em; height: 1.1em; flex: none; }
 .studio-transparency-card > p,
 .studio-transparency-copy { color: var(--muted); line-height: 1.65; }
 .studio-transparency-copy { display: grid; gap: 14px; }
@@ -2876,7 +2904,7 @@ img {
   .studio-guide-hero-mark { min-height: 260px; }
   .studio-city-hero-media { min-height: 340px; }
   .studio-detail-monogram { min-height: 320px; }
-  .studio-transparency-card { position: static; }
+  .studio-guide-sidebar { position: static; }
   .studio-city-grid { grid-template-columns: 1fr; }
   .studio-guide-overview-copy li { padding-left: 26px; }
   .studio-all-city-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

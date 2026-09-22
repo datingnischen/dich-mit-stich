@@ -1,7 +1,10 @@
 import { cache } from "react";
 import tattooCityPreviewImages from "../data/tattoo-city-preview-images.json" with { type: "json" };
 import tattooCityImages from "../data/tattoo-city-images.json" with { type: "json" };
+import { atTattooCitySlugs, chTattooCitySlugs, type MarketCode } from "./markets.ts";
 import { decodeHtmlEntities } from "./wordpress.ts";
+
+export const TATTOO_SINGLES_OVERVIEW_PATH = "/tattoo-singles";
 
 export const tattooCitySlugs = [
   "berlin",
@@ -198,3 +201,20 @@ export const getTattooCityPage = cache(async (slug: string): Promise<TattooCityP
     registrationUrl,
   };
 });
+
+const SINGLES_CITY_SLUGS: Record<MarketCode, readonly string[]> = {
+  de: tattooCitySlugs,
+  at: atTattooCitySlugs,
+  ch: chTattooCitySlugs,
+};
+
+/**
+ * Where a studio city page should send visitors who want the dating side.
+ * Not every studio city has its own singles page, so those fall back to the
+ * overview rather than linking somewhere that does not exist.
+ */
+export function tattooSinglesPath(market: MarketCode, citySlug: string): string {
+  return SINGLES_CITY_SLUGS[market]?.includes(citySlug)
+    ? `${TATTOO_SINGLES_OVERVIEW_PATH}/${citySlug}`
+    : TATTOO_SINGLES_OVERVIEW_PATH;
+}

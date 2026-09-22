@@ -1,5 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 
+import { MAGAZINE_MEDIA_CLASS_TOKENS, normalizeMagazineMedia } from "./magazine-media.ts";
 import type { MarketCode } from "./markets.ts";
 
 const FIRST_PARTY_HOST = /^(?:www\.)?dich-mit-stich\.(?:de|at|ch)$/i;
@@ -52,14 +53,26 @@ export function firstPartyInternalPath(href: string) {
 
 const EXTERNAL_REL_TOKENS = new Set(["nofollow", "noopener", "noreferrer"]);
 
+/** WordPress ships its own class soup; only the classes this app emits itself survive. */
+function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
+  const tokens = (attributes.class || "").split(/\s+/).filter((token) => MAGAZINE_MEDIA_CLASS_TOKENS.has(token));
+  const attribs = { ...attributes };
+  if (tokens.length > 0) attribs.class = tokens.join(" ");
+  else delete attribs.class;
+  return attribs;
+}
+
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
-  return sanitizeHtml(html, {
+  return sanitizeHtml(normalizeMagazineMedia(html), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
     allowedAttributes: {
-      a: ["href", "name", "target", "title", "rel", "data-dms-internal"],
+      a: ["href", "name", "target", "title", "rel", "class", "data-dms-internal"],
+      aside: ["class"],
       blockquote: ["cite"],
+      figure: ["class"],
       img: ["src", "srcset", "alt", "title", "width", "height", "loading", "decoding"],
       li: ["value"],
+      p: ["class"],
       ol: ["start"],
       td: ["colspan", "rowspan", "headers"],
       th: ["colspan", "rowspan", "headers", "scope"],
@@ -68,8 +81,11 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
     allowedSchemes: ["http", "https", "mailto", "tel"],
     allowProtocolRelative: false,
     transformTags: {
+      aside: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
+      figure: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
+      p: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
       a: (tagName, attributes) => {
-        const cleanAttributes = { ...attributes };
+        const cleanAttributes = keepOwnClasses(attributes);
         delete cleanAttributes["data-dms-internal"];
         const internalPath = firstPartyInternalPath(cleanAttributes.href || "");
         if (!internalPath) return { tagName, attribs: cleanAttributes };

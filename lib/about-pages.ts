@@ -424,8 +424,13 @@ function reviewsPage(market: MarketCode): AboutPage {
       {
         eyebrow: "Trustpilot",
         title: "Bewertungen auf Trustpilot",
-        text: "Hier schreiben Mitglieder, was ihnen gefällt – und was nicht.",
+        text: "Hier schreiben Mitglieder, was ihnen gefällt – und was nicht. Lob gibt es vor allem für die Community-Atmosphäre, das Design und dass hier niemand schräg für seine Tattoos angeschaut wird.",
         icon: "★",
+        image: {
+          src: "/about/dich-mit-stich-bewertungen-trustpilot.webp",
+          alt: "Lächelnde Frau mit Daumen hoch",
+          bleed: true,
+        },
         link: { label: "Trustpilot öffnen", href: "https://de.trustpilot.com/review/dich-mit-stich.de", external: true },
       },
       internalCard("erfolgsgeschichten", "Echte Paare", "Erfolgsgeschichten", "Drei Paare erzählen, wie sie sich bei uns gefunden haben.", "♥", "Geschichten lesen"),
@@ -435,6 +440,41 @@ function reviewsPage(market: MarketCode): AboutPage {
         text: "Melde dich kostenlos an und schau, wer in deiner Nähe dabei ist.",
         icon: "→",
         link: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },
+      },
+      {
+        eyebrow: "Vergleichsportal",
+        title: "Empfohlen auf singleboersen-ueberblick.de",
+        text: "Besonders hervorgehoben wird unsere Nischen-Zielgruppe: Menschen, die Tattoos lieben oder selbst tätowiert sind.",
+        icon: "✓",
+        image: {
+          src: "/about/dich-mit-stich-bewertungen-siegel-singleboersen-ueberblick.webp",
+          alt: "Empfehlungssiegel von singleboersen-ueberblick.de",
+          fit: "contain",
+        },
+        link: { label: "Testbericht lesen", href: "https://singleboersen-ueberblick.de/partnersuche/dich-mit-stich/", external: true },
+      },
+      {
+        eyebrow: "Vergleichsportal",
+        title: "Bewertet auf singleboersen-vergleichen.de",
+        text: "Als authentisch und bodenständig beschrieben – echtes Dating mit Leuten, die eine gemeinsame Leidenschaft teilen.",
+        icon: "✓",
+        image: {
+          src: "/about/dich-mit-stich-bewertungen-siegel-singleboersen-vergleichen.webp",
+          alt: "Bewertungssiegel von singleboersen-vergleichen.de",
+          fit: "contain",
+        },
+        link: { label: "Bewertung lesen", href: "https://www.singleboersen-vergleichen.de/singleportal/dich-mit-stich/", external: true },
+      },
+    ],
+    detailSections: [
+      {
+        eyebrow: "Warum sich eine Anmeldung lohnt",
+        title: "Für tätowierte Singles gemacht",
+        paragraphs: [
+          "Tätowierte Singles haben es auf Mainstream-Dating-Plattformen oft schwer, weil nicht jeder ihre Leidenschaft versteht. Bei Dich mit Stich triffst du von Anfang an auf Menschen, die Tattoos feiern – egal, ob Old School, Blackwork oder Fine Line. Hier entstehen nicht nur Dates, sondern echte Verbindungen, aus denen Freundschaften oder Beziehungen werden können.",
+          "Ein weiterer Vorteil ist die offene und kreative Community. Neben klassischen Flirts gibt es Foren und Gruppen zu Tattoo-Trends, Künstler-Empfehlungen oder Tattoo-Aftercare. Wer sich hier anmeldet, bekommt also nicht nur spannende Matches, sondern auch Input für das nächste Motiv.",
+        ],
+        cta: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },
       },
     ],
     primaryCta: { label: "Aktuelle Bewertungen ansehen", href: "https://de.trustpilot.com/review/dich-mit-stich.de", external: true },

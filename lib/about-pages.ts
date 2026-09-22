@@ -433,7 +433,11 @@ function reviewsPage(market: MarketCode): AboutPage {
         },
         link: { label: "Trustpilot öffnen", href: "https://de.trustpilot.com/review/dich-mit-stich.de", external: true },
       },
-      internalCard("erfolgsgeschichten", "Echte Paare", "Erfolgsgeschichten", "Drei Paare erzählen, wie sie sich bei uns gefunden haben.", "♥", "Geschichten lesen"),
+      internalCard("erfolgsgeschichten", "Echte Paare", "Erfolgsgeschichten", "Drei Paare erzählen, wie sie sich bei uns gefunden haben.", "♥", "Geschichten lesen", {
+        src: "/about/dich-mit-stich-ueber-uns-erfolgsgeschichten.webp",
+        alt: "Pascal und Stephanie, ein Paar aus der Dich-mit-Stich-Community",
+        bleed: true,
+      }),
       {
         eyebrow: "Selbst ausprobieren",
         title: "Kostenlos umsehen",

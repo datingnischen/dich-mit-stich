@@ -3386,11 +3386,12 @@ img {
 }
 
 .about-topic-card {
+  --about-card-pad: 26px;
   display: grid;
   align-content: start;
   gap: 13px;
   min-height: 290px;
-  padding: 26px;
+  padding: var(--about-card-pad);
   border: 1px solid #eadde3;
   border-radius: 24px;
   background: #fff;
@@ -3429,6 +3430,78 @@ img {
   background: #fff;
   object-fit: contain;
   object-position: center;
+}
+
+/* Social-Kanal-Kacheln: randloses Kanalbild mit Markenverlauf und Logo-Chip */
+.about-card-image-channel {
+  width: auto;
+  margin: calc((var(--about-card-pad) + 1px) * -1) calc((var(--about-card-pad) + 1px) * -1) 5px;
+  aspect-ratio: 16 / 9;
+  border-radius: 23px 23px 0 0;
+  background: #2b0f1d;
+}
+
+.about-card-image-channel img {
+  object-position: center 42%;
+  transition: transform 520ms ease;
+}
+
+.about-card-image-channel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(103, 19, 60, 0) 42%, rgba(103, 19, 60, 0.52) 74%, rgba(46, 8, 26, 0.88) 100%),
+    linear-gradient(118deg, rgba(103, 19, 60, 0.4), rgba(103, 19, 60, 0) 58%);
+  pointer-events: none;
+}
+
+.about-topic-card-linked:hover .about-card-image-channel img,
+.about-topic-card-linked:focus-visible .about-card-image-channel img {
+  transform: scale(1.05);
+}
+
+.about-card-channel-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 18px;
+  z-index: 1;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-content: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(31, 8, 19, 0.38);
+}
+
+.about-card-channel-badge svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.about-card-image-facebook .about-card-channel-badge {
+  color: #1877f2;
+}
+
+.about-card-image-instagram .about-card-channel-badge {
+  color: #d62976;
+}
+
+.about-card-image-youtube .about-card-channel-badge {
+  color: #f0002a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-card-image-channel img {
+    transition: none;
+  }
+
+  .about-topic-card-linked:hover .about-card-image-channel img,
+  .about-topic-card-linked:focus-visible .about-card-image-channel img {
+    transform: none;
+  }
 }
 
 .about-card-icon {
@@ -3606,8 +3679,8 @@ img {
   }
 
   .about-topic-card {
+    --about-card-pad: 22px;
     min-height: 0;
-    padding: 22px;
   }
 
   .about-final-cta .button {

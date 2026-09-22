@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import type { ReactNode } from "react";
 
 import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
-import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage } from "@/lib/about-pages";
+import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage, type SocialChannel } from "@/lib/about-pages";
 import { conversionUrl } from "@/lib/conversion-links";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { publicUrl } from "@/lib/markets";
@@ -32,21 +33,52 @@ function PageLink({ link, market, className }: { link: AboutLink; market: AboutP
   );
 }
 
+const channelLogo: Record<SocialChannel, ReactNode> = {
+  facebook: (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.96h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.1 24 12.07Z" />
+    </svg>
+  ),
+  instagram: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <rect x="2.2" y="2.2" width="19.6" height="19.6" rx="5.6" />
+      <circle cx="12" cy="12" r="4.5" />
+      <circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  youtube: (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M23.5 6.9a3 3 0 0 0-2.12-2.12C19.5 4.27 12 4.27 12 4.27s-7.5 0-9.38.51A3 3 0 0 0 .5 6.9 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.1 3 3 0 0 0 2.12 2.12c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3 3 0 0 0 2.12-2.12A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.1ZM9.6 15.6V8.4L15.84 12Z" />
+    </svg>
+  ),
+};
+
 function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["market"] }) {
+  const imageClassName = [
+    "about-card-image",
+    card.image?.fit === "contain" ? "about-card-image-contain" : null,
+    card.channel ? `about-card-image-channel about-card-image-${card.channel}` : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   const content = (
     <>
       {card.image ? (
-        <span className={`about-card-image${card.image.fit === "contain" ? " about-card-image-contain" : ""}`}>
+        <span className={imageClassName}>
           <Image
-            src={card.image.fit === "contain" ? staticAsset(card.image.src) : card.image.src}
+            src={staticAsset(card.image.src)}
             alt={card.image.alt}
             fill
-            sizes="(max-width: 900px) calc(100vw - 76px), (max-width: 1200px) 28vw, 300px"
+            sizes={card.channel
+              ? "(max-width: 560px) calc(100vw - 22px), (max-width: 900px) calc(100vw - 34px), (max-width: 1200px) 33vw, 380px"
+              : "(max-width: 900px) calc(100vw - 76px), (max-width: 1200px) 28vw, 300px"}
             unoptimized={card.image.fit === "contain"}
           />
+          {card.channel ? <span className="about-card-channel-badge">{channelLogo[card.channel]}</span> : null}
         </span>
       ) : null}
-      {card.image?.fit === "contain" ? null : <span className="about-card-icon" aria-hidden="true">{card.icon}</span>}
+      {card.image?.fit === "contain" || card.channel ? null : <span className="about-card-icon" aria-hidden="true">{card.icon}</span>}
       <span className="eyebrow">{card.eyebrow}</span>
       <h2>{card.title}</h2>
       <p>{card.text}</p>

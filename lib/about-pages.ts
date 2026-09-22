@@ -24,11 +24,14 @@ export type AboutLink = {
   external?: boolean;
 };
 
+export type SocialChannel = "facebook" | "instagram" | "youtube";
+
 export type AboutCard = {
   eyebrow: string;
   title: string;
   text: string;
   icon: string;
+  channel?: SocialChannel;
   image?: {
     src: string;
     alt: string;
@@ -79,6 +82,11 @@ const socialCards: AboutCard[] = [
     title: "Dich mit Stich auf Facebook",
     text: "Beiträge, Community-Einblicke und neue Kontakte rund um tätowierte und gepiercte Singles.",
     icon: "f",
+    channel: "facebook",
+    image: {
+      src: "/social/dich-mit-stich-facebook.webp",
+      alt: "Tätowiertes Paar liegt lachend im Bett – Dich mit Stich auf Facebook",
+    },
     link: { label: "Facebook-Seite öffnen", href: "https://www.facebook.com/dichmitstich/", external: true },
   },
   {
@@ -86,6 +94,11 @@ const socialCards: AboutCard[] = [
     title: "@dichmitstich auf Instagram",
     text: "Bilder, Reels und Profile aus der Community – direkt im offiziellen Instagram-Kanal.",
     icon: "◎",
+    channel: "instagram",
+    image: {
+      src: "/social/dich-mit-stich-instagram.webp",
+      alt: "Lachendes Paar mit tätowiertem Unterarm – Dich mit Stich auf Instagram",
+    },
     link: { label: "Instagram öffnen", href: "https://www.instagram.com/dichmitstich/", external: true },
   },
   {
@@ -93,6 +106,11 @@ const socialCards: AboutCard[] = [
     title: "Dich mit Stich auf YouTube",
     text: "Videos zu Tattoo-Kultur, Piercings und Dating für Menschen mit eigenem Stil.",
     icon: "▶",
+    channel: "youtube",
+    image: {
+      src: "/social/dich-mit-stich-youtube.webp",
+      alt: "Nahaufnahme eines farbigen Tattoo-Sleeves – Dich mit Stich auf YouTube",
+    },
     link: { label: "YouTube-Kanal öffnen", href: "https://www.youtube.com/@Dich-mit-Stich", external: true },
   },
 ];

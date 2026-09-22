@@ -3,23 +3,66 @@ import { fetchWithRetry, getMagazineAuthorPostCount, getMagazinePosts, stripHtml
 
 const AUTHOR_ARCHIVE_BASE = "https://dich-mit-stich.de/magazin/author";
 
-const AUTHOR_OVERRIDES: Record<string, { sourceUrl?: string; profileUrl?: string; imageUrl?: string; role?: string; fallbackBio?: string; name?: string }> = {
+export type AuthorSocialPlatform = "instagram" | "facebook" | "youtube" | "linkedin" | "xing" | "pinterest";
+
+export type AuthorSocialLink = {
+  platform: AuthorSocialPlatform;
+  label: string;
+  href: string;
+};
+
+type AuthorOverride = {
+  sourceUrl?: string;
+  profileUrl?: string;
+  imageUrl?: string;
+  role?: string;
+  jobTitle?: string;
+  bio?: string;
+  fallbackBio?: string;
+  name?: string;
+  expertise?: string[];
+  socials?: AuthorSocialLink[];
+  facts?: string[];
+};
+
+const AUTHOR_OVERRIDES: Record<string, AuthorOverride> = {
   redaktion: {
     sourceUrl: "https://dich-mit-stich.de/magazin/author/redaktion/",
     profileUrl: "/magazin/unser-datingexperte",
     imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/08/Christian-M-Haas.png",
     role: "Datingexperte und Autor für tätowierte Singles",
+    jobTitle: "Datingexperte",
+    bio:
+      "Christian M. Haas beschäftigt sich seit über 10 Jahren mit Nischen-Singlebörsen und Online-Dating. Auf dich-mit-stich.de teilt er praxisnahe Tipps rund um die Partnersuche für alle, die stolz auf ihre Tattoos sind und jemanden mit derselben Leidenschaft kennenlernen möchten.",
     fallbackBio:
       "Christian M. Haas teilt Erfahrungen, Einschätzungen und konkrete Tipps rund um Dating, Szene-Fokus und Partnersuche für tätowierte Singles.",
     name: "Christian M. Haas",
+    expertise: ["Tattoo Singles", "Online Dating", "Singlebörsen", "Partnersuche"],
+    socials: [
+      { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/datingnischen/" },
+      { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/christian-m-haas-457323379/" },
+    ],
   },
   "anne-schweitzer": {
     sourceUrl: "https://dich-mit-stich.de/magazin/author/anne-schweitzer/",
-    profileUrl: "/magazin/author/anne-schweitzer",
-    imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin-300x300.jpg",
-    role: "Autorin für Tattoo-Motive, Stilfragen und Szenethemen",
+    profileUrl: "/magazin/anne-schweitzer",
+    imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin.jpg",
+    role: "Tätowiererin in Kassel und Autorin im Tattoo-Magazin",
+    jobTitle: "Tattoo Artist",
+    bio:
+      "Anne Schweitzer ist seit Jahrzehnten eine feste Größe in der Tattoo-Szene. Gemeinsam mit Clemens Schweitzer führt sie das älteste Tattoo-Studio Nordhessens – gegründet 1983 in Kassel.",
     fallbackBio: "Anne Schweitzer begleitet das Tattoo-Magazin mit redaktionellen Beiträgen zu Motiven, Stilfragen und Inspiration aus der Szene.",
     name: "Anne Schweitzer",
+    expertise: ["Old School", "Black & White", "Dotwork", "Modern Style"],
+    socials: [
+      { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/tattoostudio_schweitzer/" },
+      { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/TattooStudio.Anne.Clemens.Schweitzer" },
+      { platform: "youtube", label: "YouTube", href: "https://www.youtube.com/user/schweitzerclemens" },
+    ],
+    facts: [
+      "Tätowiert im ältesten Tattoo-Studio Nordhessens – seit 1983 in Kassel",
+      "Old School, Black & White, Dotwork und individuelle Custom-Designs",
+    ],
   },
 };
 
@@ -28,10 +71,13 @@ export type AuthorProfile = {
   requestedSlug: string;
   name: string;
   role: string;
+  jobTitle: string;
   bio: string;
   imageUrl?: string;
   profileUrl: string;
   facts: string[];
+  expertise: string[];
+  socials: AuthorSocialLink[];
 };
 
 function firstMatch(text: string, pattern: RegExp) {
@@ -68,7 +114,7 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
     stripHtml(firstMatch(html, /<h1[^>]*>([\s\S]*?)<\/h1>/i));
   if (!name) return null;
 
-  const bio = stripHtml(firstMatch(html, /<div class="archive-description">([\s\S]*?)<\/div>/i));
+  const archiveBio = stripHtml(firstMatch(html, /<div class="archive-description">([\s\S]*?)<\/div>/i));
   const imageUrl =
     override.imageUrl ||
     cleanImageUrl(firstMatch(html, /<img[^>]+class="[^"]*avatar[^"]*"[^>]+(?:data-src|src)="([^"]+)"/i)) ||
@@ -83,16 +129,18 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
       ? "Datingexperte und Autor für tätowierte Singles"
       : "Autorin für Tattoo-Motive, Stilfragen und Szenethemen");
 
-  const facts =
-    slug === "redaktion"
+  const postCountFact = `Bereits ${authorPostCount} veröffentlichte Beiträge im Tattoo-Magazin`;
+  const facts = override.facts
+    ? [...override.facts, postCountFact]
+    : slug === "redaktion"
       ? [
           "Langjährige Erfahrung mit Nischen-Singlebörsen und Online-Dating",
           "Praxisnahe Tipps für tätowierte Singles und Szene-Communities",
-          `Bereits ${authorPostCount} veröffentlichte Beiträge im Tattoo-Magazin`,
+          postCountFact,
         ]
       : [
           "Schreibt über Tattoo-Motive, Stilrichtungen und verwandte Themen",
-          `Bereits ${authorPostCount} veröffentlichte Beiträge im Tattoo-Magazin`,
+          postCountFact,
           "Führt Leserinnen und Leser direkt zu passenden Magazin-Einstiegen",
         ];
 
@@ -101,8 +149,10 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
     requestedSlug: slug,
     name,
     role,
+    jobTitle: override.jobTitle || role,
     bio:
-      bio ||
+      override.bio ||
+      archiveBio ||
       override.fallbackBio ||
       (slug === "redaktion"
         ? "Christian M. Haas teilt Erfahrungen, Einschätzungen und konkrete Tipps rund um Dating, Szene-Fokus und Partnersuche für tätowierte Singles."
@@ -110,6 +160,8 @@ export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfil
     imageUrl,
     profileUrl: override.profileUrl || `/magazin/author/${slug}`,
     facts,
+    expertise: override.expertise || [],
+    socials: override.socials || [],
   };
 });
 

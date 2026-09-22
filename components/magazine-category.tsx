@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArticleCardMedia } from "@/components/article-card-media";
+import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MagazineTeaser } from "@/components/magazine-teaser";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
@@ -29,11 +30,14 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
 
   return (
     <main className="shell magazine-overview-shell">
-      <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
-        <MarketLink targetMarket={market} pathname="/magazin">Magazin</MarketLink>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">{category.name}</span>
-      </nav>
+      <MagazineBreadcrumb
+        market={market}
+        trail={[
+          { name: "Startseite", pathname: "/" },
+          { name: "Magazin", pathname: "/magazin" },
+          { name: category.name, pathname: `/magazin/thema/${category.slug}` },
+        ]}
+      />
 
       <section className="hero-card hero-magazine hero-magazine-editorial magazine-intro-card">
         <span className="eyebrow">Magazin-Thema</span>

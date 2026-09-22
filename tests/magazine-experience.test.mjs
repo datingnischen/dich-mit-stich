@@ -65,9 +65,9 @@ test("normal magazine entries use a structured editorial detail layout", async (
   ]);
 
   assert.match(detail, /formatGermanDate/);
-  assert.match(detail, /const isPiercingArticle = \[entry\.title, entry\.slug/);
+  assert.match(detail, /const isPiercingArticle = isPiercingTopic\(entry\)/);
   assert.match(detail, /className="[^"]*magazine-detail-shell[^"]*"/);
-  assert.match(detail, /className="magazine-breadcrumb" aria-label="Brotkrümelnavigation"/);
+  assert.match(detail, /<MagazineBreadcrumb market=\{market\} trail=\{breadcrumbTrail\} \/>/);
   assert.match(detail, /className="[^"]*magazine-detail-hero[^"]*"/);
   assert.match(detail, /className="magazine-detail-topics"/);
   assert.match(detail, /className="magazine-detail-media"/);
@@ -75,7 +75,7 @@ test("normal magazine entries use a structured editorial detail layout", async (
   assert.match(detail, /className="rich-content magazine-article-body"/);
   assert.doesNotMatch(detail, /entry\.date\.slice\(0, 10\)/);
 
-  assert.match(detail, /className=\{`magazine-detail-cover\$\{featuredImage \? "" : " magazine-detail-cover-text-only"\}\$\{isPublishedExpertProfile \? " magazine-detail-cover-profile" : ""\}`\}/);
+  assert.match(detail, /className=\{`magazine-detail-cover\$\{featuredImage \? "" : " magazine-detail-cover-text-only"\}\$\{isAuthorProfileCover \? " magazine-detail-cover-profile" : ""\}\$\{authorProfilePage \? " magazine-detail-cover-portrait" : ""\}`\}/);
   assert.ok(detail.indexOf("magazine-detail-hero") > detail.indexOf("magazine-detail-cover"));
   assert.ok(detail.indexOf("magazine-detail-media") > detail.indexOf("magazine-detail-hero"));
   assert.match(css, /\.magazine-detail-cover\s*\{[^}]*width:\s*min\(1000px,\s*100%\)[^}]*overflow:\s*hidden/s);

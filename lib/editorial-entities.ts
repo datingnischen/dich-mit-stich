@@ -2,6 +2,7 @@ import type { AuthorProfile } from "@/lib/author-profiles";
 import type { AnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { latestIsoDate } from "@/lib/json-ld";
 import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
+import type { BreadcrumbTrailItem } from "@/lib/piercing-hub";
 import type { MagazineEntry } from "@/lib/wordpress";
 
 const SITE_URL = publicUrl("de");
@@ -68,8 +69,10 @@ export function buildAuthorProfileGraph(profile: AuthorProfile, market: MarketCo
         name: profile.name,
         url: canonical,
         description: profile.bio,
-        jobTitle: profile.role,
+        jobTitle: profile.jobTitle,
         image: profile.imageUrl,
+        knowsAbout: profile.expertise.length ? profile.expertise : undefined,
+        sameAs: profile.socials.length ? profile.socials.map((social) => social.href) : undefined,
       },
     ],
   };
@@ -81,6 +84,7 @@ type MagazineArticleGraphInput = {
   authorProfile: AuthorProfile | null;
   featuredImage?: { src: string } | null;
   pilotEntry: AnswerEnginePilotEntry | null;
+  breadcrumb?: BreadcrumbTrailItem[];
   market?: MarketCode;
 };
 
@@ -90,6 +94,7 @@ export function buildMagazineArticleGraph({
   authorProfile,
   featuredImage,
   pilotEntry,
+  breadcrumb,
   market = "de",
 }: MagazineArticleGraphInput) {
   const siteUrl = publicUrl(market);
@@ -98,6 +103,8 @@ export function buildMagazineArticleGraph({
   const canonical = publicUrl(market, `/magazin/${entry.slug}`);
   const pageId = `${canonical}#webpage`;
   const articleId = `${canonical}#article`;
+  const breadcrumbId = `${canonical}#breadcrumb`;
+  const hasBreadcrumb = Boolean(breadcrumb?.length);
   const graph: Record<string, unknown>[] = [
     {
       "@type": "Organization",
@@ -127,9 +134,23 @@ export function buildMagazineArticleGraph({
       name: entry.title,
       isPartOf: { "@id": entityIds.website },
       primaryImageOfPage: featuredImage ? { "@id": `${canonical}#primaryimage` } : undefined,
+      breadcrumb: hasBreadcrumb ? { "@id": breadcrumbId } : undefined,
       inLanguage: locale,
     },
   ];
+
+  if (breadcrumb?.length) {
+    graph.push({
+      "@type": "BreadcrumbList",
+      "@id": breadcrumbId,
+      itemListElement: breadcrumb.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        item: publicUrl(market, item.pathname),
+      })),
+    });
+  }
 
   if (featuredImage) {
     graph.push({
@@ -146,8 +167,10 @@ export function buildMagazineArticleGraph({
       "@id": authorEntityId(authorProfile.profileUrl, market),
       name: authorProfile.name,
       url: absolutePublicUrl(authorProfile.profileUrl, market),
-      jobTitle: authorProfile.role,
+      jobTitle: authorProfile.jobTitle,
       image: authorProfile.imageUrl,
+      knowsAbout: authorProfile.expertise.length ? authorProfile.expertise : undefined,
+      sameAs: authorProfile.socials.length ? authorProfile.socials.map((social) => social.href) : undefined,
     });
   }
 

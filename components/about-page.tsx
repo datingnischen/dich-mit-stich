@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
+import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage } from "@/lib/about-pages";
@@ -96,11 +97,14 @@ export function AboutPageView({ page }: { page: AboutPage }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(graph) }} />
 
         {page.slug ? (
-          <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
-            <MarketLink targetMarket={page.market} pathname="/ueber-uns">Über uns</MarketLink>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">{page.title}</span>
-          </nav>
+          <MagazineBreadcrumb
+            market={page.market}
+            trail={[
+              { name: "Startseite", pathname: "/" },
+              { name: "Über uns", pathname: "/ueber-uns" },
+              { name: page.title, pathname: `/ueber-uns/${page.slug}` },
+            ]}
+          />
         ) : null}
 
         <header className="about-hero">

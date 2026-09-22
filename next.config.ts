@@ -88,6 +88,11 @@ export default function nextConfig(phase: string): NextConfig {
           permanent: true,
         },
         {
+          source: "/magazin/author/anne-schweitzer",
+          destination: "/magazin/anne-schweitzer",
+          permanent: true,
+        },
+        {
           source: "/magazin/expertenteam",
           destination: "/ueber-uns/expertenteam",
           permanent: true,

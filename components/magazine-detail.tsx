@@ -1,26 +1,34 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AntiEyebrowEditorial } from "@/components/anti-eyebrow-editorial";
+import { AuthorProfileContact } from "@/components/author-profile-contact";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
+import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
 import { PublishedBookFeature } from "@/components/published-book-feature";
+import { MagazineTeaser } from "@/components/magazine-teaser";
+import { getAuthorProfilePage, stripAuthorProfileDuplicates } from "@/lib/author-profile-pages";
 import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import {
+  getMarketMagazineAuthorPosts,
   getMarketMagazineAuthorProfile,
   getMarketMagazineDetailContext,
   getMarketMagazineEntryBySlug,
   getMarketMagazinePublishedProfileGraph,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
+import { buildMagazineBreadcrumbTrail, isPiercingHubChild, isPiercingTopic } from "@/lib/piercing-hub";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { formatGermanDate, teaserText } from "@/lib/wordpress";
+
+const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
 export async function MagazineDetail({ market, slug }: { market: MarketCode; slug: string }) {
   const entry = await getMarketMagazineEntryBySlug(market, slug);
@@ -30,14 +38,14 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     alt: entry.featuredImageAlt || entry.title,
   });
   if (!detailContext) notFound();
+  const isPiercingArticle = isPiercingTopic(entry);
+  const breadcrumbTrail = buildMagazineBreadcrumbTrail(entry, {
+    belowPiercingHub: await isPiercingHubChild(entry),
+  });
   if (detailContext.quarantined) {
     return (
       <main className="shell magazine-detail-shell">
-        <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
-          <MarketLink targetMarket={market} pathname="/magazin">Magazin</MarketLink>
-          <span aria-hidden="true">/</span>
-          <span aria-current="page">{entry.title}</span>
-        </nav>
+        <MagazineBreadcrumb market={market} trail={breadcrumbTrail} />
         <section className="hero-card hero-magazine hero-magazine-editorial magazine-quarantine-hero">
           <span className="eyebrow">Redaktioneller Hinweis</span>
           <h1>{entry.title}</h1>
@@ -52,12 +60,19 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const authorHref = authorProfile?.profileUrl;
   const { featuredImage: defaultFeaturedImage, video: magazineVideo, editorialOverride, answerEngineEntry } = detailContext;
   const isPublishedExpertProfile = market === "de" && entry.slug === "unser-datingexperte";
+  const authorProfilePage = getAuthorProfilePage(entry.slug);
+  const authorProfilePosts = authorProfilePage
+    ? await getMarketMagazineAuthorPosts(market, authorProfilePage.authorSlug)
+    : [];
+  const isAuthorProfileCover = isPublishedExpertProfile || Boolean(authorProfilePage);
   const featuredImage = isPublishedExpertProfile
     ? {
         src: staticAsset("/images/profiles/christian-m-haas-datingexperte.webp"),
         alt: "Christian M. Haas, Datingexperte und Autor",
       }
-    : defaultFeaturedImage;
+    : authorProfilePage
+      ? { src: authorProfilePage.hero.src, alt: authorProfilePage.hero.alt }
+      : defaultFeaturedImage;
   const articleSummary = localizeFirstPartyText(
     answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 220),
     publicUrl(market),
@@ -68,6 +83,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     authorProfile,
     featuredImage,
     pilotEntry: answerEngineEntry,
+    breadcrumb: breadcrumbTrail,
     market,
   });
   const publishedProfileGraph = getMarketMagazinePublishedProfileGraph(market, {
@@ -83,11 +99,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const contentWithoutSchema = stripPublishedBookSchema(entry.content);
   const renderedContent = isPublishedExpertProfile
     ? stripLegacyExpertPortrait(stripPublishedBookBlock(contentWithoutSchema))
-    : contentWithoutSchema;
-  const isPiercingArticle = [entry.title, entry.slug, ...entry.categories.flatMap((category) => [category.name, category.slug])]
-    .join(" ")
-    .toLocaleLowerCase("de")
-    .includes("piercing");
+    : authorProfilePage
+      ? stripAuthorProfileDuplicates(contentWithoutSchema, authorProfilePage)
+      : contentWithoutSchema;
 
   return (
     <main className="shell magazine-detail-shell">
@@ -95,13 +109,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(pageGraph) }}
       />
-      <nav className="magazine-breadcrumb" aria-label="Brotkrümelnavigation">
-        <MarketLink targetMarket={market} pathname="/magazin">Magazin</MarketLink>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">{entry.title}</span>
-      </nav>
+      <MagazineBreadcrumb market={market} trail={breadcrumbTrail} />
 
-      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}${isPublishedExpertProfile ? " magazine-detail-cover-profile" : ""}`}>
+      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}${isAuthorProfileCover ? " magazine-detail-cover-profile" : ""}${authorProfilePage ? " magazine-detail-cover-portrait" : ""}`}>
         <header className="hero-card hero-magazine hero-magazine-editorial magazine-detail-hero">
           <span className="eyebrow">
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
@@ -139,9 +149,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
               <Image
                 src={featuredImage.src}
                 alt={featuredImage.alt}
-                width={isPublishedExpertProfile ? 1402 : 1200}
-                height={isPublishedExpertProfile ? 1122 : 675}
-                sizes={isPublishedExpertProfile ? "(max-width: 760px) 100vw, 420px" : "(max-width: 900px) 100vw, 1000px"}
+                width={isPublishedExpertProfile ? 1402 : authorProfilePage ? authorProfilePage.hero.width : 1200}
+                height={isPublishedExpertProfile ? 1122 : authorProfilePage ? authorProfilePage.hero.height : 675}
+                sizes={isAuthorProfileCover ? "(max-width: 760px) 100vw, 460px" : "(max-width: 900px) 100vw, 1000px"}
                 priority
                 unoptimized={isPublishedExpertProfile}
               />
@@ -162,25 +172,63 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
         )}
       </section>
 
+      {authorProfilePage && authorProfile ? (
+        <AuthorProfileContact profile={authorProfile} page={authorProfilePage} />
+      ) : null}
+
+      {authorProfilePage && authorProfilePosts.length ? (
+        <section className="content-section">
+          <div className="section-header">
+            <span className="eyebrow">Aus dem Tattoo-Magazin</span>
+            <h2>{authorProfilePage.articleListHeading}</h2>
+          </div>
+          <div className="stack-list">
+            {authorProfilePosts.slice(0, 8).map((post) => (
+              <MarketLink
+                key={post.id}
+                targetMarket={market}
+                pathname={`/magazin/${post.slug}`}
+                className="article-card article-card-rich author-article-card"
+              >
+                <div className="article-card-media">
+                  <Image
+                    src={post.featuredImage || AUTHOR_ARTICLE_FALLBACK_IMAGE}
+                    alt={post.featuredImage ? post.featuredImageAlt || post.title : "Tätowiertes Paar – Dich mit Stich Magazin"}
+                    width={360}
+                    height={240}
+                    sizes="(max-width: 760px) 112px, 150px"
+                  />
+                </div>
+                <div className="article-card-copy">
+                  <h3>{post.title}</h3>
+                  <MagazineTeaser entry={post} length={170} origin={publicUrl(market)} />
+                </div>
+              </MarketLink>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       {isPublishedExpertProfile ? <PublishedBookFeature /> : null}
 
       {magazineVideo ? <MagazineVideo video={magazineVideo} /> : null}
 
       <MagazineDatingCta market={market} />
 
-      {!publishedProfileGraph && authorProfile ? (
+      {!publishedProfileGraph && !authorProfilePage && authorProfile ? (
         <section className="content-section">
           <ExpertTrustCard
             profile={authorProfile}
             market={market}
             aid="magazin"
+            variant="compact"
             eyebrow={authorProfile.slug === "redaktion" ? "Autor & Datingexperte" : "Autorin im Magazin"}
             title={
               authorProfile.slug === "redaktion"
                 ? "Hinter den Inhalten steht ein reales Expertenprofil statt anonymer Redaktions-Optik."
                 : `Dieser Beitrag wurde von ${authorProfile.name} für das Tattoo-Magazin verfasst.`
             }
-            primaryLabel={authorProfile.slug === "redaktion" ? "Zum Expertenprofil" : "Zum Autorenprofil"}
+            primaryLabel={authorProfile.slug === "redaktion" ? "Zum Expertenprofil" : `Mehr über ${authorProfile.name}`}
           />
         </section>
       ) : null}

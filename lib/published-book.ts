@@ -7,6 +7,14 @@ import { staticAsset } from "./static-asset.ts";
 const PROFILE_SLUG = "unser-datingexperte";
 const PROFILE_PATH = `/magazin/${PROFILE_SLUG}`;
 const AMAZON_URL = "https://www.amazon.de/dp/3696371211/";
+
+/** Book facts shared by the rendered feature and the Book node, so the two cannot drift apart. */
+export const PUBLISHED_BOOK = {
+  publisher: "BoD – Books on Demand",
+  price: "12.99",
+  priceCurrency: "EUR",
+  priceLabel: "12,99 €",
+} as const;
 const START = "<!-- dating-ohne-bullshit-book:start -->";
 const END = "<!-- dating-ohne-bullshit-book:end -->";
 const SCHEMA_START = "<!-- dating-ohne-bullshit-schema:start -->";
@@ -189,6 +197,13 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
       numberOfPages: 136,
       url: AMAZON_URL,
       image: staticAsset("/images/books/dating-ohne-bullshit-cover.webp"),
+      publisher: { "@type": "Organization", name: PUBLISHED_BOOK.publisher },
+      offers: {
+        "@type": "Offer",
+        price: PUBLISHED_BOOK.price,
+        priceCurrency: PUBLISHED_BOOK.priceCurrency,
+        url: AMAZON_URL,
+      },
     },
   ];
 

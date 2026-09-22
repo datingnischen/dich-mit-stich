@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { PUBLISHED_BOOK } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 
 const AMAZON_URL = "https://www.amazon.de/dp/3696371211/";
@@ -32,7 +33,9 @@ export function PublishedBookFeature() {
           <li>Taschenbuch</li>
           <li>136 Seiten</li>
           <li>1. Auflage</li>
+          <li>{PUBLISHED_BOOK.publisher}</li>
           <li>ISBN 978-3-6963-7121-0</li>
+          <li className="published-book-price">{PUBLISHED_BOOK.priceLabel}</li>
         </ul>
         <a className="button button-primary published-book-cta" href={AMAZON_URL} target="_blank" rel="noopener noreferrer nofollow">
           Buch bei Amazon ansehen

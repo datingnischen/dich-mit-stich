@@ -87,12 +87,24 @@ test("the expert breadcrumb schema mirrors the rendered trail", async () => {
   assert.equal(breadcrumb.itemListElement[0].item, "https://dich-mit-stich.de/");
 });
 
-test("the book node states the edition it advertises on the page", async () => {
-  const graph = await buildGraph();
+test("the book node states the edition, publisher and price it advertises on the page", async () => {
+  const [graph, feature] = await Promise.all([buildGraph(), readSource("../components/published-book-feature.tsx")]);
   const book = graph["@graph"].find((node) => node["@type"] === "Book");
+  const { PUBLISHED_BOOK } = await import(new URL("../lib/published-book.ts", import.meta.url).href);
 
   assert.equal(book.bookEdition, "1. Auflage");
   assert.equal(book.numberOfPages, 136);
+  assert.equal(book.publisher["@type"], "Organization");
+  assert.equal(book.publisher.name, "BoD – Books on Demand");
+  assert.equal(book.offers["@type"], "Offer");
+  assert.equal(book.offers.price, "12.99");
+  assert.equal(book.offers.priceCurrency, "EUR");
+  assert.equal(book.offers.url, "https://www.amazon.de/dp/3696371211/");
+
+  // The offer has to be visible on the page, so both read from the same constant.
+  assert.equal(PUBLISHED_BOOK.priceLabel, "12,99 €");
+  assert.match(feature, /\{PUBLISHED_BOOK\.publisher\}/);
+  assert.match(feature, /\{PUBLISHED_BOOK\.priceLabel\}/);
 });
 
 test("both author profile pages replace the truncated CMS excerpt with a two-sentence lead", async () => {

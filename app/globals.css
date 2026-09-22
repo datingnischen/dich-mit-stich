@@ -1850,6 +1850,12 @@ img {
   font-weight: 700;
 }
 
+.published-book-facts li.published-book-price {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
 .published-book-cta {
   display: inline-flex;
   align-items: center;

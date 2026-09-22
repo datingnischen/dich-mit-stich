@@ -216,6 +216,10 @@ test("market overview uses city-guide copy instead of pilot-only language", asyn
   assert.match(overview, /href="#stadtguides">Stadtguides ansehen/);
   assert.match(overview, /Studio-Guides nach Stadt/);
   assert.doesNotMatch(overview, /Pilot ansehen|Start mit|· PILOT/);
+  // A rollout city has no studios yet, so the card must not advertise "0 Studios".
+  assert.match(overview, /city\.publicationStatus === "verified"[\s\S]*?"Tipps für deine Studiosuche"/);
+  assert.match(overview, /city\.publicationStatus === "verified"[\s\S]*?Guide für \$\{city\.cityName\} öffnen/);
+  assert.doesNotMatch(overview, /<small>\{city\.studios\.length\} Studios/);
 });
 
 test("structured address validation accepts units and floors but rejects incomplete locations", async () => {

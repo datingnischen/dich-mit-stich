@@ -151,8 +151,8 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
               <span className="studio-city-card-copy">
                 <span>{city.region}</span>
                 <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
-                <small>{city.studios.length} Studios und Tipps zur Auswahl</small>
-                <b>Studios in {city.cityName} entdecken →</b>
+                <small>{city.publicationStatus === "verified" ? `${city.studios.length} Studios und Tipps zur Auswahl` : "Tipps für deine Studiosuche"}</small>
+                <b>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</b>
               </span>
             </MarketLink>
           ))}

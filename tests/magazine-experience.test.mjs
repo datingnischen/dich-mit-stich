@@ -260,15 +260,15 @@ test("JSON-LD serialization cannot break out of its script element", async () =>
   assert.doesNotMatch(authorPage, /__html:\s*JSON\.stringify/);
 });
 
-test("unreviewed legacy medical bodies fail closed instead of inheriting an AEO safety halo", async () => {
+test("quarantined bodies fail closed while pilot articles keep their full legacy text", async () => {
   const [detail, sitemap, safety] = await Promise.all([
     readMagazineDetailSource(),
     readSource("../app/sitemap.ts"),
     import("../lib/magazine-content-safety.ts"),
   ]);
 
-  assert.match(detail, /answerEngineEntry\s*\?\s*\(/);
-  assert.match(detail, /Die ältere Langfassung wird aktuell fachlich überarbeitet/);
+  assert.match(detail, /<MarketHtmlContent market=\{market\} html=\{renderedContent\} \/>/);
+  assert.doesNotMatch(detail, /Die ältere Langfassung wird aktuell fachlich überarbeitet/);
   assert.match(detail, /isMagazineArticleQuarantined\(slug\)/);
   assert.match(detail, /marketEditorialRobots\("de", quarantined\)/);
   const editorialMetadata = await readSource("../lib/editorial-metadata.ts");

@@ -157,11 +157,6 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       <section className="rich-content magazine-article-body">
         {editorialOverride?.kind === "anti-eyebrow" ? (
           <AntiEyebrowEditorial market={market} />
-        ) : answerEngineEntry ? (
-          <section className="panel-card magazine-editorial-review-note" aria-labelledby="legacy-review-heading">
-            <h2 id="legacy-review-heading">Hinweis zur Langfassung</h2>
-            <p>Die ältere Langfassung wird aktuell fachlich überarbeitet. Bis dahin veröffentlichen wir bewusst nur die oben belegte Kurzantwort und ihre Quellen.</p>
-          </section>
         ) : (
           <MarketHtmlContent market={market} html={renderedContent} />
         )}

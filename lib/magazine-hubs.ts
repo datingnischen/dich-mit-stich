@@ -1,7 +1,7 @@
 import { cache } from "react";
 
 import { firstPartyInternalPath } from "./market-html.ts";
-import { getMagazineEntryBySlug, type MagazineEntry } from "./wordpress.ts";
+import { decodeHtmlEntities, getMagazineEntryBySlug, type MagazineEntry } from "./wordpress.ts";
 
 /**
  * A magazine hub is an overview page whose own link list names the articles one level below
@@ -28,6 +28,7 @@ export const MAGAZINE_HUBS = [PIERCING_HUB, TATTOO_HUB] as const;
 
 const MAGAZINE_ARTICLE_PATH = /^\/magazin\/([a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\/?$/;
 const LINK_HREF = /<a\b[^>]*?\bhref\s*=\s*"([^"]*)"/gi;
+const LINK_WITH_TEXT = /<a\b[^>]*?\bhref\s*=\s*"([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi;
 
 type HubTopicEntry = Pick<MagazineEntry, "title" | "slug" | "categories">;
 
@@ -51,29 +52,81 @@ export function extractHubChildSlugs(hub: MagazineHub, html = "") {
   const slugs = new Set<string>();
 
   for (const [, href] of html.matchAll(LINK_HREF)) {
-    const internalPath = firstPartyInternalPath(href.trim());
-    if (!internalPath) continue;
-
-    const slug = internalPath.split(/[?#]/, 1)[0].toLowerCase().match(MAGAZINE_ARTICLE_PATH)?.[1];
-    if (!slug || slug === hub.slug) continue;
-
-    slugs.add(slug);
+    const slug = hubChildSlug(hub, href);
+    if (slug) slugs.add(slug);
   }
 
   return slugs;
 }
 
+function hubChildSlug(hub: MagazineHub, href: string) {
+  const internalPath = firstPartyInternalPath(href.trim());
+  if (!internalPath) return null;
+
+  const slug = internalPath.split(/[?#]/, 1)[0].toLowerCase().match(MAGAZINE_ARTICLE_PATH)?.[1];
+  return slug && slug !== hub.slug ? slug : null;
+}
+
+export type HubChildLink = { slug: string; label: string };
+
+/** Link text as the editors wrote it, minus hedges like "im Allgemeinen" that only make sense in the hub's prose. */
+function hubChildLabel(html: string) {
+  const text = decodeHtmlEntities(html.replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ").trim();
+  return text
+    .replace(/\s+im Allgemeinen$/i, "")
+    .replace(/(\s|-)piercing$/, "$1Piercing");
+}
+
+/** Every article the hub links, labelled with its link text and sorted A–Z. */
+export function extractHubChildLinks(hub: MagazineHub, html = ""): HubChildLink[] {
+  const links = new Map<string, string>();
+
+  for (const [, href, inner] of html.matchAll(LINK_WITH_TEXT)) {
+    const slug = hubChildSlug(hub, href);
+    if (!slug || links.get(slug)) continue;
+    links.set(slug, hubChildLabel(inner));
+  }
+
+  return [...links]
+    .filter(([, label]) => label)
+    .map(([slug, label]) => ({ slug, label }))
+    .sort((a, b) => a.label.localeCompare(b.label, "de"));
+}
+
+const loadHubContent = cache(async (hubSlug: string): Promise<string> => {
+  try {
+    return (await getMagazineEntryBySlug(hubSlug))?.content ?? "";
+  } catch {
+    return "";
+  }
+});
+
 const loadHubChildSlugs = cache(async (hubSlug: string): Promise<Set<string>> => {
   const hub = MAGAZINE_HUBS.find((candidate) => candidate.slug === hubSlug);
   if (!hub) return new Set<string>();
 
-  try {
-    const page = await getMagazineEntryBySlug(hub.slug);
-    return extractHubChildSlugs(hub, page?.content);
-  } catch {
-    return new Set<string>();
-  }
+  return extractHubChildSlugs(hub, await loadHubContent(hub.slug));
 });
+
+/**
+ * Overview articles that point readers to a hub's full directory. /magazin/piercing only links a
+ * handful of piercings in its prose, so it lists every type the Piercingarten hub knows about.
+ */
+const HUB_DIRECTORY_PAGES: Record<string, MagazineHub> = {
+  piercing: PIERCING_HUB,
+};
+
+export async function getHubDirectoryForPage(slug: string) {
+  const hub = HUB_DIRECTORY_PAGES[slug.toLowerCase()];
+  if (!hub) return null;
+
+  const links = extractHubChildLinks(hub, await loadHubContent(hub.slug)).filter((link) => isHubTopic(hub, {
+    title: link.label,
+    slug: link.slug,
+    categories: [],
+  }));
+  return links.length ? { hub, links } : null;
+}
 
 /** The hub an entry hangs below, or null when it sits directly under the magazine. */
 export async function resolveMagazineHub(entry: HubTopicEntry): Promise<MagazineHub | null> {

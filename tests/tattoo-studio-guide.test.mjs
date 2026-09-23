@@ -603,7 +603,7 @@ test("site navigation links to the new studio guide rather than the singles city
     source("app/tattoo-studios/page.tsx"),
     source("components/tattoo-studio-largest-cities.tsx"),
   ]);
-  assert.match(shell, /Lieblings-Studios", href: "\/tattoo-studios"/);
+  assert.match(shell, /label: "Tattoo-Studios", href: "\/tattoo-studios"/);
   assert.match(shell, /Tattoo-Studio-Guide/);
   assert.match(shell, /Tattoo-Studios Berlin/);
   assert.match(page, /Tattoo-Studios Schweiz/);

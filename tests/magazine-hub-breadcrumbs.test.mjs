@@ -186,3 +186,29 @@ test("the article graph publishes the visible trail as a BreadcrumbList", async 
   assert.match(css, /\.magazine-breadcrumb ol\s*\{[^}]*list-style:\s*none/s);
   assert.match(css, /\.magazine-breadcrumb li:not\(:last-child\)::after\s*\{[^}]*content:\s*"\/"/s);
 });
+
+test("the piercing overview lists every piercing type the hub links, A to Z", async () => {
+  const { extractHubChildLinks } = await import("../lib/magazine-hubs.ts");
+  const links = extractHubChildLinks(PIERCING_HUB, `
+    ${PIERCING_HUB_HTML}
+    <a href="/magazin/lippenpiercing">Lippenpiercing im Allgemeinen</a>
+    <a href="/magazin/industrial-piercing">Industrial piercing</a>
+    <a href="/magazin/rook-piercing"><img src="x.jpg" alt=""></a>
+  `);
+
+  assert.deepEqual(links, [
+    { slug: "conch-piercing", label: "Conch-Piercing" },
+    { slug: "helix-piercing", label: "Helix-Piercing" },
+    { slug: "industrial-piercing", label: "Industrial Piercing" },
+    { slug: "lippenpiercing", label: "Lippenpiercing" },
+    { slug: "rook-piercing", label: "Rook Piercing" },
+  ]);
+
+  const [detail, hubs] = await Promise.all([
+    readSource("../components/magazine-detail.tsx"),
+    readSource("../lib/magazine-hubs.ts"),
+  ]);
+  assert.match(hubs, /piercing: PIERCING_HUB/);
+  assert.match(detail, /getHubDirectoryForPage\(slug\)/);
+  assert.match(detail, /Alle Piercings von A bis Z/);
+});

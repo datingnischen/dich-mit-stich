@@ -4273,3 +4273,12 @@ a.pin-cta-follow:hover {
 .singles-overview .studio-guide-principles { margin-top: 48px; }
 .singles-overview-crosslink { margin-top: 24px; color: var(--muted); line-height: 1.7; }
 .singles-overview-crosslink a { color: var(--brand); font-weight: 700; }
+
+.magazine-hub-directory-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

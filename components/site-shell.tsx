@@ -39,8 +39,8 @@ const headerMenuGroups: NavGroup[] = [
   {
     title: "Entdecken",
     items: [
-      { label: "Region eingrenzen", href: "/tattoo-singles" },
-      { label: "Lieblings-Studios", href: "/tattoo-studios" },
+      { label: "Tattoo-Singles", href: "/tattoo-singles" },
+      { label: "Tattoo-Studios", href: "/tattoo-studios" },
       { label: "Tattoo-Motive", href: "/magazin/tattoo-motive" },
       { label: "Piercings", href: "/magazin/piercing" },
     ],

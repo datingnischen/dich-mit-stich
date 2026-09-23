@@ -24,7 +24,7 @@ import {
   getMarketMagazinePublishedProfileGraph,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { buildMagazineBreadcrumbTrail, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
+import { buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { formatGermanDate, teaserText } from "@/lib/wordpress";
@@ -43,6 +43,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const breadcrumbTrail = buildMagazineBreadcrumbTrail(entry, {
     hub: await resolveMagazineHub(entry),
   });
+  const hubDirectory = await getHubDirectoryForPage(slug);
   if (detailContext.quarantined) {
     return (
       <main className="shell magazine-detail-shell">
@@ -176,6 +177,28 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           <MarketHtmlContent market={market} html={renderedContent} />
         )}
       </section>
+
+      {hubDirectory ? (
+        <section className="content-section magazine-hub-directory" aria-labelledby="magazine-hub-directory-heading">
+          <div className="section-header magazine-section-heading">
+            <span className="eyebrow">{hubDirectory.hub.label}</span>
+            <h2 id="magazine-hub-directory-heading">Alle Piercings von A bis Z</h2>
+            <p>
+              Jede Piercingart mit eigenem Ratgeber – oder alle nach Körperstelle sortiert in der{" "}
+              <MarketLink targetMarket={market} pathname={hubDirectory.hub.path}>Übersicht der Piercingarten</MarketLink>.
+            </p>
+          </div>
+          <ul className="magazine-hub-directory-list">
+            {hubDirectory.links.map((link) => (
+              <li key={link.slug}>
+                <MarketLink className="chip" targetMarket={market} pathname={`/magazin/${link.slug}`}>
+                  {link.label}
+                </MarketLink>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {isPublishedExpertProfile ? <PublishedBookFeature /> : null}
 

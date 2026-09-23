@@ -434,7 +434,7 @@ test("sticky CTA names the city on every studio city page", async () => {
     [...sticky.matchAll(/^\s+'?([a-z-]+)'?: '[^']+',\r?$/gm)].map((match) => match[1]),
   );
 
-  assert.match(sticky, /\/\^\\\/tattoo-\(\?:singles\|studios\)\\\/\(\[\^\/\]\+\)\\\/\?\$\//);
+  assert.match(sticky, /\(\?:market-\)\?tattoo-\(\?:singles\|studios\)\\\/\(\?:\(\?:de\|at\|ch\)\\\/\)\?\(\[\^\/\]\+\)/);
   for (const market of ["de", "at", "ch"]) {
     for (const guide of getTattooStudioCities(market)) {
       assert.ok(adjectiveSlugs.has(guide.slug), `${market}/${guide.slug} fehlt in CITY_ADJECTIVES`);

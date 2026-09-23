@@ -56,8 +56,10 @@ function withoutMarketPrefix(pathname: string) {
   return pathname.replace(/^\/(?:de|at|ch)(?=\/|$)/, '') || '/';
 }
 
+// On AT/CH the server renders the internal rewrite target
+// (/market-tattoo-studios/at/wien), the client the public path.
 function cityAdjectiveFromPathname(pathname: string) {
-  const cityMatch = withoutMarketPrefix(pathname).match(/^\/tattoo-(?:singles|studios)\/([^/]+)\/?$/);
+  const cityMatch = withoutMarketPrefix(pathname).match(/^\/(?:market-)?tattoo-(?:singles|studios)\/(?:(?:de|at|ch)\/)?([^/]+)\/?$/);
   return cityMatch ? CITY_ADJECTIVES[cityMatch[1]] : undefined;
 }
 

@@ -65,6 +65,16 @@ function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
   return attribs;
 }
 
+/** WordPress-Links enden auf "/", die Next-Routen nicht: das spart pro Klick einen 308. */
+function withoutTrailingSlash(internalPath: string) {
+  const suffixStart = internalPath.search(/[?#]/);
+  const path = suffixStart === -1 ? internalPath : internalPath.slice(0, suffixStart);
+  const suffix = suffixStart === -1 ? "" : internalPath.slice(suffixStart);
+  return `${path.length > 1 ? path.replace(/\/+$/, "") : path}${suffix}`;
+}
+
+// Der Markt bleibt Teil der Signatur: Die Links sind heute für alle Märkte gleich, das Präfix setzt nur der Vorschau-Client.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
   return sanitizeHtml(normalizeMagazineAppendix(normalizeMagazineMedia(html)), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
@@ -93,9 +103,11 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
         const internalPath = firstPartyInternalPath(cleanAttributes.href || "");
         if (!internalPath) return { tagName, attribs: cleanAttributes };
 
+        // Präfixlos ausliefern: So stimmen die Links hinter dem Reverse-Proxy auch ohne JavaScript.
+        // Nur auf Vorschau-Hosts ergänzt der Client das Marktpräfix.
         const attribs: Record<string, string> = {
           ...cleanAttributes,
-          href: `/${market}${internalPath === "/" ? "" : internalPath}`,
+          href: withoutTrailingSlash(internalPath),
           "data-dms-internal": "true",
         };
         delete attribs.target;

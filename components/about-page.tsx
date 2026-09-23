@@ -10,7 +10,7 @@ import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage, ty
 import { conversionUrl } from "@/lib/conversion-links";
 import { buildIconyRegistrationFrame } from "@/lib/icony-frame-widgets";
 import { serializeJsonLd } from "@/lib/json-ld";
-import { publicUrl } from "@/lib/markets";
+import { marketDescription, marketLanguageAlternates, marketTitleSuffix, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
 function PageLink({ link, market, className }: { link: AboutLink; market: AboutPage["market"]; className?: string }) {
@@ -117,14 +117,16 @@ function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["m
 
 export function aboutPageMetadata(page: AboutPage): Metadata {
   const canonical = publicUrl(page.market, page.path);
+  const title = `${page.title}${marketTitleSuffix(page.market)}`;
+  const description = marketDescription(page.market, page.description);
   return {
-    title: page.title,
-    description: page.description,
-    alternates: { canonical },
+    title,
+    description,
+    alternates: { canonical, languages: marketLanguageAlternates(page.path) },
     openGraph: {
       type: "website",
-      title: page.title,
-      description: page.description,
+      title,
+      description,
       url: canonical,
       siteName: "Dich mit Stich",
       locale: page.market === "de" ? "de_DE" : page.market === "at" ? "de_AT" : "de_CH",

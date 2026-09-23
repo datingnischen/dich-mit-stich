@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
-import { type MarketCode, publicUrl } from "@/lib/markets";
+import { type MarketCode, marketLanguageAlternates, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 
@@ -48,14 +48,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
       title: "Tattoo Singles aus Österreich",
       description: AT_OVERVIEW_HERO.description,
-      alternates: { canonical: publicUrl("at", "/tattoo-singles") },
+      alternates: { canonical: publicUrl("at", "/tattoo-singles"), languages: marketLanguageAlternates("/tattoo-singles") },
     };
   }
 
   return {
     title: "Tattoo Singles aus der Schweiz",
     description: "Finde dein Perfect Tattoo Match in der Schweiz. Wir verbinden tätowierte Singles.",
-    alternates: { canonical: publicUrl("ch", "/tattoo-singles") },
+    alternates: { canonical: publicUrl("ch", "/tattoo-singles"), languages: marketLanguageAlternates("/tattoo-singles") },
   };
 }
 

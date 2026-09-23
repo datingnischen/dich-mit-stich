@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { FaqPageView } from "@/components/faq-page";
 import { FAQ_PATH } from "@/lib/faq";
-import { publicUrl } from "@/lib/markets";
+import { marketLanguageAlternates, publicUrl } from "@/lib/markets";
 
 const title = "Häufig gestellte Fragen zu Dich mit Stich";
 const description = "Antworten zu Anmeldung, Mitgliedschaft, Kosten, Funktionen, Sicherheit, Datenschutz und Support bei Dich mit Stich.";
@@ -10,7 +10,7 @@ const description = "Antworten zu Anmeldung, Mitgliedschaft, Kosten, Funktionen,
 export const metadata: Metadata = {
   title,
   description,
-  alternates: { canonical: publicUrl("de", FAQ_PATH) },
+  alternates: { canonical: publicUrl("de", FAQ_PATH), languages: marketLanguageAlternates(FAQ_PATH) },
   openGraph: {
     type: "website",
     title,

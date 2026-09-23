@@ -12,7 +12,7 @@ export function conversionUrl(origin: string, pathname: string, aid?: Conversion
   const convertedPath = conversionPathname(pathname, aid);
   url.pathname = convertedPath === "/" || convertedPath === "/suche/"
     ? convertedPath
-    : `/${convertedPath.replace(/^\/+|\/+$/g, "")}`;
+    : `/${convertedPath.replace(/^\/+|\/+$/g, "")}/`; // ICONY leitet /registration ohne "/" per 301 weiter und verliert dabei die AID
   url.search = "";
   if (aid) url.searchParams.set("AID", aid);
   return url.toString();

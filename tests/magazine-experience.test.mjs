@@ -40,10 +40,10 @@ test("magazine conversion context always resolves to the exact Flirtradar search
     const origin = `https://${domain}`;
     assert.equal(conversionUrl(origin, "/registration/", "magazin"), `${origin}/suche/?AID=magazin`);
     assert.equal(conversionUrl(origin, "/", "magazin"), `${origin}/suche/?AID=magazin`);
-    assert.equal(conversionUrl(origin, "/registration/", "location"), `${origin}/registration?AID=location`);
+    assert.equal(conversionUrl(origin, "/registration/", "location"), `${origin}/registration/?AID=location`);
     assert.equal(conversionUrl(origin, "/", "location"), `${origin}/?AID=location`);
-    assert.equal(conversionUrl(origin, "/registration/"), `${origin}/registration`);
-    assert.equal(conversionUrl(origin, "/login/"), `${origin}/login`);
+    assert.equal(conversionUrl(origin, "/registration/"), `${origin}/registration/`);
+    assert.equal(conversionUrl(origin, "/login/"), `${origin}/login/`);
   }
 
   const shell = await readSource("../components/site-shell.tsx");

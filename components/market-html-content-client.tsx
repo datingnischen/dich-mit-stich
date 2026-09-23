@@ -22,11 +22,11 @@ export function MarketHtmlContentClient({ html, market, className }: MarketHtmlC
     const previewHost = isPreviewHost(window.location.hostname);
     const marketPrefix = `/${market}`;
 
+    // Der Server liefert präfixlose Links (öffentliche Domains). Auf Vorschau-Hosts braucht es das Marktpräfix.
     for (const anchor of anchors) {
-      if (!previewHost) {
+      if (previewHost && market !== "de") {
         const href = anchor.getAttribute("href") || "";
-        if (href === marketPrefix) anchor.setAttribute("href", "/");
-        else if (href.startsWith(`${marketPrefix}/`)) anchor.setAttribute("href", href.slice(marketPrefix.length));
+        anchor.setAttribute("href", href === "/" ? marketPrefix : `${marketPrefix}${href}`);
       }
       anchor.removeAttribute("data-dms-internal");
     }

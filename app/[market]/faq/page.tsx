@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { FaqPageView } from "@/components/faq-page";
 import { FAQ_PATH } from "@/lib/faq";
-import { isMarketCode, publicUrl } from "@/lib/markets";
+import { isMarketCode, marketDescription, marketLanguageAlternates, marketTitleSuffix, publicUrl } from "@/lib/markets";
 
 const title = "Häufig gestellte Fragen zu Dich mit Stich";
 const description = "Antworten zu Anmeldung, Mitgliedschaft, Kosten, Funktionen, Sicherheit, Datenschutz und Support bei Dich mit Stich.";
@@ -21,15 +21,17 @@ export async function generateMetadata({ params }: { params: Promise<{ market: s
   if (!market) return {};
 
   const canonical = publicUrl(market, FAQ_PATH);
+  const marketTitle = `${title}${marketTitleSuffix(market)}`;
+  const marketDescriptionText = marketDescription(market, description);
   return {
-    title,
-    description,
-    alternates: { canonical },
+    title: marketTitle,
+    description: marketDescriptionText,
+    alternates: { canonical, languages: marketLanguageAlternates(FAQ_PATH) },
     robots: { index: true, follow: true },
     openGraph: {
       type: "website",
-      title,
-      description,
+      title: marketTitle,
+      description: marketDescriptionText,
       url: canonical,
       siteName: "Dich mit Stich",
       locale: market === "at" ? "de_AT" : "de_CH",

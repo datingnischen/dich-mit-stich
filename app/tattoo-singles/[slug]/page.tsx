@@ -137,7 +137,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
             profile={expert}
             aid="location"
             eyebrow="Begleitet von unserem Datingexperten"
-            title={`Die Stadtseite für ${cityName} lehnt sich an den echten Dich-mit-Stich-Stil an und bleibt redaktionell begleitet.`}
+            title={`Die Tipps für Tattoo-Singles in ${cityName} prüft unser Datingexperte, bevor sie online gehen.`}
           />
         </section>
       ) : null}

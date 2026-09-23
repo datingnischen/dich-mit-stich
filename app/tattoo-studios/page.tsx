@@ -6,14 +6,14 @@ import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { TattooStudioLargestCities } from "@/components/tattoo-studio-largest-cities";
-import { publicUrl } from "@/lib/markets";
+import { marketLanguageAlternates, publicUrl } from "@/lib/markets";
 import { getTattooCityDirectory } from "@/lib/tattoo-singles";
 import { getLargestTattooStudioCities, getTattooStudioCities } from "@/lib/tattoo-studio-guide";
 
 export const metadata: Metadata = {
   title: "Tattoo-Studio-Guide für Deutschland",
   description: "Entdecke Tattoo-Studio-Stadtguides mit Tipps zu Stil, Portfolio, Beratung und Hygiene – übersichtlich nach Städten und ohne gekaufte Ranglisten.",
-  alternates: { canonical: publicUrl("de", "/tattoo-studios") },
+  alternates: { canonical: publicUrl("de", "/tattoo-studios"), languages: marketLanguageAlternates("/tattoo-studios") },
 };
 
 export default function TattooStudioGuidePage() {

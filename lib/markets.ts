@@ -92,9 +92,43 @@ export function getOtherMarkets(market: MarketCode): MarketConfig[] {
   return MARKET_CODES.filter((code) => code !== market).map((code) => MARKETS[code]);
 }
 
+// Ein Schrägstrich am Ende bleibt erhalten: ICONY-Pfade wie /login/ antworten ohne ihn mit einem 301.
 export function publicUrl(market: MarketCode, pathname = "/"): string {
-  const normalizedPath = pathname === "/" ? "/" : `/${pathname.replace(/^\/+|\/+$/g, "")}`;
+  const trailingSlash = pathname.endsWith("/") ? "/" : "";
+  const normalizedPath = pathname === "/" ? "/" : `/${pathname.replace(/^\/+|\/+$/g, "")}${trailingSlash}`;
   return `https://${getMarket(market).domain}${normalizedPath}`;
+}
+
+/**
+ * hreflang-Verweise für Seiten, die es auf allen drei Landesdomains gibt.
+ * Nur für indexierbare Seiten nutzen, sonst zeigt hreflang auf noindex-Ziele.
+ */
+export function marketLanguageAlternates(pathname = "/"): Record<string, string> {
+  return {
+    "de-DE": publicUrl("de", pathname),
+    "de-AT": publicUrl("at", pathname),
+    "de-CH": publicUrl("ch", pathname),
+    "x-default": publicUrl("de", pathname),
+  };
+}
+
+/** Titelzusatz für AT/CH, damit gleiche Seiten auf den drei Domains nicht denselben Title tragen. */
+export function marketTitleSuffix(market: MarketCode): string {
+  return market === "de" ? "" : ` – ${getMarket(market).countryName}`;
+}
+
+const MARKET_COUNTRY_PHRASE: Record<MarketCode, string> = {
+  de: "in Deutschland",
+  at: "in Österreich",
+  ch: "in der Schweiz",
+};
+
+/** Hängt für AT/CH das Land an die Description, sofern es noch nicht drinsteht. */
+export function marketDescription(market: MarketCode, description: string): string {
+  if (market === "de" || description.includes(getMarket(market).countryName) || description.includes("Schweiz")) {
+    return description;
+  }
+  return `${description.replace(/\s+$/, "")} Für Singles ${MARKET_COUNTRY_PHRASE[market]}.`;
 }
 
 export function marketPreviewPath(market: MarketCode, pathname = "/"): string {

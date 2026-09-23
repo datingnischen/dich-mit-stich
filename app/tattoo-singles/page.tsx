@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
-import { publicUrl } from "@/lib/markets";
+import { marketLanguageAlternates, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Tattoo-Singles in Deutschland – Singles nach Stadt",
   description:
     "Finde tätowierte und gepiercte Singles in deiner Stadt: Stadtseiten von Berlin bis München, Flirtradar mit Umkreissuche und kostenloser Einstieg.",
-  alternates: { canonical: publicUrl("de", "/tattoo-singles") },
+  alternates: { canonical: publicUrl("de", "/tattoo-singles"), languages: marketLanguageAlternates("/tattoo-singles") },
 };
 
 export default async function TattooSinglesOverviewPage() {

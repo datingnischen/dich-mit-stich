@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { IconySinglesWidget } from "@/components/icony-singles-widget";
+import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { conversionUrl } from "@/lib/conversion-links";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
@@ -127,6 +128,8 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           </p>
         </section>
       ) : null}
+
+      <MagazineDatingCta market="de" cityName={cityName} />
 
       {expert ? (
         <section className="content-section">

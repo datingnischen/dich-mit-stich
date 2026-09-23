@@ -4241,3 +4241,15 @@ a.pin-cta-follow:hover {
   text-decoration: underline;
   text-underline-offset: 0.16em;
 }
+
+/* Tattoo-Singles-Übersicht */
+.singles-overview-hero {
+  padding: clamp(24px, 4vw, 44px);
+  background: radial-gradient(circle at top left, rgba(219, 57, 135, 0.14), transparent 45%), rgba(255, 255, 255, 0.98);
+}
+.singles-overview-hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.04em; }
+.singles-overview-hero p { color: var(--muted); font-size: 1.05rem; line-height: 1.75; }
+.singles-overview-cities { margin-top: 48px; }
+.singles-overview .studio-guide-principles { margin-top: 48px; }
+.singles-overview-crosslink { margin-top: 24px; color: var(--muted); line-height: 1.7; }
+.singles-overview-crosslink a { color: var(--brand); font-weight: 700; }

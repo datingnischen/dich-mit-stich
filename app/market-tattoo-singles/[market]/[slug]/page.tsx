@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { IconySinglesWidget } from "@/components/icony-singles-widget";
 import { MarketHtmlContent } from "@/components/market-html-content";
+import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
@@ -145,6 +146,8 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
           ) : null}
         </p>
       </section>
+
+      <MagazineDatingCta market={market} cityName={city.cityName} />
     </main>
   );
 }

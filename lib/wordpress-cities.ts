@@ -6,7 +6,7 @@ import { decodeHtmlEntities, fetchWithRetry, stripHtml, WORDPRESS_FETCH_POLICY }
 const CITY_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
 const CITY_SOURCE_REVISION = "image-licenses-v1";
 export const CITY_ROUTE_FIELDS = "id,slug,acf.city_id,acf.city_country";
-const CITY_LIST_FIELDS = "id,slug,featured_media,acf.city_id,acf.city_name,acf.city_country";
+const CITY_LIST_FIELDS = "id,slug,featured_media,acf.city_id,acf.city_name,acf.city_region,acf.city_country";
 const CITY_DETAIL_FIELDS = "id,slug,title,excerpt,content,featured_media,acf,_links,_embedded";
 
 const CITY_HTML_POLICY: sanitizeHtml.IOptions = {
@@ -83,7 +83,7 @@ export type WordPressCityPage = {
 export type WordPressCityOverview = {
   title: string;
   description: string;
-  cityLinks: Array<{ slug: string; label: string; imageUrl: string | null }>;
+  cityLinks: Array<{ slug: string; label: string; region: string; imageUrl: string | null }>;
 };
 
 function countryForMarket(market: CityMarket): CityCountry {
@@ -206,7 +206,9 @@ export const getWordPressCityOverview = cache(async (market: CityMarket): Promis
     description: market === "ch"
       ? "Finde dein Perfect Tattoo Match in der Schweiz. Wir verbinden tätowierte Singles."
       : "Finde tätowierte und gepiercte Singles in deiner Stadt und entdecke lokale Szene-Guides.",
-    cityLinks: cities.map((city) => ({ slug: city.slug, label: city.cityName, imageUrl: city.imageUrl })),
+    cityLinks: cities
+      .map((city) => ({ slug: city.slug, label: city.cityName, region: city.cityRegion, imageUrl: city.imageUrl }))
+      .sort((a, b) => a.label.localeCompare(b.label, "de")),
   };
 });
 

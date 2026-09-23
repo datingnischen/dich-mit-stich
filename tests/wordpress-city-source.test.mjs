@@ -119,8 +119,9 @@ test("DE city overview keeps linked city cards without the repetitive guide prom
   const source = await readFile(new URL("../app/tattoo-singles/page.tsx", import.meta.url), "utf8");
 
   assert.match(source, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
-  assert.match(source, /city-card-with-media/);
+  assert.match(source, /className="studio-city-card"/);
   assert.match(source, /<strong>\{city\.label\}<\/strong>/);
+  assert.match(source, /\{city\.region \|\| "Deutschland"\}/);
   assert.doesNotMatch(source, /Jetzt Stadt-Guide öffnen/);
 });
 

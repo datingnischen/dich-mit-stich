@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 export default function TattooStudioGuidePage() {
   const cities = getTattooStudioCities("de");
   const largestCities = getLargestTattooStudioCities("de");
+  const atGuideCount = getTattooStudioCities("at").length;
+  const chGuideCount = getTattooStudioCities("ch").length;
   const guideCities = cities;
   const largestCitySlugs = new Set(largestCities.map((city) => city.slug));
   const guideCitySlugs = new Set(cities.map((city) => city.slug));
@@ -63,9 +65,9 @@ export default function TattooStudioGuidePage() {
         </figure>
 
         <nav className="content-section studio-guide-country-strip" aria-label="Tattoo-Studio-Guides nach Land">
-          <MarketLink className="studio-guide-country-link" targetMarket="de" pathname="/tattoo-studios"><strong>Deutschland</strong><span>20 Stadtguides</span></MarketLink>
-          <MarketLink className="studio-guide-country-link" targetMarket="at" pathname="/tattoo-studios"><strong>Österreich</strong><span>5 Stadtguides</span></MarketLink>
-          <MarketLink className="studio-guide-country-link" targetMarket="ch" pathname="/tattoo-studios"><strong>Schweiz</strong><span>Zürich-Guide</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="de" pathname="/tattoo-studios"><strong>Deutschland</strong><span>{cities.length} Stadtguides</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="at" pathname="/tattoo-studios"><strong>Österreich</strong><span>{atGuideCount} Stadtguides</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="ch" pathname="/tattoo-studios"><strong>Schweiz</strong><span>{chGuideCount} Stadtguides</span></MarketLink>
         </nav>
 
         <section className="content-section studio-city-finder-feature" aria-labelledby="stadt-finder-heading">

@@ -344,9 +344,12 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(overview, /<MarketLink[^>]+className="studio-guide-country-link"[^>]+targetMarket="de"[^>]+pathname="\/tattoo-studios"/);
   assert.match(overview, /<MarketLink[^>]+className="studio-guide-country-link"[^>]+targetMarket="at"[^>]+pathname="\/tattoo-studios"/);
   assert.match(overview, /<MarketLink[^>]+className="studio-guide-country-link"[^>]+targetMarket="ch"[^>]+pathname="\/tattoo-studios"/);
-  assert.match(overview, /<strong>Deutschland<\/strong><span>20 Stadtguides<\/span>/);
-  assert.match(overview, /<strong>Österreich<\/strong><span>5 Stadtguides<\/span>/);
-  assert.match(overview, /<strong>Schweiz<\/strong><span>Zürich-Guide<\/span>/);
+  assert.match(overview, /<strong>Deutschland<\/strong><span>\{cities\.length\} Stadtguides<\/span>/);
+  assert.match(overview, /getTattooStudioCities\("at"\)\.length/);
+  assert.match(overview, /<strong>Österreich<\/strong><span>\{atGuideCount\} Stadtguides<\/span>/);
+  assert.match(overview, /getTattooStudioCities\("ch"\)\.length/);
+  assert.match(overview, /<strong>Schweiz<\/strong><span>\{chGuideCount\} Stadtguides<\/span>/);
+  assert.doesNotMatch(overview, /Zürich-Guide/);
   assert.doesNotMatch(overview, /studio-guide-stats|strukturierte Studios|deutsche Studio-Stadtseiten|gekaufte Rangplätze|Jetzt verfügbar|Fünf Stadtguides verfügbar|Zürich-Guide verfügbar|Vorschau verfügbar|Vier Stadtguides verfügbar|Nächste Ausbaustufe/);
   assert.match(overview, /city\.region/);
   assert.doesNotMatch(overview, /Niedersachsen ·/);

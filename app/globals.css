@@ -10,6 +10,8 @@
   --brand-soft: #f5edf1;
   --accent: #494949;
   --accent-dark: #494949;
+  --cta-green: #4c7c3d;
+  --cta-green-dark: #3f6633;
 }
 
 * {
@@ -579,7 +581,25 @@ img {
   font-weight: 700;
 }
 
-.header-register,
+.header-register {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: var(--cta-green);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 14px 28px rgba(76, 124, 61, 0.26);
+  transition: background 160ms ease;
+}
+
+.header-register:hover,
+.header-register:focus-visible {
+  background: var(--cta-green-dark);
+}
+
 .footer-cta-button {
   display: inline-flex;
   align-items: center;

@@ -1,12 +1,13 @@
-import Image from "next/image";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
-const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.png");
+const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.svg");
 
 export function MagazineDatingCta({ market }: { market: MarketCode }) {
+  const registrationHref = conversionUrl(publicUrl(market), "/", "magazin");
+
   return (
     <aside className="content-section magazine-dating-cta" aria-labelledby="magazine-dating-title">
       <div className="magazine-dating-copy">
@@ -21,7 +22,7 @@ export function MagazineDatingCta({ market }: { market: MarketCode }) {
           <li>Kostenlos starten und den Suchradius selbst bestimmen</li>
         </ul>
         <div className="button-row">
-          <a className="button button-primary" href={conversionUrl(publicUrl(market), "/", "magazin")}>
+          <a className="button button-primary" href={registrationHref}>
             Flirtradar kostenlos nutzen
           </a>
           <MarketLink className="button button-secondary" targetMarket={market} pathname="/tattoo-singles">
@@ -31,15 +32,16 @@ export function MagazineDatingCta({ market }: { market: MarketCode }) {
       </div>
 
       <div className="magazine-dating-visual">
-        <div className="magazine-dating-frame">
-          <Image
+        <a className="magazine-dating-frame" href={registrationHref}>
+          <img
             src={FLIRTRADAR_IMAGE}
             alt="Flirtradar mit Umkreissuche für Tattoo- und Piercing-Singles"
             width={320}
             height={480}
-            sizes="(max-width: 900px) 100vw, 420px"
+            loading="lazy"
+            decoding="async"
           />
-        </div>
+        </a>
       </div>
     </aside>
   );

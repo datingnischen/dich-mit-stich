@@ -107,18 +107,19 @@ test("normal magazine entries render one reusable Flirtradar conversion after ed
   assert.match(detail, /<ExpertTrustCard[\s\S]*aid="magazin"[\s\S]*\/>/);
   assert.doesNotMatch(detail, /registration\/">Kostenlos registrieren/);
 
-  assert.match(component, /staticAsset\("\/brand\/flirtradar-umkreissuche\.png"\)/);
-  const flirtradarImage = await readFile(
-    new URL("../public/brand/flirtradar-umkreissuche.png", import.meta.url),
+  assert.match(component, /staticAsset\("\/brand\/flirtradar-umkreissuche\.svg"\)/);
+  const flirtradarSvg = await readFile(
+    new URL("../public/brand/flirtradar-umkreissuche.svg", import.meta.url),
+    "utf8",
   );
+  const viewBox = flirtradarSvg.match(/viewBox="0 0 (\d+) (\d+)"/);
+  assert.ok(viewBox, "Flirtradar SVG must declare a viewBox");
   const declaredDimensions = component.match(
     /width=\{(\d+)\}[\s\S]*height=\{(\d+)\}/,
   );
-  assert.ok(declaredDimensions, "Flirtradar Image must declare intrinsic dimensions");
-  assert.deepEqual(
-    declaredDimensions.slice(1).map(Number),
-    [flirtradarImage.readUInt32BE(16), flirtradarImage.readUInt32BE(20)],
-  );
+  assert.ok(declaredDimensions, "Flirtradar image must declare intrinsic dimensions");
+  const [width, height] = declaredDimensions.slice(1).map(Number);
+  assert.equal(width / height, Number(viewBox[1]) / Number(viewBox[2]));
   assert.match(component, /conversionUrl\(publicUrl\(market\), "\/", "magazin"\)/);
   assert.doesNotMatch(component, /registration\/\?AID=magazin/);
   assert.match(component, /alt="Flirtradar mit Umkreissuche für Tattoo- und Piercing-Singles"/);

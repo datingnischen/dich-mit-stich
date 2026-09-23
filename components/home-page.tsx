@@ -13,7 +13,7 @@ import { formatGermanDate } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
-const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.png");
+const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.svg");
 
 const HOME_MARKET_COPY = {
   de: { exampleCitySlug: "bremen", range: "Von Berlin bis München", country: "Deutschland", countryTitle: "Städte in Deutschland" },
@@ -138,15 +138,16 @@ export async function HomePage({ market }: { market: MarketCode }) {
         </div>
 
         <div className="home-radar-visual">
-          <div className="home-radar-frame">
-            <Image
+          <a className="home-radar-frame" href={conversionUrl(publicUrl(market), "/registration/", "location")}>
+            <img
               src={FLIRTRADAR_IMAGE}
               alt="Flirtradar mit Umkreissuche für Tattoo-Singles in der Nähe"
-              width={1200}
-              height={675}
-              sizes="(max-width: 900px) 100vw, 50vw"
+              width={320}
+              height={480}
+              loading="lazy"
+              decoding="async"
             />
-          </div>
+          </a>
         </div>
       </section>
 

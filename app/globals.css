@@ -1184,6 +1184,7 @@ img {
 }
 
 .home-radar-frame {
+  display: block;
   width: min(100%, 340px);
   padding: 18px;
   border-radius: 32px;
@@ -2376,6 +2377,7 @@ img {
 }
 
 .magazine-dating-frame {
+  display: block;
   width: min(100%, 400px);
   padding: 12px;
   border: 1px solid var(--line);

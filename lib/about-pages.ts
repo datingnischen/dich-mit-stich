@@ -40,6 +40,8 @@ export type AboutCard = {
     bleed?: boolean;
   };
   link?: AboutLink;
+  /** Bettet statt eines Links das ICONY-Kurzformular (PLZ, Ich bin, Ich suche) in die Kachel ein. */
+  widget?: "icony-registration";
 };
 
 export type AboutDetailSection = {
@@ -443,7 +445,7 @@ function reviewsPage(market: MarketCode): AboutPage {
         title: "Kostenlos umsehen",
         text: "Melde dich kostenlos an und schau, wer in deiner Nähe dabei ist.",
         icon: "→",
-        link: { label: "Kostenlos registrieren", href: locationRegistrationUrl(market), external: true },
+        widget: "icony-registration",
       },
       {
         eyebrow: "Vergleichsportal",

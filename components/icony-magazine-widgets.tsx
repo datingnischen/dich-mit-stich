@@ -1,7 +1,7 @@
 import { buildIconyActivityFrame, buildIconyRegistrationFrame, type IconyFrameWidget } from "@/lib/icony-frame-widgets";
 import type { MarketCode } from "@/lib/markets";
 
-function IconyFrame({ widget }: { widget: IconyFrameWidget }) {
+export function IconyFrame({ widget }: { widget: IconyFrameWidget }) {
   return (
     <iframe
       className="icony-embed-frame"

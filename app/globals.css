@@ -3476,6 +3476,12 @@ img {
   box-shadow: 0 12px 34px rgba(66, 35, 49, 0.07);
 }
 
+.about-card-widget {
+  display: grid;
+  justify-items: center;
+  margin-top: 4px;
+}
+
 .about-topic-card-linked {
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }

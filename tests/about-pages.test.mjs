@@ -308,3 +308,14 @@ test("overview tiles open with an emotional full-bleed image in every market", a
   assert.match(component, /card\.image\?\.bleed/);
   assert.match(css, /\.about-card-image-bleed::after/);
 });
+
+test("the reviews page embeds the ICONY registration form in its try-it-yourself card on every market", async () => {
+  const { getAboutPage } = await import("../lib/about-pages.ts");
+  for (const market of ["de", "at", "ch"]) {
+    const card = getAboutPage(market, "bewertungen").cards.find((entry) => entry.eyebrow === "Selbst ausprobieren");
+    assert.equal(card.widget, "icony-registration");
+    assert.equal(card.link, undefined, "an iframe must not sit inside a card link");
+  }
+  const source = await readFile(new URL("../components/about-page.tsx", import.meta.url), "utf8");
+  assert.match(source, /buildIconyRegistrationFrame\(market, "location"\)/);
+});

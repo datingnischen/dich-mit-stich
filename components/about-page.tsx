@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
 
+import { IconyFrame } from "@/components/icony-magazine-widgets";
 import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage, type SocialChannel } from "@/lib/about-pages";
 import { conversionUrl } from "@/lib/conversion-links";
+import { buildIconyRegistrationFrame } from "@/lib/icony-frame-widgets";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -88,6 +90,11 @@ function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["m
       <span className="eyebrow">{card.eyebrow}</span>
       <h2>{card.title}</h2>
       <p>{card.text}</p>
+      {card.widget === "icony-registration" ? (
+        <div className="about-card-widget">
+          <IconyFrame widget={buildIconyRegistrationFrame(market, "location")} />
+        </div>
+      ) : null}
       {card.link ? <span className="about-card-action">{card.link.label}<span aria-hidden="true">→</span></span> : null}
     </>
   );

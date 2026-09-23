@@ -428,6 +428,20 @@ test("studio city and detail pages keep every shell conversion CTA on AID locati
   assert.match(sticky, /aid === 'location'/);
 });
 
+test("sticky CTA names the city on every studio city page", async () => {
+  const sticky = await source("components/sticky-cta-button.tsx");
+  const adjectiveSlugs = new Set(
+    [...sticky.matchAll(/^\s+'?([a-z-]+)'?: '[^']+',\r?$/gm)].map((match) => match[1]),
+  );
+
+  assert.match(sticky, /\/\^\\\/tattoo-\(\?:singles\|studios\)\\\/\(\[\^\/\]\+\)\\\/\?\$\//);
+  for (const market of ["de", "at", "ch"]) {
+    for (const guide of getTattooStudioCities(market)) {
+      assert.ok(adjectiveSlugs.has(guide.slug), `${market}/${guide.slug} fehlt in CITY_ADJECTIVES`);
+    }
+  }
+});
+
 test("sticky conversion bar stays visible on desktop without covering the footer", async () => {
   const [frame, shell, css] = await Promise.all([
     source("components/site-frame.tsx"),

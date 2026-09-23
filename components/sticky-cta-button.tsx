@@ -4,28 +4,34 @@ import { usePathname } from 'next/navigation';
 import { conversionUrl, type ConversionAid } from '@/lib/conversion-links';
 import { publicUrl, type MarketCode } from '@/lib/markets';
 
-// Demonym (adjective) per Tattoo-Singles city slug, used to personalize the
-// sticky CTA on a city page ("Mannheimer Singles kennenlernen"). Cities
-// without an entry fall back to the generic CTA text below.
-const TATTOO_SINGLES_CITY_ADJECTIVES: Record<string, string> = {
+// Demonym (adjective) per city slug, used to personalize the sticky CTA on a
+// Tattoo-Singles or Tattoo-Studios city page ("Mannheimer Singles
+// kennenlernen"). Cities without an entry fall back to the generic CTA text.
+const CITY_ADJECTIVES: Record<string, string> = {
   berlin: 'Berliner',
   bochum: 'Bochumer',
+  bonn: 'Bonner',
   bremen: 'Bremer',
   dortmund: 'Dortmunder',
   dresden: 'Dresdner',
   duesseldorf: 'Düsseldorfer',
+  duisburg: 'Duisburger',
   essen: 'Essener',
   'frankfurt-am-main': 'Frankfurter',
   hamburg: 'Hamburger',
   hannover: 'Hannoveraner',
+  karlsruhe: 'Karlsruher',
   koeln: 'Kölner',
   leipzig: 'Leipziger',
   mannheim: 'Mannheimer',
   muenchen: 'Münchner',
+  muenster: 'Münsteraner',
   nuernberg: 'Nürnberger',
   stuttgart: 'Stuttgarter',
+  wuppertal: 'Wuppertaler',
   dornbirn: 'Dornbirner',
   graz: 'Grazer',
+  innsbruck: 'Innsbrucker',
   klagenfurt: 'Klagenfurter',
   linz: 'Linzer',
   salzburg: 'Salzburger',
@@ -50,14 +56,14 @@ function withoutMarketPrefix(pathname: string) {
   return pathname.replace(/^\/(?:de|at|ch)(?=\/|$)/, '') || '/';
 }
 
-function tattooSinglesCityAdjective(pathname: string) {
-  const cityMatch = withoutMarketPrefix(pathname).match(/^\/tattoo-singles\/([^/]+)\/?$/);
-  return cityMatch ? TATTOO_SINGLES_CITY_ADJECTIVES[cityMatch[1]] : undefined;
+function cityAdjectiveFromPathname(pathname: string) {
+  const cityMatch = withoutMarketPrefix(pathname).match(/^\/tattoo-(?:singles|studios)\/([^/]+)\/?$/);
+  return cityMatch ? CITY_ADJECTIVES[cityMatch[1]] : undefined;
 }
 
 function ctaFromPathname(pathname: string, market: MarketCode, aid?: ConversionAid) {
   if (aid === 'location' || withoutMarketPrefix(pathname).startsWith('/tattoo-singles')) {
-    const cityAdjective = tattooSinglesCityAdjective(pathname);
+    const cityAdjective = cityAdjectiveFromPathname(pathname);
     return {
       text: cityAdjective ? `${cityAdjective} Singles kennenlernen` : 'Jetzt kostenlos registrieren',
       href: conversionUrl(publicUrl(market), '/registration/', 'location'),

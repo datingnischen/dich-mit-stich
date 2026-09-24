@@ -343,9 +343,9 @@ function cooperationPage(market: MarketCode): AboutPage {
     sectionTitle: "Mit wem wir gern zusammenarbeiten",
     sectionLead: "Schreib uns kurz, wer du bist, wen du erreichst und was du dir vorstellst.",
     cards: [
-      { eyebrow: "Vor Ort", title: "Tattoo- und Piercing-Studios", text: "Gemeinsame Aktionen, lokale Guides oder eine Empfehlung im Studio – Hauptsache, es passt zur Szene.", icon: "◆" },
-      { eyebrow: "Reichweite", title: "Creator & Social Media", text: "Beiträge, Stories oder Videos rund um Tattoos, Piercings und Dating.", icon: "◎" },
-      { eyebrow: "Inhalte", title: "Medien & Communities", text: "Interviews, Gastbeiträge und gemeinsame Themen für eure Leserinnen und Leser.", icon: "✦" },
+      { eyebrow: "Vor Ort", title: "Tattoo- und Piercing-Studios", text: "Gemeinsame Aktionen, lokale Guides oder eine Empfehlung im Studio – Hauptsache, es passt zur Szene.", icon: "◆", image: { src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2018/10/tattoo-stechen-lassen.jpg", alt: "Tätowierer mit Handschuhen sticht ein Tattoo", bleed: true } },
+      { eyebrow: "Reichweite", title: "Creator & Social Media", text: "Beiträge, Stories oder Videos rund um Tattoos, Piercings und Dating.", icon: "◎", image: { src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2020/05/pexels-photo-365347.jpeg", alt: "Tätowierte Hände fotografieren ein Arm-Tattoo mit dem Smartphone", bleed: true } },
+      { eyebrow: "Inhalte", title: "Medien & Communities", text: "Interviews, Gastbeiträge und gemeinsame Themen für eure Leserinnen und Leser.", icon: "✦", image: { src: "https://dich-mit-stich.de/magazin/wp-content/uploads/2018/11/freundschafts-tattoo-arm.jpg", alt: "Zwei Unterarme mit passenden Rosen-Tattoos", bleed: true } },
     ],
     detailSections: [
       {

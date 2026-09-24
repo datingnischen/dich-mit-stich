@@ -6,11 +6,12 @@ import { buildIconyCitySearchPath, getIconyCityWidgetConfig, getIconyCountryCode
 
 const EXPECTED = {
   de: [
-    "berlin", "bochum", "bremen", "dortmund", "dresden", "duesseldorf", "essen", "frankfurt-am-main",
-    "hamburg", "hannover", "koeln", "leipzig", "mannheim", "muenchen", "nuernberg", "stuttgart",
+    "berlin", "bochum", "bonn", "bremen", "dortmund", "dresden", "duesseldorf", "duisburg", "essen", "frankfurt-am-main",
+    "hamburg", "hannover", "karlsruhe", "koeln", "leipzig", "mannheim", "muenchen", "muenster", "nuernberg", "stuttgart",
+    "wuppertal",
   ],
   at: [
-    "dornbirn", "graz", "klagenfurt", "linz", "salzburg", "sankt-poelten", "villach", "wels", "wien", "wiener-neustadt",
+    "dornbirn", "graz", "innsbruck", "klagenfurt", "linz", "salzburg", "sankt-poelten", "villach", "wels", "wien", "wiener-neustadt",
   ],
   ch: [
     "basel", "bern", "biel-bienne", "genf", "lausanne", "lugano", "luzern", "st-gallen", "winterthur", "zuerich",
@@ -56,7 +57,7 @@ test("all country city renderers mount the shared local singles widget", async (
   assert.doesNotMatch(widgetSource, /ICONY-Netzwerk/);
   assert.match(widgetSource, /https:\/\/js\.icony\.com\/api\.js/);
   assert.match(widgetSource, /'activities', 'json'/);
-  assert.match(widgetSource, /gender: selectedGender === 'women' \? 2 : 1/);
+  assert.match(widgetSource, /gender: gender === 'women' \? 2 : 1/);
   assert.match(widgetSource, /activity\.gender === expectedGender/);
   assert.match(widgetSource, /data-gender=\{activity\.gender\}/);
   assert.doesNotMatch(widgetSource, /<iframe/);

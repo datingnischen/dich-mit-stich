@@ -11,9 +11,9 @@ type IconySinglesWidgetProps = {
   postalCode: string;
 };
 
-type SelectedGender = 'women' | 'men';
+export type SelectedGender = 'women' | 'men';
 
-type IconyActivity = {
+export type IconyActivity = {
   action_text: string;
   age: number;
   city: string;
@@ -78,12 +78,17 @@ function loadIconyApi() {
   return iconyApiPromise;
 }
 
-export function IconySinglesWidget({ market, cityName, projectKey, postalCode }: IconySinglesWidgetProps) {
-  const [selectedGender, setSelectedGender] = useState<SelectedGender>('women');
+/** Loads recent ICONY activities for one gender around a postcode. */
+export function useIconyActivities({ market, projectKey, postalCode, gender, count = 15 }: {
+  market: MarketCode;
+  projectKey: string;
+  postalCode: string;
+  gender: SelectedGender;
+  count?: number;
+}) {
   const [activities, setActivities] = useState<IconyActivity[]>([]);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const selectedLabel = selectedGender === 'women' ? 'Frauen' : 'Männer';
-  const expectedGender = selectedGender === 'women' ? 'female' : 'male';
+  const expectedGender = gender === 'women' ? 'female' : 'male';
 
   useEffect(() => {
     let cancelled = false;
@@ -104,8 +109,8 @@ export function IconySinglesWidget({ market, cityName, projectKey, postalCode }:
             setStatus('ready');
           },
           {
-            count: 15,
-            gender: selectedGender === 'women' ? 2 : 1,
+            count,
+            gender: gender === 'women' ? 2 : 1,
             country: getIconyCountryCode(market),
             zip: postalCode,
             auto_load: false,
@@ -122,7 +127,15 @@ export function IconySinglesWidget({ market, cityName, projectKey, postalCode }:
     return () => {
       cancelled = true;
     };
-  }, [expectedGender, postalCode, projectKey, selectedGender]);
+  }, [count, expectedGender, gender, market, postalCode, projectKey]);
+
+  return { activities, status, setStatus };
+}
+
+export function IconySinglesWidget({ market, cityName, projectKey, postalCode }: IconySinglesWidgetProps) {
+  const [selectedGender, setSelectedGender] = useState<SelectedGender>('women');
+  const { activities, status, setStatus } = useIconyActivities({ market, projectKey, postalCode, gender: selectedGender });
+  const selectedLabel = selectedGender === 'women' ? 'Frauen' : 'Männer';
 
   return (
     <section className="content-section icony-widget-section" aria-label={`Singles aus ${cityName}`}>

@@ -88,3 +88,31 @@ test("studio city pages filter cards by style", async () => {
   assert.match(city, /data-studio-styles=\{studio\.styles\.map/);
   assert.match(css, /\.tattoo-studio-card\[hidden\]\s*\{\s*display: none;/);
 });
+
+test("studio city pages suggest the three nearest published studio guides", async () => {
+  const { getNearbyStudioCities } = await import("../lib/studio-city-neighbours.ts");
+  const { getTattooStudioCities } = await import("../lib/tattoo-studio-guide.ts");
+
+  assert.deepEqual(getNearbyStudioCities("de", "frankfurt-am-main").map((city) => city.guide.slug), ["karlsruhe", "bonn", "koeln"]);
+  assert.deepEqual(getNearbyStudioCities("ch", "zuerich").map((city) => city.guide.slug), ["winterthur", "luzern", "st-gallen"]);
+  for (const market of ["de", "at", "ch"]) {
+    for (const guide of getTattooStudioCities(market)) {
+      assert.equal(getNearbyStudioCities(market, guide.slug).length, 3, `${market}/${guide.slug} needs three neighbours`);
+    }
+  }
+});
+
+test("studio city sidebar shows who is online when the city has an ICONY postcode", async () => {
+  const city = await readFile(new URL("../components/tattoo-studio-city-guide.tsx", import.meta.url), "utf8");
+  const card = await readFile(new URL("../components/icony-online-card.tsx", import.meta.url), "utf8");
+  const { getIconyCityWidgetConfig } = await import("../lib/icony-city-widgets.ts");
+  const { getIndexableTattooStudioCities } = await import("../lib/tattoo-studio-guide.ts");
+
+  assert.match(city, /<IconyOnlineCard/);
+  assert.match(card, /Wer ist gerade online\?/);
+  for (const market of ["de", "at", "ch"]) {
+    for (const guide of getIndexableTattooStudioCities(market)) {
+      assert.ok(getIconyCityWidgetConfig(market, guide.slug), `${market}/${guide.slug} needs an ICONY postcode`);
+    }
+  }
+});

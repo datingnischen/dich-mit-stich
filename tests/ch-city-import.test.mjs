@@ -172,7 +172,7 @@ test("AT city pages expose a styled legacy-matching ICONY singles widget with ci
   assert.match(widgetSource, /https:\/\/js\.icony\.com\/api\.js/);
   assert.doesNotMatch(widgetSource, /<iframe/);
   assert.match(widgetSource, /zip: postalCode/);
-  assert.match(widgetSource, /gender: selectedGender === 'women' \? 2 : 1/);
+  assert.match(widgetSource, /gender: gender === 'women' \? 2 : 1/);
   assert.match(widgetSource, /auto_load: false/);
   assert.match(cssSource, /icony-widget-shell/);
   assert.match(cssSource, /icony-widget-toggle/);

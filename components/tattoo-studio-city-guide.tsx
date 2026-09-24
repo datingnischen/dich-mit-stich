@@ -1,11 +1,14 @@
 import Image from "next/image";
 
+import { IconyOnlineCard } from "@/components/icony-online-card";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { StudioGuideEditorial } from "@/components/studio-guide-editorial";
 import { StudioStyleFilter } from "@/components/studio-style-filter";
+import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
+import { getNearbyStudioCities } from "@/lib/studio-city-neighbours";
 import { studioStyleCounts } from "@/lib/studio-guide-sections";
 import { tattooSinglesPath } from "@/lib/tattoo-singles";
 import type { TattooStudioCityGuide as TattooStudioCityGuideData } from "@/lib/tattoo-studio-guide";
@@ -72,6 +75,8 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
   const isSwiss = market === "ch";
   const marketGuideLabel = market === "ch" ? "Schweizer " : market === "at" ? "Österreichischer " : "";
   const styleCounts = studioStyleCounts(studios);
+  const widgetConfig = getIconyCityWidgetConfig(market, guide.slug);
+  const nearby = getNearbyStudioCities(market, guide.slug);
   const imageUrl = guide.imageUrl ? (market !== "de" ? staticAsset(guide.imageUrl) : guide.imageUrl) : null;
 
   const jsonLd = {
@@ -271,6 +276,14 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
               <span>Tattoo-Singles in {guide.cityName} entdecken</span>
             </MarketLink>
           </aside>
+          {widgetConfig ? (
+            <IconyOnlineCard
+              market={market}
+              cityName={guide.cityName}
+              projectKey={widgetConfig.projectKey}
+              postalCode={widgetConfig.postalCode}
+            />
+          ) : null}
         </div>
       </section>
 
@@ -288,6 +301,31 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           ))}
         </div>
       </section>
+
+      {nearby.length ? (
+        <section className="content-section studio-nearby-section" aria-labelledby="studio-nearby-heading">
+          <div className="section-header studio-guide-section-header">
+            <span className="eyebrow">In der Nähe</span>
+            <h2 id="studio-nearby-heading">Weitere Tattoo-Studio-Städte rund um {guide.cityName}</h2>
+          </div>
+          <ul className="city-related-grid">
+            {nearby.map(({ guide: city, distanceKm }) => (
+              <li key={city.slug}>
+                <MarketLink className="city-related-card" targetMarket={market} pathname={`/tattoo-studios/${city.slug}`}>
+                  {city.imageUrl ? (
+                    <Image src={staticAsset(city.imageUrl)} alt="" fill sizes="(max-width: 760px) 100vw, 360px" />
+                  ) : null}
+                  <span className="city-related-copy">
+                    <small>ca. {distanceKm} km Luftlinie</small>
+                    <strong>{city.cityName}</strong>
+                    <span>{city.studios.length} {city.studios.length === 1 ? "Studio" : "Studios"} im Guide →</span>
+                  </span>
+                </MarketLink>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {guide.imageAttribution.sourceUrl ? (
         <p className="studio-image-source">Stadtbild: <a href={guide.imageAttribution.sourceUrl} target="_blank" rel="license noopener noreferrer nofollow">{guide.imageAttribution.title}</a> · {guide.imageAttribution.license}</p>

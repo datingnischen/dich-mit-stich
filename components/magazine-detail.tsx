@@ -11,6 +11,7 @@ import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
+import { PiercingGuideArticle, PiercingTypeDirectory } from "@/components/piercing-guide";
 import { PublishedBookFeature } from "@/components/published-book-feature";
 import { ReadingProgress } from "@/components/reading-progress";
 import { TattooLexikonMore } from "@/components/tattoo-lexikon-more";
@@ -30,6 +31,7 @@ import {
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { TATTOO_HUB, buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
+import { PIERCING_GUIDE, PIERCING_GUIDE_SLUG } from "@/lib/piercing-guide";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { buildTattooMotifSpotlight, hasTattooMotifProfile } from "@/lib/tattoo-motifs";
@@ -81,8 +83,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     : authorProfileHero
       ? { src: authorProfileHero.src, alt: authorProfileHero.alt }
       : defaultFeaturedImage;
+  const isPiercingGuide = entry.slug === PIERCING_GUIDE_SLUG && !editorialOverride && !answerEngineEntry;
   const articleSummary = localizeFirstPartyText(
-    authorProfilePage?.lead ?? answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? teaserText(entry, 220),
+    authorProfilePage?.lead ?? answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? (isPiercingGuide ? PIERCING_GUIDE.lead : teaserText(entry, 220)),
     publicUrl(market),
   );
   const articleGraph = buildMagazineArticleGraph({
@@ -136,7 +139,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
           </span>
           <h1>{entry.title}</h1>
-          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride || authorProfilePage) ? null : "…"}</p>
+          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride || authorProfilePage || isPiercingGuide) ? null : "…"}</p>
           <div className="meta-row magazine-detail-meta">
             {entry.authorName ? (
               <span>
@@ -191,6 +194,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           <AntiEyebrowEditorial market={market} />
         ) : motifSpotlight ? (
           <TattooMotifArticle market={market} html={renderedContent} spotlight={motifSpotlight} />
+        ) : isPiercingGuide ? (
+          <PiercingGuideArticle market={market} html={renderedContent} typeCount={hubDirectory?.links.length ?? 0} />
         ) : entry.slug === TATTOO_HUB.slug ? (
           <TattooLexikonOverview market={market} html={renderedContent} />
         ) : (
@@ -199,25 +204,12 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       </section>
 
       {hubDirectory ? (
-        <section className="content-section magazine-hub-directory" aria-labelledby="magazine-hub-directory-heading">
-          <div className="section-header magazine-section-heading">
-            <span className="eyebrow">{hubDirectory.hub.label}</span>
-            <h2 id="magazine-hub-directory-heading">Alle Piercings von A bis Z</h2>
-            <p>
-              Jede Piercingart mit eigenem Ratgeber – oder alle nach Körperstelle sortiert in der{" "}
-              <MarketLink targetMarket={market} pathname={hubDirectory.hub.path}>Übersicht der Piercingarten</MarketLink>.
-            </p>
-          </div>
-          <ul className="magazine-hub-directory-list">
-            {hubDirectory.links.map((link) => (
-              <li key={link.slug}>
-                <MarketLink className="chip" targetMarket={market} pathname={`/magazin/${link.slug}`}>
-                  {link.label}
-                </MarketLink>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <PiercingTypeDirectory
+          market={market}
+          hub={hubDirectory.hub}
+          groups={hubDirectory.groups}
+          total={hubDirectory.links.length}
+        />
       ) : null}
 
       {isPublishedExpertProfile ? <PublishedBookFeature /> : null}

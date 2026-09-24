@@ -4274,13 +4274,441 @@ a.pin-cta-follow:hover {
 .singles-overview-crosslink { margin-top: 24px; color: var(--muted); line-height: 1.7; }
 .singles-overview-crosslink a { color: var(--brand); font-weight: 700; }
 
-.magazine-hub-directory-list {
+/* Piercing-Ratgeber: Kennzahlen, Inhaltsnavigation, Zeitleiste, Checkliste und Piercingarten nach Körperstelle */
+.piercing-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin: 0 0 22px;
+}
+
+.piercing-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 18px 16px;
+  border: 1px solid rgba(103, 19, 60, 0.12);
+  border-radius: 18px;
+  background: var(--brand-soft);
+  color: var(--foreground);
+}
+
+.piercing-fact strong {
+  color: var(--brand);
+  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.piercing-fact span {
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.rich-content a.piercing-fact-link {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(224, 42, 114, 0.4), transparent 60%),
+    var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.rich-content a.piercing-fact-link strong {
+  color: #fff;
+}
+
+.rich-content a.piercing-fact-link:hover,
+.rich-content a.piercing-fact-link:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(103, 19, 60, 0.25);
+}
+
+.piercing-guide-nav {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 0 0 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-soft);
+}
+
+.piercing-guide-nav > span {
+  color: var(--brand);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rich-content .piercing-guide-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rich-content .piercing-guide-nav li {
+  margin: 0;
+}
+
+.rich-content .piercing-guide-nav a {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.rich-content .piercing-guide-nav a:hover,
+.rich-content .piercing-guide-nav a:focus-visible {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.piercing-guide-intro p:first-of-type {
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+.piercing-guide-section {
+  scroll-margin-top: 96px;
+}
+
+.piercing-timeline,
+.piercing-checklist {
+  margin: 32px 0;
+  padding: 26px 26px 22px;
+  border-radius: 22px;
+}
+
+.rich-content .piercing-timeline h2,
+.rich-content .piercing-checklist h2 {
+  margin: 0 0 18px;
+  font-size: 1.3rem;
+}
+
+.piercing-timeline {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(224, 42, 114, 0.3), transparent 50%),
+    var(--brand);
+  color: #fff;
+}
+
+.rich-content .piercing-timeline h2 {
+  color: #fff;
+}
+
+.rich-content .piercing-timeline ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rich-content .piercing-timeline li {
+  position: relative;
+  margin: 0;
+  padding: 22px 14px 0 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.35);
+}
+
+.rich-content .piercing-timeline li::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+.piercing-timeline-when {
+  display: block;
+  margin-bottom: 4px;
+  color: #ffc2da;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.piercing-timeline strong {
+  display: block;
+  font-size: 1.02rem;
+}
+
+.rich-content .piercing-timeline p {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.piercing-checklist {
+  border: 1px solid rgba(76, 124, 61, 0.25);
+  background: #f3f8f0;
+}
+
+.rich-content .piercing-checklist ul {
+  display: grid;
   gap: 10px;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.rich-content .piercing-checklist li {
+  position: relative;
+  margin: 0;
+  padding-left: 34px;
+  line-height: 1.55;
+}
+
+.rich-content .piercing-checklist li::before {
+  content: "✓";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--cta-green);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.piercing-directory {
+  scroll-margin-top: 80px;
+}
+
+.piercing-directory-head {
+  max-width: 760px;
+  margin-bottom: 22px;
+}
+
+.piercing-directory-head h2 {
+  margin: 10px 0 8px;
+}
+
+.piercing-directory-head p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.piercing-directory-head p a {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.piercing-directory-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.piercing-directory-jump a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px 7px 14px;
+  border: 1px solid rgba(103, 19, 60, 0.16);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--brand);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.piercing-directory-jump a span {
+  min-width: 26px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.piercing-directory-jump a:hover,
+.piercing-directory-jump a:focus-visible {
+  background: var(--brand);
+  color: #fff;
+}
+
+.piercing-directory-jump a:hover span,
+.piercing-directory-jump a:focus-visible span {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.piercing-region-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.piercing-region {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(97, 53, 74, 0.07);
+  scroll-margin-top: 96px;
+}
+
+.piercing-region-head {
+  position: relative;
+  aspect-ratio: 16 / 8;
+  background: var(--brand);
+}
+
+.piercing-region-head img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.piercing-region-head > div {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 40px 18px 14px;
+  background: linear-gradient(transparent, rgba(33, 12, 23, 0.82));
+  color: #fff;
+}
+
+.piercing-region-head-plain {
+  aspect-ratio: auto;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(224, 42, 114, 0.4), transparent 60%),
+    var(--brand);
+}
+
+.piercing-region-head-plain > div {
+  position: static;
+  padding: 26px 18px 16px;
+  background: none;
+}
+
+.piercing-region-head h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.piercing-region-head span {
+  flex: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.piercing-region ul {
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+}
+
+.piercing-region li + li {
+  border-top: 1px solid var(--line);
+}
+
+.piercing-region li a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 18px;
+  color: var(--foreground);
+  font-weight: 600;
+  line-height: 1.35;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.piercing-region li a::after {
+  content: "→";
+  color: var(--brand);
+  opacity: 0.45;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.piercing-region li a:hover,
+.piercing-region li a:focus-visible {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.piercing-region li a:hover::after,
+.piercing-region li a:focus-visible::after {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+@media (max-width: 900px) {
+  .rich-content .piercing-timeline ol {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding-left: 6px;
+  }
+
+  .rich-content .piercing-timeline li {
+    padding: 0 0 0 24px;
+    border-top: 0;
+    border-left: 2px solid rgba(255, 255, 255, 0.35);
+  }
+
+  .rich-content .piercing-timeline li::before {
+    top: 2px;
+    left: -7px;
+  }
+}
+
+@media (max-width: 560px) {
+  .piercing-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .piercing-fact {
+    padding: 14px;
+  }
+
+  .piercing-timeline,
+  .piercing-checklist {
+    padding: 20px 18px;
+  }
+
+  .piercing-region-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Tattoo-Lexikon: kompakter Einstieg, Kurzprofil, Einschübe im Text und Lesefortschritt */

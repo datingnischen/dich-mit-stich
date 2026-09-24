@@ -210,5 +210,47 @@ test("the piercing overview lists every piercing type the hub links, A to Z", as
   ]);
   assert.match(hubs, /piercing: PIERCING_HUB/);
   assert.match(detail, /getHubDirectoryForPage\(slug\)/);
-  assert.match(detail, /Alle Piercings von A bis Z/);
+  assert.match(detail, /<PiercingTypeDirectory/);
+});
+
+test("the piercing overview groups the hub's lists by body region, with the picture above each list", async () => {
+  const { extractHubChildGroups } = await import("../lib/magazine-hubs.ts");
+  const groups = extractHubChildGroups(PIERCING_HUB, `
+    <h2>Worauf du achten kannst</h2>
+    <h3>Ohrpiercings</h3>
+    <p><img src="https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-300x200.jpg" srcset="https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-300x200.jpg 300w, https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-768x512.jpg 768w, https://dich-mit-stich.de/magazin/wp-content/uploads/ohr.jpg 1880w"></p>
+    <ul>
+      <li><a href="/magazin/rook-piercing/">Rook Piercing</a></li>
+      <li><a href="/magazin/helix-piercing/">Helix-Piercing</a></li>
+    </ul>
+    <p><img src="/magazin/wp-content/uploads/koerper.jpg"></p>
+    <ul><li><a href="/magazin/bauchnabelpiercing/">Bauchnabelpiercing</a></li></ul>
+    <ul><li>Kein Link</li></ul>
+  `, "Körperpiercings");
+
+  assert.deepEqual(groups, [
+    {
+      heading: "Ohrpiercings",
+      imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-768x512.jpg",
+      links: [
+        { slug: "helix-piercing", label: "Helix-Piercing" },
+        { slug: "rook-piercing", label: "Rook Piercing" },
+      ],
+    },
+    {
+      heading: "Körperpiercings",
+      imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/koerper.jpg",
+      links: [{ slug: "bauchnabelpiercing", label: "Bauchnabelpiercing" }],
+    },
+  ]);
+});
+
+test("the piercing guide cuts the article at its headings for the jump bar", async () => {
+  const { splitGuideSections, guideNavLabel } = await import("../lib/piercing-guide.ts");
+  const { intro, sections } = splitGuideSections("<p>Intro</p><h2>Traditionelle Piercings</h2><p>A</p><h3>Heilung &amp; Heilungsdauer</h3><p>B</p>");
+
+  assert.equal(intro, "<p>Intro</p>");
+  assert.deepEqual(sections.map((section) => section.id), ["traditionelle-piercings", "heilung-heilungsdauer"]);
+  assert.equal(sections[1].html, "<h3>Heilung &amp; Heilungsdauer</h3><p>B</p>");
+  assert.deepEqual(sections.map((section) => guideNavLabel(section.heading)), ["Tradition", "Heilung"]);
 });

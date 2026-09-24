@@ -93,6 +93,52 @@ export function extractHubChildLinks(hub: MagazineHub, html = ""): HubChildLink[
     .sort((a, b) => a.label.localeCompare(b.label, "de"));
 }
 
+export type HubChildGroup = { heading: string; imageUrl?: string; links: HubChildLink[] };
+
+const LIST_BLOCK = /<ul\b[^>]*>([\s\S]*?)<\/ul>/gi;
+const SUBHEADING = /<h[2-4]\b[^>]*>([\s\S]*?)<\/h[2-4]>/gi;
+const IMAGE_TAG = /<img\b[^>]*>/i;
+
+/**
+ * The hub's link lists in the order the editors wrote them, each under the heading it follows.
+ * A list without a heading of its own (the body piercings sit below the ear list) gets the
+ * fallback label, and the illustration placed above a list becomes that group's picture.
+ */
+export function extractHubChildGroups(hub: MagazineHub, html = "", fallbackHeading = "Weitere"): HubChildGroup[] {
+  const groups: HubChildGroup[] = [];
+  let cursor = 0;
+
+  for (const match of html.matchAll(LIST_BLOCK)) {
+    const between = html.slice(cursor, match.index);
+    cursor = match.index + match[0].length;
+
+    const links = extractHubChildLinks(hub, match[1]);
+    if (!links.length) continue;
+
+    const headings = [...between.matchAll(SUBHEADING)];
+    const heading = headings.length ? hubChildLabel(headings[headings.length - 1][1]) : fallbackHeading;
+    groups.push({ heading, imageUrl: hubGroupImage(between), links });
+  }
+
+  return groups;
+}
+
+/** The hub embeds 300px thumbnails; the 768px candidate from srcset stays sharp in a card. */
+function hubGroupImage(html: string) {
+  const tag = html.match(IMAGE_TAG)?.[0];
+  if (!tag) return undefined;
+
+  const srcset = tag.match(/\bsrcset\s*=\s*"([^"]*)"/i)?.[1] ?? "";
+  const candidates = srcset.split(",").map((candidate) => {
+    const [url, width] = candidate.trim().split(/\s+/);
+    return { url, width: Number.parseInt(width, 10) || 0 };
+  }).filter((candidate) => candidate.url && candidate.width && candidate.width <= 1024);
+  const best = candidates.sort((a, b) => b.width - a.width)[0]?.url ?? tag.match(/\bsrc\s*=\s*"([^"]*)"/i)?.[1];
+  if (!best) return undefined;
+
+  return best.startsWith("/magazin/") ? `https://dich-mit-stich.de${best}` : best;
+}
+
 const loadHubContent = cache(async (hubSlug: string): Promise<string> => {
   try {
     return (await getMagazineEntryBySlug(hubSlug))?.content ?? "";
@@ -125,12 +171,13 @@ export async function getHubDirectoryForPage(slug: string) {
   const hub = HUB_DIRECTORY_PAGES[slug.toLowerCase()];
   if (!hub) return null;
 
-  const links = extractHubChildLinks(hub, await loadHubContent(hub.slug)).filter((link) => isHubTopic(hub, {
-    title: link.label,
-    slug: link.slug,
-    categories: [],
-  }));
-  return links.length ? { hub, links } : null;
+  const html = await loadHubContent(hub.slug);
+  const belongsToHub = (link: HubChildLink) => isHubTopic(hub, { title: link.label, slug: link.slug, categories: [] });
+  const links = extractHubChildLinks(hub, html).filter(belongsToHub);
+  const groups = extractHubChildGroups(hub, html, "Körperpiercings")
+    .map((group) => ({ ...group, links: group.links.filter(belongsToHub) }))
+    .filter((group) => group.links.length);
+  return links.length ? { hub, links, groups } : null;
 }
 
 /** The hub an entry hangs below, or null when it sits directly under the magazine. */

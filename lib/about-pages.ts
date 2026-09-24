@@ -24,7 +24,7 @@ export type AboutLink = {
   external?: boolean;
 };
 
-export type SocialChannel = "facebook" | "instagram" | "youtube";
+export type SocialChannel = "facebook" | "instagram" | "youtube" | "pinterest";
 
 export type AboutCard = {
   eyebrow: string;
@@ -116,6 +116,18 @@ const socialCards: AboutCard[] = [
       alt: "Nahaufnahme eines farbigen Tattoo-Sleeves – Dich mit Stich auf YouTube",
     },
     link: { label: "YouTube-Kanal öffnen", href: "https://www.youtube.com/@Dich-mit-Stich", external: true },
+  },
+  {
+    eyebrow: "Pinterest",
+    title: "Dich mit Stich auf Pinterest",
+    text: "Pinnwände voller Tattoo-Motive, Piercing-Ideen und Inspiration für deinen nächsten Stich.",
+    icon: "P",
+    channel: "pinterest",
+    image: {
+      src: "/social/dich-mit-stich-pinterest.webp",
+      alt: "Frau mit bunten Blumen-Tattoos am Arm – Dich mit Stich auf Pinterest",
+    },
+    link: { label: "Pinterest öffnen", href: "https://de.pinterest.com/dichmitstich/", external: true },
   },
 ];
 
@@ -495,9 +507,9 @@ function socialPage(market: MarketCode): AboutPage {
     path: aboutPath("social-media"),
     eyebrow: "Dich mit Stich auf Social Media",
     title: "Social Media von Dich mit Stich",
-    description: "Die offiziellen Facebook-, Instagram- und YouTube-Kanäle von Dich mit Stich.",
+    description: "Die offiziellen Facebook-, Instagram-, YouTube- und Pinterest-Kanäle von Dich mit Stich.",
     lead: "Folge Dich mit Stich für Community-Einblicke, Tattoo- und Piercingthemen sowie neue Videos aus der Szene.",
-    highlights: ["Facebook", "Instagram", "YouTube", "offizielle Kanäle"],
+    highlights: ["Facebook", "Instagram", "YouTube", "Pinterest"],
     sectionEyebrow: "Kanäle & Community",
     sectionTitle: "Hier findest du uns noch",
     sectionLead: "Ein Klick, und du bist auf unserem Profil.",

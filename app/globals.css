@@ -3483,6 +3483,11 @@ img {
   gap: 18px;
 }
 
+/* Vier Kacheln als 2×2 statt 3+1 */
+.about-topic-grid-pairs {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .about-topic-card {
   --about-card-pad: 26px;
   display: grid;
@@ -3603,6 +3608,10 @@ img {
 
 .about-card-image-youtube .about-card-channel-badge {
   color: #f0002a;
+}
+
+.about-card-image-pinterest .about-card-channel-badge {
+  color: #e60023;
 }
 
 @media (prefers-reduced-motion: reduce) {

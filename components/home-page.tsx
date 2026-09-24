@@ -9,7 +9,7 @@ import { getMarketMagazineCatalog } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
 import { staticAsset } from "@/lib/static-asset";
-import { formatGermanDate } from "@/lib/wordpress";
+import { formatGermanDate, visibleEntryDate } from "@/lib/wordpress";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
@@ -251,7 +251,7 @@ export async function HomePage({ market }: { market: MarketCode }) {
             <MagazineTeaser entry={featuredPost} length={220} origin={publicUrl(market)} className="home-feature-excerpt" />
             <div className="meta-row home-feature-meta">
               {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
-              {featuredPost.date ? <span>{formatGermanDate(featuredPost.date)}</span> : null}
+              {visibleEntryDate(featuredPost) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(featuredPost))}</span> : null}
             </div>
             <div className="button-row home-feature-actions">
               <MarketLink className="button button-primary" targetMarket={market} pathname={`/magazin/${featuredPost.slug}`}>
@@ -271,7 +271,7 @@ export async function HomePage({ market }: { market: MarketCode }) {
               <MarketLink key={`${entry.type}-${entry.id}`} targetMarket={market} pathname={`/magazin/${entry.slug}`} className="home-more-link">
                 <div className="meta-row home-more-meta">
                   {entry.categories[0] ? <span>{entry.categories[0].name}</span> : null}
-                  {entry.date ? <span>{formatGermanDate(entry.date)}</span> : null}
+                  {visibleEntryDate(entry) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(entry))}</span> : null}
                 </div>
                 <h3>{entry.title}</h3>
                 <MagazineTeaser entry={entry} length={145} origin={publicUrl(market)} />

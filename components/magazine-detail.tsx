@@ -35,7 +35,7 @@ import { PIERCING_GUIDE, PIERCING_GUIDE_SLUG } from "@/lib/piercing-guide";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { buildTattooMotifSpotlight, motifTopicForSlug } from "@/lib/tattoo-motifs";
-import { formatGermanDate, teaserText } from "@/lib/wordpress";
+import { formatGermanDate, formatGermanDateLong, teaserText, visibleEntryDate } from "@/lib/wordpress";
 
 const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
@@ -109,6 +109,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     breadcrumb: breadcrumbTrail,
   });
   const pageGraph = publishedProfileGraph ?? articleGraph;
+  const entryUpdatedDate = visibleEntryDate(entry);
   const contentWithoutSchema = stripPublishedBookSchema(entry.content);
   const profileBody = authorProfilePage
     ? stripAuthorProfileDuplicates(contentWithoutSchema, authorProfilePage)
@@ -151,7 +152,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
                 Von {authorHref ? <MarketLink targetMarket={market} pathname={authorHref}>{entry.authorName}</MarketLink> : entry.authorName}
               </span>
             ) : null}
-            {entry.date ? <time dateTime={entry.date}>{formatGermanDate(entry.date)}</time> : null}
+            {entryUpdatedDate ? <span>Aktualisiert am <time dateTime={entryUpdatedDate}>{formatGermanDateLong(entryUpdatedDate)}</time></span> : null}
             {editorialOverride ? (
               <span>
                 Fachlich aktualisiert: <time dateTime={editorialOverride.reviewedAt}>{editorialOverride.reviewedAtLabel}</time>
@@ -248,9 +249,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
                 <div className="magazine-story-copy">
                   <span className="eyebrow eyebrow-muted">{post.categories[0]?.name || "Magazin"}</span>
                   <h3>{post.title}</h3>
-                  {post.date ? (
+                  {visibleEntryDate(post) ? (
                     <div className="meta-row magazine-story-meta">
-                      <span>{formatGermanDate(post.date)}</span>
+                      <span>Aktualisiert {formatGermanDate(visibleEntryDate(post))}</span>
                     </div>
                   ) : null}
                 </div>

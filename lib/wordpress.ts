@@ -336,6 +336,26 @@ export function formatGermanDate(dateString?: string) {
   }).format(date);
 }
 
+export function formatGermanDateLong(dateString?: string) {
+  if (!dateString) return "";
+
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return dateString.slice(0, 10);
+
+  return new Intl.DateTimeFormat("de-DE", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+// Sichtbares Datum: nur Artikel (Posts) zeigen eins, und zwar das Änderungsdatum.
+// Feste Seiten (type "page") bleiben ohne Datum. JSON-LD ist davon unberührt.
+export function visibleEntryDate(entry: Pick<MagazineEntry, "type" | "date" | "modified">) {
+  if (entry.type !== "post") return undefined;
+  return entry.modified || entry.date || undefined;
+}
+
 function normalizeCategory(term: WpTerm): MagazineCategory {
   return {
     id: term.id,

@@ -12,7 +12,7 @@ import {
   getMarketMagazineEntriesForCategory,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { formatGermanDate } from "@/lib/wordpress";
+import { formatGermanDate, visibleEntryDate } from "@/lib/wordpress";
 
 export async function MagazineCategory({ market, slug }: { market: MarketCode; slug: string }) {
   const [category, entries, categories] = await Promise.all([
@@ -26,7 +26,6 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
   const origin = publicUrl(market);
   const featuredEntry = entries[0];
   const remainingEntries = entries.slice(1);
-  const latestDate = entries.find((entry) => entry.date)?.date;
 
   return (
     <main className="shell magazine-overview-shell">
@@ -48,7 +47,6 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
         </p>
         <div className="meta-row magazine-topic-meta">
           <span>{entries.length} Artikel</span>
-          {latestDate ? <span>Zuletzt aktualisiert {formatGermanDate(latestDate)}</span> : null}
         </div>
         <div className="button-row">
           {remainingEntries.length ? (
@@ -83,7 +81,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
               <MagazineTeaser entry={featuredEntry} length={220} origin={origin} />
               <div className="meta-row">
                 {featuredEntry.authorName ? <span>Von {featuredEntry.authorName}</span> : null}
-                {featuredEntry.date ? <span>{formatGermanDate(featuredEntry.date)}</span> : null}
+                {visibleEntryDate(featuredEntry) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(featuredEntry))}</span> : null}
               </div>
               <span className="editorial-text-link">Artikel lesen <span aria-hidden="true">→</span></span>
             </div>
@@ -140,7 +138,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
                   <h3>{entry.title}</h3>
                   <div className="meta-row magazine-story-meta">
                     {entry.authorName ? <span>Von {entry.authorName}</span> : null}
-                    {entry.date ? <span>{formatGermanDate(entry.date)}</span> : null}
+                    {visibleEntryDate(entry) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(entry))}</span> : null}
                   </div>
                 </div>
               </MarketLink>

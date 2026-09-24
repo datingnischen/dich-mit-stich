@@ -6,7 +6,7 @@ import { conversionUrl } from "@/lib/conversion-links";
 import { getMarketMagazineCatalog, marketHasMagazineContent } from "@/lib/market-magazine";
 import { emptyMagazineMarketCopy } from "@/lib/market-magazine-policy";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { formatGermanDate } from "@/lib/wordpress";
+import { formatGermanDate, visibleEntryDate } from "@/lib/wordpress";
 
 export async function MagazineOverview({ market }: { market: MarketCode }) {
   const { posts, pages, categories } = await getMarketMagazineCatalog(market);
@@ -78,7 +78,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
               <MagazineTeaser entry={featuredPost} length={220} origin={publicUrl(market)} />
               <div className="meta-row">
                 {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
-                {featuredPost.date ? <span>{formatGermanDate(featuredPost.date)}</span> : null}
+                {visibleEntryDate(featuredPost) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(featuredPost))}</span> : null}
               </div>
               <span className="editorial-text-link">Titelstory lesen <span aria-hidden="true">→</span></span>
             </div>
@@ -121,7 +121,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
                 <h3>{post.title}</h3>
                 <div className="meta-row magazine-story-meta">
                   {post.authorName ? <span>Von {post.authorName}</span> : null}
-                  {post.date ? <span>{formatGermanDate(post.date)}</span> : null}
+                  {visibleEntryDate(post) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(post))}</span> : null}
                 </div>
               </div>
             </MarketLink>

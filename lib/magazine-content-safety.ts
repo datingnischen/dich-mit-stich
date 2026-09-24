@@ -1,5 +1,4 @@
 const QUARANTINED_MAGAZINE_SLUGS = new Set([
-  "anti-tragus-piercing",
   "suprasorb",
 ]);
 

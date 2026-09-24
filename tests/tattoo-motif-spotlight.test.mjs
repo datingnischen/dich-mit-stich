@@ -50,34 +50,77 @@ test("reading time counts words of the visible text and never drops below a minu
   assert.equal(readingMinutes(`<p>${"wort ".repeat(1000)}</p>`), 5);
 });
 
+test("the inspiration series' article wrapper is dropped so its chapters split too, without losing text", () => {
+  const series = `<p></p>
+<h2>Artikel kurz anhören</h2><p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<article>
+<p>Einleitung</p>
+<h2>Beispiel</h2><figure><figcaption>Bild</figcaption></figure>
+<h2>Was zeichnet es aus?</h2><ul><li>Punkt</li></ul>
+</article>`;
+  const sections = splitArticleSections(series);
+  const text = (html) => html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+  assert.equal(sections.length, 3);
+  assert.match(sections[0], /^<p><\/p>\s*<h2>Artikel kurz anhören/);
+  assert.doesNotMatch(sections.join(""), /<\/?article/);
+  assert.equal(text(sections.join(" ")), text(series));
+});
+
+test("every curated profile is complete, quotes a full sentence and links real tattoo articles", () => {
+  const slugs = Object.keys(TATTOO_MOTIF_PROFILES);
+
+  assert.ok(slugs.length >= 55);
+  for (const [slug, profile] of Object.entries(TATTOO_MOTIF_PROFILES)) {
+    assert.ok(profile.motif && profile.glanceTitle, slug);
+    assert.ok(profile.facts.length >= 2 && profile.facts.every((fact) => fact.label && fact.items.length), slug);
+    assert.ok(profile.flirtHook.title && profile.flirtHook.text && profile.sceneLine, slug);
+    assert.match(profile.hookLinkLabel, / →$/, slug);
+    assert.match(profile.pullQuote, /[.!?]$/, slug);
+    assert.ok(profile.pullQuote.length >= 50 && profile.pullQuote.length <= 170, slug);
+    assert.equal(profile.related.length, 3, slug);
+    assert.ok(profile.related.every((related) => related !== slug && slugs.includes(related)), slug);
+  }
+});
+
 test("the skull profile is curated and quotes the article itself", () => {
   const skull = TATTOO_MOTIF_PROFILES["skull-tattoos"];
+  const withQuote = `${SKULL_HTML}<p>${skull.pullQuote}</p>`;
 
   assert.equal(skull.motif, "Skull");
-  assert.ok(skull.meanings.includes("Memento Mori"));
-  assert.ok(skull.pairings.includes("Rosen"));
-  assert.ok(skull.related.every((slug) => slug !== "skull-tattoos"));
+  assert.ok(skull.facts.some((fact) => fact.items.includes("Memento Mori")));
 
-  const spotlight = buildTattooMotifSpotlight({ slug: "skull-tattoos", title: "Skull Tattoos", content: SKULL_HTML });
+  const spotlight = buildTattooMotifSpotlight({ slug: "skull-tattoos", title: "Skull Tattoos", content: withQuote });
   assert.equal(spotlight.curated, true);
-  assert.equal(spotlight.motif, "Skull");
+  assert.equal(spotlight.glanceTitle, "Skull Tattoo in 20 Sekunden");
   assert.equal(spotlight.pullQuote, skull.pullQuote);
   assert.equal(spotlight.readingMinutes, 1);
 });
 
+test("a curated quote that no longer stands in the WordPress text is dropped instead of misquoting", () => {
+  const spotlight = buildTattooMotifSpotlight({ slug: "skull-tattoos", title: "Skull Tattoos", content: SKULL_HTML });
+
+  assert.equal(spotlight.curated, true);
+  assert.equal(spotlight.pullQuote, null);
+});
+
 test("uncurated motifs fall back to what the article text itself names", () => {
   const spotlight = buildTattooMotifSpotlight({
-    slug: "anker-tattoos",
-    title: "Anker Tattoos – Bedeutung und Herkunft",
-    content: "<p>Der Anker steht für Treue und Hoffnung. Seeleute trugen ihn auf dem Unterarm oder der Brust.</p>",
+    slug: "leuchtturm-tattoos",
+    title: "Leuchtturm Tattoos – Bedeutung und Herkunft",
+    content: "<p>Der Leuchtturm steht für Treue und Hoffnung. Seeleute trugen ihn auf dem Unterarm oder der Brust.</p>",
   });
 
   assert.equal(spotlight.curated, false);
-  assert.equal(spotlight.motif, "Anker");
-  assert.deepEqual(spotlight.meanings, ["Treue", "Hoffnung"]);
-  assert.deepEqual(spotlight.placements, ["Unterarm", "Brust"]);
+  assert.equal(spotlight.motif, "Leuchtturm");
+  assert.equal(spotlight.glanceTitle, "Leuchtturm Tattoo in 20 Sekunden");
+  assert.deepEqual(spotlight.facts, [
+    { label: "Steht für", items: ["Treue", "Hoffnung"] },
+    { label: "Beliebt auf", items: ["Unterarm", "Brust"] },
+  ]);
   assert.match(spotlight.flirtHook.text, /Geschichte/);
-  assert.equal(spotlight.pullQuote, "Der Anker steht für Treue und Hoffnung.");
+  assert.equal(spotlight.hookLinkLabel, "Leuchtturm-Fans in deiner Nähe entdecken →");
+  assert.equal(spotlight.pullQuote, "Der Leuchtturm steht für Treue und Hoffnung.");
 });
 
 test("related articles prefer the curated picks and fill up with lexicon neighbours", () => {
@@ -88,13 +131,19 @@ test("related articles prefer the curated picks and fill up with lexicon neighbo
     "wolf-tattoo",
     "anker-tattoos",
   ]);
+  assert.deepEqual(pickRelatedSlugs("floral-sleeve-tattoo", hub, ["watercolor-sleeve-tattoo"]), [
+    "watercolor-sleeve-tattoo",
+    "anker-tattoos",
+    "blumen-tattoos",
+  ]);
   assert.deepEqual(pickRelatedSlugs("unbekannt", ["a", "b"], []), ["a", "b"]);
 });
 
-test("the magazine detail renders the motif experience only for Tattoo-Lexikon articles", async () => {
+test("the magazine detail renders the motif experience for lexicon and profiled tattoo articles", async () => {
   const detail = await readSource("../components/magazine-detail.tsx");
 
-  assert.match(detail, /const isTattooLexikonArticle = hub\?\.slug === TATTOO_HUB\.slug/);
+  assert.match(detail, /hub\?\.slug === TATTOO_HUB\.slug \|\| hasTattooMotifProfile\(entry\.slug\)/);
+  assert.match(detail, /motifSpotlight && !answerEngineEntry \? <TattooMotifGlance/);
   assert.match(detail, /<TattooMotifArticle market=\{market\} html=\{renderedContent\} spotlight=\{motifSpotlight\} \/>/);
   assert.match(detail, /<MarketHtmlContent market=\{market\} html=\{renderedContent\} \/>/);
   assert.ok(detail.indexOf("<TattooLexikonMore") < detail.indexOf("<IconyMagazineWidgets"));

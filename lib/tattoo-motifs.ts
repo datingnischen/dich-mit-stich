@@ -1,46 +1,27 @@
-import { decodeHtmlEntities } from "./wordpress.ts";
+import { decodeHtmlEntities, stripHtml } from "./wordpress.ts";
 
-/**
- * Curated extras for a Tattoo-Lexikon motif. Everything here is editorial copy that sits around
- * the WordPress article; motifs without a profile fall back to what their own text names.
- */
-export type TattooMotifProfile = {
+import { TATTOO_MOTIF_PROFILES, type TattooMotifProfile } from "./tattoo-motif-profiles.ts";
+
+export { TATTOO_MOTIF_PROFILES, type TattooMotifProfile };
+
+export type TattooMotifFact = { label: string; items: readonly string[] };
+
+export type TattooMotifSpotlight = {
   motif: string;
-  meanings: readonly string[];
-  placements: readonly string[];
-  pairings: readonly string[];
+  glanceTitle: string;
+  facts: readonly TattooMotifFact[];
   flirtHook: { title: string; text: string };
+  hookLinkLabel: string;
   sceneLine: string;
-  /** A sentence from the article itself, so the highlighted quote never says more than the text. */
-  pullQuote: string;
-  related: readonly string[];
-};
-
-export const TATTOO_MOTIF_PROFILES: Record<string, TattooMotifProfile> = {
-  "skull-tattoos": {
-    motif: "Skull",
-    meanings: ["Vergänglichkeit", "Memento Mori", "Erinnerung", "Glücksbringer", "Leben & Tod als Einheit"],
-    placements: ["Hand", "Oberarm", "Unterarm", "Brust"],
-    pairings: ["Rosen", "Schlangen", "Schriftzüge", "Sugar-Skull-Ornamente"],
-    flirtHook: {
-      title: "Eisbrecher mit Tiefgang",
-      text:
-        "Ein Totenkopf ist selten nur Deko. Frag nach der Geschichte dahinter – Memento Mori, Erinnerung an jemanden oder pure Liebe zum Old School? Die Antwort verrät mehr als jedes Profilbild.",
-    },
-    sceneLine:
-      "Wer einen Schädel trägt, hat genug von „Ist das nicht ein bisschen düster?“. Bei Dich mit Stich zeigen Singles ihre Tattoos im Profil – hier versteht man dein Motiv.",
-    pullQuote:
-      "Im 21. Jahrhundert ist er längst in der Popkultur angekommen und wird oft nur unter ästhetischen Aspekten betrachtet.",
-    related: ["old-school-tattoos", "blumen-tattoos", "wolf-tattoo"],
-  },
-};
-
-export type TattooMotifSpotlight = Omit<TattooMotifProfile, "related" | "pullQuote"> & {
-  curated: boolean;
   pullQuote: string | null;
-  readingMinutes: number;
   related: readonly string[];
+  curated: boolean;
+  readingMinutes: number;
 };
+
+export function hasTattooMotifProfile(slug: string) {
+  return Object.hasOwn(TATTOO_MOTIF_PROFILES, slug.toLowerCase());
+}
 
 const MEANING_WORDS = [
   "Liebe", "Treue", "Hoffnung", "Freiheit", "Stärke", "Kraft", "Mut", "Schutz", "Erinnerung",
@@ -56,6 +37,10 @@ const PLACEMENT_WORDS = [
 const WORDS_PER_MINUTE = 200;
 
 function plainText(html = "") {
+  return stripHtml(html);
+}
+
+function plainTitle(html = "") {
   return decodeHtmlEntities(html.replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ").trim();
 }
 
@@ -75,15 +60,31 @@ function isBalanced(html: string) {
 }
 
 /**
- * Splits the article before every top-level h2/h3. When a heading sits inside a wrapper the
- * pieces would cut through open tags, so the article then stays in one piece.
+ * Splits the article before every top-level h2/h3. The inspiration series wraps its whole text in
+ * one <article>, which only groups and carries no content, so that wrapper is dropped first. When
+ * a heading still sits inside another wrapper, the pieces would cut through open tags, so the
+ * article then stays in one piece. Leading pieces without visible text join the next one.
  */
 export function splitArticleSections(html = "") {
   const trimmed = html.trim();
   if (!trimmed) return [];
 
-  const sections = trimmed.split(/(?=<h[23][\s>])/i).filter((section) => section.trim());
-  return sections.every(isBalanced) ? sections : [trimmed];
+  const unwrapped = trimmed.replace(/<\/?article\b[^>]*>/gi, "").trim();
+  const pieces = unwrapped.split(/(?=<h[23][\s>])/i).filter((section) => section.trim());
+  if (!pieces.every(isBalanced)) return [trimmed];
+
+  const sections: string[] = [];
+  let carry = "";
+  for (const piece of pieces) {
+    if (!sections.length && !stripHtml(carry + piece)) {
+      carry += piece;
+      continue;
+    }
+    sections.push(carry + piece);
+    carry = "";
+  }
+  if (carry) sections.push(carry);
+  return sections;
 }
 
 /** Section counts after which the flirt hook and the pull quote are inserted. */
@@ -119,22 +120,46 @@ function fallbackPullQuote(text: string) {
     .find((sentence) => sentence.length >= 30 && sentence.length <= 170 && /steht für|symbol|bedeut/i.test(sentence)) ?? null;
 }
 
+function normalizeQuoteText(text: string) {
+  return text.replace(/[„“”"]/g, '"').replace(/\s+/g, " ").trim();
+}
+
 export function buildTattooMotifSpotlight(entry: { slug: string; title: string; content: string }): TattooMotifSpotlight {
   const minutes = readingMinutes(entry.content);
-  const profile = TATTOO_MOTIF_PROFILES[entry.slug.toLowerCase()];
-  if (profile) return { ...profile, curated: true, readingMinutes: minutes };
-
   const text = plainText(entry.content);
-  const motif = motifFromTitle(plainText(entry.title));
+  const profile = TATTOO_MOTIF_PROFILES[entry.slug.toLowerCase()];
+
+  if (profile) {
+    // The quote must still stand in the article; an edited WordPress text drops it instead of misquoting.
+    const quoteStillInText = normalizeQuoteText(text).includes(normalizeQuoteText(profile.pullQuote));
+    return {
+      motif: profile.motif,
+      glanceTitle: profile.glanceTitle,
+      facts: profile.facts,
+      flirtHook: profile.flirtHook,
+      hookLinkLabel: profile.hookLinkLabel,
+      sceneLine: profile.sceneLine,
+      pullQuote: quoteStillInText ? profile.pullQuote : null,
+      related: profile.related,
+      curated: true,
+      readingMinutes: minutes,
+    };
+  }
+
+  const motif = motifFromTitle(plainTitle(entry.title));
+  const facts: TattooMotifFact[] = [
+    { label: "Steht für", items: wordsInOrder(text, MEANING_WORDS, 5) },
+    { label: "Beliebt auf", items: wordsInOrder(text, PLACEMENT_WORDS, 4) },
+  ];
   return {
     motif,
-    meanings: wordsInOrder(text, MEANING_WORDS, 5),
-    placements: wordsInOrder(text, PLACEMENT_WORDS, 4),
-    pairings: [],
+    glanceTitle: `${motif} Tattoo in 20 Sekunden`,
+    facts: facts.filter((fact) => fact.items.length),
     flirtHook: {
       title: "Der beste Eisbrecher",
       text: `Hinter fast jedem ${motif}-Tattoo steckt eine Geschichte. Frag danach – das sagt mehr als jedes Profilbild und ist der ehrlichste Einstieg ins Gespräch.`,
     },
+    hookLinkLabel: `${motif}-Fans in deiner Nähe entdecken →`,
     sceneLine: "Bei Dich mit Stich zeigen Singles ihre Tattoos im Profil – hier musst du dein Motiv niemandem erklären.",
     pullQuote: fallbackPullQuote(text),
     related: [],
@@ -143,7 +168,7 @@ export function buildTattooMotifSpotlight(entry: { slug: string; title: string; 
   };
 }
 
-/** Curated picks first, then the articles following this one in the lexicon, wrapping around. */
+/** Curated picks (lexicon or profiled articles) first, then the lexicon neighbours, wrapping around. */
 export function pickRelatedSlugs(slug: string, hubSlugs: readonly string[], preferred: readonly string[], count = 3) {
   const own = slug.toLowerCase();
   const available = hubSlugs.filter((candidate) => candidate !== own);
@@ -152,6 +177,7 @@ export function pickRelatedSlugs(slug: string, hubSlugs: readonly string[], pref
     ? available
     : [...hubSlugs.slice(position + 1), ...hubSlugs.slice(0, position)];
 
-  const picks = [...preferred.filter((candidate) => available.includes(candidate)), ...neighbours];
+  const known = (candidate: string) => available.includes(candidate) || (candidate !== own && hasTattooMotifProfile(candidate));
+  const picks = [...preferred.filter(known), ...neighbours];
   return [...new Set(picks)].slice(0, count);
 }

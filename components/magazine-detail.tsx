@@ -14,6 +14,7 @@ import { MagazineVideo } from "@/components/magazine-video";
 import { PublishedBookFeature } from "@/components/published-book-feature";
 import { ReadingProgress } from "@/components/reading-progress";
 import { TattooLexikonMore } from "@/components/tattoo-lexikon-more";
+import { TattooLexikonOverview } from "@/components/tattoo-lexikon-overview";
 import { TattooMotifArticle } from "@/components/tattoo-motif-article";
 import { TattooMotifGlance } from "@/components/tattoo-motif-glance";
 import { getAuthorProfilePage, stripAuthorProfileDuplicates } from "@/lib/author-profile-pages";
@@ -31,7 +32,7 @@ import { publicUrl, type MarketCode } from "@/lib/markets";
 import { TATTOO_HUB, buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
-import { buildTattooMotifSpotlight } from "@/lib/tattoo-motifs";
+import { buildTattooMotifSpotlight, hasTattooMotifProfile } from "@/lib/tattoo-motifs";
 import { formatGermanDate, teaserText } from "@/lib/wordpress";
 
 const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
@@ -112,8 +113,11 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const renderedContent = isPublishedExpertProfile
     ? stripLegacyExpertPortrait(stripPublishedBookBlock(profileBody))
     : profileBody;
-  const isTattooLexikonArticle = hub?.slug === TATTOO_HUB.slug && !editorialOverride && !authorProfilePage;
-  const motifSpotlight = isTattooLexikonArticle
+  // Lexicon articles plus the profiled tattoo series (Tribal, Sleeve), which the lexicon does not link.
+  const isTattooMotifArticle = (hub?.slug === TATTOO_HUB.slug || hasTattooMotifProfile(entry.slug))
+    && !editorialOverride
+    && !authorProfilePage;
+  const motifSpotlight = isTattooMotifArticle
     ? buildTattooMotifSpotlight({ slug: entry.slug, title: entry.title, content: renderedContent })
     : null;
 
@@ -179,13 +183,16 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
         <MagazineAnswerSummary entry={answerEngineEntry} />
       ) : null}
 
-      {motifSpotlight ? <TattooMotifGlance spotlight={motifSpotlight} /> : null}
+      {/* Pilot articles already open with a direct answer, so they skip the second summary box. */}
+      {motifSpotlight && !answerEngineEntry ? <TattooMotifGlance spotlight={motifSpotlight} /> : null}
 
       <section className="rich-content magazine-article-body">
         {editorialOverride?.kind === "anti-eyebrow" ? (
           <AntiEyebrowEditorial market={market} />
         ) : motifSpotlight ? (
           <TattooMotifArticle market={market} html={renderedContent} spotlight={motifSpotlight} />
+        ) : entry.slug === TATTOO_HUB.slug ? (
+          <TattooLexikonOverview market={market} html={renderedContent} />
         ) : (
           <MarketHtmlContent market={market} html={renderedContent} />
         )}

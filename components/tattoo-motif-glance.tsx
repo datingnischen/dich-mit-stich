@@ -23,7 +23,7 @@ export function TattooMotifGlance({ spotlight }: { spotlight: TattooMotifSpotlig
     <section className="motif-glance" aria-labelledby="motif-glance-title">
       <div className="motif-glance-head">
         <span className="eyebrow eyebrow-brand">Auf einen Blick</span>
-        <h2 id="motif-glance-title">{spotlight.motif} Tattoo in 20 Sekunden</h2>
+        <h2 id="motif-glance-title">{spotlight.glanceTitle}</h2>
         <span className="motif-glance-time">
           <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
             <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -33,9 +33,9 @@ export function TattooMotifGlance({ spotlight }: { spotlight: TattooMotifSpotlig
         </span>
       </div>
       <dl className="motif-glance-grid">
-        <GlanceRow label="Steht für" items={spotlight.meanings} />
-        <GlanceRow label="Beliebt auf" items={spotlight.placements} />
-        <GlanceRow label="Oft kombiniert mit" items={spotlight.pairings} />
+        {spotlight.facts.map((fact) => (
+          <GlanceRow key={fact.label} label={fact.label} items={fact.items} />
+        ))}
       </dl>
     </section>
   );

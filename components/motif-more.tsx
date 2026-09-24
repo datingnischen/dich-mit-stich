@@ -1,20 +1,37 @@
 import { ArticleCardMedia } from "@/components/article-card-media";
 import { MarketLink } from "@/components/market-link";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
-import { TATTOO_HUB, getHubChildLinks } from "@/lib/magazine-hubs";
+import { PIERCING_HUB, TATTOO_HUB, getHubChildLinks } from "@/lib/magazine-hubs";
 import { getMarketMagazineEntryBySlug } from "@/lib/market-magazine";
 import type { MarketCode } from "@/lib/markets";
-import { pickRelatedSlugs } from "@/lib/tattoo-motifs";
+import { pickRelatedSlugs, type MotifTopic } from "@/lib/tattoo-motifs";
 
-type TattooLexikonMoreProps = {
+const MORE_COPY: Record<MotifTopic, { hub: typeof TATTOO_HUB; heading: string; intro: string; linkText: string }> = {
+  tattoo: {
+    hub: TATTOO_HUB,
+    heading: "Mehr Motive mit Geschichte",
+    intro: "Jedes Motiv hat seine eigene Herkunft – alle Stile und Symbole findest du im",
+    linkText: "Tattoo-Lexikon",
+  },
+  piercing: {
+    hub: PIERCING_HUB,
+    heading: "Mehr Piercingarten",
+    intro: "Vom Ohr bis zur Zunge – alle Piercings nach Körperstelle sortiert findest du in der",
+    linkText: "Übersicht der Piercingarten",
+  },
+};
+
+type MotifMoreProps = {
   market: MarketCode;
   slug: string;
+  topic: MotifTopic;
   preferred: readonly string[];
 };
 
-/** Three more lexicon articles, so readers move on to the next motif instead of leaving. */
-export async function TattooLexikonMore({ market, slug, preferred }: TattooLexikonMoreProps) {
-  const hubSlugs = (await getHubChildLinks(TATTOO_HUB))
+/** Three more articles from the same hub, so readers move on to the next motif instead of leaving. */
+export async function MotifMore({ market, slug, topic, preferred }: MotifMoreProps) {
+  const copy = MORE_COPY[topic];
+  const hubSlugs = (await getHubChildLinks(copy.hub))
     .map((link) => link.slug)
     .filter((candidate) => !isMagazineArticleQuarantined(candidate));
   const entries = (
@@ -29,11 +46,11 @@ export async function TattooLexikonMore({ market, slug, preferred }: TattooLexik
   return (
     <section className="content-section motif-more" aria-labelledby="motif-more-title">
       <div className="section-header magazine-section-heading">
-        <span className="eyebrow">{TATTOO_HUB.label}</span>
-        <h2 id="motif-more-title">Mehr Motive mit Geschichte</h2>
+        <span className="eyebrow">{copy.hub.label}</span>
+        <h2 id="motif-more-title">{copy.heading}</h2>
         <p>
-          Jedes Motiv hat seine eigene Herkunft – alle Stile und Symbole findest du im{" "}
-          <MarketLink targetMarket={market} pathname={TATTOO_HUB.path}>{TATTOO_HUB.label}</MarketLink>.
+          {copy.intro}{" "}
+          <MarketLink targetMarket={market} pathname={copy.hub.path}>{copy.linkText}</MarketLink>.
         </p>
       </div>
       <div className="motif-more-grid">
@@ -47,13 +64,13 @@ export async function TattooLexikonMore({ market, slug, preferred }: TattooLexik
             <ArticleCardMedia
               imageUrl={entry.featuredImage}
               alt={entry.featuredImageAlt || entry.title}
-              fallbackLabel={TATTOO_HUB.label}
+              fallbackLabel={copy.hub.label}
               fallbackTitle={entry.title}
               className="magazine-story-media"
               sizes="(max-width: 900px) 100vw, 320px"
             />
             <div className="magazine-story-copy">
-              <span className="eyebrow eyebrow-muted">{TATTOO_HUB.label}</span>
+              <span className="eyebrow eyebrow-muted">{copy.hub.label}</span>
               <h3>{entry.title}</h3>
             </div>
           </MarketLink>

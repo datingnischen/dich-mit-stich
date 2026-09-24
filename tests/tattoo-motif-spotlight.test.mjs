@@ -142,9 +142,55 @@ test("related articles prefer the curated picks and fill up with lexicon neighbo
 test("the magazine detail renders the motif experience for lexicon and profiled tattoo articles", async () => {
   const detail = await readSource("../components/magazine-detail.tsx");
 
-  assert.match(detail, /hub\?\.slug === TATTOO_HUB\.slug \|\| hasTattooMotifProfile\(entry\.slug\)/);
+  assert.match(detail, /hub\?\.slug === TATTOO_HUB\.slug\s*\?\s*"tattoo"\s*:\s*hub\?\.slug === PIERCING_HUB\.slug\s*\?\s*"piercing"\s*:\s*motifTopicForSlug\(entry\.slug\)/);
+  assert.match(detail, /const motifTopic = editorialOverride \|\| authorProfilePage\s*\?\s*null/);
   assert.match(detail, /motifSpotlight && !answerEngineEntry \? <TattooMotifGlance/);
   assert.match(detail, /<TattooMotifArticle market=\{market\} html=\{renderedContent\} spotlight=\{motifSpotlight\} \/>/);
   assert.match(detail, /<MarketHtmlContent market=\{market\} html=\{renderedContent\} \/>/);
-  assert.ok(detail.indexOf("<TattooLexikonMore") < detail.indexOf("<IconyMagazineWidgets"));
+  assert.ok(detail.indexOf("<MotifMore") < detail.indexOf("<IconyMagazineWidgets"));
+});
+
+test("every piercing profile is complete and links other piercing articles", async () => {
+  const { PIERCING_MOTIF_PROFILES, motifTopicForSlug } = await import("../lib/tattoo-motifs.ts");
+  const slugs = Object.keys(PIERCING_MOTIF_PROFILES);
+
+  assert.ok(slugs.length >= 42);
+  assert.equal(motifTopicForSlug("snake-eyes-piercing"), "piercing");
+  assert.equal(motifTopicForSlug("skull-tattoos"), "tattoo");
+  // The piercing guide on /magazin/piercing is its own page, not a profiled article.
+  assert.equal(motifTopicForSlug("piercing"), null);
+  for (const [slug, profile] of Object.entries(PIERCING_MOTIF_PROFILES)) {
+    assert.ok(profile.facts.length >= 2 && profile.facts.every((fact) => fact.items.length), slug);
+    assert.match(profile.hookLinkLabel, / →$/, slug);
+    assert.match(profile.pullQuote, /[.!?]$/, slug);
+    assert.ok(profile.related.length === 3 && profile.related.every((related) => related !== slug && slugs.includes(related)), slug);
+  }
+});
+
+test("uncurated piercings fall back to piercing copy, not tattoo copy", () => {
+  const spotlight = buildTattooMotifSpotlight(
+    {
+      slug: "smiley-piercing-neu",
+      title: "Das Smiley Piercing – klein, aber fein",
+      content: "<p>Es sitzt am Lippenbändchen der Oberlippe und ist erst beim Lächeln zu sehen.</p>",
+    },
+    "piercing",
+  );
+
+  assert.equal(spotlight.curated, false);
+  assert.equal(spotlight.glanceTitle, "Smiley Piercing in 20 Sekunden");
+  assert.deepEqual(spotlight.facts, [{ label: "Sitzt an", items: ["Oberlippe"] }]);
+  assert.doesNotMatch(`${spotlight.flirtHook.text} ${spotlight.sceneLine} ${spotlight.hookLinkLabel}`, /Tattoo-|Motiv/);
+});
+
+test("quotes still match when the article bolds the word before the full stop", () => {
+  const profile = TATTOO_MOTIF_PROFILES["skull-tattoos"];
+  const [head, last] = [profile.pullQuote.slice(0, -1).split(" ").slice(0, -1).join(" "), profile.pullQuote.slice(0, -1).split(" ").at(-1)];
+  const spotlight = buildTattooMotifSpotlight({
+    slug: "skull-tattoos",
+    title: "Skull Tattoos",
+    content: `${SKULL_HTML}<p>${head} <strong>${last}</strong>.</p>`,
+  });
+
+  assert.equal(spotlight.pullQuote, profile.pullQuote);
 });

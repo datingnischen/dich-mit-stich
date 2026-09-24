@@ -14,8 +14,8 @@ import { MagazineVideo } from "@/components/magazine-video";
 import { PiercingGuideArticle, PiercingTypeDirectory } from "@/components/piercing-guide";
 import { PublishedBookFeature } from "@/components/published-book-feature";
 import { ReadingProgress } from "@/components/reading-progress";
-import { TattooLexikonMore } from "@/components/tattoo-lexikon-more";
-import { TattooLexikonOverview } from "@/components/tattoo-lexikon-overview";
+import { MagazineHubOverview } from "@/components/magazine-hub-overview";
+import { MotifMore } from "@/components/motif-more";
 import { TattooMotifArticle } from "@/components/tattoo-motif-article";
 import { TattooMotifGlance } from "@/components/tattoo-motif-glance";
 import { getAuthorProfilePage, stripAuthorProfileDuplicates } from "@/lib/author-profile-pages";
@@ -30,11 +30,11 @@ import {
   getMarketMagazinePublishedProfileGraph,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { TATTOO_HUB, buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
+import { PIERCING_HUB, TATTOO_HUB, buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
 import { PIERCING_GUIDE, PIERCING_GUIDE_SLUG } from "@/lib/piercing-guide";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
-import { buildTattooMotifSpotlight, hasTattooMotifProfile } from "@/lib/tattoo-motifs";
+import { buildTattooMotifSpotlight, motifTopicForSlug } from "@/lib/tattoo-motifs";
 import { formatGermanDate, teaserText } from "@/lib/wordpress";
 
 const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
@@ -116,13 +116,18 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const renderedContent = isPublishedExpertProfile
     ? stripLegacyExpertPortrait(stripPublishedBookBlock(profileBody))
     : profileBody;
-  // Lexicon articles plus the profiled tattoo series (Tribal, Sleeve), which the lexicon does not link.
-  const isTattooMotifArticle = (hub?.slug === TATTOO_HUB.slug || hasTattooMotifProfile(entry.slug))
-    && !editorialOverride
-    && !authorProfilePage;
-  const motifSpotlight = isTattooMotifArticle
-    ? buildTattooMotifSpotlight({ slug: entry.slug, title: entry.title, content: renderedContent })
+  // Hub articles plus profiled articles the hubs do not link (the Tribal and Sleeve series, Flesh Tunnel).
+  const motifTopic = editorialOverride || authorProfilePage
+    ? null
+    : hub?.slug === TATTOO_HUB.slug
+      ? "tattoo"
+      : hub?.slug === PIERCING_HUB.slug
+        ? "piercing"
+        : motifTopicForSlug(entry.slug);
+  const motifSpotlight = motifTopic
+    ? buildTattooMotifSpotlight({ slug: entry.slug, title: entry.title, content: renderedContent }, motifTopic)
     : null;
+  const hubOverviewTopic = entry.slug === TATTOO_HUB.slug ? "tattoo" : entry.slug === PIERCING_HUB.slug ? "piercing" : null;
 
   return (
     <main className="shell magazine-detail-shell">
@@ -196,8 +201,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           <TattooMotifArticle market={market} html={renderedContent} spotlight={motifSpotlight} />
         ) : isPiercingGuide ? (
           <PiercingGuideArticle market={market} html={renderedContent} typeCount={hubDirectory?.links.length ?? 0} />
-        ) : entry.slug === TATTOO_HUB.slug ? (
-          <TattooLexikonOverview market={market} html={renderedContent} />
+        ) : hubOverviewTopic ? (
+          <MagazineHubOverview market={market} html={renderedContent} topic={hubOverviewTopic} />
         ) : (
           <MarketHtmlContent market={market} html={renderedContent} />
         )}
@@ -258,7 +263,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       {magazineVideo ? <MagazineVideo video={magazineVideo} /> : null}
 
       {motifSpotlight ? (
-        <TattooLexikonMore market={market} slug={entry.slug} preferred={motifSpotlight.related} />
+        <MotifMore market={market} slug={entry.slug} topic={motifTopic ?? "tattoo"} preferred={motifSpotlight.related} />
       ) : null}
 
       <IconyMagazineWidgets market={market} />

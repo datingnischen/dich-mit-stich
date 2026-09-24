@@ -51,8 +51,9 @@ test("the series groups list profiled articles and shorten their titles for card
   assert.equal(seriesLabel("Floral Sleeve Tattoo &#8211; Rosen und Blätter"), "Floral Sleeve Tattoo");
 });
 
-test("the lexicon page renders the overview instead of its plain link lists", async () => {
+test("both hub pages render the card overview instead of their plain link lists", async () => {
   const detail = await readSource("../components/magazine-detail.tsx");
 
-  assert.match(detail, /entry\.slug === TATTOO_HUB\.slug \? \(\s*<TattooLexikonOverview market=\{market\} html=\{renderedContent\} \/>/);
+  assert.match(detail, /const hubOverviewTopic = entry\.slug === TATTOO_HUB\.slug \? "tattoo" : entry\.slug === PIERCING_HUB\.slug \? "piercing" : null;/);
+  assert.match(detail, /<MagazineHubOverview market=\{market\} html=\{renderedContent\} topic=\{hubOverviewTopic\} \/>/);
 });

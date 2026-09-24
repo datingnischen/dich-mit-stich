@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { publicUrl, type MarketCode } from '@/lib/markets';
-import { buildIconyCitySearchPath } from '@/lib/icony-city-widgets';
+import { buildIconyCitySearchPath, getIconyCountryCode } from '@/lib/icony-city-widgets';
 
 type IconySinglesWidgetProps = {
   market: MarketCode;
@@ -106,6 +106,7 @@ export function IconySinglesWidget({ market, cityName, projectKey, postalCode }:
           {
             count: 15,
             gender: selectedGender === 'women' ? 2 : 1,
+            country: getIconyCountryCode(market),
             zip: postalCode,
             auto_load: false,
           },

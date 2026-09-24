@@ -1,5 +1,5 @@
 import type { ConversionAid } from "./conversion-links.ts";
-import { getIconyProjectKey } from "./icony-city-widgets.ts";
+import { getIconyCountryCode, getIconyProjectKey } from "./icony-city-widgets.ts";
 import type { MarketCode } from "./markets.ts";
 
 /** ICONY renders both widgets itself; we only hand it the brand colours and the attribution id. */
@@ -28,7 +28,7 @@ function buildFrameSrc(market: MarketCode, aid: ConversionAid, params: Record<st
 /** The "Gerade online" activity stream: who just logged in or received a smiley. */
 export function buildIconyActivityFrame(market: MarketCode, aid: ConversionAid): IconyFrameWidget {
   return {
-    src: buildFrameSrc(market, aid, { w: "250", h: "300", sc: SECONDARY_COLOUR }),
+    src: buildFrameSrc(market, aid, { w: "250", h: "300", sc: SECONDARY_COLOUR, ctr: String(getIconyCountryCode(market)) }),
     width: 250,
     height: 300,
     title: "Gerade online: aktuelle Mitglieder-Aktivitäten",

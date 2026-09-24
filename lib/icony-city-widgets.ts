@@ -67,6 +67,11 @@ export function getIconyProjectKey(market: MarketCode): string {
   return MARKET_WIDGET_CONFIG[market].projectKey;
 }
 
+/** ICONY's country code (49 DE, 43 AT, 41 CH); without it the API mixes in singles from other countries. */
+export function getIconyCountryCode(market: MarketCode): number {
+  return Number(MARKET_WIDGET_CONFIG[market].legacyCounter);
+}
+
 export function getIconyCityWidgetConfig(market: MarketCode, slug: string): IconyCityWidgetConfig | null {
   const marketConfig = MARKET_WIDGET_CONFIG[market];
   const postalCode = marketConfig.postalCodes[slug];

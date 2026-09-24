@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { buildIconyCitySearchPath, getIconyCityWidgetConfig, listIconyWidgetCities } from "../lib/icony-city-widgets.ts";
+import { buildIconyCitySearchPath, getIconyCityWidgetConfig, getIconyCountryCode, listIconyWidgetCities } from "../lib/icony-city-widgets.ts";
 
 const EXPECTED = {
   de: [
@@ -60,4 +60,12 @@ test("all country city renderers mount the shared local singles widget", async (
   assert.match(widgetSource, /activity\.gender === expectedGender/);
   assert.match(widgetSource, /data-gender=\{activity\.gender\}/);
   assert.doesNotMatch(widgetSource, /<iframe/);
+});
+
+test("the city widget asks ICONY for singles from the market's own country", async () => {
+  assert.equal(getIconyCountryCode("de"), 49);
+  assert.equal(getIconyCountryCode("at"), 43);
+  assert.equal(getIconyCountryCode("ch"), 41);
+  const widget = await readFile(new URL("../components/icony-singles-widget.tsx", import.meta.url), "utf8");
+  assert.match(widget, /country: getIconyCountryCode\(market\)/);
 });

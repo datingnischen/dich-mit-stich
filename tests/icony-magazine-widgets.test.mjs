@@ -51,3 +51,9 @@ test("the content security policy admits the ICONY frame endpoint and nothing wi
   assert.match(config, /"frame-src https:\/\/www\.youtube-nocookie\.com https:\/\/js\.icony\.com"/);
   assert.doesNotMatch(config, /frame-src[^"]*\*/);
 });
+
+test("the activity embed shows singles from the market's own country", () => {
+  assert.equal(new URL(buildIconyActivityFrame("de", "magazin").src).searchParams.get("ctr"), "49");
+  assert.equal(new URL(buildIconyActivityFrame("at", "magazin").src).searchParams.get("ctr"), "43");
+  assert.equal(new URL(buildIconyActivityFrame("ch", "magazin").src).searchParams.get("ctr"), "41");
+});

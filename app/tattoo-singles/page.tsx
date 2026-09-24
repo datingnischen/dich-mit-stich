@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { CitySearchFallback } from "@/components/city-search-fallback";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
@@ -79,7 +80,7 @@ export default async function TattooSinglesOverviewPage() {
           <h2 id="staedte-heading">Tattoo-Singles in deiner Stadt</h2>
           <p>
             Jede Stadtseite zeigt dir neue Singles aus der Region, Szene-Tipps und Tattoo-Studios vor Ort. Deine Stadt ist
-            nicht dabei? Mit der Umkreissuche findest du trotzdem Singles in deiner Nähe.
+            nicht dabei? Mit der individuellen Suche findest du trotzdem Singles in deiner Nähe.
           </p>
         </div>
         <div className="studio-city-grid">
@@ -105,6 +106,7 @@ export default async function TattooSinglesOverviewPage() {
             </Link>
           ))}
         </div>
+        <CitySearchFallback market="de" />
       </section>
 
       <section className="content-section studio-guide-principles" aria-labelledby="so-gehts-heading">

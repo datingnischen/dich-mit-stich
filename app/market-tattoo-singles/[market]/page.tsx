@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { CitySearchFallback } from "@/components/city-search-fallback";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { type MarketCode, marketLanguageAlternates, publicUrl } from "@/lib/markets";
@@ -127,6 +128,7 @@ function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
             </MarketLink>
           ))}
         </div>
+        <CitySearchFallback market="at" />
       </section>
     </>
   );
@@ -188,6 +190,7 @@ function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
             </MarketLink>
           ))}
         </div>
+        <CitySearchFallback market="ch" />
       </section>
     </>
   );

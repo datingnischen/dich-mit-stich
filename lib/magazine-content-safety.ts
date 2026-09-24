@@ -1,6 +1,4 @@
-const QUARANTINED_MAGAZINE_SLUGS = new Set([
-  "suprasorb",
-]);
+const QUARANTINED_MAGAZINE_SLUGS = new Set<string>([]);
 
 export function isMagazineArticleQuarantined(slug: string): boolean {
   return QUARANTINED_MAGAZINE_SLUGS.has(slug);

@@ -279,7 +279,7 @@ test("quarantined bodies fail closed while pilot articles keep their full legacy
   assert.match(categoryPage, /<h2>\{featuredEntry\.title\}<\/h2>/);
   assert.doesNotMatch(categoryPage, /<h3>\{featuredEntry\.title\}<\/h3>/);
   assert.equal(safety.isMagazineArticleQuarantined("anti-tragus-piercing"), false);
-  assert.equal(safety.isMagazineArticleQuarantined("suprasorb"), true);
+  assert.equal(safety.isMagazineArticleQuarantined("suprasorb"), false);
   assert.equal(safety.isMagazineArticleQuarantined("anti-eyebrow-piercing"), false);
 });
 

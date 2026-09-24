@@ -196,6 +196,16 @@ test("Christina magazine detail replaces the legacy diagram with a local editori
   assert.match(detail, /alt=\{featuredImage\.alt\}/);
 });
 
+test("Venom magazine detail has a local editorial feature image", async () => {
+  const [featuredImages, featuredAsset] = await Promise.all([
+    readSource("../lib/magazine-featured-images.ts"),
+    readSource("../public/images/magazine/venom-piercing-featured.svg"),
+  ]);
+
+  assert.match(featuredImages, /"venom-piercing":\s*\{[\s\S]*?venom-piercing-featured\.webp/);
+  assert.doesNotMatch(featuredAsset, /<text\b/);
+});
+
 test("magazine cards and Flirtradar conversion have explicit responsive layouts", async () => {
   const css = await readSource("../app/globals.css");
 

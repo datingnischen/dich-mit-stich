@@ -17,6 +17,10 @@ const featuredImageOverrides: Record<string, MagazineFeaturedImage> = {
     src: "/images/magazine/christina-piercing-featured.webp",
     alt: "Roséfarbener Christina-Piercing-Schmuck auf bordeauxfarbenem Satin",
   },
+  "venom-piercing": {
+    src: "/images/magazine/venom-piercing-featured.webp",
+    alt: "Zwei parallel gesetzte Zungen-Barbells mit roséfarbenen Kugeln als Venom-Piercing-Motiv",
+  },
 };
 
 export function getMagazineFeaturedImage(

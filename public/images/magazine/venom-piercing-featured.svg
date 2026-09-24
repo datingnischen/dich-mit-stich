@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Venom-Piercing – redaktionelles Schmuckmotiv</title>
+  <desc id="desc">Zwei parallel gesetzte Titan-Barbells mit roséfarbenen Opalkugeln auf abstrakten Satinflächen in Pflaume und Rosé.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#180d14"/>
+      <stop offset="0.48" stop-color="#34111f"/>
+      <stop offset="1" stop-color="#120b10"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="48%" r="58%">
+      <stop offset="0" stop-color="#c62a68" stop-opacity=".3"/>
+      <stop offset=".52" stop-color="#6d173f" stop-opacity=".13"/>
+      <stop offset="1" stop-color="#10080d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="satinA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7f2349"/>
+      <stop offset=".24" stop-color="#da7d98"/>
+      <stop offset=".43" stop-color="#5c1836"/>
+      <stop offset=".74" stop-color="#bc506f"/>
+      <stop offset="1" stop-color="#3b1126"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6d6970"/>
+      <stop offset=".16" stop-color="#f6f2f5"/>
+      <stop offset=".36" stop-color="#9f9aa2"/>
+      <stop offset=".56" stop-color="#ffffff"/>
+      <stop offset=".78" stop-color="#777179"/>
+      <stop offset="1" stop-color="#d4ced4"/>
+    </linearGradient>
+    <radialGradient id="opal" cx="35%" cy="28%" r="74%">
+      <stop offset="0" stop-color="#fff8fb"/>
+      <stop offset=".2" stop-color="#ffd7e8"/>
+      <stop offset=".46" stop-color="#f16d9e"/>
+      <stop offset=".72" stop-color="#a81959"/>
+      <stop offset="1" stop-color="#5a1236"/>
+    </radialGradient>
+    <radialGradient id="opalGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ff7bab" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#ff3d84" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur40" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="shadow" x="-60%" y="-60%" width="220%" height="240%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#050203" flood-opacity=".6"/>
+    </filter>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#080306" flood-opacity=".48"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="23" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+      <feComponentTransfer in="mono" result="faded"><feFuncA type="table" tableValues="0 .075"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="faded" mode="soft-light"/>
+    </filter>
+    <clipPath id="canvas"><rect width="1600" height="900"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#canvas)">
+    <rect width="1600" height="900" fill="url(#bg)"/>
+    <ellipse cx="800" cy="450" rx="720" ry="560" fill="url(#halo)"/>
+
+    <g opacity=".9" filter="url(#softShadow)">
+      <path d="M-180 800 C120 600 330 560 520 640 C640 690 700 800 800 800 C900 800 960 690 1080 640 C1270 560 1480 600 1780 800 L1780 980 L-180 980 Z" fill="url(#satinA)" opacity=".62"/>
+      <path d="M-160 -60 C80 150 300 210 520 170 C650 146 720 90 800 90 C880 90 950 146 1080 170 C1300 210 1520 150 1760 -60 Z" fill="#7d2349" opacity=".34"/>
+    </g>
+
+    <path d="M-120 740 C160 580 360 560 540 650 C660 710 720 830 800 830 C880 830 940 710 1060 650 C1240 560 1440 580 1720 740" fill="none" stroke="#f8d6df" stroke-opacity=".2" stroke-width="3"/>
+    <path d="M-100 140 C160 250 360 260 560 205 C680 172 740 130 800 130 C860 130 920 172 1040 205 C1240 260 1440 250 1700 140" fill="none" stroke="#ecb5c6" stroke-opacity=".13" stroke-width="3"/>
+
+    <ellipse cx="800" cy="470" rx="360" ry="260" fill="#10080d" opacity=".3" filter="url(#blur40)"/>
+    <path d="M500 600 C640 430 900 330 1120 360" fill="none" stroke="#f4bfd0" stroke-opacity=".13" stroke-width="2"/>
+    <path d="M540 660 C690 510 920 430 1100 450" fill="none" stroke="#f4bfd0" stroke-opacity=".1" stroke-width="2"/>
+
+    <g filter="url(#shadow)" transform="rotate(-16 800 450)">
+      <g>
+        <rect x="649" y="300" width="38" height="290" rx="19" fill="url(#metal)"/>
+        <rect x="657" y="320" width="6" height="245" rx="3" fill="#ffffff" opacity=".76"/>
+        <circle cx="668" cy="282" r="80" fill="url(#opalGlow)" opacity=".58"/>
+        <circle cx="668" cy="282" r="57" fill="#ece9ec"/>
+        <circle cx="668" cy="282" r="49" fill="url(#opal)"/>
+        <ellipse cx="652" cy="264" rx="18" ry="11" fill="#fff" opacity=".72" transform="rotate(-28 652 264)"/>
+        <circle cx="668" cy="612" r="58" fill="#d9d4d9"/>
+        <circle cx="668" cy="612" r="50" fill="url(#metal)"/>
+        <ellipse cx="650" cy="592" rx="17" ry="10" fill="#fff" opacity=".7" transform="rotate(-28 650 592)"/>
+      </g>
+      <g>
+        <rect x="913" y="300" width="38" height="290" rx="19" fill="url(#metal)"/>
+        <rect x="921" y="320" width="6" height="245" rx="3" fill="#ffffff" opacity=".76"/>
+        <circle cx="932" cy="282" r="80" fill="url(#opalGlow)" opacity=".58"/>
+        <circle cx="932" cy="282" r="57" fill="#ece9ec"/>
+        <circle cx="932" cy="282" r="49" fill="url(#opal)"/>
+        <ellipse cx="916" cy="264" rx="18" ry="11" fill="#fff" opacity=".72" transform="rotate(-28 916 264)"/>
+        <circle cx="932" cy="612" r="58" fill="#d9d4d9"/>
+        <circle cx="932" cy="612" r="50" fill="url(#metal)"/>
+        <ellipse cx="914" cy="592" rx="17" ry="10" fill="#fff" opacity=".7" transform="rotate(-28 914 592)"/>
+      </g>
+      <path d="M700 440 C760 470 840 470 900 440" fill="none" stroke="#ffd7e8" stroke-opacity=".35" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+    </g>
+
+    <g fill="#fff" opacity=".74">
+      <path d="M1140 170 l8 22 22 8-22 8-8 22-8-22-22-8 22-8z"/>
+      <path d="M332 300 l5 14 14 5-14 5-5 14-5-14-14-5 14-5z" opacity=".58"/>
+      <circle cx="1262" cy="650" r="5" opacity=".62"/>
+      <circle cx="300" cy="640" r="4" opacity=".5"/>
+    </g>
+
+    <rect width="1600" height="900" fill="transparent" filter="url(#grain)"/>
+    <rect x="28" y="28" width="1544" height="844" rx="34" fill="none" stroke="#fff" stroke-opacity=".06" stroke-width="2"/>
+  </g>
+</svg>

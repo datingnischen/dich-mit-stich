@@ -60,3 +60,31 @@ test("city pages use the scene guide and the compact author box", async () => {
   assert.match(deSource, /variant="compact"/);
   assert.doesNotMatch(deSource, /dangerouslySetInnerHTML=\{\{ __html: cityPage\.contentHtml \}\}/);
 });
+
+test("studio guides split into intro, styles, checklist and summary", async () => {
+  const { parseStudioGuide, stylesInTitle, studioStyleCounts } = await import("../lib/studio-guide-sections.ts");
+  const guide = parseStudioGuide(`<h2>Einleitung</h2><p>Intro.</p>
+<h2>Tattoo-Szene in Hamburg</h2><p>Szene.</p>
+<h2>Beliebte Tattoo-Stile in Hamburg</h2><ul><li><strong>Fine Line:</strong> feine Linien.</li><li><strong>Realistic und Black &amp; Grey:</strong> Porträts.</li></ul>
+<h2>Worauf bei der Studioauswahl in Hamburg geachtet werden sollte</h2><p>Hygiene.</p>
+<h2>Kurze Zusammenfassung</h2><p>Fazit.</p>`);
+  const studios = [
+    { styles: [{ slug: "fineline", label: "Fineline" }, { slug: "realistic", label: "Realistic" }] },
+    { styles: [{ slug: "black-and-grey", label: "Black & Grey" }] },
+  ];
+
+  assert.deepEqual(guide.sections.map((section) => section.kind), ["intro", "scene", "styles", "checklist", "summary"]);
+  assert.deepEqual(guide.sections[2].items.map((item) => item.name), ["Fine Line", "Realistic und Black & Grey"]);
+  assert.deepEqual(stylesInTitle("Fine Line", studios), ["fineline"]);
+  assert.deepEqual(stylesInTitle("Realistic und Black & Grey", studios).sort(), ["black-and-grey", "realistic"]);
+  assert.deepEqual(studioStyleCounts(studios).map((style) => style.slug), ["black-and-grey", "fineline", "realistic"]);
+});
+
+test("studio city pages filter cards by style", async () => {
+  const city = await readFile(new URL("../components/tattoo-studio-city-guide.tsx", import.meta.url), "utf8");
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(city, /<StudioStyleFilter[^>]*gridId="studio-grid"/);
+  assert.match(city, /data-studio-styles=\{studio\.styles\.map/);
+  assert.match(css, /\.tattoo-studio-card\[hidden\]\s*\{\s*display: none;/);
+});

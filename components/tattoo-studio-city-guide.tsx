@@ -1,10 +1,12 @@
 import Image from "next/image";
 
 import { LocationPinIcon } from "@/components/location-pin-icon";
-import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
+import { StudioGuideEditorial } from "@/components/studio-guide-editorial";
+import { StudioStyleFilter } from "@/components/studio-style-filter";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
+import { studioStyleCounts } from "@/lib/studio-guide-sections";
 import { tattooSinglesPath } from "@/lib/tattoo-singles";
 import type { TattooStudioCityGuide as TattooStudioCityGuideData } from "@/lib/tattoo-studio-guide";
 
@@ -69,6 +71,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
   const isRollout = guide.publicationStatus === "rollout";
   const isSwiss = market === "ch";
   const marketGuideLabel = market === "ch" ? "Schweizer " : market === "at" ? "Österreichischer " : "";
+  const styleCounts = studioStyleCounts(studios);
   const imageUrl = guide.imageUrl ? (market !== "de" ? staticAsset(guide.imageUrl) : guide.imageUrl) : null;
 
   const jsonLd = {
@@ -163,12 +166,15 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
             ? "Alphabetische Auswahl, keine Rangliste. Öffne ein Profil für Kontaktangaben, Links und weitere Details."
             : "Vergleiche Portfolios, Stil, Beratung und Hygiene direkt bei den Studios. Der Stadtguide hilft dir mit den wichtigsten Fragen für deine Auswahl."}</p>
         </div>
+        {studios.length && styleCounts.length > 1 ? (
+          <StudioStyleFilter styles={styleCounts} total={studios.length} gridId="studio-grid" />
+        ) : null}
         {studios.length ? (
-          <div className="tattoo-studio-grid">
+          <div className="tattoo-studio-grid" id="studio-grid">
             {studios.map((studio) => {
               const sourceIsGuide = normalizeUrl(studio.sourceUrl) === normalizeUrl(guide.sourceUrl);
               return (
-                <article className="tattoo-studio-card" key={studio.identity}>
+                <article className="tattoo-studio-card" key={studio.identity} data-studio-styles={studio.styles.map((style) => style.slug).join(" ")}>
                   <div className="tattoo-studio-card-mark" aria-hidden="true"><strong>{studio.name.slice(0, 2).toUpperCase()}</strong></div>
                   <div className="tattoo-studio-card-copy">
                     <div className="tattoo-studio-card-head"><span>{studio.styles.length ? "Stilhinweise vorhanden" : `Studio in ${guide.cityName}`}</span><h3>{studio.name}</h3></div>
@@ -235,7 +241,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
               </figcaption>
             </figure>
           ) : null}
-          <MarketHtmlContent html={guide.editorialHtml} market={market} />
+          <StudioGuideEditorial html={guide.editorialHtml} market={market} cityName={guide.cityName} studios={studios} />
         </article>
         <div className="studio-guide-sidebar">
           <aside className="studio-transparency-card">

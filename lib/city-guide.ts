@@ -77,15 +77,15 @@ const LIST = /<ul[^>]*>([\s\S]*?)<\/ul>/i;
 const LIST_ITEM = /<li[^>]*>([\s\S]*?)<\/li>/gi;
 const DASH = /^\s*(?:&ndash;|&mdash;|[–—-]|&#8211;|&#8212;)\s*/;
 
-function plainText(html: string) {
-  return decodeHtmlEntities(stripHtml(html)).replace(/ /g, " ").replace(/\s+/g, " ").trim();
+export function plainText(html: string) {
+  return decodeHtmlEntities(stripHtml(html)).replace(/\s+/g, " ").trim();
 }
 
 export function cityGuideTheme(heading: string): CityGuideTheme {
   return THEME_PATTERNS.find(([pattern]) => pattern.test(heading))?.[1] ?? "scene";
 }
 
-function anchor(heading: string, index: number) {
+export function anchor(heading: string, index: number) {
   const slug = heading
     .toLowerCase()
     .replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
@@ -98,7 +98,7 @@ function anchor(heading: string, index: number) {
 }
 
 /** Drops empty paragraphs, rules and the legacy "Bildquelle: https://…" footer. */
-function tidy(html: string) {
+export function tidy(html: string) {
   return html
     .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, "")
     .replace(/<p>\s*Bildquelle:[\s\S]*?<\/p>/gi, "")
@@ -107,7 +107,7 @@ function tidy(html: string) {
     .trim();
 }
 
-function parseItem(html: string): CityGuideItem | null {
+export function parseItem(html: string): CityGuideItem | null {
   const match = html.match(/^\s*<(strong|b)>([\s\S]*?)<\/\1>([\s\S]*)$/i);
   if (!match) return null;
   let rest = match[3].replace(DASH, "");
@@ -133,8 +133,8 @@ function linkedCitySlugs(html: string) {
   return slugs;
 }
 
-function parseSection(heading: string, body: string, index: number): CityGuideSection {
-  const theme = cityGuideTheme(heading);
+/** Splits the body of a section into the text before a named list, the list as items and the rest. */
+export function splitNamedList(body: string): { leadHtml: string; items: CityGuideItem[]; restHtml: string } {
   const listMatch = body.match(LIST);
   let leadHtml = body;
   let items: CityGuideItem[] = [];
@@ -150,28 +150,45 @@ function parseSection(heading: string, body: string, index: number): CityGuideSe
     }
   }
 
+  return { leadHtml: tidy(leadHtml), items, restHtml: tidy(restHtml) };
+}
+
+function parseSection(heading: string, body: string, index: number): CityGuideSection {
+  return { id: anchor(heading, index), theme: cityGuideTheme(heading), heading, ...splitNamedList(body) };
+}
+
+/** The h2 sections of a WordPress HTML block, with the text before the first h2 as intro. */
+export function splitH2Sections(html = ""): { introHtml: string; sections: { heading: string; body: string }[] } {
+  const matches = [...html.matchAll(H2)];
   return {
-    id: anchor(heading, index),
-    theme,
-    heading,
-    leadHtml: tidy(leadHtml),
-    items,
-    restHtml: tidy(restHtml),
+    introHtml: tidy(matches.length ? html.slice(0, matches[0].index) : html),
+    sections: matches.map((match, index) => {
+      const start = (match.index ?? 0) + match[0].length;
+      const end = index + 1 < matches.length ? matches[index + 1].index : html.length;
+      return { heading: plainText(match[1]), body: html.slice(start, end) };
+    }),
   };
 }
 
+/** Makes repeated anchors unique in place. */
+export function dedupeIds<T extends { id: string }>(sections: T[]) {
+  const usedIds = new Set<string>();
+  for (const section of sections) {
+    let id = section.id;
+    for (let n = 2; usedIds.has(id); n += 1) id = `${section.id}-${n}`;
+    section.id = id;
+    usedIds.add(id);
+  }
+  return sections;
+}
+
 export function parseCityGuide(html = ""): CityGuide {
-  const matches = [...html.matchAll(H2)];
-  const introHtml = tidy(matches.length ? html.slice(0, matches[0].index) : html);
+  const { introHtml, sections: rawSections } = splitH2Sections(html);
   const relatedCitySlugs: string[] = [];
   let hasStudioSection = false;
   const sections: CityGuideSection[] = [];
 
-  matches.forEach((match, index) => {
-    const start = (match.index ?? 0) + match[0].length;
-    const end = index + 1 < matches.length ? matches[index + 1].index : html.length;
-    const body = html.slice(start, end);
-    const heading = plainText(match[1]);
+  rawSections.forEach(({ heading, body }, index) => {
     const section = parseSection(heading, body, index);
 
     // Studios have their own guide pages and other cities get their own card row, so neither
@@ -188,15 +205,7 @@ export function parseCityGuide(html = ""): CityGuide {
     sections.push(section);
   });
 
-  const usedIds = new Set<string>();
-  for (const section of sections) {
-    let id = section.id;
-    for (let n = 2; usedIds.has(id); n += 1) id = `${section.id}-${n}`;
-    section.id = id;
-    usedIds.add(id);
-  }
-
-  return { introHtml, sections, relatedCitySlugs, hasStudioSection };
+  return { introHtml, sections: dedupeIds(sections), relatedCitySlugs, hasStudioSection };
 }
 
 export function cityGuideUnit(theme: CityGuideTheme, count: number) {

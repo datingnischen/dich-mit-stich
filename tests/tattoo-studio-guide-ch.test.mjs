@@ -72,7 +72,8 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
   }
   assert.match(overview, /publicUrl\(market, "\/tattoo-studios"\)/);
   assert.match(city, /publicUrl\(market, `\/tattoo-studios\/\$\{city\}`\)/);
-  assert.match(sharedCity, /<MarketHtmlContent html=\{guide\.editorialHtml\} market=\{market\}/);
+  assert.match(sharedCity, /<StudioGuideEditorial html=\{guide\.editorialHtml\} market=\{market\}/);
+  assert.match(await readFile(new URL("../components/studio-guide-editorial.tsx", import.meta.url), "utf8"), /parseStudioGuide\(marketizeSanitizedHtml\(html, market\)\)/);
   assert.doesNotMatch(sharedCity, /dangerouslySetInnerHTML=\{\{ __html: guide\.editorialHtml \}\}/);
   assert.match(sharedCity, /href=\{studio\.sourceUrl\}/);
   assert.match(sharedCity, /\? "Webseite" : "Datenquelle"/);

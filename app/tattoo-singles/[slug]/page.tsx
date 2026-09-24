@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CitySceneGuide } from "@/components/city-scene-guide";
 import { ExpertTrustCard } from "@/components/expert-trust-card";
 import { IconySinglesWidget } from "@/components/icony-singles-widget";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
@@ -9,7 +10,7 @@ import { conversionUrl } from "@/lib/conversion-links";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
-import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
+import { getWordPressCityOverview, getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -35,7 +36,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function TattooSinglesCityPage({ params }: PageProps) {
   const { slug } = await params;
-  const [cityPage, expert] = await Promise.all([getWordPressCityPage("de", slug), getDatingExpertProfile()]);
+  const [cityPage, expert, overview] = await Promise.all([
+    getWordPressCityPage("de", slug),
+    getDatingExpertProfile(),
+    getWordPressCityOverview("de"),
+  ]);
   if (!cityPage) notFound();
 
   const cityName = cityPage.cityName;
@@ -100,9 +105,13 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           />
       ) : null}
 
-      <section className="rich-content">
-        <div dangerouslySetInnerHTML={{ __html: cityPage.contentHtml }} />
-      </section>
+      <CitySceneGuide
+        market="de"
+        slug={slug}
+        cityName={cityName}
+        html={cityPage.contentHtml}
+        cities={overview.cityLinks}
+      />
 
       {cityPage.imageAttribution ? (
         <section
@@ -136,25 +145,9 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           <ExpertTrustCard
             profile={expert}
             aid="location"
-            eyebrow="Begleitet von unserem Datingexperten"
-            title={`Die Tipps für Tattoo-Singles in ${cityName} prüft unser Datingexperte, bevor sie online gehen.`}
+            variant="compact"
+            eyebrow={`Tipps für ${cityName} geprüft von`}
           />
-        </section>
-      ) : null}
-
-      {cityPage.relatedCities.length ? (
-        <section className="content-section">
-          <div className="section-header">
-            <span className="eyebrow">Weitere Städte</span>
-            <h2>Ähnliche Städte für tätowierte und gepiercte Singles</h2>
-          </div>
-          <div className="chip-row">
-            {cityPage.relatedCities.map((city) => (
-              <Link key={city.slug} className="chip" href={`/tattoo-singles/${city.slug}`}>
-                {city.label}
-              </Link>
-            ))}
-          </div>
         </section>
       ) : null}
     </main>

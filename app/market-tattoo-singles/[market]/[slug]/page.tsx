@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { IconySinglesWidget } from "@/components/icony-singles-widget";
-import { MarketHtmlContent } from "@/components/market-html-content";
+import { CitySceneGuide } from "@/components/city-scene-guide";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
-import { getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
+import { getWordPressCityOverview, getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function MarketTattooSinglesCityPage({ params }: PageProps) {
   const { market, slug } = await params;
   if (!isSupportedMarket(market)) notFound();
-  const city = await getWordPressCityPage(market, slug);
+  const [city, overview] = await Promise.all([getWordPressCityPage(market, slug), getWordPressCityOverview(market)]);
   if (!city) notFound();
   const copy = MARKET_COPY[market];
   const widgetConfig = getIconyCityWidgetConfig(market, slug);
@@ -124,7 +124,13 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
         />
       ) : null}
 
-      <MarketHtmlContent className="rich-content" market={market} html={city.contentHtml} />
+      <CitySceneGuide
+        market={market}
+        slug={slug}
+        cityName={city.cityName}
+        html={city.contentHtml}
+        cities={overview.cityLinks}
+      />
 
       <section
         className="content-section"

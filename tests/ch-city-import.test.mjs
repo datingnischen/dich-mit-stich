@@ -76,7 +76,7 @@ test("AT city routes declare .at canonicals and use the market-aware shell", asy
   assert.match(pageSource, /const markets: SupportedMarket\[] = \["at", "ch"\]/);
   assert.match(pageSource, /if \(!isSupportedMarket\(market\)\) return \{ robots: \{ index: false, follow: false \} \};/);
   assert.match(pageSource, /alternates: \{ canonical: publicUrl\(market, `\/tattoo-singles\/\$\{slug\}`\) \}/);
-  assert.match(pageSource, /MarketHtmlContent className="rich-content" market=\{market\} html=\{city\.contentHtml\}/);
+  assert.match(pageSource, /<CitySceneGuide[\s\S]*?html=\{city\.contentHtml\}/);
   assert.match(pageSource, /cityIndexLabel: "Alle Städte in Österreich"/);
   assert.match(pageSource, /datingEyebrow: "Dating-Einstieg Österreich"/);
   assert.match(shellSource, /dich-mit-stich-logo-at\.svg/);
@@ -107,7 +107,9 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
   assert.match(overviewSource, /<MarketLink[\s\S]*targetMarket="ch"[\s\S]*pathname=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
   assert.doesNotMatch(overviewSource, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
   assert.match(detailSource, /<MarketLink[^>]*targetMarket=\{market\}[^>]*pathname="\/tattoo-singles"/);
-  assert.match(detailSource, /<MarketHtmlContent[^>]*market=\{market\}[^>]*html=\{city\.contentHtml\}/);
+  assert.match(detailSource, /<CitySceneGuide[^>]*market=\{market\}[^>]*html=\{city\.contentHtml\}/);
+  const sceneGuideSource = await readFile(new URL("../components/city-scene-guide.tsx", import.meta.url), "utf8");
+  assert.match(sceneGuideSource, /parseCityGuide\(marketizeSanitizedHtml\(html, market\)\)/);
   assert.match(marketHtmlSource, /marketizeSanitizedHtml\(html, market\)/);
   assert.match(marketHtmlClientSource, /useLayoutEffect/);
   assert.match(marketHtmlClientSource, /a\[data-dms-internal="true"\]/);

@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 // Ersetzt den Inhalt einer Magazin-Seite (oder mit --type=posts eines Beitrags) in WordPress durch eine lokale HTML-Datei.
-// Aufruf: DMS_WP_USERNAME=... DMS_WP_APPLICATION_PASSWORD=... node scripts/update-wp-page-content.mjs <id> <html-datei> [--type=posts] [--dry-run]
+// Aufruf: DMS_WP_USERNAME=... DMS_WP_APPLICATION_PASSWORD=... node scripts/update-wp-page-content.mjs <id> <html-datei> [--type=posts] [--title=...] [--dry-run]
 import { readFile } from "node:fs/promises";
 
 const API = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
 const [pageId, htmlPath] = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
 const dryRun = process.argv.includes("--dry-run");
 const type = process.argv.includes("--type=posts") ? "posts" : "pages";
+const title = process.argv.find((arg) => arg.startsWith("--title="))?.slice("--title=".length);
 
 if (!/^\d+$/.test(pageId ?? "") || !htmlPath) {
-  console.error("Aufruf: node scripts/update-wp-page-content.mjs <id> <html-datei> [--type=posts] [--dry-run]");
+  console.error("Aufruf: node scripts/update-wp-page-content.mjs <id> <html-datei> [--type=posts] [--title=...] [--dry-run]");
   process.exit(1);
 }
 
@@ -24,6 +25,7 @@ const content = (await readFile(htmlPath, "utf8")).trim();
 const current = await fetch(`${API}/${type}/${pageId}?_fields=id,slug,modified`).then((res) => res.json());
 console.log(`${type === "posts" ? "Beitrag" : "Seite"} ${current.id} (${current.slug}), zuletzt geändert ${current.modified}`);
 console.log(`Neuer Inhalt: ${content.length} Zeichen aus ${htmlPath}`);
+if (title) console.log(`Neuer Titel: ${title}`);
 
 if (dryRun) {
   console.log("Dry-Run: nichts geschrieben.");
@@ -36,7 +38,7 @@ const res = await fetch(`${API}/${type}/${pageId}`, {
     Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ content }),
+  body: JSON.stringify(title ? { content, title } : { content }),
 });
 const body = await res.json();
 if (!res.ok) {

@@ -12,6 +12,10 @@ import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
 import { PublishedBookFeature } from "@/components/published-book-feature";
+import { ReadingProgress } from "@/components/reading-progress";
+import { TattooLexikonMore } from "@/components/tattoo-lexikon-more";
+import { TattooMotifArticle } from "@/components/tattoo-motif-article";
+import { TattooMotifGlance } from "@/components/tattoo-motif-glance";
 import { getAuthorProfilePage, stripAuthorProfileDuplicates } from "@/lib/author-profile-pages";
 import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
 import { serializeJsonLd } from "@/lib/json-ld";
@@ -24,9 +28,10 @@ import {
   getMarketMagazinePublishedProfileGraph,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
+import { TATTOO_HUB, buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
+import { buildTattooMotifSpotlight } from "@/lib/tattoo-motifs";
 import { formatGermanDate, teaserText } from "@/lib/wordpress";
 
 const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
@@ -40,9 +45,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   });
   if (!detailContext) notFound();
   const isPiercingArticle = isPiercingTopic(entry);
-  const breadcrumbTrail = buildMagazineBreadcrumbTrail(entry, {
-    hub: await resolveMagazineHub(entry),
-  });
+  const hub = await resolveMagazineHub(entry);
+  const breadcrumbTrail = buildMagazineBreadcrumbTrail(entry, { hub });
   const hubDirectory = await getHubDirectoryForPage(slug);
   if (detailContext.quarantined) {
     return (
@@ -108,6 +112,10 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const renderedContent = isPublishedExpertProfile
     ? stripLegacyExpertPortrait(stripPublishedBookBlock(profileBody))
     : profileBody;
+  const isTattooLexikonArticle = hub?.slug === TATTOO_HUB.slug && !editorialOverride && !authorProfilePage;
+  const motifSpotlight = isTattooLexikonArticle
+    ? buildTattooMotifSpotlight({ slug: entry.slug, title: entry.title, content: renderedContent })
+    : null;
 
   return (
     <main className="shell magazine-detail-shell">
@@ -115,9 +123,10 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(pageGraph) }}
       />
+      {motifSpotlight ? <ReadingProgress targetSelector=".magazine-article-body" /> : null}
       <MagazineBreadcrumb market={market} trail={breadcrumbTrail} />
 
-      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}${isAuthorProfileCover ? " magazine-detail-cover-profile" : ""}${authorProfilePage?.portraitCover ? " magazine-detail-cover-portrait" : ""}`}>
+      <div className={`magazine-detail-cover${featuredImage ? "" : " magazine-detail-cover-text-only"}${isAuthorProfileCover ? " magazine-detail-cover-profile" : ""}${authorProfilePage?.portraitCover ? " magazine-detail-cover-portrait" : ""}${motifSpotlight && featuredImage ? " magazine-detail-cover-split" : ""}`}>
         <header className="hero-card hero-magazine hero-magazine-editorial magazine-detail-hero">
           <span className="eyebrow">
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
@@ -157,7 +166,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
                 alt={featuredImage.alt}
                 width={isPublishedExpertProfile ? 1402 : authorProfileHero ? authorProfileHero.width : 1200}
                 height={isPublishedExpertProfile ? 1122 : authorProfileHero ? authorProfileHero.height : 675}
-                sizes={isAuthorProfileCover ? "(max-width: 760px) 100vw, 460px" : "(max-width: 900px) 100vw, 1000px"}
+                sizes={isAuthorProfileCover ? "(max-width: 760px) 100vw, 460px" : motifSpotlight ? "(max-width: 900px) 100vw, 400px" : "(max-width: 900px) 100vw, 1000px"}
                 priority
                 unoptimized={isPublishedExpertProfile}
               />
@@ -170,9 +179,13 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
         <MagazineAnswerSummary entry={answerEngineEntry} />
       ) : null}
 
+      {motifSpotlight ? <TattooMotifGlance spotlight={motifSpotlight} /> : null}
+
       <section className="rich-content magazine-article-body">
         {editorialOverride?.kind === "anti-eyebrow" ? (
           <AntiEyebrowEditorial market={market} />
+        ) : motifSpotlight ? (
+          <TattooMotifArticle market={market} html={renderedContent} spotlight={motifSpotlight} />
         ) : (
           <MarketHtmlContent market={market} html={renderedContent} />
         )}
@@ -244,6 +257,10 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       ) : null}
 
       {magazineVideo ? <MagazineVideo video={magazineVideo} /> : null}
+
+      {motifSpotlight ? (
+        <TattooLexikonMore market={market} slug={entry.slug} preferred={motifSpotlight.related} />
+      ) : null}
 
       <IconyMagazineWidgets market={market} />
 

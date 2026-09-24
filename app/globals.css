@@ -4282,3 +4282,269 @@ a.pin-cta-follow:hover {
   padding: 0;
   list-style: none;
 }
+
+/* Tattoo-Lexikon: kompakter Einstieg, Kurzprofil, Einschübe im Text und Lesefortschritt */
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 3px;
+  pointer-events: none;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand), #e02a72);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.magazine-detail-cover-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+  align-items: stretch;
+  background: linear-gradient(135deg, #fff7fb 0%, #ffffff 62%);
+}
+
+.magazine-detail-cover-split .magazine-detail-hero {
+  align-content: center;
+  min-width: 0;
+}
+
+.magazine-detail-cover-split .magazine-detail-hero h1 {
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+}
+
+.magazine-detail-cover-split .magazine-detail-media,
+.magazine-detail-cover-split .article-hero-media {
+  height: 100%;
+}
+
+.magazine-detail-cover-split .article-hero-media {
+  aspect-ratio: auto;
+  min-height: 300px;
+}
+
+.motif-glance {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.7fr);
+  gap: 22px 40px;
+  align-items: start;
+  width: min(1000px, 100%);
+  margin: 28px auto 0;
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(224, 42, 114, 0.35), transparent 55%),
+    var(--brand);
+  color: #fff;
+  box-shadow: 0 18px 46px rgba(74, 39, 56, 0.16);
+}
+
+.motif-glance-head {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.motif-glance .eyebrow {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.motif-glance h2 {
+  color: #fff;
+  font-size: clamp(1.45rem, 2.6vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.motif-glance-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.motif-glance-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.motif-glance-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+}
+
+.motif-glance-row + .motif-glance-row {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.motif-glance-row dt {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.motif-glance-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.motif-glance-chips li {
+  padding: 5px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.motif-hook {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  margin: 2.2em 0;
+  padding: 22px 24px;
+  border: 1px solid rgba(103, 19, 60, 0.14);
+  border-radius: 18px;
+  background: var(--brand-soft);
+}
+
+.motif-hook-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+}
+
+.motif-hook-title {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--brand);
+  font-size: 1.08rem;
+}
+
+.magazine-article-body .motif-hook p {
+  margin: 0 0 10px;
+  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.rich-content .motif-hook-link {
+  color: var(--brand);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.rich-content .motif-hook-link:hover,
+.rich-content .motif-hook-link:focus-visible {
+  text-decoration: underline;
+}
+
+.motif-pullquote {
+  margin: 2.4em 0;
+  padding: 6px 0 6px 26px;
+  border-left: 4px solid var(--brand);
+}
+
+.magazine-article-body .motif-pullquote p {
+  margin: 0;
+  color: var(--brand);
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.motif-scene {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-top: 2.4em;
+  padding-top: 22px;
+  border-top: 1px dashed rgba(103, 19, 60, 0.25);
+}
+
+.magazine-article-body .motif-scene p {
+  flex: 1 1 360px;
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.rich-content .motif-scene-link {
+  flex: none;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--cta-green);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.rich-content .motif-scene-link:hover,
+.rich-content .motif-scene-link:focus-visible {
+  background: var(--cta-green-dark);
+}
+
+.motif-more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .magazine-detail-cover-split {
+    grid-template-columns: 1fr;
+  }
+
+  .magazine-detail-cover-split .article-hero-media {
+    aspect-ratio: 2 / 1;
+    min-height: 0;
+  }
+
+  .motif-glance {
+    grid-template-columns: 1fr;
+  }
+
+  .motif-more-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .motif-glance-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .motif-hook {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .rich-content .motif-scene-link {
+    width: 100%;
+    text-align: center;
+  }
+}

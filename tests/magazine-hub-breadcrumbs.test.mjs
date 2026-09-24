@@ -165,7 +165,7 @@ test("every magazine surface renders the shared breadcrumb trail", async () => {
     assert.doesNotMatch(source, /<nav className="magazine-breadcrumb"/);
   }
 
-  assert.match(detail, /buildMagazineBreadcrumbTrail\(entry, \{\s*hub: await resolveMagazineHub\(entry\),\s*\}\)/);
+  assert.match(detail, /const hub = await resolveMagazineHub\(entry\);\s*const breadcrumbTrail = buildMagazineBreadcrumbTrail\(entry, \{ hub \}\);/);
   assert.equal((detail.match(/<MagazineBreadcrumb market=\{market\} trail=\{breadcrumbTrail\} \/>/g) || []).length, 2);
 });
 

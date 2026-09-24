@@ -75,7 +75,7 @@ test("normal magazine entries use a structured editorial detail layout", async (
   assert.match(detail, /className="rich-content magazine-article-body"/);
   assert.doesNotMatch(detail, /entry\.date\.slice\(0, 10\)/);
 
-  assert.match(detail, /className=\{`magazine-detail-cover\$\{featuredImage \? "" : " magazine-detail-cover-text-only"\}\$\{isAuthorProfileCover \? " magazine-detail-cover-profile" : ""\}\$\{authorProfilePage\?\.portraitCover \? " magazine-detail-cover-portrait" : ""\}`\}/);
+  assert.match(detail, /className=\{`magazine-detail-cover\$\{featuredImage \? "" : " magazine-detail-cover-text-only"\}\$\{isAuthorProfileCover \? " magazine-detail-cover-profile" : ""\}\$\{authorProfilePage\?\.portraitCover \? " magazine-detail-cover-portrait" : ""\}\$\{motifSpotlight && featuredImage \? " magazine-detail-cover-split" : ""\}`\}/);
   assert.ok(detail.indexOf("magazine-detail-hero") > detail.indexOf("magazine-detail-cover"));
   assert.ok(detail.indexOf("magazine-detail-media") > detail.indexOf("magazine-detail-hero"));
   assert.match(css, /\.magazine-detail-cover\s*\{[^}]*width:\s*min\(1000px,\s*100%\)[^}]*overflow:\s*hidden/s);

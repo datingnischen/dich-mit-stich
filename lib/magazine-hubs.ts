@@ -108,6 +108,11 @@ const loadHubChildSlugs = cache(async (hubSlug: string): Promise<Set<string>> =>
   return extractHubChildSlugs(hub, await loadHubContent(hub.slug));
 });
 
+/** Every article the hub links, A–Z by link text. */
+export async function getHubChildLinks(hub: MagazineHub) {
+  return extractHubChildLinks(hub, await loadHubContent(hub.slug));
+}
+
 /**
  * Overview articles that point readers to a hub's full directory. /magazin/piercing only links a
  * handful of piercings in its prose, so it lists every type the Piercingarten hub knows about.

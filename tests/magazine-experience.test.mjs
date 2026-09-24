@@ -298,7 +298,7 @@ test("pilot direct answers stay consistent across metadata, hero and schema", as
 
   assert.match(detail, /const answerEngineEntry = getAnswerEnginePilotEntry\(slug\);/);
   assert.match(detail, /answerEngineEntry\?\.directAnswer\s*\?\?/);
-  assert.match(detail, /\{\(answerEngineEntry \|\| editorialOverride \|\| authorProfilePage \|\| isPiercingGuide\) \? null : "…"\}/);
+  assert.match(detail, /\{\(answerEngineEntry \|\| editorialOverride \|\| authorProfilePage \|\| isPiercingGuide \|\| isPiercingHubPage\) \? null : "…"\}/);
 });
 
 test("article dateModified keeps the latest CMS or editorial change", async () => {

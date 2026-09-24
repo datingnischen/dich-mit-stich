@@ -30,6 +30,83 @@ export const PIERCING_GUIDE = {
   ],
 } as const;
 
+/** Lead for the Piercingarten hub; its WordPress intro only says that it is an overview. */
+export const PIERCING_HUB_LEAD =
+  "Von Anti-Eyebrow bis Zungenpiercing: alle Piercingarten nach Körperstelle sortiert – Gesicht, Mund, Ohr, Körper und Intim. Jede Art hat ihren eigenen Ratgeber zu Position, Schmuck und Wirkung.";
+
+type PiercingRegion = { key: string; short: string; pattern: RegExp; text: string };
+
+const PIERCING_REGIONS: PiercingRegion[] = [
+  {
+    key: "gesicht",
+    short: "Gesicht",
+    pattern: /gesicht/i,
+    text: "Augenbraue, Nase, Wange, Kinn: Piercings, die man sofort sieht – vom dezenten Nostril bis zum Bridge zwischen den Augen.",
+  },
+  {
+    key: "mund",
+    short: "Mund",
+    pattern: /mund|lippe/i,
+    text: "Lippe, Zunge, Lippenbändchen: die größte Gruppe – vom Labret und Medusa bis zu Paaren wie Snakebite oder Venom.",
+  },
+  {
+    key: "ohr",
+    short: "Ohr",
+    pattern: /ohr/i,
+    text: "Vom Ohrläppchen bis in den Knorpel: Helix, Tragus, Daith oder Industrial lassen sich zu einem ganzen Ohr-Setup kombinieren.",
+  },
+  {
+    key: "koerper",
+    short: "Körper",
+    pattern: /körper|koerper/i,
+    text: "Bauchnabel, Brustwarze und Surface-Piercings, die flach unter der Haut liegen.",
+  },
+  {
+    key: "intim",
+    short: "Intim",
+    pattern: /intim/i,
+    text: "Für Frauen und Männer, vom Christina bis zum Prinz Albert. Hier zählen die Erfahrung des Piercers und Hygiene besonders.",
+  },
+];
+
+/** Short name and intro for a body-region group, matched on its heading ("Ohrpiercings" → Ohr). */
+export function piercingRegion(heading: string) {
+  const region = PIERCING_REGIONS.find((candidate) => candidate.pattern.test(heading));
+  return {
+    key: region?.key ?? guideAnchor(heading),
+    short: region?.short ?? (heading.replace(/s?piercings$/i, "") || heading),
+    text: region?.text,
+  };
+}
+
+/** One anchor per region, shared by the hero picker, the jump bar and the region banner. */
+export function piercingRegionAnchor(heading: string) {
+  return `piercingarten-${piercingRegion(heading).key}`;
+}
+
+// Only the last heading: its content may not open another heading, or the match starts at the first one.
+const TRAILING_HEADING = /<h([2-4])\b[^>]*>(?:(?!<h[1-6]\b)[\s\S])*?<\/h\1>\s*$/i;
+const IMAGE_PARAGRAPH = /<p\b[^>]*>\s*(?:<a\b[^>]*>\s*)?<img\b[^>]*>\s*(?:<\/a>\s*)?<\/p>/gi;
+
+/**
+ * The prose before a hub list ends with that list's heading and illustration. The region banner
+ * shows both, so the prose drops them: every image-only paragraph after the last text block, and
+ * then the heading they followed.
+ */
+export function stripGroupIntro(html: string) {
+  let rest = html.replace(/\s+$/, "");
+  let previous = "";
+  while (previous !== rest) {
+    previous = rest;
+    const lastImage = [...rest.matchAll(IMAGE_PARAGRAPH)].pop();
+    if (lastImage && lastImage.index + lastImage[0].length === rest.length) {
+      rest = rest.slice(0, lastImage.index).replace(/\s+$/, "");
+    }
+    rest = rest.replace(TRAILING_HEADING, "").replace(/\s+$/, "");
+  }
+  return rest;
+}
+
 export type GuideSection = { id: string; heading: string; html: string };
 
 const HEADING = /<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/gi;

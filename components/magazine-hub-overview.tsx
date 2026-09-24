@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Fragment } from "react";
 
 import { ArticleCardMedia } from "@/components/article-card-media";
@@ -5,7 +6,9 @@ import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { getMarketMagazineCatalog } from "@/lib/market-magazine";
+import { hubGroupImage } from "@/lib/magazine-hubs";
 import { publicUrl, type MarketCode } from "@/lib/markets";
+import { piercingRegion, piercingRegionAnchor, stripGroupIntro } from "@/lib/piercing-guide";
 import {
   TATTOO_LEXIKON_SERIES,
   lexikonAnchor,
@@ -16,7 +19,7 @@ import {
 import { motifProfile, type MotifTopic } from "@/lib/tattoo-motifs";
 import type { MagazineEntry } from "@/lib/wordpress";
 
-type CardGroup = { id: string; heading: string; intro?: string; links: LexikonLink[] };
+type CardGroup = { id: string; heading: string; intro?: string; imageUrl?: string; links: LexikonLink[] };
 
 const OVERVIEW_COPY: Record<MotifTopic, { navLabel: string; fallbackLabel: string; untitledGroup: string; bandTitle: string; bandText: string }> = {
   tattoo: {
@@ -36,8 +39,11 @@ const OVERVIEW_COPY: Record<MotifTopic, { navLabel: string; fallbackLabel: strin
 };
 
 function HubCards({ market, topic, group, entries }: { market: MarketCode; topic: MotifTopic; group: CardGroup; entries: Map<string, MagazineEntry> }) {
+  // Piercing groups carry their anchor on the region banner above the cards.
+  const isPiercing = topic === "piercing";
+  const fallbackLabel = isPiercing ? piercingRegion(group.heading).short : OVERVIEW_COPY[topic].fallbackLabel;
   return (
-    <div className="lexikon-card-grid" id={group.id}>
+    <div className={`lexikon-card-grid lexikon-card-grid-${topic}`} id={isPiercing ? undefined : group.id}>
       {group.links.map((link) => {
         const entry = entries.get(link.slug);
         const chips = motifProfile(topic, link.slug)?.facts[0]?.items.slice(0, 3) ?? [];
@@ -46,7 +52,7 @@ function HubCards({ market, topic, group, entries }: { market: MarketCode; topic
             <ArticleCardMedia
               imageUrl={entry?.featuredImage}
               alt={entry?.featuredImageAlt || link.label}
-              fallbackLabel={OVERVIEW_COPY[topic].fallbackLabel}
+              fallbackLabel={fallbackLabel}
               fallbackTitle={link.label}
               className="lexikon-card-media"
               sizes="(max-width: 560px) 50vw, 240px"
@@ -65,6 +71,23 @@ function HubCards({ market, topic, group, entries }: { market: MarketCode; topic
         );
       })}
     </div>
+  );
+}
+
+/** Banner above a body-region group: the hub's own illustration, the region and what it covers. */
+function PiercingRegionBanner({ group }: { group: CardGroup }) {
+  const region = piercingRegion(group.heading);
+  return (
+    <header id={group.id} className={`piercing-region-banner${group.imageUrl ? "" : " piercing-region-banner-plain"}`}>
+      {group.imageUrl ? (
+        <Image src={group.imageUrl} alt="" width={768} height={512} sizes="(max-width: 900px) 100vw, 880px" />
+      ) : null}
+      <div className="piercing-region-banner-copy">
+        <span>{group.links.length} Piercingarten</span>
+        <h2>{group.heading}</h2>
+        {region.text ? <p>{region.text}</p> : null}
+      </div>
+    </header>
   );
 }
 
@@ -104,7 +127,10 @@ export async function MagazineHubOverview({ market, html, topic }: MagazineHubOv
   const groups: CardGroup[] = blocks.flatMap((block, index) => {
     if (block.kind !== "links") return [];
     const heading = block.heading || copy.untitledGroup;
-    return [{ id: lexikonAnchor(heading, index), heading, links: block.links }];
+    const prose = blocks[index - 1];
+    const imageUrl = topic === "piercing" && prose?.kind === "html" ? hubGroupImage(prose.html) : undefined;
+    const id = topic === "piercing" ? piercingRegionAnchor(heading) : lexikonAnchor(heading, index);
+    return [{ id, heading, imageUrl, links: block.links }];
   });
   const seriesGroups: CardGroup[] = topic === "tattoo"
     ? TATTOO_LEXIKON_SERIES.map((series, index) => ({
@@ -130,18 +156,27 @@ export async function MagazineHubOverview({ market, html, topic }: MagazineHubOv
         <ul>
           {[...groups, ...seriesGroups].map((group) => (
             <li key={group.id}>
-              <a href={`#${group.id}`}>{group.heading.replace(/^Inspirationen: /, "")}</a>
+              <a href={`#${group.id}`}>
+                {topic === "piercing"
+                  ? `${piercingRegion(group.heading).short} · ${group.links.length}`
+                  : group.heading.replace(/^Inspirationen: /, "")}
+              </a>
             </li>
           ))}
         </ul>
       </nav>
 
       {blocks.map((block, index) => {
-        if (block.kind === "html") return <MarketHtmlContent key={index} market={market} html={block.html} />;
+        if (block.kind === "html") {
+          // The region banner repeats the heading and picture that close a piercing prose block.
+          const html = topic === "piercing" && blocks[index + 1]?.kind === "links" ? stripGroupIntro(block.html) : block.html;
+          return html.trim() ? <MarketHtmlContent key={index} market={market} html={html} /> : null;
+        }
 
         const group = groups[groupIndex++];
         return (
           <Fragment key={index}>
+            {topic === "piercing" ? <PiercingRegionBanner group={group} /> : null}
             <HubCards market={market} topic={topic} group={group} entries={entries} />
             {group === largestGroup ? <HubDatingBand market={market} topic={topic} /> : null}
             {index === lastLinksIndex

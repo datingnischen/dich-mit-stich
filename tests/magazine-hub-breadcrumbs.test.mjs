@@ -254,3 +254,20 @@ test("the piercing guide cuts the article at its headings for the jump bar", asy
   assert.equal(sections[1].html, "<h3>Heilung &amp; Heilungsdauer</h3><p>B</p>");
   assert.deepEqual(sections.map((section) => guideNavLabel(section.heading)), ["Tradition", "Heilung"]);
 });
+
+test("the Piercingarten banners take over the heading and picture that close each prose block", async () => {
+  const { stripGroupIntro, piercingRegion, piercingRegionAnchor } = await import("../lib/piercing-guide.ts");
+  const prose = `<p>Intro</p>
+<h2>Worauf du achten kannst</h2>
+<p>Text</p>
+<h3>Gesichtspiercings</h3>
+<p><img src="a.jpg" alt="Cheek Piercing" /></p>
+`;
+
+  assert.equal(stripGroupIntro(prose), "<p>Intro</p>\n<h2>Worauf du achten kannst</h2>\n<p>Text</p>");
+  assert.equal(stripGroupIntro('<p><img src="b.jpg" /></p>'), "");
+  assert.equal(stripGroupIntro("<h2>Nur Text</h2><p>bleibt</p>"), "<h2>Nur Text</h2><p>bleibt</p>");
+  assert.equal(piercingRegion("Ohrpiercings").short, "Ohr");
+  assert.equal(piercingRegion("Körperpiercings").short, "Körper");
+  assert.equal(piercingRegionAnchor("Intimpiercings"), "piercingarten-intim");
+});

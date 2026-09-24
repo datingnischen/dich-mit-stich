@@ -11,7 +11,7 @@ import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MagazineAnswerSummary } from "@/components/magazine-answer-summary";
 import { MagazineVideo } from "@/components/magazine-video";
-import { PiercingGuideArticle, PiercingTypeDirectory } from "@/components/piercing-guide";
+import { PiercingGuideArticle, PiercingRegionPicker, PiercingTypeDirectory } from "@/components/piercing-guide";
 import { PublishedBookFeature } from "@/components/published-book-feature";
 import { ReadingProgress } from "@/components/reading-progress";
 import { MagazineHubOverview } from "@/components/magazine-hub-overview";
@@ -30,8 +30,8 @@ import {
   getMarketMagazinePublishedProfileGraph,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { PIERCING_HUB, TATTOO_HUB, buildMagazineBreadcrumbTrail, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
-import { PIERCING_GUIDE, PIERCING_GUIDE_SLUG } from "@/lib/piercing-guide";
+import { PIERCING_HUB, TATTOO_HUB, buildMagazineBreadcrumbTrail, extractHubChildGroups, getHubDirectoryForPage, isPiercingTopic, resolveMagazineHub } from "@/lib/magazine-hubs";
+import { PIERCING_GUIDE, PIERCING_GUIDE_SLUG, PIERCING_HUB_LEAD } from "@/lib/piercing-guide";
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { buildTattooMotifSpotlight, motifTopicForSlug } from "@/lib/tattoo-motifs";
@@ -84,8 +84,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
       ? { src: authorProfileHero.src, alt: authorProfileHero.alt }
       : defaultFeaturedImage;
   const isPiercingGuide = entry.slug === PIERCING_GUIDE_SLUG && !editorialOverride && !answerEngineEntry;
+  const isPiercingHubPage = entry.slug === PIERCING_HUB.slug && !editorialOverride && !answerEngineEntry;
   const articleSummary = localizeFirstPartyText(
-    authorProfilePage?.lead ?? answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? (isPiercingGuide ? PIERCING_GUIDE.lead : teaserText(entry, 220)),
+    authorProfilePage?.lead ?? answerEngineEntry?.directAnswer ?? editorialOverride?.summary ?? (isPiercingGuide ? PIERCING_GUIDE.lead : isPiercingHubPage ? PIERCING_HUB_LEAD : teaserText(entry, 220)),
     publicUrl(market),
   );
   const articleGraph = buildMagazineArticleGraph({
@@ -128,6 +129,8 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   const motifSpotlight = motifTopic
     ? buildTattooMotifSpotlight({ slug: entry.slug, title: entry.title, content: renderedContent }, motifTopic)
     : null;
+  // The Piercingarten hub opens with its body regions instead of a single stretched thumbnail.
+  const piercingRegions = isPiercingHubPage ? extractHubChildGroups(PIERCING_HUB, renderedContent, "Körperpiercings") : [];
   const hubOverviewTopic = entry.slug === TATTOO_HUB.slug ? "tattoo" : entry.slug === PIERCING_HUB.slug ? "piercing" : null;
 
   return (
@@ -145,7 +148,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
           </span>
           <h1>{entry.title}</h1>
-          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride || authorProfilePage || isPiercingGuide) ? null : "…"}</p>
+          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride || authorProfilePage || isPiercingGuide || isPiercingHubPage) ? null : "…"}</p>
           <div className="meta-row magazine-detail-meta">
             {entry.authorName ? (
               <span>
@@ -171,7 +174,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           ) : null}
         </header>
 
-        {featuredImage ? (
+        {piercingRegions.length ? (
+          <PiercingRegionPicker groups={piercingRegions} />
+        ) : featuredImage ? (
           <section className="magazine-detail-media" aria-label="Beitragsbild">
             <figure className="article-hero-media">
               <Image

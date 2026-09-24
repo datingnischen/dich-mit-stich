@@ -124,7 +124,7 @@ export function extractHubChildGroups(hub: MagazineHub, html = "", fallbackHeadi
 }
 
 /** The hub embeds 300px thumbnails; the 768px candidate from srcset stays sharp in a card. */
-function hubGroupImage(html: string) {
+export function hubGroupImage(html: string) {
   const tag = html.match(IMAGE_TAG)?.[0];
   if (!tag) return undefined;
 

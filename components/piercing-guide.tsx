@@ -5,17 +5,19 @@ import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
 import type { HubChildGroup, MagazineHub } from "@/lib/magazine-hubs";
 import type { MarketCode } from "@/lib/markets";
-import { PIERCING_GUIDE, guideAnchor, guideNavLabel, splitGuideSections } from "@/lib/piercing-guide";
+import {
+  PIERCING_GUIDE,
+  guideAnchor,
+  guideNavLabel,
+  piercingRegion,
+  piercingRegionAnchor,
+  splitGuideSections,
+} from "@/lib/piercing-guide";
 
 export const PIERCING_DIRECTORY_ID = "alle-piercingarten";
 
 function groupAnchor(heading: string) {
   return `piercingarten-${guideAnchor(heading)}`;
-}
-
-/** "Gesichtspiercings" → "Gesicht": the region name alone reads better in the jump bar. */
-function regionLabel(heading: string) {
-  return heading.replace(/s?piercings$/i, "") || heading;
 }
 
 function GuideTimeline() {
@@ -107,6 +109,28 @@ export function PiercingGuideArticle({ market, html, typeCount }: { market: Mark
   );
 }
 
+/** Hero of the Piercingarten hub: one picture tile per body region, each jumping to its cards. */
+export function PiercingRegionPicker({ groups }: { groups: HubChildGroup[] }) {
+  return (
+    <nav className="magazine-detail-media piercing-region-picker" aria-label="Piercingarten nach Körperstelle">
+      {groups.map((group) => {
+        const region = piercingRegion(group.heading);
+        return (
+          <a key={group.heading} href={`#${piercingRegionAnchor(group.heading)}`} className="piercing-region-tile">
+            {group.imageUrl ? (
+              <Image src={group.imageUrl} alt="" width={768} height={512} sizes="(max-width: 760px) 50vw, 240px" priority />
+            ) : null}
+            <span className="piercing-region-tile-copy">
+              <strong>{region.short}</strong>
+              <span>{group.links.length} Arten</span>
+            </span>
+          </a>
+        );
+      })}
+    </nav>
+  );
+}
+
 /** Every piercing type the Piercingarten hub links, grouped by body region as the hub groups them. */
 export function PiercingTypeDirectory({
   market,
@@ -132,7 +156,7 @@ export function PiercingTypeDirectory({
           {groups.map((group) => (
             <li key={group.heading}>
               <a href={`#${groupAnchor(group.heading)}`}>
-                {regionLabel(group.heading)} <span>{group.links.length}</span>
+                {piercingRegion(group.heading).short} <span>{group.links.length}</span>
               </a>
             </li>
           ))}

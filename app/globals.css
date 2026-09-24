@@ -4720,6 +4720,256 @@ a.pin-cta-follow:hover {
   }
 }
 
+/* Piercingarten-Hub: Körperstellen-Wähler im Hero, Regionsbanner und gestaltete Platzhalter */
+.piercing-region-picker {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  background: #fff;
+}
+
+.piercing-region-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background:
+    radial-gradient(circle at 70% 30%, rgba(224, 42, 114, 0.45), transparent 55%),
+    var(--brand);
+  color: #fff;
+  text-decoration: none;
+}
+
+.piercing-region-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+
+.piercing-region-tile:not(:has(img))::before {
+  content: "";
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  width: 46%;
+  aspect-ratio: 1;
+  border: 5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.piercing-region-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(33, 12, 23, 0.85));
+  transition: background 200ms ease;
+}
+
+.piercing-region-tile-copy {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px 16px;
+}
+
+.piercing-region-tile-copy strong {
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.piercing-region-tile-copy span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.piercing-region-tile-copy strong::after {
+  content: " →";
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.piercing-region-tile:hover img,
+.piercing-region-tile:focus-visible img {
+  transform: scale(1.06);
+}
+
+.piercing-region-tile:hover::after,
+.piercing-region-tile:focus-visible::after {
+  background: linear-gradient(180deg, rgba(103, 19, 60, 0.15) 20%, rgba(103, 19, 60, 0.9));
+}
+
+.piercing-region-tile:hover .piercing-region-tile-copy strong::after,
+.piercing-region-tile:focus-visible .piercing-region-tile-copy strong::after {
+  opacity: 1;
+  transform: none;
+}
+
+.piercing-region-banner {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 230px;
+  margin: 44px 0 0;
+  overflow: hidden;
+  border-radius: 22px;
+  background: var(--brand);
+  color: #fff;
+  scroll-margin-top: 110px;
+}
+
+.piercing-region-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.piercing-region-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(33, 12, 23, 0.88) 0%, rgba(33, 12, 23, 0.55) 45%, rgba(33, 12, 23, 0.05) 100%);
+}
+
+.piercing-region-banner-plain {
+  min-height: 0;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(224, 42, 114, 0.45), transparent 55%),
+    var(--brand);
+}
+
+.piercing-region-banner-plain::after {
+  display: none;
+}
+
+.piercing-region-banner-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  padding: 28px 30px;
+}
+
+.piercing-region-banner-copy > span {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.rich-content .piercing-region-banner h2 {
+  margin: 10px 0 6px;
+  color: #fff;
+  font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.rich-content .piercing-region-banner p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.6;
+}
+
+.lexikon-card-grid-piercing .article-card-media-fallback {
+  position: relative;
+  align-content: end;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(224, 42, 114, 0.5), transparent 55%),
+    linear-gradient(135deg, var(--brand), #3d0b24);
+}
+
+.lexikon-card-grid-piercing .article-card-media-fallback::before {
+  content: "";
+  position: absolute;
+  top: 16%;
+  right: 14%;
+  width: 34%;
+  aspect-ratio: 1;
+  border: 4px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transition: transform 300ms ease;
+}
+
+.lexikon-card-grid-piercing .article-card-media-fallback::after {
+  content: "";
+  position: absolute;
+  top: calc(16% - 7px);
+  right: calc(14% + 17% - 7px);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+  transition: transform 300ms ease;
+}
+
+.lexikon-card-grid-piercing .article-card-media-fallback span {
+  position: relative;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.lexikon-card:hover .article-card-media-fallback::before,
+.lexikon-card:hover .article-card-media-fallback::after {
+  transform: rotate(-12deg) scale(1.05);
+}
+
+@media (max-width: 760px) {
+  .piercing-region-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .piercing-region-tile {
+    aspect-ratio: 4 / 3;
+  }
+
+  .piercing-region-tile:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 8;
+  }
+
+  .piercing-region-banner {
+    min-height: 200px;
+    margin-top: 34px;
+  }
+
+  .piercing-region-banner::after {
+    background: linear-gradient(180deg, rgba(33, 12, 23, 0.1) 0%, rgba(33, 12, 23, 0.88) 75%);
+  }
+
+  .piercing-region-banner-copy {
+    padding: 70px 20px 20px;
+  }
+
+  .piercing-region-banner-plain .piercing-region-banner-copy {
+    padding-top: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piercing-region-tile img,
+  .lexikon-card-grid-piercing .article-card-media-fallback::before,
+  .lexikon-card-grid-piercing .article-card-media-fallback::after {
+    transition: none;
+  }
+}
+
 /* Tattoo-Lexikon: kompakter Einstieg, Kurzprofil, Einschübe im Text und Lesefortschritt */
 .reading-progress {
   position: fixed;

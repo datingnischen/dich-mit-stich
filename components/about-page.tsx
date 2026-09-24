@@ -60,7 +60,7 @@ const channelLogo: Record<SocialChannel, ReactNode> = {
   ),
 };
 
-function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["market"] }) {
+function AboutCardView({ card, market, pairs }: { card: AboutCard; market: AboutPage["market"]; pairs: boolean }) {
   const bleed = Boolean(card.channel || card.image?.bleed);
   const imageClassName = [
     "about-card-image",
@@ -80,7 +80,7 @@ function AboutCardView({ card, market }: { card: AboutCard; market: AboutPage["m
             alt={card.image.alt}
             fill
             sizes={bleed
-              ? "(max-width: 560px) calc(100vw - 22px), (max-width: 900px) calc(100vw - 34px), (max-width: 1200px) 33vw, 380px"
+              ? "(max-width: 560px) calc(100vw - 22px), (max-width: 900px) calc(100vw - 34px), (max-width: 1200px) " + (pairs ? "50vw, 560px" : "33vw, 380px")
               : "(max-width: 900px) calc(100vw - 76px), (max-width: 1200px) 28vw, 300px"}
             unoptimized={card.image.fit === "contain"}
           />
@@ -142,6 +142,8 @@ export function aboutPageMetadata(page: AboutPage): Metadata {
 export function AboutPageView({ page }: { page: AboutPage }) {
   const graph = buildAboutPageGraph(page);
   const countryName = page.market === "de" ? "Deutschland" : page.market === "at" ? "Österreich" : "Schweiz";
+  // Vier Kacheln stehen 2×2 statt 3+1
+  const pairedCards = page.cards.length === 4;
 
   return (
     <SiteFrame market={page.market} sectionLive>
@@ -185,8 +187,8 @@ export function AboutPageView({ page }: { page: AboutPage }) {
             <h2 id="about-section-title">{page.sectionTitle}</h2>
             <p>{page.sectionLead}</p>
           </div>
-          <div className={page.cards.length === 4 ? "about-topic-grid about-topic-grid-pairs" : "about-topic-grid"}>
-            {page.cards.map((card) => <AboutCardView card={card} market={page.market} key={card.title} />)}
+          <div className={pairedCards ? "about-topic-grid about-topic-grid-pairs" : "about-topic-grid"}>
+            {page.cards.map((card) => <AboutCardView card={card} market={page.market} pairs={pairedCards} key={card.title} />)}
           </div>
         </section>
 

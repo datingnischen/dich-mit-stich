@@ -318,7 +318,7 @@ export const TATTOO_MOTIF_PROFILES: Record<string, TattooMotifProfile> = {
     },
     hookLinkLabel: "Singles mit Tattoo in deiner Nähe kennenlernen →",
     sceneLine: "Ein Motiv mit jahrhundertealter Tradition verdient ein Gegenüber, das nachfragt. Bei Dich mit Stich ist das der ganz normale Einstieg.",
-    pullQuote: "Dabei sind nicht nur die Motive, sondern auch das Handwerk fest mit der japanischen Kultur verwurzelt.",
+    pullQuote: "Dabei sind nicht nur die Motive, sondern auch das Handwerk fest in der japanischen Kultur verwurzelt.",
     related: ["sleeve-tattoo-japanese", "blumen-tattoos", "tattoo-stile"],
   },
   "kreuz-tattoos": {
@@ -794,7 +794,7 @@ export const TATTOO_MOTIF_PROFILES: Record<string, TattooMotifProfile> = {
     },
     hookLinkLabel: "Gleichgesinnte in deiner Nähe finden →",
     sceneLine: "Ablehnung wegen deiner Tattoos? Nicht hier. Bei Dich mit Stich treffen sich tätowierte Singles jeden Alters, die dein Motiv eher neugierig macht als abschreckt.",
-    pullQuote: "Mittlerweile gilt der Körperschmuck als Ausdruck der eigenen Persönlichkeit, als Zierde und untermalt eher jeden einzelnen.",
+    pullQuote: "Mittlerweile gilt der Körperschmuck als Ausdruck der eigenen Persönlichkeit, als Zierde und untermalt eher jeden Einzelnen.",
     related: ["tattoos-im-alter", "erste-tattoo-stechen-lassen", "tattoo-flirt"],
   },
   "tattoos-im-alter": {

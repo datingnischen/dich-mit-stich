@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Spielt punktgenaue Textkorrekturen in Magazin-Seiten/-Beiträge ein, ohne den übrigen Inhalt anzufassen.
-// Aufruf: node --env-file=.env.local scripts/apply-wp-text-edits.mjs <edits.json> [--write] [--only=slug,slug] [--backup-dir=pfad]
+// Aufruf: node --env-file=.env.local scripts/apply-wp-text-edits.mjs <edits.json> [--write] [--only=slug,slug] [--max-shrink=0.03] [--backup-dir=pfad]
 //
-// edits.json: { "<slug>": { "edits": [ { "find": "…", "replace": "…", "reason": "…" } ] } }
+// edits.json: { "<slug>": { "edits": [ { "find": "…", "replace": "…", "reason": "…" } ], "title": "neuer Titel (optional)" } }
 // Jede Fundstelle muss im aktuellen WordPress-Rohtext genau einmal vorkommen, sonst bleibt der ganze Artikel
 // unverändert. Ohne --write ist es ein Probelauf. Vor dem Schreiben wird der alte Rohtext gesichert.
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -14,6 +14,8 @@ const args = process.argv.slice(2);
 const editsPath = args.find((arg) => !arg.startsWith("--"));
 const write = args.includes("--write");
 const only = args.find((arg) => arg.startsWith("--only="))?.slice("--only=".length).split(",").filter(Boolean);
+// Bewusste Kürzungen (z. B. ein falscher Absatz wird durch einen kürzeren ersetzt) nur ausdrücklich erlauben.
+const maxShrink = Number(args.find((arg) => arg.startsWith("--max-shrink="))?.slice("--max-shrink=".length) ?? 0.03);
 const backupDir = args.find((arg) => arg.startsWith("--backup-dir="))?.slice("--backup-dir=".length) ?? path.join(os.tmpdir(), "dms-wp-backups");
 
 if (!editsPath) {
@@ -39,7 +41,7 @@ function occurrences(haystack, needle) {
 
 async function loadEntry(slug) {
   for (const type of ["pages", "posts"]) {
-    const res = await fetch(`${API}/${type}?slug=${encodeURIComponent(slug)}&context=edit&_fields=id,slug,modified,content`, {
+    const res = await fetch(`${API}/${type}?slug=${encodeURIComponent(slug)}&context=edit&_fields=id,slug,modified,title,content`, {
       headers: { Authorization: authorization },
     });
     if (!res.ok) throw new Error(`${type} ${slug}: HTTP ${res.status}`);
@@ -83,7 +85,8 @@ let skipped = 0;
 
 for (const slug of slugs) {
   const edits = allEdits[slug].edits ?? [];
-  if (!edits.length) continue;
+  const title = allEdits[slug].title;
+  if (!edits.length && !title) continue;
 
   const entry = await loadEntry(slug);
   if (!entry) {
@@ -102,23 +105,26 @@ for (const slug of slugs) {
 
   const before = visibleText(raw).length;
   const after = visibleText(content).length;
-  if (after < before * 0.97) {
+  if (after < before * (1 - maxShrink)) {
     console.log(`✗ ${slug}: sichtbarer Text schrumpft von ${before} auf ${after} Zeichen – übersprungen`);
     skipped++;
     continue;
   }
 
   console.log(`${write ? "✓" : "○"} ${slug} (${entry.type} ${entry.id}): ${edits.length} Korrekturen, Text ${before} → ${after} Zeichen`);
+  if (title) console.log(`    [Titel] ${entry.title.raw}
+      → ${title}`);
   for (const edit of edits) console.log(`    [${edit.reason}] ${edit.find.replace(/\s+/g, " ").slice(0, 90)}\n      → ${edit.replace.replace(/\s+/g, " ").slice(0, 90)}`);
 
   if (!write) continue;
 
   await mkdir(backupDir, { recursive: true });
   await writeFile(path.join(backupDir, `${slug}-${entry.modified.replace(/:/g, "-")}.html`), raw);
+  if (title) await writeFile(path.join(backupDir, `${slug}-${entry.modified.replace(/:/g, "-")}.title.txt`), entry.title.raw);
   const res = await fetch(`${API}/${entry.type}/${entry.id}`, {
     method: "POST",
     headers: { Authorization: authorization, "Content-Type": "application/json" },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify(title ? { content, title } : { content }),
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));

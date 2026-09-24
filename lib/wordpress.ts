@@ -286,8 +286,11 @@ function hardenMagazineLink(attributes: Record<string, string>) {
   return hardened;
 }
 
+// NextGEN renders its gallery shortcode only inside the WordPress theme; the REST API leaves this marker behind.
+const NEXTGEN_GALLERY_PLACEHOLDER = /\bngg_shortcode_\d+_placeholder\b/g;
+
 export function sanitizeMagazineHtml(html = "") {
-  return sanitizeHtml(html, {
+  return sanitizeHtml(html.replace(NEXTGEN_GALLERY_PLACEHOLDER, ""), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
     allowedAttributes: {
       a: ["href", "name", "target", "title", "rel"],

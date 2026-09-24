@@ -176,3 +176,10 @@ test("payload budgets cover WordPress city route, list, and detail responses", (
     /content|_embed|_embedded/,
   );
 });
+
+test("the NextGEN gallery marker the REST API leaves behind is not shown as text", () => {
+  const html = sanitizeMagazineHtml("<p>Vorher</p><p>ngg_shortcode_0_placeholder</p><p>Nachher</p>");
+
+  assert.doesNotMatch(html, /ngg_shortcode/);
+  assert.match(html, /Vorher[\s\S]*Nachher/);
+});

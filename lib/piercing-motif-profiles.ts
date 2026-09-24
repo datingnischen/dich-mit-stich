@@ -257,7 +257,7 @@ export const PIERCING_MOTIF_PROFILES: Record<string, TattooMotifProfile> = {
     },
     hookLinkLabel: "Knorpel-Fans in deiner Nähe entdecken →",
     sceneLine: "Ein Helix blitzt oft nur kurz hinter den Haaren hervor. Bei Dich mit Stich darfst du zeigen, was sonst nur zwischendurch auffällt.",
-    pullQuote: "Er ist ein echter Hingucker und ein guter Einstieg, wenn man sich für Piercings interessiert, sich aber noch nicht traut, sich eines im Gesicht stechen zu lassen.",
+    pullQuote: "Es ist ein echter Hingucker und ein guter Einstieg, wenn man sich für Piercings interessiert, sich aber noch nicht traut, sich eines im Gesicht stechen zu lassen.",
     related: ["ohrmuschel-piercing", "industrial-piercing", "rook-piercing"],
   },
   "industrial-piercing": {
@@ -440,7 +440,7 @@ export const PIERCING_MOTIF_PROFILES: Record<string, TattooMotifProfile> = {
     ],
     flirtHook: {
       title: "Ein kleiner Liebeszauber",
-      text: "Der durchstochene Bereich heißt anatomisch auch Philton – was für Liebeszauber steht. Ein besseres Stichwort für den ersten Satz gibt es kaum. Frag, ob sie oder er das beim Stechen schon wusste.",
+      text: "Der durchstochene Bereich heißt anatomisch auch Philtron – was für Liebeszauber steht. Ein besseres Stichwort für den ersten Satz gibt es kaum. Frag, ob sie oder er das beim Stechen schon wusste.",
     },
     hookLinkLabel: "Singles mit Medusa & Co. in deiner Nähe →",
     sceneLine: "Ein Medusa Piercing will gesehen werden, und das ist auch gut so. Bei Dich mit Stich bist du unter Leuten, die genau hinschauen – aus den richtigen Gründen.",
@@ -559,7 +559,7 @@ export const PIERCING_MOTIF_PROFILES: Record<string, TattooMotifProfile> = {
     ],
     flirtHook: {
       title: "Ein Name mit Geschichte",
-      text: "Rook war der Spitzname des kalifornischen Piercers Eric Dakota, der den Begriff Anfang der 90er mit diesem Piercing verband. Wer so eine Anekdote parat hat, braucht keine Anmachsprüche.",
+      text: "Rook war der Spitzname des kalifornischen Piercers Erik Dakota, der den Begriff Anfang der 90er mit diesem Piercing verband. Wer so eine Anekdote parat hat, braucht keine Anmachsprüche.",
     },
     hookLinkLabel: "Gepiercte Singles aus deiner Stadt kennenlernen →",
     sceneLine: "Ein Rook sieht man erst, wenn man genau hinschaut. Bei Dich mit Stich schauen Singles genau hin – auf Piercings, Tattoos und die Menschen dahinter.",

@@ -36,13 +36,6 @@ const DE_REGION_BY_CITY = {
   wuppertal: "Nordrhein-Westfalen",
 };
 
-const LEGACY_STUDIO_MATCHES = {
-  "DE:hannover:prime-ink-tattoo-hannover": {
-    identities: ["DE:hannover:prime-ink-tattoo-hannover-hannover"],
-    wpSlugs: ["de-hannover-prime-ink-tattoo-hannover-hannover"],
-  },
-};
-
 function normalizeMarket(market) {
   const country = String(market || "").toUpperCase();
   if (!["DE", "AT", "CH"].includes(country)) throw new Error(`Unsupported tattoo studio market ${market}`);
@@ -180,41 +173,4 @@ export function buildTattooStudioCityRecord(guide) {
       schema_type: "ItemList",
     },
   };
-}
-
-export function buildTattooStudioWpPayload(record, { status = "draft" } = {}) {
-  return {
-    title: record.title,
-    slug: record.wpSlug,
-    status,
-    content: record.contentHtml,
-    excerpt: record.acf.editorial_summary || "",
-    acf: { ...record.acf },
-  };
-}
-
-export function planTattooStudioUpserts(records, existingPosts) {
-  const identities = new Set();
-  for (const record of records) {
-    if (identities.has(record.identity)) throw new Error(`Duplicate tattoo studio identity ${record.identity}`);
-    identities.add(record.identity);
-  }
-
-  return records.map((record) => {
-    const legacy = LEGACY_STUDIO_MATCHES[record.identity] || { identities: [], wpSlugs: [] };
-    const matchingIdentities = new Set([record.identity, ...legacy.identities]);
-    const matchingSlugs = new Set([record.wpSlug, ...legacy.wpSlugs]);
-    const candidates = existingPosts.filter((post) =>
-      matchingIdentities.has(post?.acf?.studio_id) || matchingSlugs.has(post?.slug),
-    );
-    const unique = [...new Map(candidates.map((post) => [Number(post.id), post])).values()];
-    if (unique.length > 1) throw new Error(`Multiple existing tattoo studios for ${record.identity}`);
-    const existing = unique[0] || null;
-    return {
-      action: existing ? "update" : "create",
-      postId: existing?.id ?? null,
-      existing,
-      record,
-    };
-  });
 }

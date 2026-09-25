@@ -179,13 +179,9 @@ test("tattoo studio guide loader exposes all sourced German city pages", async (
   assert.ok(cities.every((city) => city.imageUrl && city.imageAttribution.title && city.imageAttribution.creator && city.imageAttribution.license));
   assert.ok(cities.every((city) => city.imageAttribution.sourceUrl.startsWith("https://")));
   assert.ok(cities.every((city) => city.legacyImageUrl === `/tattoo-studios/cities/${city.slug}.webp`));
-  assert.ok(cities.every((city) => city.legacyImageSourceUrl?.startsWith("https://dich-mit-stich.de/tattoo-studios/wp-content/uploads/2026/05/")));
   assert.ok(cities.every((city) => city.legacyImageAlt === `Tattoo-Illustration zum Stadtguide für ${city.cityName}`));
   for (const city of cities) {
     await access(new URL(`public${city.imageUrl}`, root));
-    const legacyHtml = await source(`data/legacy/tattoo-studios-de/${city.slug}.html`);
-    const legacyImageUrl = legacyHtml.match(/<img\b[^>]*src=["'](https:\/\/dich-mit-stich\.de\/tattoo-studios\/wp-content\/uploads\/[^"']+)["']/i)?.[1];
-    assert.equal(city.legacyImageSourceUrl, legacyImageUrl, `${city.slug} must preserve its exact legacy image source`);
     await access(new URL(`public${city.legacyImageUrl}`, root));
   }
 

@@ -242,7 +242,6 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
               />
               <figcaption>
                 Tattoo-Illustration aus dem Stadtguide
-                {guide.legacyImageSourceUrl ? <>{" · "}<a href={guide.legacyImageSourceUrl} target="_blank" rel="noopener noreferrer nofollow">Originalbild</a></> : null}
               </figcaption>
             </figure>
           ) : null}

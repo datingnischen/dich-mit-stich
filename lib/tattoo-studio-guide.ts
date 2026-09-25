@@ -244,7 +244,6 @@ export type TattooStudioCityGuide = {
     sourceUrl: string;
   };
   legacyImageUrl: string | null;
-  legacyImageSourceUrl: string | null;
   legacyImageAlt: string;
   legacyImageWidth: number;
   legacyImageHeight: number;
@@ -288,13 +287,11 @@ const DE_WIDE_LEGACY_TATTOO_IMAGES = new Set(["bonn", "dresden", "karlsruhe", "k
 
 function getLegacyTattooImage(market: MarketCode, slug: string, cityName: string) {
   if (market !== "de" || !DE_LEGACY_TATTOO_IMAGE_SLUGS.has(slug)) {
-    return { url: null, sourceUrl: null, alt: "", width: 0, height: 0 };
+    return { url: null, alt: "", width: 0, height: 0 };
   }
   const width = DE_WIDE_LEGACY_TATTOO_IMAGES.has(slug) ? 1360 : 1024;
-  const filenameSlug = slug === "berlin" ? "berlin-2" : slug;
   return {
     url: `/tattoo-studios/cities/${slug}.webp`,
-    sourceUrl: `https://dich-mit-stich.de/tattoo-studios/wp-content/uploads/2026/05/${filenameSlug}-${width}x765.png`,
     alt: `Tattoo-Illustration zum Stadtguide für ${cityName}`,
     width,
     height: 765,
@@ -333,7 +330,6 @@ export function normalizeTattooStudioManifest(source: SourceManifest): { guide: 
         || (cityImage ? getDirectoryImageAttribution(cityImage) : undefined)
         || { title: "", creator: "", license: "", sourceUrl: "" },
       legacyImageUrl: legacyImage.url,
-      legacyImageSourceUrl: legacyImage.sourceUrl,
       legacyImageAlt: legacyImage.alt,
       legacyImageWidth: legacyImage.width,
       legacyImageHeight: legacyImage.height,

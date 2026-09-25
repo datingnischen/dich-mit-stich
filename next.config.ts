@@ -43,6 +43,8 @@ export default function nextConfig(phase: string): NextConfig {
   return {
     assetPrefix: isDev ? undefined : `${assetHost}${assetPathPrefix}`,
     images: {
+      // nginx vor den Live-Domains reicht /_next/image nicht weiter, darum optimiert der Vercel-Host.
+      path: isDev ? "/_next/image" : `${assetHost}/_next/image`,
       remotePatterns: [
         {
           protocol: "https",

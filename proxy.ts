@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server.js";
 import { NextResponse } from "next/server.js";
-import { getMarket, MARKET_CODES, resolveMarketRequest } from "./lib/markets.ts";
+import { publicUrl, resolveMarketRequest, type MarketCode } from "./lib/markets.ts";
 
 const MARKET_REWRITE_HEADER = "x-dms-market-rewrite";
 const MARKET_REWRITE_TOKEN = crypto.randomUUID();
@@ -18,22 +18,24 @@ function protectPreview(response: NextResponse, request: NextRequest) {
   return response;
 }
 
-const PUBLIC_MARKET_HOSTS = new Set(MARKET_CODES.map((code) => getMarket(code).domain));
-
-// Ersetzt die eingebaute Slash-Umleitung von Next.js (skipTrailingSlashRedirect): Die sähe nur den
-// Upstream-Pfad /at/faq/ und schickte Besucher der Landesdomain auf das nicht existierende /at/faq.
+// Ersetzt die eingebaute Slash-Umleitung von Next.js (skipTrailingSlashRedirect). Die kannte nur den
+// Upstream-Pfad: nginx ruft für dich-mit-stich.at/faq/ hier /at/faq/ auf, Vercel meldet den eigenen Host,
+// und Besucher landeten auf dich-mit-stich.at/at/faq (404). Pfade mit Marktpräfix gehen darum absolut
+// auf die öffentliche Landes-URL; Next.js macht Ziele auf fremden Hosts nicht relativ.
 function trailingSlashRedirect(request: NextRequest) {
-  const { pathname, hostname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
   if (pathname === "/" || !pathname.endsWith("/")) {
     return null;
   }
 
+  const target = pathname.replace(/\/+$/, "") || "/";
+  const marketMatch = target.match(/^\/(de|at|ch)(\/.*)?$/);
+  if (marketMatch) {
+    return NextResponse.redirect(`${publicUrl(marketMatch[1] as MarketCode, marketMatch[2] || "/")}${search}`, 308);
+  }
+
   // Plain URL statt nextUrl.clone(): NextURL hängt den ursprünglichen Schrägstrich wieder an.
   const destination = new URL(request.nextUrl.href);
-  let target = pathname.replace(/\/+$/, "") || "/";
-  if (PUBLIC_MARKET_HOSTS.has(hostname.replace(/\.$/, ""))) {
-    target = target.replace(/^\/(?:de|at|ch)(?=\/|$)/, "") || "/";
-  }
   destination.pathname = target;
   return NextResponse.redirect(destination, 308);
 }

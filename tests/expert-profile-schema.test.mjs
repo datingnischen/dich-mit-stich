@@ -56,7 +56,7 @@ test("the expert profile graph is wired into the site entity graph", async () =>
   assert.equal(byType.Person.affiliation["@id"], byType.Organization["@id"]);
   assert.equal(byType.Person.mainEntityOfPage["@id"], byType.ProfilePage["@id"]);
   assert.deepEqual(byType.Brand.sameAs, [...BRAND_SAME_AS]);
-  assert.match(byType.Person.publishingPrinciples, /\/ueber-uns\/expertenteam$/);
+  assert.match(byType.Person.publishingPrinciples, /\/ueber-uns\/expertenteam\/$/);
 });
 
 test("the expert Person node carries the author profile identity data", async () => {

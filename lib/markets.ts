@@ -92,11 +92,25 @@ export function getOtherMarkets(market: MarketCode): MarketConfig[] {
   return MARKET_CODES.filter((code) => code !== market).map((code) => MARKETS[code]);
 }
 
-// Ein Schrägstrich am Ende bleibt erhalten: ICONY-Pfade wie /login/ antworten ohne ihn mit einem 301.
+const FILE_PATH_PATTERN = /\/[^/]*\.[a-z0-9]+$/i;
+
+/**
+ * Seitenpfade enden immer auf einen Schrägstrich, wie die ICONY-Plattform (/login/, /suche/).
+ * Dateien wie /sitemap.xml bleiben ohne. Query und Anker hängen hinter dem Schrägstrich.
+ */
+export function withTrailingSlash(pathname: string): string {
+  const match = pathname.match(/^([^?#]*)(.*)$/);
+  const path = match?.[1] ?? pathname;
+  const suffix = match?.[2] ?? "";
+  if (!path || path.endsWith("/") || FILE_PATH_PATTERN.test(path)) {
+    return `${path || "/"}${suffix}`;
+  }
+  return `${path}/${suffix}`;
+}
+
 export function publicUrl(market: MarketCode, pathname = "/"): string {
-  const trailingSlash = pathname.endsWith("/") ? "/" : "";
-  const normalizedPath = pathname === "/" ? "/" : `/${pathname.replace(/^\/+|\/+$/g, "")}${trailingSlash}`;
-  return `https://${getMarket(market).domain}${normalizedPath}`;
+  const trimmed = pathname.replace(/^\/+/, "");
+  return `https://${getMarket(market).domain}${withTrailingSlash(`/${trimmed}`)}`;
 }
 
 /**
@@ -133,7 +147,7 @@ export function marketDescription(market: MarketCode, description: string): stri
 
 export function marketPreviewPath(market: MarketCode, pathname = "/"): string {
   const normalizedPath = pathname === "/" ? "" : `/${pathname.replace(/^\/+|\/+$/g, "")}`;
-  return `/${market}${normalizedPath}`;
+  return withTrailingSlash(`/${market}${normalizedPath}`);
 }
 
 type MarketRequestResolution =

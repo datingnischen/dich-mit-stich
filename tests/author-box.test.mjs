@@ -20,7 +20,7 @@ test("Anne Schweitzer always points at her own magazine profile page", async () 
   assert.doesNotMatch(profiles, /profileUrl:\s*"\/magazin\/author\/anne-schweitzer"/);
   assert.match(
     config,
-    /source:\s*"\/magazin\/author\/anne-schweitzer",\s*destination:\s*"\/magazin\/anne-schweitzer",\s*permanent:\s*true/,
+    /source:\s*"\/magazin\/author\/anne-schweitzer",\s*destination:\s*"\/magazin\/anne-schweitzer\/",\s*permanent:\s*true/,
   );
 });
 

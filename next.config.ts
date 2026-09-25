@@ -42,6 +42,7 @@ export default function nextConfig(phase: string): NextConfig {
 
   return {
     // Slash-Umleitung übernimmt proxy.ts, weil nur dort der interne Marktpräfix bekannt ist.
+    trailingSlash: true,
     skipTrailingSlashRedirect: true,
     assetPrefix: isDev ? undefined : `${assetHost}${assetPathPrefix}`,
     images: {
@@ -78,77 +79,77 @@ export default function nextConfig(phase: string): NextConfig {
       return [
         {
           source: "/magazin/home",
-          destination: "/magazin",
+          destination: "/magazin/",
           permanent: true,
         },
         {
           source: "/magazin/tattoo-studios",
-          destination: "/tattoo-studios",
+          destination: "/tattoo-studios/",
           permanent: true,
         },
         {
           source: "/magazin/author/redaktion",
-          destination: "/magazin/unser-datingexperte",
+          destination: "/magazin/unser-datingexperte/",
           permanent: true,
         },
         {
           source: "/magazin/author/anne-schweitzer",
-          destination: "/magazin/anne-schweitzer",
+          destination: "/magazin/anne-schweitzer/",
           permanent: true,
         },
         {
           source: "/magazin/expertenteam",
-          destination: "/ueber-uns/expertenteam",
+          destination: "/ueber-uns/expertenteam/",
           permanent: true,
         },
         {
           source: "/magazin/thema/erfolgsgeschichten",
-          destination: "/ueber-uns/erfolgsgeschichten",
+          destination: "/ueber-uns/erfolgsgeschichten/",
           permanent: true,
         },
         {
           source: "/social-media",
-          destination: "/ueber-uns/social-media",
+          destination: "/ueber-uns/social-media/",
           permanent: true,
         },
         {
           source: "/bewertungen-und-erfahrungen",
-          destination: "/ueber-uns/bewertungen",
+          destination: "/ueber-uns/bewertungen/",
           permanent: true,
         },
         {
           source: "/wir-suchen",
-          destination: "/ueber-uns/kooperationen",
+          destination: "/ueber-uns/kooperationen/",
           permanent: true,
         },
         {
           source: "/kooperation-mit-tattoo-studios",
-          destination: "/ueber-uns/kooperationen",
+          destination: "/ueber-uns/kooperationen/",
           permanent: true,
         },
         {
           source: "/kooperation-mit-influencern",
-          destination: "/ueber-uns/kooperationen",
+          destination: "/ueber-uns/kooperationen/",
           permanent: true,
         },
         {
           source: "/tattoo-studio/blackfisk-tattoo-co-berlin",
-          destination: "/tattoo-studios/berlin",
+          destination: "/tattoo-studios/berlin/",
           permanent: true,
         },
         {
           source: "/tattoo-studio/omen-tattoo-berlin",
-          destination: "/tattoo-studios/berlin",
+          destination: "/tattoo-studios/berlin/",
           permanent: true,
         },
         {
           source: "/tattoo-studio/pechschwarz-tattoo-berlin",
-          destination: "/tattoo-studios/berlin",
+          destination: "/tattoo-studios/berlin/",
           permanent: true,
         },
         {
           source: "/tattoo-studio/prime-ink-tattoo-hannover-hannover",
-          destination: "/tattoo-studio/prime-ink-tattoo-hannover",
+          destination: "/tattoo-studio/prime-ink-tattoo-hannover/",
           permanent: true,
         },
       ];

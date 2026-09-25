@@ -25,8 +25,8 @@ test("supports the three documented markets and public domains", async () => {
   assert.equal(getMarket("de").domain, "dich-mit-stich.de");
   assert.equal(getMarket("at").domain, "dich-mit-stich.at");
   assert.equal(getMarket("ch").domain, "dich-mit-stich.ch");
-  assert.equal(publicUrl("de", "/magazin"), "https://dich-mit-stich.de/magazin");
-  assert.equal(publicUrl("ch", "/magazin"), "https://dich-mit-stich.ch/magazin");
+  assert.equal(publicUrl("de", "/magazin"), "https://dich-mit-stich.de/magazin/");
+  assert.equal(publicUrl("ch", "/magazin"), "https://dich-mit-stich.ch/magazin/");
 });
 
 test("keeps every unprefixed frontend route prefix-free while resolving it to the DE content tree", async () => {
@@ -397,7 +397,7 @@ test("thin legacy magazine routes redirect to their canonical destinations and s
     ["/magazin/tattoo-studios", "/tattoo-studios"],
     ["/magazin/author/redaktion", "/magazin/unser-datingexperte"],
   ]) {
-    assert.match(config, new RegExp(`source:\\s*"${source}"[\\s\\S]*?destination:\\s*"${destination}"[\\s\\S]*?permanent:\\s*true`));
+    assert.match(config, new RegExp(`source:\\s*"${source}"[\\s\\S]*?destination:\\s*"${destination}/"[\\s\\S]*?permanent:\\s*true`));
   }
   assert.match(sitemap, /!\["expertenteam", "home", "tattoo-studios"\]\.includes\(entry\.slug\)/);
 });
@@ -405,13 +405,13 @@ test("thin legacy magazine routes redirect to their canonical destinations and s
 test("retired unverified Berlin studio profiles redirect to the sourced city guide", async () => {
   const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
   for (const slug of ["blackfisk-tattoo-co-berlin", "omen-tattoo-berlin", "pechschwarz-tattoo-berlin"]) {
-    assert.match(config, new RegExp(`source:\\s*"/tattoo-studio/${slug}"[\\s\\S]*?destination:\\s*"/tattoo-studios/berlin"[\\s\\S]*?permanent:\\s*true`));
+    assert.match(config, new RegExp(`source:\\s*"/tattoo-studio/${slug}"[\\s\\S]*?destination:\\s*"/tattoo-studios/berlin/"[\\s\\S]*?permanent:\\s*true`));
   }
 });
 
 test("clean tattoo studio slugs preserve the previously published Prime Ink profile URL", async () => {
   const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
   assert.match(config, /prime-ink-tattoo-hannover-hannover/);
-  assert.match(config, /destination:\s*"\/tattoo-studio\/prime-ink-tattoo-hannover"/);
+  assert.match(config, /destination:\s*"\/tattoo-studio\/prime-ink-tattoo-hannover\/"/);
   assert.match(config, /permanent:\s*true/);
 });

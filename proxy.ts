@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server.js";
 import { NextResponse } from "next/server.js";
-import { publicUrl, resolveMarketRequest, type MarketCode } from "./lib/markets.ts";
+import { publicUrl, resolveMarketRequest, withTrailingSlash, type MarketCode } from "./lib/markets.ts";
 
 const MARKET_REWRITE_HEADER = "x-dms-market-rewrite";
 const MARKET_REWRITE_TOKEN = crypto.randomUUID();
@@ -18,39 +18,46 @@ function protectPreview(response: NextResponse, request: NextRequest) {
   return response;
 }
 
-// Ersetzt die eingebaute Slash-Umleitung von Next.js (skipTrailingSlashRedirect). Die kannte nur den
-// Upstream-Pfad: nginx ruft für dich-mit-stich.at/faq/ hier /at/faq/ auf, Vercel meldet den eigenen Host,
-// und Besucher landeten auf dich-mit-stich.at/at/faq (404). Pfade mit Marktpräfix gehen darum absolut
-// auf die öffentliche Landes-URL; Next.js macht Ziele auf fremden Hosts nicht relativ.
+const NO_SLASH_PREFIXES = ["/_next/", "/app-assets/", "/api/", "/.well-known/"];
+
+// Ersetzt die eingebaute Slash-Umleitung von Next.js (skipTrailingSlashRedirect): Seitenpfade enden
+// immer auf "/". Next.js kannte nur den Upstream-Pfad: nginx ruft für dich-mit-stich.at/faq hier /at/faq
+// auf, und Besucher landeten auf dich-mit-stich.at/at/faq/ (404). Pfade mit Marktpräfix gehen darum
+// absolut auf die öffentliche Landes-URL; Next.js macht Ziele auf fremden Hosts nicht relativ.
 function trailingSlashRedirect(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  if (pathname === "/" || !pathname.endsWith("/")) {
+  if (
+    pathname.endsWith("/")
+    || withTrailingSlash(pathname) === pathname
+    || NO_SLASH_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+    || INTERNAL_MARKET_PATH_PATTERN.test(pathname)
+  ) {
     return null;
   }
 
-  const target = pathname.replace(/\/+$/, "") || "/";
-  const marketMatch = target.match(/^\/(de|at|ch)(\/.*)?$/);
+  const target = withTrailingSlash(pathname);
+  const marketMatch = target.match(/^\/(de|at|ch)(\/.*)$/);
   if (marketMatch) {
-    return NextResponse.redirect(`${publicUrl(marketMatch[1] as MarketCode, marketMatch[2] || "/")}${search}`, 308);
+    return NextResponse.redirect(`${publicUrl(marketMatch[1] as MarketCode, marketMatch[2])}${search}`, 308);
   }
 
-  // Plain URL statt nextUrl.clone(): NextURL hängt den ursprünglichen Schrägstrich wieder an.
+  // Plain URL statt nextUrl.clone(): NextURL normalisiert den Schrägstrich sonst selbst.
   const destination = new URL(request.nextUrl.href);
   destination.pathname = target;
   return NextResponse.redirect(destination, 308);
 }
 
 export function proxy(request: NextRequest) {
-  const slashRedirect = trailingSlashRedirect(request);
-  if (slashRedirect) {
-    return protectPreview(slashRedirect, request);
-  }
-
   if (
     INTERNAL_MARKET_PATH_PATTERN.test(request.nextUrl.pathname)
     && request.headers.get(MARKET_REWRITE_HEADER) === MARKET_REWRITE_TOKEN
   ) {
     return protectPreview(NextResponse.next(), request);
+  }
+
+  const slashRedirect = trailingSlashRedirect(request);
+  if (slashRedirect) {
+    return protectPreview(slashRedirect, request);
   }
 
   const resolution = resolveMarketRequest(request.nextUrl.pathname);

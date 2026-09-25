@@ -289,7 +289,7 @@ test("redirects legacy trust URLs to exact destinations in the new hierarchy", a
   ];
 
   for (const [source, destination] of expected) {
-    assert.match(config, new RegExp(`source: \\"${source}\\"[\\s\\S]{0,100}destination: \\"${destination}\\"`));
+    assert.match(config, new RegExp(`source: \\"${source}\\"[\\s\\S]{0,100}destination: \\"${destination}/\\"`));
   }
   assert.doesNotMatch(config, /source: "\/unsere-erfolgsgeschichten\.html"/);
 });

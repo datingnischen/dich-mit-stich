@@ -54,7 +54,7 @@ test("every published CH studio carries the data a reader needs to act on", asyn
 test("a verified CH city guide reaches the sitemap", async () => {
   const { marketSitemapLocations } = await import("../lib/market-sitemap.ts");
 
-  assert.ok(marketSitemapLocations("ch").includes("https://dich-mit-stich.ch/tattoo-studios/genf"));
+  assert.ok(marketSitemapLocations("ch").includes("https://dich-mit-stich.ch/tattoo-studios/genf/"));
 });
 
 test("CH city guides carry the editorial sections the rollout page renders", async () => {

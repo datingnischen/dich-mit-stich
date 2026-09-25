@@ -18,11 +18,11 @@ test("market sitemaps list studio city pages that carry verified studios", async
   const { marketSitemapLocations } = await loadMarketSitemap();
 
   assert.ok(
-    marketSitemapLocations("ch").includes("https://dich-mit-stich.ch/tattoo-studios/zuerich"),
+    marketSitemapLocations("ch").includes("https://dich-mit-stich.ch/tattoo-studios/zuerich/"),
     "Zürich has verified studios and must be discoverable through the CH sitemap",
   );
   assert.ok(
-    marketSitemapLocations("at").includes("https://dich-mit-stich.at/tattoo-studios/wien"),
+    marketSitemapLocations("at").includes("https://dich-mit-stich.at/tattoo-studios/wien/"),
     "Wien has verified studios and must be discoverable through the AT sitemap",
   );
 });
@@ -30,17 +30,17 @@ test("market sitemaps list studio city pages that carry verified studios", async
 test("market sitemaps list the studio overview once a market has indexable cities", async () => {
   const { marketSitemapLocations } = await loadMarketSitemap();
 
-  assert.ok(marketSitemapLocations("ch").includes("https://dich-mit-stich.ch/tattoo-studios"));
-  assert.ok(marketSitemapLocations("at").includes("https://dich-mit-stich.at/tattoo-studios"));
+  assert.ok(marketSitemapLocations("ch").includes("https://dich-mit-stich.ch/tattoo-studios/"));
+  assert.ok(marketSitemapLocations("at").includes("https://dich-mit-stich.at/tattoo-studios/"));
 });
 
 test("market sitemaps keep the existing pages", async () => {
   const { marketSitemapLocations } = await loadMarketSitemap();
   const locations = marketSitemapLocations("ch");
 
-  assert.ok(locations.includes("https://dich-mit-stich.ch/faq"));
-  assert.ok(locations.includes("https://dich-mit-stich.ch/ueber-uns"));
-  assert.ok(locations.includes("https://dich-mit-stich.ch/tattoo-singles/bern"));
+  assert.ok(locations.includes("https://dich-mit-stich.ch/faq/"));
+  assert.ok(locations.includes("https://dich-mit-stich.ch/ueber-uns/"));
+  assert.ok(locations.includes("https://dich-mit-stich.ch/tattoo-singles/bern/"));
   assert.equal(new Set(locations).size, locations.length, "a sitemap must not repeat a location");
 });
 

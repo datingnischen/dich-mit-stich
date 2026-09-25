@@ -89,7 +89,7 @@ test("builds market-specific FAQPage schema from every migrated question", async
     const domain = market === "de" ? "dich-mit-stich.de" : `dich-mit-stich.${market}`;
 
     assert.equal(graph["@context"], "https://schema.org");
-    assert.equal(faqNode.url, `https://${domain}/faq`);
+    assert.equal(faqNode.url, `https://${domain}/faq/`);
     assert.equal(faqNode.mainEntity.length, expectedCount);
     assert.ok(faqNode.mainEntity.every((entity) => entity["@type"] === "Question"));
     assert.ok(faqNode.mainEntity.every((entity) => entity.acceptedAnswer["@type"] === "Answer"));

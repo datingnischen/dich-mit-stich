@@ -71,6 +71,16 @@ function AttributionCaption({ sourceUrl }: { sourceUrl: string }) {
   );
 }
 
+function StudioGuideCrosslink({ market }: { market: MarketCode }) {
+  return (
+    <p className="singles-overview-crosslink">
+      Auf der Suche nach dem passenden Studio für dein nächstes Motiv? Im{" "}
+      <MarketLink targetMarket={market} pathname="/tattoo-studios">Tattoo-Studio-Guide</MarketLink> findest du Studios
+      {market === "at" ? " in Österreich" : " in der Schweiz"} nach Stadt – mit Tipps zu Stil, Portfolio und Hygiene.
+    </p>
+  );
+}
+
 function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressCityOverview>> extends infer T ? { overview: T } : never) {
   return (
     <>
@@ -129,6 +139,7 @@ function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
           ))}
         </div>
         <CitySearchFallback market="at" />
+        <StudioGuideCrosslink market="at" />
       </section>
     </>
   );
@@ -191,6 +202,7 @@ function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
           ))}
         </div>
         <CitySearchFallback market="ch" />
+        <StudioGuideCrosslink market="ch" />
       </section>
     </>
   );

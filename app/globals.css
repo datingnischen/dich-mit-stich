@@ -776,6 +776,10 @@ img {
   padding-bottom: 42px;
 }
 
+.footer-compact-main:has(> :nth-child(3)) {
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(180px, 0.5fr));
+}
+
 .footer-about-links {
   align-content: start;
 }
@@ -2538,6 +2542,7 @@ img {
   .article-card-rich,
   .footer-main,
   .footer-compact-main,
+  .footer-compact-main:has(> :nth-child(3)),
   .footer-link-grid,
   .footer-cta-dark {
     grid-template-columns: 1fr;

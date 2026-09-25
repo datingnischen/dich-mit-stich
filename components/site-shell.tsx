@@ -58,6 +58,18 @@ const headerMenuGroups: NavGroup[] = [
   },
 ];
 
+// AT und CH haben (noch) kein Magazin: Menü nur mit den Bereichen, die es dort gibt.
+const discoverLinks: NavLink[] = [
+  { label: "Tattoo-Singles", href: "/tattoo-singles" },
+  { label: "Tattoo-Studios", href: "/tattoo-studios" },
+];
+
+const sectionMenuGroups: NavGroup[] = [
+  { title: "Entdecken", items: discoverLinks },
+  { title: "Über uns", items: aboutLinks.filter((link) => link.href !== "/faq") },
+  { title: "Hilfe", items: [{ label: "FAQ", href: "/faq" }] },
+];
+
 const footerColumns: Array<{
   title: string;
   links: NavLink[];
@@ -303,20 +315,14 @@ export function SiteHeader({ market = "de", sectionLive = false, aid }: ShellPro
             <div className="header-menu-panel">
               <p className="header-menu-panel-title">Menü</p>
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">
-                {config.contentEnabled ? (
-                  headerMenuGroups.map((group) => (
-                    <div className="header-menu-group" key={group.title}>
-                      <p className="header-menu-group-label">{group.title}</p>
-                      {group.items.map((item) => (
-                        <NavMenuLink item={item} market={market} aid={aid} key={item.href} />
-                      ))}
-                    </div>
-                  ))
-                ) : (
-                  aboutLinks.map((item) => (
-                    <NavMenuLink item={item} market={market} aid={aid} key={item.href} />
-                  ))
-                )}
+                {(config.contentEnabled ? headerMenuGroups : sectionMenuGroups).map((group) => (
+                  <div className="header-menu-group" key={group.title}>
+                    <p className="header-menu-group-label">{group.title}</p>
+                    {group.items.map((item) => (
+                      <NavMenuLink item={item} market={market} aid={aid} key={item.href} />
+                    ))}
+                  </div>
+                ))}
               </nav>
             </div>
           </details>
@@ -343,6 +349,18 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
               </p>
               <FooterCountryLinks market={market} />
             </div>
+            {sectionLive ? (
+              <nav className="footer-column footer-about-links" aria-label="Entdecken">
+                <h2>Entdecken</h2>
+                <ul>
+                  {discoverLinks.map((link) => (
+                    <li key={link.href}>
+                      <MarketLink pathname={link.href} targetMarket={market}>{link.label}</MarketLink>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ) : null}
             {sectionLive ? (
               <nav className="footer-column footer-about-links" aria-label="Über uns">
                 <h2>Über uns</h2>

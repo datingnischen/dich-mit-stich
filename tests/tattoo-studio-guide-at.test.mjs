@@ -134,9 +134,10 @@ test("AT studio guide routes share the market-aware renderers and remain noindex
   assert.match(sharedCity, /guide\.imageUrl \? staticAsset\(guide\.imageUrl\)/);
 });
 
-test("shared tattoo studio loader isolates and resolves five verified Austrian city guides", async () => {
+test("shared tattoo studio loader isolates and resolves the five standalone Austrian city guides", async () => {
   const { getIndexableTattooStudioCities, getTattooStudioCities, getTattooStudioSlugs } = await import("../lib/tattoo-studio-guide.ts");
-  const cities = getIndexableTattooStudioCities("at");
+  const standalone = new Set(["graz", "innsbruck", "linz", "salzburg", "wien"]);
+  const cities = getIndexableTattooStudioCities("at").filter((city) => standalone.has(city.slug));
   const expected = [
     ["graz", "Graz", "/cities/at/graz.jpg"],
     ["innsbruck", "Innsbruck", "/cities/at/innsbruck.jpg"],
@@ -175,29 +176,72 @@ test("shared tattoo studio loader isolates and resolves five verified Austrian c
       assert.equal(studio.acf.editorial_summary, studio.description);
     }
   }
-  assert.equal(new Set(getTattooStudioSlugs("at")).size, cities.reduce((sum, city) => sum + city.studios.length, 0));
+  assert.equal(
+    new Set(getTattooStudioSlugs("at")).size,
+    getIndexableTattooStudioCities("at").reduce((sum, city) => sum + city.studios.length, 0),
+  );
   assert.equal(getTattooStudioCities("ch").some((city) => city.market === "at"), false);
   assert.equal(getTattooStudioCities("at").every((city) => city.market === "at"), true);
 });
 
-test("Austrian rollout cities load without studios and stay out of the indexable set", async () => {
-  const { getIndexableTattooStudioCities, getTattooStudioCities } = await import("../lib/tattoo-studio-guide.ts");
-  const rolloutSlugs = ["dornbirn", "klagenfurt", "sankt-poelten", "villach", "wels", "wiener-neustadt"];
+const FORMER_ROLLOUT_CITIES = [
+  ["dornbirn", "Dornbirn", "6850 Dornbirn", 2],
+  ["klagenfurt", "Klagenfurt", "9020 Klagenfurt", 6],
+  ["sankt-poelten", "Sankt Pölten", "3100 St. Pölten", 1],
+  ["villach", "Villach", "9500 Villach", 5],
+  ["wels", "Wels", "4600 Wels", 4],
+  ["wiener-neustadt", "Wiener Neustadt", "2700 Wiener Neustadt", 5],
+];
+const GUIDE_SECTIONS = (cityName) => [
+  "Einleitung",
+  `Tattoo-Szene in ${cityName}`,
+  `Beliebte Tattoo-Stile in ${cityName}`,
+  `Worauf bei der Studioauswahl in ${cityName} geachtet werden sollte`,
+  "Kurze Zusammenfassung",
+];
+
+test("the six former Austrian rollout cities publish studios checked against their own websites", async () => {
+  const { getIndexableTattooStudioCities, getTattooStudioCities, hasCompleteStreetAddress } = await import("../lib/tattoo-studio-guide.ts");
   const cities = getTattooStudioCities("at");
   const indexable = new Set(getIndexableTattooStudioCities("at").map((city) => city.slug));
+  const scenes = new Map();
 
-  assert.equal(cities.length, indexable.size + rolloutSlugs.length);
-  for (const slug of rolloutSlugs) {
+  // No Austrian city guide is left in the rollout state, so none renders an empty studio list.
+  assert.equal(cities.every((city) => city.publicationStatus === "verified" && city.studios.length > 0), true);
+  for (const [slug, cityName, postalCity, studioCount] of FORMER_ROLLOUT_CITIES) {
     const city = cities.find((entry) => entry.slug === slug);
     assert.ok(city, slug);
-    assert.equal(city.market, "at");
     assert.equal(city.identity, `AT:${slug}`);
-    assert.equal(city.publicationStatus, "rollout");
-    assert.deepEqual(city.studios, []);
+    assert.equal(city.cityName, cityName);
+    assert.equal(city.publicationStatus, "verified");
+    assert.equal(city.studios.length, studioCount, `${slug} studio count`);
+    assert.equal(indexable.has(slug), true, `${slug} must be indexable`);
     assert.equal(city.imageUrl, `/cities/at/${slug}.jpg`);
     assert.ok(city.imageAttribution?.sourceUrl, `${slug} image source`);
-    assert.ok(city.region, `${slug} region`);
-    assert.equal(indexable.has(slug), false, `${slug} must stay noindex`);
+    assert.doesNotMatch(city.title, /Vorbereitung/);
+
+    for (const heading of GUIDE_SECTIONS(cityName)) {
+      assert.ok(city.editorialHtml.includes(`<h2>${heading}</h2>`), `${slug} needs the section "${heading}"`);
+    }
+    assert.match(city.editorialHtml, new RegExp(`href="/tattoo-singles/${slug}"`));
+    // The AT market has no magazine yet, so a relative magazine link would 404.
+    assert.doesNotMatch(city.editorialHtml, /\/magazin\//);
+    assert.match(city.selectionMethodHtml, /25\. September 2026/);
+    const scene = city.editorialHtml.split(`<h2>Tattoo-Szene in ${cityName}</h2>`)[1].split("<h2>")[0];
+    assert.ok(scene.length > 400, `${slug} needs a substantial scene section`);
+    assert.equal(scenes.has(scene), false, `${slug} repeats ${scenes.get(scene)}'s scene text`);
+    scenes.set(scene, slug);
+
+    for (const studio of city.studios) {
+      assert.ok(studio.slug.endsWith(`-${slug}`), `${studio.identity} city suffix`);
+      assert.ok(hasCompleteStreetAddress(studio.address), `${studio.name}: ${studio.address}`);
+      assert.ok(studio.address.includes(postalCity), `${studio.name} must sit in ${cityName}`);
+      assertCredentialFreeHttpsUrl(studio.websiteUrl, `${studio.identity} website`);
+      assertCredentialFreeHttpsUrl(studio.sourceUrl, `${studio.identity} source`);
+      assert.doesNotMatch(`${studio.name} ${studio.description}`, /(?:beste|besten|top|ranking|sterne|bewertung|beliebt|renommiert)/i);
+      assert.equal(studio.lastVerified, "2026-09-25");
+      assert.deepEqual(studio.styles, []);
+    }
   }
 });
 
@@ -230,6 +274,8 @@ test("structured address validation accepts units and floors but rejects incompl
     "Prager Straße 14/2/6, 1210 Wien",
     "Hildmannplatz 6/Top 2, 5020 Salzburg",
     "Leibenfrostgasse 8, 1040 Wien",
+    "10. Oktober Straße 26A, 9020 Klagenfurt",
+    "Neugasse 21/4a, 3100 St. Pölten",
   ]) {
     assert.equal(hasCompleteStreetAddress(address), true, address);
   }

@@ -198,7 +198,7 @@ export function isTattooStudioMarket(value: string): value is TattooStudioMarket
 
 export function hasCompleteStreetAddress(value: string): boolean {
   const [streetSegment] = value.split(",", 1);
-  return /^[\p{L}][\p{L}\s.'’\-]*\s+\d+[a-zA-Z]?(?:\/(?:\d+|Top\s+\d+))*$/iu.test(streetSegment.trim())
+  return /^(?:\d+\.\s*)?[\p{L}][\p{L}\s.'’\-]*\s+\d+[a-zA-Z]?(?:\/(?:\d+[a-zA-Z]?|Top\s+\d+))*$/iu.test(streetSegment.trim())
     && /\b\d{4,5}\s+[\p{L}]/u.test(value);
 }
 

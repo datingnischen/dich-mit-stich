@@ -1,3 +1,5 @@
+> **Historisch (Stand 2026-07-24).** Beschreibt den Projektstart, nicht den aktuellen Stand – der steht in der README.
+
 # Dich mit Stich – Vercel Migration Kickoff
 
 Stand: 2026-07-24

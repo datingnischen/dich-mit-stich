@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Open_Sans } from "next/font/google";
+import { staticAsset } from "@/lib/static-asset";
 import "./globals.css";
 
 const openSans = Open_Sans({
@@ -24,6 +25,11 @@ export const metadata: Metadata = {
   },
   description: "Tattoo-, Piercing- und Szene-Dating mit Magazin, Stadtseiten und echten Erfolgsgeschichten in einer klaren, vertrauensvollen Oberfläche.",
   metadataBase: new URL("https://dich-mit-stich.de"),
+  // Absolut vom Vercel-Host: nginx vor den Live-Domains reicht nur Seitenrouten weiter.
+  icons: {
+    icon: staticAsset("/brand/icon.png"),
+    apple: staticAsset("/brand/apple-icon.png"),
+  },
 };
 
 export default function RootLayout({

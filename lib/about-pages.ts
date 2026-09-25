@@ -146,6 +146,7 @@ const expertCards: AboutCard[] = [
     link: {
       label: "Expertenprofil lesen",
       href: "/magazin/unser-datingexperte",
+      market: "de",
     },
   },
   {
@@ -160,6 +161,7 @@ const expertCards: AboutCard[] = [
     link: {
       label: "Autorenprofil lesen",
       href: "/magazin/author/anne-schweitzer",
+      market: "de",
     },
   },
   {
@@ -296,6 +298,12 @@ function rootPage(market: MarketCode): AboutPage {
   };
 }
 
+const expertLead: Record<MarketCode, string> = {
+  de: "Hinter Dich mit Stich stecken echte Menschen: Christian schreibt übers Daten, Anne über Tattoos. Um Technik und Datenschutz kümmert sich die Icony GmbH.",
+  at: "Auch für Singles in Österreich schreiben bei Dich mit Stich echte Menschen: Christian übers Daten, Anne über Tattoos. Um Technik und Datenschutz kümmert sich die Icony GmbH.",
+  ch: "Auch für Singles in der Schweiz schreiben bei Dich mit Stich echte Menschen: Christian übers Daten, Anne über Tattoos. Um Technik und Datenschutz kümmert sich die Icony GmbH.",
+};
+
 function expertPage(market: MarketCode): AboutPage {
   return {
     market,
@@ -304,7 +312,7 @@ function expertPage(market: MarketCode): AboutPage {
     eyebrow: "Das Team",
     title: "Unser Expertenteam",
     description: "Wer bei Dich mit Stich schreibt und wer die Plattform betreibt.",
-    lead: "Hinter Dich mit Stich stecken echte Menschen: Christian schreibt übers Daten, Anne über Tattoos. Um Technik und Datenschutz kümmert sich die Icony GmbH.",
+    lead: expertLead[market],
     highlights: ["Dating-Know-how", "Tattoo-Wissen", "Autorenprofile", "Betrieb: Icony GmbH"],
     sectionEyebrow: "Wer wir sind",
     sectionTitle: "Die Menschen hinter Dich mit Stich",

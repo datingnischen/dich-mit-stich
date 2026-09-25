@@ -172,7 +172,7 @@ test("success stories link to the DE magazine from every market with published p
   assert.match(component, /sizes=/);
 });
 
-test("expert cards link to preview-aware profiles and show the published author portraits", async () => {
+test("expert cards link to the DE author profiles from every market and show the published author portraits", async () => {
   const { getAboutPage } = await loadAboutPages();
 
   for (const market of ["de", "at", "ch"]) {
@@ -183,6 +183,7 @@ test("expert cards link to preview-aware profiles and show the published author 
     );
     for (const card of page.cards.slice(0, 2)) {
       assert.equal(card.link?.external, undefined);
+      assert.equal(card.link?.market, "de");
       assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\//);
       assert.ok(card.image?.alt);
     }
@@ -197,6 +198,10 @@ test("expert cards link to preview-aware profiles and show the published author 
       external: true,
     });
   }
+
+  assert.match(getAboutPage("at", "expertenteam").lead, /Singles in Österreich/);
+  assert.match(getAboutPage("ch", "expertenteam").lead, /Singles in der Schweiz/);
+  assert.doesNotMatch(getAboutPage("de", "expertenteam").lead, /Österreich|Schweiz/);
 
   await assert.doesNotReject(
     import("node:fs/promises").then(({ access }) => access(new URL("../public/brand/icony-gmbh-logo.png", import.meta.url))),

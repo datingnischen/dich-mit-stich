@@ -1,7 +1,7 @@
 import type { AuthorProfile } from "@/lib/author-profiles";
 import type { AnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import { latestIsoDate } from "@/lib/json-ld";
-import { getMarket, publicUrl, type MarketCode } from "@/lib/markets";
+import { getMarket, publicUrl, withTrailingSlash, type MarketCode } from "@/lib/markets";
 import type { BreadcrumbTrailItem } from "@/lib/magazine-hubs";
 import { BRAND_SAME_AS, editorialEntityIds, OPERATOR_NAME } from "@/lib/site-entities";
 import type { MagazineEntry } from "@/lib/wordpress";
@@ -15,18 +15,18 @@ export const EDITORIAL_ENTITY_IDS = {
 } as const;
 
 function absolutePublicUrl(path: string, market: MarketCode = "de") {
-  return new URL(path, publicUrl(market)).toString();
+  return withTrailingSlash(new URL(path, publicUrl(market)).toString());
 }
 
 export function authorEntityId(profileUrl: string, market: MarketCode = "de") {
-  return `${absolutePublicUrl(profileUrl, market).replace(/\/$/, "")}#person`;
+  return `${absolutePublicUrl(profileUrl, market)}#person`;
 }
 
 export function buildAuthorProfileGraph(profile: AuthorProfile, market: MarketCode = "de") {
   const siteUrl = publicUrl(market);
   const locale = getMarket(market).locale;
   const entityIds = editorialEntityIds(market);
-  const canonical = absolutePublicUrl(profile.profileUrl, market).replace(/\/$/, "");
+  const canonical = absolutePublicUrl(profile.profileUrl, market);
   const personId = authorEntityId(profile.profileUrl, market);
 
   return {

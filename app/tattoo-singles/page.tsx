@@ -85,7 +85,7 @@ export default async function TattooSinglesOverviewPage() {
         </div>
         <div className="studio-city-grid">
           {overview.cityLinks.map((city) => (
-            <Link key={city.slug} href={`/tattoo-singles/${city.slug}`} className="studio-city-card">
+            <Link key={city.slug} href={`/tattoo-singles/${city.slug}/`} className="studio-city-card">
               {city.imageUrl ? (
                 <span className="studio-city-card-media">
                   <Image
@@ -120,7 +120,7 @@ export default async function TattooSinglesOverviewPage() {
           <article><span>03</span><h3>Im Umkreis flirten</h3><p>Mit dem Flirtradar legst du den Suchradius selbst fest und findest Singles, die wirklich erreichbar sind.</p></article>
         </div>
         <p className="singles-overview-crosslink">
-          Auf der Suche nach dem passenden Studio für dein nächstes Motiv? Im <Link href="/tattoo-studios">Tattoo-Studio-Guide</Link>{" "}
+          Auf der Suche nach dem passenden Studio für dein nächstes Motiv? Im <Link href="/tattoo-studios/">Tattoo-Studio-Guide</Link>{" "}
           findest du Stadtguides mit Tipps zu Stil, Portfolio und Hygiene.
         </p>
       </section>

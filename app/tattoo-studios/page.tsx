@@ -40,7 +40,7 @@ export default function TattooStudioGuidePage() {
               ankommt. Unsere Stadtguides helfen dir bei der Auswahl, ohne Studios gegen Bezahlung hervorzuheben.
             </p>
             <div className="button-row">
-              <Link className="button button-primary" href="/tattoo-studios/berlin">Studios in Berlin entdecken</Link>
+              <Link className="button button-primary" href="/tattoo-studios/berlin/">Studios in Berlin entdecken</Link>
               <MarketLink className="button button-secondary" targetMarket="at" pathname="/tattoo-studios">Tattoo-Studios Österreich</MarketLink>
               <MarketLink className="button button-secondary" targetMarket="ch" pathname="/tattoo-studios">Tattoo-Studios Schweiz</MarketLink>
               <a className="button button-secondary" href="#guide-prinzipien">Darauf solltest du achten</a>
@@ -100,7 +100,7 @@ export default function TattooStudioGuidePage() {
           </div>
           <div className="studio-city-grid">
             {guideCities.map((city) => (
-              <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}`} key={city.identity}>
+              <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}/`} key={city.identity}>
                 {city.imageUrl ? (
                   <span className="studio-city-card-media">
                     <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" unoptimized />
@@ -122,7 +122,7 @@ export default function TattooStudioGuidePage() {
               <li>Frage vorab nach Beratung, Motivgröße, Platzierung, Preisrahmen und Pflegehinweisen.</li>
               <li>Nutze die verlinkten Studio-Webseiten als Ausgangspunkt und prüfe aktuelle Angaben direkt beim Anbieter.</li>
             </ul>
-            <p>Wenn du außerdem tätowierte Singles kennenlernen möchtest, findest du passende regionale Datingseiten bei den <Link href="/tattoo-singles">Tattoo-Singles</Link>.</p>
+            <p>Wenn du außerdem tätowierte Singles kennenlernen möchtest, findest du passende regionale Datingseiten bei den <Link href="/tattoo-singles/">Tattoo-Singles</Link>.</p>
           </div>
         </section>
 
@@ -136,7 +136,7 @@ export default function TattooStudioGuidePage() {
           </div>
           <div className="studio-all-city-grid">
             {additionalTattooCities.map((city) => (
-              <Link className="studio-all-city-card" href={`/tattoo-singles/${city.slug}`} key={city.slug}>
+              <Link className="studio-all-city-card" href={`/tattoo-singles/${city.slug}/`} key={city.slug}>
                 <span className="studio-all-city-media">
                   <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.label}`} width={220} height={150} sizes="(max-width: 640px) 112px, 150px" unoptimized />
                 </span>

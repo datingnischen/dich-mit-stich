@@ -63,7 +63,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
             <a className="button button-primary" href={registrationUrl}>
               Kostenlos registrieren
             </a>
-            <Link className="button button-secondary" href="/tattoo-singles">
+            <Link className="button button-secondary" href="/tattoo-singles/">
               Alle Städte ansehen
             </Link>
           </div>

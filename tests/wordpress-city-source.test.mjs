@@ -118,7 +118,7 @@ test("DE and CH city renderers use WordPress rather than legacy HTML or reposito
 test("DE city overview keeps linked city cards without the repetitive guide prompt", async () => {
   const source = await readFile(new URL("../app/tattoo-singles/page.tsx", import.meta.url), "utf8");
 
-  assert.match(source, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
+  assert.match(source, /href=\{`\/tattoo-singles\/\$\{city\.slug\}\/`\}/);
   assert.match(source, /className="studio-city-card"/);
   assert.match(source, /<strong>\{city\.label\}<\/strong>/);
   assert.match(source, /\{city\.region \|\| "Deutschland"\}/);

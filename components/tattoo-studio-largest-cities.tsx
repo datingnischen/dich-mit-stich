@@ -41,7 +41,7 @@ export function TattooStudioLargestCities({ market }: { market: MarketCode }) {
           <MarketLink className="studio-all-city-card" targetMarket={market} pathname={city.href} key={city.slug}>
             <span className="studio-all-city-media">
               <Image
-                src={market === "de" ? city.imageUrl : staticAsset(city.imageUrl)}
+                src={staticAsset(city.imageUrl)}
                 alt={`Stadtansicht von ${city.label}`}
                 width={220}
                 height={150}

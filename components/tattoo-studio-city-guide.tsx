@@ -77,7 +77,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
   const styleCounts = studioStyleCounts(studios);
   const widgetConfig = getIconyCityWidgetConfig(market, guide.slug);
   const nearby = getNearbyStudioCities(market, guide.slug);
-  const imageUrl = guide.imageUrl ? (market !== "de" ? staticAsset(guide.imageUrl) : guide.imageUrl) : null;
+  const imageUrl = guide.imageUrl ? staticAsset(guide.imageUrl) : null;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -232,7 +232,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           {guide.legacyImageUrl ? (
             <figure className="studio-editorial-tattoo-image">
               <Image
-                src={guide.legacyImageUrl}
+                src={staticAsset(guide.legacyImageUrl)}
                 alt={guide.legacyImageAlt}
                 width={guide.legacyImageWidth}
                 height={guide.legacyImageHeight}

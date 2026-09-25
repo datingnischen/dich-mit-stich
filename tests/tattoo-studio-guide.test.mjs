@@ -56,8 +56,8 @@ test("Austrian and Swiss studio overviews use matching country artwork", async (
   assert.match(marketOverview, /cityFinderArtwork/);
   assert.match(marketOverview, /className="studio-directory-banner"/);
   assert.match(marketOverview, /className="content-section studio-city-finder-feature"/);
-  assert.match(marketOverview, /src=\{copy\.directoryBanner\.src\}/);
-  assert.match(marketOverview, /src=\{copy\.cityFinderArtwork\.src\}/);
+  assert.match(marketOverview, /src=\{staticAsset\(copy\.directoryBanner\.src\)\}/);
+  assert.match(marketOverview, /src=\{staticAsset\(copy\.cityFinderArtwork\.src\)\}/);
   assert.match(marketOverview, /src=\{staticAsset\(city\.imageUrl\)\}[\s\S]*\bunoptimized\b/);
   assert.match(marketOverview, /href="#stadtguides"/);
   assert.match(marketOverview, /loading="eager"/);
@@ -579,8 +579,8 @@ test("city guide keeps comparison, FAQ and studio cards compact and responsive",
   assert.match(city, /className="studio-editorial-tattoo-image"/);
   assert.match(city, /guide\.legacyImageAlt/);
   assert.match(city, /className="studio-city-hero-media"[\s\S]*unoptimized=\{market === "de"\}/);
-  assert.match(city, /src=\{guide\.legacyImageUrl\}[\s\S]*\bunoptimized\b/);
-  assert.match(city, /src=\{guide\.legacyImageUrl\}[\s\S]*loading="eager"/);
+  assert.match(city, /src=\{staticAsset\(guide\.legacyImageUrl\)\}[\s\S]*\bunoptimized\b/);
+  assert.match(city, /src=\{staticAsset\(guide\.legacyImageUrl\)\}[\s\S]*loading="eager"/);
   assert.match(city, /Tattoo-Illustration aus dem Stadtguide/);
   assert.match(css, /\.studio-choice-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s);
   assert.match(css, /\.studio-faq-list\s*\{/);
@@ -607,7 +607,7 @@ test("site navigation links to the new studio guide rather than the singles city
   assert.match(page, /tattoo-studio-verzeichnis-deutschland\.png[\s\S]*\bunoptimized\b/);
   assert.match(page, /tattoo-studios-nach-stadt-deutschland\.png/);
   assert.match(page, /tattoo-studios-nach-stadt-deutschland\.png[\s\S]*loading="eager"[\s\S]*\bunoptimized\b/);
-  assert.match(page, /src=\{city\.imageUrl\}[\s\S]*\bunoptimized\b/);
+  assert.match(page, /src=\{staticAsset\(city\.imageUrl\)\}[\s\S]*\bunoptimized\b/);
   assert.match(largestCities, /sizes="\(max-width: 640px\) 112px, 150px"[\s\S]*\n\s+unoptimized\s*\n/);
   assert.match(page, /href="#stadtguides"/);
   assert.match(page, /id="stadtguides"/);

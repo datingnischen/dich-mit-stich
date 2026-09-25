@@ -131,7 +131,7 @@ test("AT studio guide routes share the market-aware renderers and remain noindex
   assert.match(cityLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
   assert.match(studioLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
   assert.match(sharedCity, /market === "at" \? "Österreichischer "/);
-  assert.match(sharedCity, /market !== "de" \? staticAsset\(guide\.imageUrl\)/);
+  assert.match(sharedCity, /guide\.imageUrl \? staticAsset\(guide\.imageUrl\)/);
 });
 
 test("shared tattoo studio loader isolates and resolves five verified Austrian city guides", async () => {

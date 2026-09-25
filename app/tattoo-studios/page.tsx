@@ -7,6 +7,7 @@ import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
 import { TattooStudioLargestCities } from "@/components/tattoo-studio-largest-cities";
 import { marketLanguageAlternates, publicUrl } from "@/lib/markets";
+import { staticAsset } from "@/lib/static-asset";
 import { getTattooCityDirectory } from "@/lib/tattoo-singles";
 import { getLargestTattooStudioCities, getTattooStudioCities } from "@/lib/tattoo-studio-guide";
 
@@ -54,7 +55,7 @@ export default function TattooStudioGuidePage() {
 
         <figure className="studio-directory-banner">
           <Image
-            src="/tattoo-studios/tattoo-studio-verzeichnis-deutschland.png"
+            src={staticAsset("/tattoo-studios/tattoo-studio-verzeichnis-deutschland.png")}
             alt="Dich mit Stich Tattoo-Studio-Verzeichnis für Deutschland mit Tattoo-Maschine und Standort-Symbolen"
             width={1983}
             height={626}
@@ -79,7 +80,7 @@ export default function TattooStudioGuidePage() {
           </div>
           <figure className="studio-city-finder-art">
             <Image
-              src="/tattoo-studios/tattoo-studios-nach-stadt-deutschland.png"
+              src={staticAsset("/tattoo-studios/tattoo-studios-nach-stadt-deutschland.png")}
               alt="Deutschlandkarte mit markierten Tattoo-Studio-Städten Hamburg, Berlin, Köln, Frankfurt und München"
               width={768}
               height={768}
@@ -102,7 +103,7 @@ export default function TattooStudioGuidePage() {
               <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}`} key={city.identity}>
                 {city.imageUrl ? (
                   <span className="studio-city-card-media">
-                    <Image src={city.imageUrl} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" unoptimized />
+                    <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" unoptimized />
                   </span>
                 ) : null}
                 <span className="studio-city-card-copy">
@@ -137,7 +138,7 @@ export default function TattooStudioGuidePage() {
             {additionalTattooCities.map((city) => (
               <Link className="studio-all-city-card" href={`/tattoo-singles/${city.slug}`} key={city.slug}>
                 <span className="studio-all-city-media">
-                  <Image src={city.imageUrl} alt={`Stadtansicht von ${city.label}`} width={220} height={150} sizes="(max-width: 640px) 112px, 150px" unoptimized />
+                  <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.label}`} width={220} height={150} sizes="(max-width: 640px) 112px, 150px" unoptimized />
                 </span>
                 <span className="studio-all-city-copy">
                   <LocationPinIcon />

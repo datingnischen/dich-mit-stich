@@ -89,7 +89,7 @@ export default async function TattooSinglesOverviewPage() {
               {city.imageUrl ? (
                 <span className="studio-city-card-media">
                   <Image
-                    src={city.imageUrl}
+                    src={staticAsset(city.imageUrl)}
                     alt={`Stadtansicht von ${city.label}`}
                     width={420}
                     height={280}

@@ -192,7 +192,7 @@ test("Christina magazine detail replaces the legacy diagram with a local editori
 
   assert.match(detail, /import \{ getMagazineFeaturedImage \} from "@\/lib\/magazine-featured-images"/);
   assert.match(detail, /getMarketMagazineDetailContext\(market, slug, \{[\s\S]*src: entry\.featuredImage,[\s\S]*alt: entry\.featuredImageAlt \|\| entry\.title,[\s\S]*\}\)/);
-  assert.match(detail, /src=\{featuredImage\.src\}/);
+  assert.match(detail, /src=\{staticAsset\(featuredImage\.src\)\}/);
   assert.match(detail, /alt=\{featuredImage\.alt\}/);
 });
 

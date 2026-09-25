@@ -180,7 +180,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           <section className="magazine-detail-media" aria-label="Beitragsbild">
             <figure className="article-hero-media">
               <Image
-                src={featuredImage.src}
+                src={staticAsset(featuredImage.src)}
                 alt={featuredImage.alt}
                 width={isPublishedExpertProfile ? 1402 : authorProfileHero ? authorProfileHero.width : 1200}
                 height={isPublishedExpertProfile ? 1122 : authorProfileHero ? authorProfileHero.height : 675}

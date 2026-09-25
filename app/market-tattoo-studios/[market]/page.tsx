@@ -104,7 +104,7 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
 
       <figure className="studio-directory-banner">
         <Image
-          src={copy.directoryBanner.src}
+          src={staticAsset(copy.directoryBanner.src)}
           alt={copy.directoryBanner.alt}
           width={1983}
           height={626}
@@ -123,7 +123,7 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
         </div>
         <figure className="studio-city-finder-art">
           <Image
-            src={copy.cityFinderArtwork.src}
+            src={staticAsset(copy.cityFinderArtwork.src)}
             alt={copy.cityFinderArtwork.alt}
             width={768}
             height={768}

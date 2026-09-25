@@ -209,11 +209,11 @@ test("sanitized magazine anchors are market-safe before first paint", async () =
       '<p><a href="https://dich-mit-stich.de/magazin/x" target="_blank" rel="nofollow noopener noreferrer">Absolut</a><a href="/tattoo-singles">Relativ</a><a href="https://example.org/x" target="_blank" rel="noopener noreferrer nofollow">Extern</a><a href="/../magazin/x">Unsicher</a></p>',
       "ch",
     ),
-    '<p><a href="/magazin/x" data-dms-internal="true">Absolut</a><a href="/tattoo-singles" data-dms-internal="true">Relativ</a><a href="https://example.org/x" target="_blank" rel="noopener noreferrer nofollow">Extern</a><a href="/../magazin/x">Unsicher</a></p>',
+    '<p><a href="/magazin/x/" data-dms-internal="true">Absolut</a><a href="/tattoo-singles/" data-dms-internal="true">Relativ</a><a href="https://example.org/x" target="_blank" rel="noopener noreferrer nofollow">Extern</a><a href="/../magazin/x">Unsicher</a></p>',
   );
   assert.equal(
     marketizeSanitizedHtml('<a href="https://dich-mit-stich.de/magazin/helix-piercing/?x=1#top">A</a><a href="/">B</a>', "de"),
-    '<a href="/magazin/helix-piercing?x=1#top" data-dms-internal="true">A</a><a href="/" data-dms-internal="true">B</a>',
+    '<a href="/magazin/helix-piercing/?x=1#top" data-dms-internal="true">A</a><a href="/" data-dms-internal="true">B</a>',
   );
   assert.equal(
     marketizeSanitizedHtml('<a href="https://example.org/x" data-dms-internal="true">Extern</a>', "at"),

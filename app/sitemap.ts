@@ -3,6 +3,7 @@ import { ABOUT_PATHS } from "@/lib/about-pages";
 import { FAQ_PATH } from "@/lib/faq";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
+import { withTrailingSlash } from "@/lib/markets";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
 import { getIndexableTattooStudioCities, getTattooStudioSlugs } from "@/lib/tattoo-studio-guide";
 
@@ -17,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const studioCities = getIndexableTattooStudioCities("de");
   const studioSlugs = getTattooStudioSlugs("de");
 
-  return [
+  const locations: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "daily", priority: 1 },
     { url: `${SITE_URL}/magazin`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/tattoo-singles`, changeFrequency: "daily", priority: 0.9 },
@@ -56,4 +57,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.75,
     })),
   ];
+  return locations.map((location) => ({ ...location, url: withTrailingSlash(location.url) }));
 }

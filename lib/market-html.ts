@@ -2,7 +2,7 @@ import sanitizeHtml from "sanitize-html";
 
 import { MAGAZINE_APPENDIX_CLASS_TOKENS, normalizeMagazineAppendix } from "./magazine-appendix.ts";
 import { MAGAZINE_MEDIA_CLASS_TOKENS, normalizeMagazineMedia } from "./magazine-media.ts";
-import type { MarketCode } from "./markets.ts";
+import { withTrailingSlash, type MarketCode } from "./markets.ts";
 
 const FIRST_PARTY_HOST = /^(?:www\.)?dich-mit-stich\.(?:de|at|ch)$/i;
 const ABSOLUTE_HTTPS_URL = /^https:\/\/([^/?#]*)([^?#]*)/i;
@@ -65,14 +65,6 @@ function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
   return attribs;
 }
 
-/** WordPress-Links enden auf "/", die Next-Routen nicht: das spart pro Klick einen 308. */
-function withoutTrailingSlash(internalPath: string) {
-  const suffixStart = internalPath.search(/[?#]/);
-  const path = suffixStart === -1 ? internalPath : internalPath.slice(0, suffixStart);
-  const suffix = suffixStart === -1 ? "" : internalPath.slice(suffixStart);
-  return `${path.length > 1 ? path.replace(/\/+$/, "") : path}${suffix}`;
-}
-
 // Der Markt bleibt Teil der Signatur: Die Links sind heute für alle Märkte gleich, das Präfix setzt nur der Vorschau-Client.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
@@ -107,7 +99,7 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
         // Nur auf Vorschau-Hosts ergänzt der Client das Marktpräfix.
         const attribs: Record<string, string> = {
           ...cleanAttributes,
-          href: withoutTrailingSlash(internalPath),
+          href: withTrailingSlash(internalPath),
           "data-dms-internal": "true",
         };
         delete attribs.target;

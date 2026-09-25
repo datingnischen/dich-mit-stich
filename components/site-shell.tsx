@@ -2,7 +2,7 @@ import Image from "next/image";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl, type ConversionAid } from "@/lib/conversion-links";
-import { getMarket, getOtherMarkets, publicUrl, type MarketCode } from "@/lib/markets";
+import { getMarket, getOtherMarkets, publicUrl, withTrailingSlash, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 
 type NavLink = {
@@ -183,7 +183,7 @@ function externalAttrs(external?: boolean) {
 }
 
 function marketHref(link: NavLink, market: MarketCode, aid?: ConversionAid) {
-  if (!link.external) return link.href;
+  if (!link.external) return withTrailingSlash(link.href);
 
   const url = new URL(link.href);
   if (url.hostname === "dich-mit-stich.de") {

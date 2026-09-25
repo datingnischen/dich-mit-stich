@@ -780,6 +780,10 @@ img {
   grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(180px, 0.5fr));
 }
 
+.footer-compact-main:has(> :nth-child(3)) .footer-about-links ul {
+  grid-template-columns: 1fr;
+}
+
 .footer-about-links {
   align-content: start;
 }

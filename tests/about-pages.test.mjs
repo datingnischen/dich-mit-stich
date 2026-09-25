@@ -144,7 +144,7 @@ test("summarizes the complete live cooperation offer on the consolidated page", 
   });
 });
 
-test("success stories use market-aware internal links and published preview images", async () => {
+test("success stories link to the DE magazine from every market with published preview images", async () => {
   const { getAboutPage } = await loadAboutPages();
 
   for (const market of ["de", "at", "ch"]) {
@@ -160,6 +160,7 @@ test("success stories use market-aware internal links and published preview imag
     );
     for (const card of page.cards) {
       assert.equal(card.link?.external, undefined);
+      assert.equal(card.link?.market, "de");
       assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\//);
       assert.ok(card.image?.alt);
     }

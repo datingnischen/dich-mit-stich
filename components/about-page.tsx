@@ -29,7 +29,7 @@ function PageLink({ link, market, className }: { link: AboutLink; market: AboutP
   }
 
   return (
-    <MarketLink className={className} targetMarket={market} pathname={link.href}>
+    <MarketLink className={className} targetMarket={link.market ?? market} pathname={link.href}>
       {link.label}
     </MarketLink>
   );
@@ -114,7 +114,7 @@ function AboutCardView({ card, market, pairs }: { card: AboutCard; market: About
   }
 
   return (
-    <MarketLink className="about-topic-card about-topic-card-linked" targetMarket={market} pathname={card.link.href}>
+    <MarketLink className="about-topic-card about-topic-card-linked" targetMarket={card.link.market ?? market} pathname={card.link.href}>
       {content}
     </MarketLink>
   );

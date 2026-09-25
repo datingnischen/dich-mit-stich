@@ -22,6 +22,8 @@ export type AboutLink = {
   label: string;
   href: string;
   external?: boolean;
+  /** Fester Zielmarkt, z. B. Magazinartikel, die es nur auf der DE-Domain gibt. */
+  market?: MarketCode;
 };
 
 export type SocialChannel = "facebook" | "instagram" | "youtube" | "pinterest";
@@ -191,6 +193,7 @@ const storyCards: AboutCard[] = [
     link: {
       label: "Geschichte lesen",
       href: "/magazin/pascal-und-stephanie",
+      market: "de",
     },
   },
   {
@@ -205,6 +208,7 @@ const storyCards: AboutCard[] = [
     link: {
       label: "Geschichte lesen",
       href: "/magazin/katharina-und-philip",
+      market: "de",
     },
   },
   {
@@ -219,6 +223,7 @@ const storyCards: AboutCard[] = [
     link: {
       label: "Geschichte lesen",
       href: "/magazin/andreas-und-do",
+      market: "de",
     },
   },
 ];

@@ -50,9 +50,6 @@ const headerMenuGroups: NavGroup[] = [
     items: [
       { label: "Über uns", href: "/ueber-uns" },
       { label: "Erfolgsgeschichten", href: "/ueber-uns/erfolgsgeschichten" },
-      { label: "Bewertungen", href: "/ueber-uns/bewertungen" },
-      { label: "Unser Expertenteam", href: "/ueber-uns/expertenteam" },
-      { label: "Social Media", href: "/ueber-uns/social-media" },
     ],
   },
   {

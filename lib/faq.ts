@@ -42,7 +42,7 @@ export const faqSections: FaqSection[] = [
     ],
   },
   {
-    eyebrow: "Vertrauen einordnen",
+    eyebrow: "Seriosität",
     title: "Erfahrungen & Seriosität von dich-mit-stich.de",
     items: [
       {

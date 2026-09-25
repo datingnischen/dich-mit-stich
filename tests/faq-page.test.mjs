@@ -28,7 +28,7 @@ test("migrates the complete existing DE FAQ inventory", async () => {
   ]);
   assert.deepEqual(faqSections.map((section) => section.eyebrow), [
     "Plattform kennenlernen",
-    "Vertrauen einordnen",
+    "Seriosität",
     "Mitgliedschaft verstehen",
     "Dich mit Stich nutzen",
     "Profil verwalten",

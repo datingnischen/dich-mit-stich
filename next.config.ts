@@ -41,6 +41,8 @@ export default function nextConfig(phase: string): NextConfig {
   );
 
   return {
+    // Slash-Umleitung übernimmt proxy.ts, weil nur dort der interne Marktpräfix bekannt ist.
+    skipTrailingSlashRedirect: true,
     assetPrefix: isDev ? undefined : `${assetHost}${assetPathPrefix}`,
     images: {
       // nginx vor den Live-Domains reicht /_next/image nicht weiter, darum optimiert der Vercel-Host.

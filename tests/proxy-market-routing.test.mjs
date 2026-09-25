@@ -43,3 +43,21 @@ test("market proxy permits only its own rewrite re-entry token", () => {
   }));
   assert.equal(dottedProxiedPreview.headers.get("x-robots-tag"), "noindex, nofollow");
 });
+
+test("trailing slashes redirect to the public path without the internal market prefix", () => {
+  const at = proxy(new NextRequest("https://dich-mit-stich.at/at/faq/"));
+  assert.equal(at.status, 308);
+  assert.equal(at.headers.get("location"), "https://dich-mit-stich.at/faq");
+
+  const atCity = proxy(new NextRequest("https://dich-mit-stich.at/at/tattoo-singles/?ref=start"));
+  assert.equal(atCity.headers.get("location"), "https://dich-mit-stich.at/tattoo-singles?ref=start");
+
+  const atRoot = proxy(new NextRequest("https://dich-mit-stich.at/at/"));
+  assert.equal(atRoot.headers.get("location"), "https://dich-mit-stich.at/");
+
+  const preview = proxy(new NextRequest("https://dich-mit-stich.vercel.app/at/faq/"));
+  assert.equal(preview.headers.get("location"), "https://dich-mit-stich.vercel.app/at/faq");
+
+  const plain = proxy(new NextRequest("https://dich-mit-stich.at/at/faq"));
+  assert.notEqual(plain.status, 308);
+});

@@ -1,6 +1,8 @@
 import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
+import { cleanWordPressSeoTitle } from "./magazine-seo.ts";
+
 const MAGAZINE_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
 
 const ROUTE_FIELDS = "id,slug,type,date,modified";
@@ -53,6 +55,7 @@ type WpRestItem = {
   title?: WpRendered;
   excerpt?: WpRendered;
   content?: WpRendered;
+  aioseo_head_json?: { title?: string; description?: string };
   _embedded?: {
     author?: WpAuthor[];
     "wp:featuredmedia"?: WpMedia[];
@@ -103,6 +106,10 @@ export type MagazineEntry = {
   modified?: string;
   link?: string;
   title: string;
+  /** AIOSEO-Titel ohne "| Tattoo-Magazin", nur im Detailabruf. */
+  seoTitle?: string;
+  /** AIOSEO-Meta-Description, nur im Detailabruf. */
+  seoDescription?: string;
   excerpt: string;
   content: string;
   featuredImage?: string;
@@ -406,6 +413,8 @@ function normalizeEntry(item: WpRestItem): MagazineEntry {
     modified: item.modified,
     link: item.link,
     title: decodeHtmlEntities(item.title?.rendered || ""),
+    seoTitle: cleanWordPressSeoTitle(decodeHtmlEntities(item.aioseo_head_json?.title || "")) || undefined,
+    seoDescription: decodeHtmlEntities(item.aioseo_head_json?.description || "").trim() || undefined,
     excerpt,
     content,
     featuredImage,

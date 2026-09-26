@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const category = await getMagazineCategoryBySlug(slug);
   if (!category) return {};
   return {
-    title: `${category.name} | dich-mit-stich Magazin`,
+    title: `${category.name} im Tattoo-Magazin`,
     description: category.description || `Beiträge aus dem Bereich ${category.name} im dich-mit-stich Magazin.`,
     alternates: { canonical: publicUrl("de", `/magazin/thema/${slug}`) },
     robots: marketEditorialRobots("de"),

@@ -125,8 +125,8 @@ test("both author profile pages replace the truncated CMS excerpt with a two-sen
   }
 
   assert.match(detail, /authorProfilePage\?\.lead \?\? answerEngineEntry\?\.directAnswer/);
-  assert.match(dePage, /authorProfilePage\?\.lead \?\? answerEngineEntry\?\.directAnswer/);
-  assert.match(marketPage, /authorProfilePage\?\.lead \?\? answerEngineEntry\?\.directAnswer/);
+  assert.match(dePage, /authorProfilePage\?\.lead \?\? entry\.seoDescription \?\? answerEngineEntry\?\.directAnswer/);
+  assert.match(marketPage, /authorProfilePage\?\.lead \?\? entry\.seoDescription \?\? answerEngineEntry\?\.directAnswer/);
 });
 
 test("the expert profile keeps its 5:4 cover and its imported vita links move into the contact card", async () => {

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const profile = await getMarketMagazineAuthorProfile(market, slug);
   if (!profile) return {};
   return {
-    title: `${profile.name} | dich-mit-stich Magazin`,
+    title: `${profile.name}: Beiträge im Tattoo-Magazin`,
     description: localizeFirstPartyText(profile.bio, publicUrl(market)).slice(0, 155),
     alternates: { canonical: publicUrl(market, profile.profileUrl) },
     robots: marketEditorialRobots(market),

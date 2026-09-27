@@ -164,7 +164,7 @@ const PASS_PATHS = new Set(["/favicon.ico"]);
 const PASS_PREFIXES = ["/_next/", "/app-assets/", "/api/"];
 const STATIC_FILE_PATTERN = /\.(?:avif|css|gif|ico|jpe?g|js|json|map|png|svg|webp|woff2?)$/i;
 const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
-const ABOUT_PATH_PATTERN = /^\/ueber-uns(?:\/(expertenteam|erfolgsgeschichten|kooperationen|bewertungen|social-media))?$/;
+const ABOUT_PATH_PATTERN = /^\/ueber-uns(?:\/(expertenteam|erfolgsgeschichten|kooperationen|bewertungen|social-media|suche))?$/;
 const TATTOO_STUDIO_CITY_SLUGS: Record<"at" | "ch", ReadonlySet<string>> = {
   at: new Set([
     "dornbirn", "graz", "innsbruck", "klagenfurt", "linz",

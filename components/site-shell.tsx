@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
+import { SiteSearchForm } from "@/components/site-search-form";
 import { conversionUrl, type ConversionAid } from "@/lib/conversion-links";
 import { getMarket, getOtherMarkets, publicUrl, withTrailingSlash, type MarketCode } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -314,6 +315,7 @@ export function SiteHeader({ market = "de", sectionLive = false, aid }: ShellPro
             </summary>
             <div className="header-menu-panel">
               <p className="header-menu-panel-title">Menü</p>
+              <SiteSearchForm market={market} variant="menu" />
               <nav className="main-nav compact-menu-nav" aria-label="Hauptnavigation">
                 {(config.contentEnabled ? headerMenuGroups : sectionMenuGroups).map((group) => (
                   <div className="header-menu-group" key={group.title}>

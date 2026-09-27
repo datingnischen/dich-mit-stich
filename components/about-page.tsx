@@ -6,6 +6,7 @@ import { IconyFrame } from "@/components/icony-magazine-widgets";
 import { MagazineBreadcrumb } from "@/components/magazine-breadcrumb";
 import { MarketLink } from "@/components/market-link";
 import { SiteFrame } from "@/components/site-frame";
+import { SiteSearchForm } from "@/components/site-search-form";
 import { buildAboutPageGraph, type AboutCard, type AboutLink, type AboutPage, type SocialChannel } from "@/lib/about-pages";
 import { conversionUrl } from "@/lib/conversion-links";
 import { buildIconyRegistrationFrame } from "@/lib/icony-frame-widgets";
@@ -180,6 +181,17 @@ export function AboutPageView({ page }: { page: AboutPage }) {
             <small>{countryName}</small>
           </aside>
         </header>
+
+        {page.slug === null ? (
+          <section className="panel-card about-search-panel" aria-labelledby="about-search-title">
+            <div>
+              <span className="eyebrow">Suche</span>
+              <h2 id="about-search-title">Etwas Bestimmtes gesucht?</h2>
+              <p>Durchsuche Magazin, Tattoo-Lexikon, Stadtseiten und Studio-Guides.</p>
+            </div>
+            <SiteSearchForm market={page.market} />
+          </section>
+        ) : null}
 
         <section className="content-section about-content-section" aria-labelledby="about-section-title">
           <div className="section-header">

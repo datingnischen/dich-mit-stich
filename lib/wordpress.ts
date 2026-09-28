@@ -1,6 +1,7 @@
 import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
+import { MAGAZINE_AUDIO_ATTRIBUTES, MAGAZINE_AUDIO_TAGS, magazineAudioTransforms } from "./magazine-audio.ts";
 import { cleanWordPressSeoTitle } from "./magazine-seo.ts";
 import { normalizeWordPressPayload, normalizeWordPressUrls, WORDPRESS_ORIGIN, wordpressRestUrl } from "./wordpress-origin.ts";
 
@@ -296,8 +297,10 @@ const NEXTGEN_GALLERY_PLACEHOLDER = /\bngg_shortcode_\d+_placeholder\b/g;
 
 export function sanitizeMagazineHtml(html = "") {
   return sanitizeHtml(html.replace(NEXTGEN_GALLERY_PLACEHOLDER, ""), {
-    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
+    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img", ...MAGAZINE_AUDIO_TAGS],
+    selfClosing: [...sanitizeHtml.defaults.selfClosing, "source"],
     allowedAttributes: {
+      ...MAGAZINE_AUDIO_ATTRIBUTES,
       a: ["href", "name", "target", "title", "rel"],
       blockquote: ["cite"],
       img: ["src", "srcset", "alt", "title", "width", "height", "loading", "decoding"],
@@ -310,6 +313,7 @@ export function sanitizeMagazineHtml(html = "") {
     allowedSchemes: ["http", "https", "mailto", "tel"],
     allowProtocolRelative: false,
     transformTags: {
+      ...magazineAudioTransforms,
       a: (tagName, attributes) => ({
         tagName,
         attribs: hardenMagazineLink(attributes),

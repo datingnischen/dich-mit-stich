@@ -1,6 +1,7 @@
 import sanitizeHtml from "sanitize-html";
 
 import { MAGAZINE_APPENDIX_CLASS_TOKENS, normalizeMagazineAppendix } from "./magazine-appendix.ts";
+import { MAGAZINE_AUDIO_ATTRIBUTES, MAGAZINE_AUDIO_TAGS, magazineAudioTransforms } from "./magazine-audio.ts";
 import { MAGAZINE_MEDIA_CLASS_TOKENS, normalizeMagazineMedia } from "./magazine-media.ts";
 import { withTrailingSlash, type MarketCode } from "./markets.ts";
 
@@ -69,8 +70,10 @@ function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
   return sanitizeHtml(normalizeMagazineAppendix(normalizeMagazineMedia(html)), {
-    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
+    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img", ...MAGAZINE_AUDIO_TAGS],
+    selfClosing: [...sanitizeHtml.defaults.selfClosing, "source"],
     allowedAttributes: {
+      ...MAGAZINE_AUDIO_ATTRIBUTES,
       a: ["href", "name", "target", "title", "rel", "class", "data-dms-internal"],
       aside: ["class"],
       blockquote: ["cite"],
@@ -86,6 +89,7 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
     allowedSchemes: ["http", "https", "mailto", "tel"],
     allowProtocolRelative: false,
     transformTags: {
+      ...magazineAudioTransforms,
       aside: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
       figure: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
       p: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),

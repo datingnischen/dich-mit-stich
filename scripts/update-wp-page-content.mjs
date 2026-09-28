@@ -3,7 +3,7 @@
 // Aufruf: DMS_WP_USERNAME=... DMS_WP_APPLICATION_PASSWORD=... node scripts/update-wp-page-content.mjs <id> <html-datei> [--type=posts] [--title=...] [--dry-run]
 import { readFile } from "node:fs/promises";
 
-const API = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
+import { wpRestUrl } from "./wordpress-rest-url.mjs";
 const [pageId, htmlPath] = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
 const dryRun = process.argv.includes("--dry-run");
 const type = process.argv.includes("--type=posts") ? "posts" : "pages";
@@ -22,7 +22,7 @@ if (!dryRun && (!username || !password)) {
 }
 
 const content = (await readFile(htmlPath, "utf8")).trim();
-const current = await fetch(`${API}/${type}/${pageId}?_fields=id,slug,modified`).then((res) => res.json());
+const current = await fetch(wpRestUrl(`/${type}/${pageId}?_fields=id,slug,modified`)).then((res) => res.json());
 console.log(`${type === "posts" ? "Beitrag" : "Seite"} ${current.id} (${current.slug}), zuletzt geändert ${current.modified}`);
 console.log(`Neuer Inhalt: ${content.length} Zeichen aus ${htmlPath}`);
 if (title) console.log(`Neuer Titel: ${title}`);
@@ -32,7 +32,7 @@ if (dryRun) {
   process.exit(0);
 }
 
-const res = await fetch(`${API}/${type}/${pageId}`, {
+const res = await fetch(wpRestUrl(`/${type}/${pageId}`), {
   method: "POST",
   headers: {
     Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`,

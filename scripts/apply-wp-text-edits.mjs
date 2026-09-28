@@ -9,7 +9,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
-const API = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
+import { wpRestUrl } from "./wordpress-rest-url.mjs";
 const args = process.argv.slice(2);
 const editsPath = args.find((arg) => !arg.startsWith("--"));
 const write = args.includes("--write");
@@ -41,7 +41,7 @@ function occurrences(haystack, needle) {
 
 async function loadEntry(slug) {
   for (const type of ["pages", "posts"]) {
-    const res = await fetch(`${API}/${type}?slug=${encodeURIComponent(slug)}&context=edit&_fields=id,slug,modified,title,content`, {
+    const res = await fetch(wpRestUrl(`/${type}?slug=${encodeURIComponent(slug)}&context=edit&_fields=id,slug,modified,title,content`), {
       headers: { Authorization: authorization },
     });
     if (!res.ok) throw new Error(`${type} ${slug}: HTTP ${res.status}`);
@@ -121,7 +121,7 @@ for (const slug of slugs) {
   await mkdir(backupDir, { recursive: true });
   await writeFile(path.join(backupDir, `${slug}-${entry.modified.replace(/:/g, "-")}.html`), raw);
   if (title) await writeFile(path.join(backupDir, `${slug}-${entry.modified.replace(/:/g, "-")}.title.txt`), entry.title.raw);
-  const res = await fetch(`${API}/${entry.type}/${entry.id}`, {
+  const res = await fetch(wpRestUrl(`/${entry.type}/${entry.id}`), {
     method: "POST",
     headers: { Authorization: authorization, "Content-Type": "application/json" },
     body: JSON.stringify(title ? { content, title } : { content }),

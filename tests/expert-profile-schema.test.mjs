@@ -10,7 +10,7 @@ const readSource = (path) => readFile(new URL(path, import.meta.url), "utf8");
 const BOOK_CONTENT = [
   "before",
   "<!-- dating-ohne-bullshit-book:start -->",
-  '<section><img src="https://dich-mit-stich.de/magazin/wp-content/uploads/2026/08/dating-ohne-bullshit-cover.jpg" alt="Buchcover"><a href="https://www.amazon.de/dp/3696371211/">Amazon</a></section>',
+  '<section><img src="https://dich-mit-stich.de/cms-mag/wp-content/uploads/2026/08/dating-ohne-bullshit-cover.jpg" alt="Buchcover"><a href="https://www.amazon.de/dp/3696371211/">Amazon</a></section>',
   "<!-- dating-ohne-bullshit-book:end -->",
   "after",
 ].join("\n");

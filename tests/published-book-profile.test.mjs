@@ -14,7 +14,7 @@ test("published Christian profile emits a bounded ProfilePage/Person/Book graph"
     modified: "2026-08-24T16:05:16",
     content: `before
 <!-- dating-ohne-bullshit-book:start -->
-<section><img src="https://dich-mit-stich.de/magazin/wp-content/uploads/2026/08/dating-ohne-bullshit-cover.jpg" alt="Buchcover Dating ohne Bullshit von Christian M. Haas"><a href="https://www.amazon.de/dp/3696371211/">Amazon</a></section>
+<section><img src="https://dich-mit-stich.de/cms-mag/wp-content/uploads/2026/08/dating-ohne-bullshit-cover.jpg" alt="Buchcover Dating ohne Bullshit von Christian M. Haas"><a href="https://www.amazon.de/dp/3696371211/">Amazon</a></section>
 <!-- dating-ohne-bullshit-book:end -->
 after`,
   });
@@ -70,6 +70,6 @@ test("CMS book feature block can be replaced by the polished local component", a
 
 test("legacy low-resolution expert portrait is removed from the polished profile body", async () => {
   const { stripLegacyExpertPortrait } = await import(modulePath.href);
-  const content = 'before<p><img src="https://dich-mit-stich.de/magazin/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png" alt="Datingexperte" width="200" height="300"></p><h2>Profil</h2>';
+  const content = 'before<p><img src="https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png" alt="Datingexperte" width="200" height="300"></p><h2>Profil</h2>';
   assert.equal(stripLegacyExpertPortrait(content), "before<h2>Profil</h2>");
 });

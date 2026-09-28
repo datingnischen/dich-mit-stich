@@ -2,8 +2,8 @@ import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
 import { decodeHtmlEntities, fetchWithRetry, stripHtml, WORDPRESS_FETCH_POLICY } from "./wordpress.ts";
+import { normalizeWordPressPayload, wordpressRestUrl } from "./wordpress-origin.ts";
 
-const CITY_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
 const CITY_SOURCE_REVISION = "image-licenses-v1";
 export const CITY_ROUTE_FIELDS = "id,slug,acf.city_id,acf.city_country";
 const CITY_LIST_FIELDS = "id,slug,featured_media,acf.city_id,acf.city_name,acf.city_region,acf.city_country";
@@ -156,13 +156,13 @@ async function fetchCities(fields: string, params: Record<string, string | numbe
     city_source_revision: CITY_SOURCE_REVISION,
     ...Object.fromEntries(Object.entries(params).map(([key, value]) => [key, String(value)])),
   });
-  const response = await fetchWithRetry(`${CITY_API_BASE}/stadt?${search}`, {
+  const response = await fetchWithRetry(wordpressRestUrl("/stadt", search), {
     headers: { "User-Agent": "Dich-mit-Stich Next.js city loader" },
     next: { revalidate: WORDPRESS_FETCH_POLICY.detailRevalidate, tags: ["wordpress:cities"] },
   } as RequestInit & { next: { revalidate: number; tags: string[] } });
   if (!response.ok) throw new Error(`WordPress city request failed: ${response.status} ${response.statusText}`);
   assertCompleteCityResponse(response);
-  return response.json() as Promise<WpCityRestItem[]>;
+  return normalizeWordPressPayload((await response.json()) as WpCityRestItem[]);
 }
 
 async function fetchCityMedia(ids: number[]) {
@@ -172,12 +172,12 @@ async function fetchCityMedia(ids: number[]) {
     per_page: "100",
     _fields: "id,source_url,alt_text",
   });
-  const response = await fetchWithRetry(`${CITY_API_BASE}/media?${search}`, {
+  const response = await fetchWithRetry(wordpressRestUrl("/media", search), {
     headers: { "User-Agent": "Dich-mit-Stich Next.js city media loader" },
     next: { revalidate: WORDPRESS_FETCH_POLICY.listRevalidate, tags: ["wordpress:city-media"] },
   } as RequestInit & { next: { revalidate: number; tags: string[] } });
   if (!response.ok) throw new Error(`WordPress city media request failed: ${response.status} ${response.statusText}`);
-  return response.json() as Promise<WpCityMedia[]>;
+  return normalizeWordPressPayload((await response.json()) as WpCityMedia[]);
 }
 
 export const getWordPressCitySlugs = cache(async (market: CityMarket): Promise<string[]> => {

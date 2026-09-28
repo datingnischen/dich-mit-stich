@@ -37,7 +37,7 @@ const wpCity = {
   },
   _embedded: {
     "wp:featuredmedia": [
-      { source_url: "https://dich-mit-stich.de/magazin/wp-content/uploads/zuerich.jpg", alt_text: "Zürich" },
+      { source_url: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/zuerich.jpg", alt_text: "Zürich" },
     ],
   },
 };
@@ -57,7 +57,7 @@ test("normalizeWordPressCity maps the market-scoped CPT record to the public cit
   assert.equal(city.metaDescription, "Singles in Zürich kennenlernen.");
   assert.equal(city.h1, "Tattoo-Singles in Zürich");
   assert.equal(city.heroTitle, "Finde Singles in Zürich und Umgebung");
-  assert.equal(city.imageUrl, "https://dich-mit-stich.de/magazin/wp-content/uploads/zuerich.jpg");
+  assert.equal(city.imageUrl, "https://dich-mit-stich.de/cms-mag/wp-content/uploads/zuerich.jpg");
   assert.equal(city.imageAlt, "Zürich");
   assert.equal(city.imageAttribution.label, "Foto von Pexels auf Pixabay");
   assert.equal(city.imageAttribution.sourceUrl, "https://example.com/image");

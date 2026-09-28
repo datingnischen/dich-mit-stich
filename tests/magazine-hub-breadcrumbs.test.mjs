@@ -218,7 +218,7 @@ test("the piercing overview groups the hub's lists by body region, with the pict
   const groups = extractHubChildGroups(PIERCING_HUB, `
     <h2>Worauf du achten kannst</h2>
     <h3>Ohrpiercings</h3>
-    <p><img src="https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-300x200.jpg" srcset="https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-300x200.jpg 300w, https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-768x512.jpg 768w, https://dich-mit-stich.de/magazin/wp-content/uploads/ohr.jpg 1880w"></p>
+    <p><img src="https://dich-mit-stich.de/cms-mag/wp-content/uploads/ohr-300x200.jpg" srcset="https://dich-mit-stich.de/cms-mag/wp-content/uploads/ohr-300x200.jpg 300w, https://dich-mit-stich.de/cms-mag/wp-content/uploads/ohr-768x512.jpg 768w, https://dich-mit-stich.de/cms-mag/wp-content/uploads/ohr.jpg 1880w"></p>
     <ul>
       <li><a href="/magazin/rook-piercing/">Rook Piercing</a></li>
       <li><a href="/magazin/helix-piercing/">Helix-Piercing</a></li>
@@ -231,7 +231,7 @@ test("the piercing overview groups the hub's lists by body region, with the pict
   assert.deepEqual(groups, [
     {
       heading: "Ohrpiercings",
-      imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/ohr-768x512.jpg",
+      imageUrl: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/ohr-768x512.jpg",
       links: [
         { slug: "helix-piercing", label: "Helix-Piercing" },
         { slug: "rook-piercing", label: "Rook Piercing" },
@@ -239,7 +239,7 @@ test("the piercing overview groups the hub's lists by body region, with the pict
     },
     {
       heading: "Körperpiercings",
-      imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/koerper.jpg",
+      imageUrl: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/koerper.jpg",
       links: [{ slug: "bauchnabelpiercing", label: "Bauchnabelpiercing" }],
     },
   ]);

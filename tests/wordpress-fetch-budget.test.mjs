@@ -29,7 +29,7 @@ test("magazine HTML is sanitized at the WordPress boundary without breaking edit
 
   assert.match(html, /<h2>Pflege<\/h2>/);
   assert.match(html, /<p>Sicherer Text <strong>bleibt<\/strong>\.<\/p>/);
-  assert.match(html, /<img src="https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\/2025\/09\/example\.jpg" alt="Beispiel" decoding="async" loading="lazy" \/>/);
+  assert.match(html, /<img src="https:\/\/dich-mit-stich\.de\/cms-mag\/wp-content\/uploads\/2025\/09\/example\.jpg" alt="Beispiel" decoding="async" loading="lazy" \/>/);
   assert.match(html, /<a href="https:\/\/example\.org\/source" target="_blank" rel="noopener noreferrer nofollow">Quelle<\/a>/);
   assert.match(html, /<ul><li>Ein Punkt<\/li><\/ul>/);
   assert.doesNotMatch(html, /script|iframe|onclick|onerror|style=|javascript:|id=|class=/i);

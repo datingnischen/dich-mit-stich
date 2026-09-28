@@ -1,8 +1,9 @@
-const API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
+import { wpRestUrl } from "./wordpress-rest-url.mjs";
+
 const MIB = 1024 * 1024;
 
 const cityMediaIndexResponse = await fetch(
-  `${API_BASE}/stadt?per_page=100&_fields=featured_media`,
+  wpRestUrl("/stadt?per_page=100&_fields=featured_media"),
   { headers: { "User-Agent": "Dich-mit-Stich WordPress payload budget check" } },
 );
 if (!cityMediaIndexResponse.ok) {
@@ -59,7 +60,7 @@ const checks = [
 let failed = false;
 
 for (const check of checks) {
-  const response = await fetch(`${API_BASE}${check.path}`, {
+  const response = await fetch(wpRestUrl(check.path), {
     headers: { "User-Agent": "Dich-mit-Stich WordPress payload budget check" },
     signal: AbortSignal.timeout(15_000),
   });

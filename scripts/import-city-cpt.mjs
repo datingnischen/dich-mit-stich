@@ -6,7 +6,7 @@ import { resolveCityMedia } from "./city-cpt-import-media.mjs";
 import { loadCityManifest } from "./city-cpt-import-sources.mjs";
 import { runCityImport } from "./city-cpt-import-wordpress.mjs";
 
-const WP_BASE_URL = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
+import { WORDPRESS_REST_BASE as WP_BASE_URL } from "./wordpress-rest-url.mjs";
 const args = new Set(process.argv.slice(2));
 const valueArg = (prefix) => process.argv.slice(2).find((arg) => arg.startsWith(`${prefix}=`))?.slice(prefix.length + 1);
 const apply = args.has("--apply");

@@ -1,7 +1,6 @@
 import { cache } from "react";
 import { fetchWithRetry, getMagazineAuthorPostCount, getMagazinePosts, stripHtml } from "@/lib/wordpress";
-
-const AUTHOR_ARCHIVE_BASE = "https://dich-mit-stich.de/magazin/author";
+import { normalizeWordPressUrls, wordpressAuthorArchiveUrl } from "@/lib/wordpress-origin";
 
 export type AuthorSocialPlatform = "instagram" | "facebook" | "youtube" | "linkedin" | "xing" | "pinterest";
 
@@ -28,9 +27,9 @@ type AuthorOverride = {
 
 const AUTHOR_OVERRIDES: Record<string, AuthorOverride> = {
   redaktion: {
-    sourceUrl: "https://dich-mit-stich.de/magazin/author/redaktion/",
+    sourceUrl: wordpressAuthorArchiveUrl("redaktion"),
     profileUrl: "/magazin/unser-datingexperte",
-    imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/08/Christian-M-Haas.png",
+    imageUrl: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/08/Christian-M-Haas.png",
     role: "Datingexperte und Autor für tätowierte Singles",
     jobTitle: "Datingexperte",
     bio:
@@ -47,9 +46,9 @@ const AUTHOR_OVERRIDES: Record<string, AuthorOverride> = {
     extraSameAs: ["https://datingnischen.de/christian/"],
   },
   "anne-schweitzer": {
-    sourceUrl: "https://dich-mit-stich.de/magazin/author/anne-schweitzer/",
+    sourceUrl: wordpressAuthorArchiveUrl("anne-schweitzer"),
     profileUrl: "/magazin/anne-schweitzer",
-    imageUrl: "https://dich-mit-stich.de/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin.jpg",
+    imageUrl: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin.jpg",
     role: "Tätowiererin in Kassel und Autorin im Tattoo-Magazin",
     jobTitle: "Tattoo Artist",
     bio:
@@ -96,12 +95,12 @@ function cleanImageUrl(url?: string) {
   const shortPixelPrefix = /https:\/\/sp-ao\.shortpixel\.ai\/client\/[^/]+\/(https:\/\/.*)$/i;
   const match = url.match(shortPixelPrefix);
   const raw = match?.[1] || url;
-  return decodeURIComponent(raw.replace(/&amp;/g, "&"));
+  return normalizeWordPressUrls(decodeURIComponent(raw.replace(/&amp;/g, "&")));
 }
 
 export const getAuthorProfile = cache(async (slug: string): Promise<AuthorProfile | null> => {
   const override = AUTHOR_OVERRIDES[slug] || {};
-  const url = override.sourceUrl || `${AUTHOR_ARCHIVE_BASE}/${slug}/`;
+  const url = override.sourceUrl || wordpressAuthorArchiveUrl(slug);
 
   const response = await fetchWithRetry(url, {
     headers: {

@@ -2,8 +2,7 @@ import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
 import { cleanWordPressSeoTitle } from "./magazine-seo.ts";
-
-const MAGAZINE_API_BASE = "https://dich-mit-stich.de/magazin/wp-json/wp/v2";
+import { normalizeWordPressPayload, normalizeWordPressUrls, WORDPRESS_ORIGIN, wordpressRestUrl } from "./wordpress-origin.ts";
 
 const ROUTE_FIELDS = "id,slug,type,date,modified";
 const LIST_FIELDS = "id,slug,type,date,modified,link,title,excerpt,_links,_embedded";
@@ -245,12 +244,11 @@ export function teaserText(entry: { excerpt?: string; content?: string }, maxLen
   return source.length >= MIN_TEASER_LENGTH ? source.slice(0, maxLength) : "";
 }
 
-const MAGAZINE_MEDIA_PREFIX = "/magazin/wp-content/uploads/";
-const MAGAZINE_MEDIA_ORIGIN = "https://dich-mit-stich.de";
+const MAGAZINE_MEDIA_ORIGIN = WORDPRESS_ORIGIN;
 const DUPLICATED_SCHEME_FIRST_PARTY_PREFIX = "https://https://dich-mit-stich.de/";
 
 function absoluteMagazineMediaUrl(value = "") {
-  return value.startsWith(MAGAZINE_MEDIA_PREFIX) ? `${MAGAZINE_MEDIA_ORIGIN}${value}` : value;
+  return normalizeWordPressUrls(value);
 }
 
 function absoluteMagazineSrcset(value = "") {
@@ -435,7 +433,7 @@ async function fetchWp<T>(
     search.set(key, String(value));
   }
 
-  const response = await fetchWithRetry(`${MAGAZINE_API_BASE}${path}?${search.toString()}`, {
+  const response = await fetchWithRetry(wordpressRestUrl(path, search), {
     headers: {
       "User-Agent": "Dich-mit-Stich Next.js magazine",
     },
@@ -446,7 +444,10 @@ async function fetchWp<T>(
     throw new Error(`WordPress request failed for ${path}: ${response.status} ${response.statusText}`);
   }
 
-  return response as Response & { json(): Promise<T> };
+  const readJson = response.json.bind(response);
+  return Object.assign(response, {
+    json: async () => normalizeWordPressPayload((await readJson()) as T),
+  });
 }
 
 async function fetchAllPaginated<T>(

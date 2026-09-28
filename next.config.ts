@@ -52,7 +52,7 @@ export default function nextConfig(phase: string): NextConfig {
         {
           protocol: "https",
           hostname: "dich-mit-stich.de",
-          pathname: "/magazin/wp-content/uploads/**",
+          pathname: "/cms-mag/wp-content/uploads/**",
         },
         {
           protocol: "https",

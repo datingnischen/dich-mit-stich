@@ -9,7 +9,7 @@ const readSource = (path) => readFile(new URL(path, import.meta.url), "utf8");
 const EMOJI_IMAGE =
   '<img decoding="async" class="emoji" role="img" draggable="false" src="https://s.w.org/images/core/emoji/16.0.1/svg/1f449.svg" alt="\u{1F449}">';
 const MOTIF_IMAGE =
-  '<img loading="lazy" decoding="async" class="alignnone wp-image-1465 size-large" src="https://dich-mit-stich.de/magazin/wp-content/uploads/2025/09/borneo.jpeg" alt="Borneo Tribal Tattoo" width="683" height="1024" />';
+  '<img loading="lazy" decoding="async" class="alignnone wp-image-1465 size-large" src="https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/09/borneo.jpeg" alt="Borneo Tribal Tattoo" width="683" height="1024" />';
 
 test("the WordPress emoji image never reaches the page as a full-width graphic", () => {
   const html = marketizeSanitizedHtml(`<p>Mehr dazu ${EMOJI_IMAGE}&nbsp;hier.</p>`, "de");

@@ -161,7 +161,7 @@ test("success stories link to the DE magazine from every market with published p
     for (const card of page.cards) {
       assert.equal(card.link?.external, undefined);
       assert.equal(card.link?.market, "de");
-      assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\//);
+      assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/cms-mag\/wp-content\/uploads\//);
       assert.ok(card.image?.alt);
     }
   }
@@ -184,7 +184,7 @@ test("expert cards link to the DE author profiles from every market and show the
     for (const card of page.cards.slice(0, 2)) {
       assert.equal(card.link?.external, undefined);
       assert.equal(card.link?.market, "de");
-      assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/magazin\/wp-content\/uploads\//);
+      assert.match(card.image?.src ?? "", /^https:\/\/dich-mit-stich\.de\/cms-mag\/wp-content\/uploads\//);
       assert.ok(card.image?.alt);
     }
     assert.deepEqual(page.cards[2].image, {

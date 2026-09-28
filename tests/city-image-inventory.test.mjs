@@ -31,7 +31,7 @@ test("every supported German tattoo city has a branded WordPress image", () => {
     assert.match(
       inventory[slug].imageUrl,
       new RegExp(
-        `^https://dich-mit-stich\\.de/magazin/wp-content/uploads/\\d{4}/\\d{2}/dich-mit-stich-tattoo-singles-${slug}\\.jpg$`,
+        `^https://dich-mit-stich\\.de/cms-mag/wp-content/uploads/\\d{4}/\\d{2}/dich-mit-stich-tattoo-singles-${slug}\\.jpg$`,
       ),
       `${slug} must use its branded WordPress image`,
     );

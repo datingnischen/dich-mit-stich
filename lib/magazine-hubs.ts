@@ -2,6 +2,7 @@ import { cache } from "react";
 
 import { firstPartyInternalPath } from "./market-html.ts";
 import { decodeHtmlEntities, getMagazineEntryBySlug, type MagazineEntry } from "./wordpress.ts";
+import { normalizeWordPressUrls } from "./wordpress-origin.ts";
 
 /**
  * A magazine hub is an overview page whose own link list names the articles one level below
@@ -136,7 +137,7 @@ export function hubGroupImage(html: string) {
   const best = candidates.sort((a, b) => b.width - a.width)[0]?.url ?? tag.match(/\bsrc\s*=\s*"([^"]*)"/i)?.[1];
   if (!best) return undefined;
 
-  return best.startsWith("/magazin/") ? `https://dich-mit-stich.de${best}` : best;
+  return normalizeWordPressUrls(best);
 }
 
 const loadHubContent = cache(async (hubSlug: string): Promise<string> => {

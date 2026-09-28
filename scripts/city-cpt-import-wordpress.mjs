@@ -1,3 +1,4 @@
+import { joinRestUrl } from "./wordpress-rest-url.mjs";
 import { buildWpPayload, planUpserts } from "./city-cpt-import-lib.mjs";
 
 function authHeader(auth) {
@@ -14,12 +15,12 @@ async function readJson(response, label) {
 }
 
 function makeClient({ fetchImpl, baseUrl, auth }) {
-  const root = baseUrl.replace(/\/$/, "");
+  const root = baseUrl;
   const authorization = authHeader(auth);
 
   return {
     async json(path, { method = "GET", body, headers = {} } = {}) {
-      const response = await fetchImpl(`${root}/${path.replace(/^\//, "")}`, {
+      const response = await fetchImpl(joinRestUrl(root, path), {
         method,
         headers: {
           Authorization: authorization,
@@ -32,7 +33,7 @@ function makeClient({ fetchImpl, baseUrl, auth }) {
       return readJson(response, `${method} ${path}`);
     },
     async raw(path, { method = "GET", body, headers = {} } = {}) {
-      const response = await fetchImpl(`${root}/${path.replace(/^\//, "")}`, {
+      const response = await fetchImpl(joinRestUrl(root, path), {
         method,
         headers: { Authorization: authorization, ...headers },
         body,

@@ -110,7 +110,7 @@ test("wires FAQ rendering, metadata, navigation and sitemap", async () => {
     readFile(new URL("../app/faq/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../components/faq-page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../components/site-shell.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
+    readFile(new URL("../lib/de-sitemap.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
 

@@ -164,7 +164,7 @@ test("missing publication status fails closed without publishing profiles", () =
 });
 
 test("all published German studio city pages are indexable", async () => {
-  const sitemap = await source("app/sitemap.ts");
+  const sitemap = await source("lib/de-sitemap.ts");
   const expectedIndexable = ["berlin", "bochum", "bonn", "bremen", "dortmund", "dresden", "duisburg", "duesseldorf", "essen", "frankfurt-am-main", "hamburg", "hannover", "karlsruhe", "koeln", "leipzig", "muenchen", "muenster", "nuernberg", "stuttgart", "wuppertal"].sort((left, right) => left.localeCompare(right, "de"));
   assert.deepEqual(getIndexableTattooStudioCities("de").map((city) => city.slug).sort((left, right) => left.localeCompare(right, "de")), expectedIndexable);
   assert.match(sitemap, /getIndexableTattooStudioCities/);

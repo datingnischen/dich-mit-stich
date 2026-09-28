@@ -235,7 +235,7 @@ test("only prefix-free internal paths are eligible for market preview routing", 
 
 test("Next.js proxy and public-domain canonical helpers are wired", async () => {
   const proxySource = await readFile(new URL("../proxy.ts", import.meta.url), "utf8").catch(() => "");
-  const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
+  const sitemapSource = await readFile(new URL("../lib/de-sitemap.ts", import.meta.url), "utf8");
 
   assert.match(proxySource, /resolveMarketRequest/);
   assert.match(proxySource, /NextResponse\.redirect/);
@@ -319,7 +319,7 @@ test("AT market preview exposes all imported Austria city pages", async () => {
 });
 
 test("DE sitemap includes only indexable tattoo studio cities and no retired studio profiles", async () => {
-  const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
+  const sitemapSource = await readFile(new URL("../lib/de-sitemap.ts", import.meta.url), "utf8");
   assert.match(sitemapSource, /getIndexableTattooStudioCities/);
   assert.doesNotMatch(sitemapSource, /getTattooStudioSlugs/);
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studios/);
@@ -332,9 +332,17 @@ test("retired studio profile URLs redirect permanently to their city guide", asy
   assert.doesNotMatch(source, /generateStaticParams|TattooStudioDetail/);
 });
 
-test("old WordPress sitemaps and the renamed studio article redirect", async () => {
+test("old WordPress sitemap URLs serve section sitemaps and the renamed studio article redirects", async () => {
   const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
-  assert.match(config, /source:\s*"\/:section\(magazin\|tattoo-studios\)\/sitemap\.xml",\s*destination:\s*"\/sitemap\.xml"/);
+  const [magazine, studios, root] = await Promise.all([
+    readFile(new URL("../app/magazin/sitemap.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/tattoo-studios/sitemap.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
+  ]);
+  assert.match(magazine, /return deMagazineSitemap\(\)/);
+  assert.match(studios, /return deStudioSitemap\(\)/);
+  assert.match(root, /return deSitemap\(\)/);
+  assert.doesNotMatch(config, /sitemap\.xml/);
   assert.match(config, /source:\s*"\/magazin\/das-richtige-tattoo-studio-finden",\s*destination:\s*"\/magazin\/tattoo-studio\/"/);
 });
 
@@ -397,7 +405,7 @@ test("application headers constrain scripts, embeds and framing", async () => {
 test("thin legacy magazine routes redirect to their canonical destinations and stay out of the sitemap", async () => {
   const [config, sitemap] = await Promise.all([
     readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
-    readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
+    readFile(new URL("../lib/de-sitemap.ts", import.meta.url), "utf8"),
   ]);
   for (const [source, destination] of [
     ["/magazin/home", "/magazin"],

@@ -274,7 +274,7 @@ test("JSON-LD serialization cannot break out of its script element", async () =>
 test("quarantined bodies fail closed while pilot articles keep their full legacy text", async () => {
   const [detail, sitemap, safety] = await Promise.all([
     readMagazineDetailSource(),
-    readSource("../app/sitemap.ts"),
+    readSource("../lib/de-sitemap.ts"),
     import("../lib/magazine-content-safety.ts"),
   ]);
 

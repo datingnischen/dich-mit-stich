@@ -91,12 +91,6 @@ export default function nextConfig(phase: string): NextConfig {
           permanent: true,
         },
         {
-          // Sitemaps des alten Magazin- und Studio-WordPress.
-          source: "/:section(magazin|tattoo-studios)/sitemap.xml",
-          destination: "/sitemap.xml",
-          permanent: true,
-        },
-        {
           source: "/magazin/tattoo-studios",
           destination: "/tattoo-studios/",
           permanent: true,

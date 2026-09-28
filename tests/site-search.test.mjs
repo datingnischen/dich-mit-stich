@@ -36,7 +36,7 @@ test("search page is noindex, canonical without query and absent from every site
 
   const { ABOUT_PATHS } = await import("../lib/about-pages.ts");
   assert.ok(!ABOUT_PATHS.some((path) => path.includes("suche")));
-  for (const sitemap of ["app/sitemap.ts", "lib/market-sitemap.ts"]) {
+  for (const sitemap of ["lib/de-sitemap.ts", "lib/market-sitemap.ts"]) {
     assert.doesNotMatch(await read(sitemap), /suche|ABOUT_SEARCH_PATH/, sitemap);
   }
 });

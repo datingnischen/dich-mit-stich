@@ -4,7 +4,7 @@ import { publicUrl, resolveMarketRequest, withTrailingSlash, type MarketCode } f
 
 const MARKET_REWRITE_HEADER = "x-dms-market-rewrite";
 const MARKET_REWRITE_TOKEN = crypto.randomUUID();
-const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
+const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|landing|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
 // nginx ruft für die Live-Domains das Produktions-Deployment unter dich-mit-stich.vercel.app auf; am Host
 // lässt sich Live nicht von Vercel unterscheiden. Ein Host-basiertes noindex, nofollow landete darum auf
 // allen Live-Seiten (Crawl brach am 2026-09-28 von 387 auf 26 Seiten ein). Nur Branch-Previews bekommen

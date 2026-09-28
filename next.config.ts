@@ -1,11 +1,13 @@
 import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
+import { withGoogleAdsOrigins } from "./lib/google-ads.ts";
 
 const DEFAULT_ASSET_HOST = "https://dich-mit-stich.vercel.app";
 const DEFAULT_ASSET_PATH_PREFIX = "/app-assets";
+// Google-Ads-Tag (components/google-ads-tag.tsx): Google-Quellen kommen nur dazu, wenn NEXT_PUBLIC_GOOGLE_ADS_ID gesetzt ist.
 function buildContentSecurityPolicy(assetOrigin: string, isDev: boolean) {
   const developmentEval = isDev ? " 'unsafe-eval'" : "";
-  return [
+  return withGoogleAdsOrigins([
     "default-src 'self'",
     `script-src 'self' 'unsafe-inline'${developmentEval} ${assetOrigin} https://js.icony.com`,
     `style-src 'self' 'unsafe-inline' ${assetOrigin}`,
@@ -19,7 +21,7 @@ function buildContentSecurityPolicy(assetOrigin: string, isDev: boolean) {
     "form-action 'self' https://dich-mit-stich.de https://dich-mit-stich.at https://dich-mit-stich.ch",
     "frame-ancestors 'none'",
     "upgrade-insecure-requests",
-  ].join("; ");
+  ]).join("; ");
 }
 
 function trimTrailingSlash(value: string) {

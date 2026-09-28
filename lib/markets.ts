@@ -163,7 +163,22 @@ type MarketRequestResolution =
 const PASS_PATHS = new Set(["/favicon.ico"]);
 const PASS_PREFIXES = ["/_next/", "/app-assets/", "/api/"];
 const STATIC_FILE_PATTERN = /\.(?:avif|css|gif|ico|jpe?g|js|json|map|png|svg|webp|woff2?)$/i;
-const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
+const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|landing|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
+
+/**
+ * Google-Ads-Landingpage (noindex, ohne Menü) auf allen drei Landesdomains. Liegt bewusst neben der
+ * indexierten Städte-Übersicht /tattoo-singles/ und wird intern auf /market-landing/<markt>/tattoo-singles
+ * umgeschrieben, damit eine Seite alle Märkte bedient.
+ */
+export const TATTOO_SINGLES_LANDING_PATH = "/tattoo-singles/kennenlernen";
+
+export function tattooSinglesLandingRewritePath(market: MarketCode): string {
+  return `/market-landing/${market}/tattoo-singles`;
+}
+
+function isTattooSinglesLandingPath(pathname: string): boolean {
+  return pathname.replace(/\/+$/, "") === TATTOO_SINGLES_LANDING_PATH;
+}
 const ABOUT_PATH_PATTERN = /^\/ueber-uns(?:\/(expertenteam|erfolgsgeschichten|kooperationen|bewertungen|social-media|suche))?$/;
 const TATTOO_STUDIO_CITY_SLUGS: Record<"at" | "ch", ReadonlySet<string>> = {
   at: new Set([
@@ -200,7 +215,7 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
     return {
       action: "rewrite",
       market: "de",
-      pathname: normalizedPathname,
+      pathname: isTattooSinglesLandingPath(normalizedPathname) ? tattooSinglesLandingRewritePath("de") : normalizedPathname,
     };
   }
 
@@ -216,7 +231,7 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
     return {
       action: "rewrite",
       market,
-      pathname: requestedPath,
+      pathname: isTattooSinglesLandingPath(requestedPath) ? tattooSinglesLandingRewritePath("de") : requestedPath,
     };
   }
 
@@ -286,6 +301,14 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
         action: "market-content",
         market,
         pathname: `/market-tattoo-singles/${market}`,
+      };
+    }
+
+    if (isTattooSinglesLandingPath(contentPath)) {
+      return {
+        action: "market-content",
+        market,
+        pathname: tattooSinglesLandingRewritePath(market),
       };
     }
 

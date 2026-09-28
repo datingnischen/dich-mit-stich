@@ -31,8 +31,8 @@ export function FaqPageView({ market }: { market: MarketCode }) {
             <span className="eyebrow">Hilfe & Orientierung</span>
             <h1>Häufig gestellte Fragen (FAQ)</h1>
             <p>
-              Du interessierst dich für Dich mit Stich oder hast Fragen zur Nutzung? Hier findest du die wichtigsten
-              Antworten rund um unsere Singlebörse für Tattoo- und Piercing-Fans – klar, transparent und auf den Punkt.
+              Du interessierst dich für Dich mit Stich oder hast Fragen zur Nutzung? Hier findest du Antworten auf
+              häufig gestellte Fragen rund um unsere Singlebörse für Tattoo- und Piercing-Fans – klar, transparent und auf den Punkt.
             </p>
             <div className="about-highlight-row" aria-label="FAQ-Themen">
               <span>{questionCount} Antworten</span>

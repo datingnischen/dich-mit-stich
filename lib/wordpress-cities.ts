@@ -2,6 +2,7 @@ import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
 import { decodeHtmlEntities, fetchWithRetry, stripHtml, WORDPRESS_FETCH_POLICY } from "./wordpress.ts";
+import { applyCityCorrections } from "./city-corrections.ts";
 import { normalizeWordPressPayload, wordpressRestUrl } from "./wordpress-origin.ts";
 
 const CITY_SOURCE_REVISION = "image-licenses-v1";
@@ -115,7 +116,7 @@ export function normalizeWordPressCity(item: WpCityRestItem): WordPressCityPage 
   const imageLicense = sources.find((source) => /lizenz/i.test(source.note || ""))
     || sources.find((source) => /license|lizenz/i.test(source.title || ""));
 
-  return {
+  return applyCityCorrections({
     id: item.id,
     market,
     slug: publicSlug(item),
@@ -137,7 +138,7 @@ export function normalizeWordPressCity(item: WpCityRestItem): WordPressCityPage 
     contentHtml: sanitizeHtml(item.content?.rendered || "", CITY_HTML_POLICY),
     relatedCities: [],
     registrationUrl: item.acf?.primary_cta_url || `https://dich-mit-stich.${market}/registration/`,
-  };
+  });
 }
 
 export function assertCompleteCityResponse(response: Response) {

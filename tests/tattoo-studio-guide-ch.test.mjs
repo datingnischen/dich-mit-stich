@@ -53,21 +53,16 @@ test("Zürich studio guide reuses the licensed Swiss city image with provenance"
 });
 
 test("Swiss studio guide preview routes stay noindex and declare .ch canonicals", async () => {
-  const [overview, city, studio, sharedCity, sharedStudio] = await Promise.all([
+  const [overview, city, sharedCity] = await Promise.all([
     readFile(new URL("app/market-tattoo-studios/[market]/page.tsx", root), "utf8"),
     readFile(new URL("app/market-tattoo-studios/[market]/[city]/page.tsx", root), "utf8"),
-    readFile(new URL("app/market-tattoo-studio/[market]/[slug]/page.tsx", root), "utf8"),
     readFile(new URL("components/tattoo-studio-city-guide.tsx", root), "utf8"),
-    readFile(new URL("components/tattoo-studio-detail.tsx", root), "utf8"),
   ]);
 
   // Overview and city pages follow the published studio data instead of a blanket noindex.
   assert.match(overview, /index:\s*getIndexableTattooStudioCities\(market\)\.length\s*>\s*0/);
   assert.match(city, /index:\s*isIndexableTattooStudioCity\(market,\s*city\)/);
-  // Individual studio detail pages remain noindex until they are reviewed separately.
-  assert.match(studio, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
-
-  for (const source of [overview, city, studio]) {
+  for (const source of [overview, city]) {
     assert.doesNotMatch(source, /vercel\.app/);
   }
   assert.match(overview, /publicUrl\(market, "\/tattoo-studios"\)/);
@@ -78,7 +73,6 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
   assert.match(sharedCity, /href=\{studio\.sourceUrl\}/);
   assert.match(sharedCity, /\? "Webseite" : "Datenquelle"/);
   assert.match(sharedCity, /rel="noopener noreferrer nofollow"/);
-  assert.match(studio, /publicUrl\(market, `\/tattoo-studio\/\$\{slug\}`\)/);
   assert.match(overview, /targetMarket=\{market\}/);
   assert.match(overview, /ch:\s*\{[\s\S]*regionLabel:\s*"CH"/);
   assert.match(overview, /href="#stadtguides">Stadtguides ansehen/);
@@ -89,8 +83,6 @@ test("Swiss studio guide preview routes stay noindex and declare .ch canonicals"
   assert.match(overview, /sizes="\(max-width: 640px\) 120px, 180px"/);
   assert.doesNotMatch(overview, /studio-city-card-overlay/);
   assert.match(city, /<TattooStudioCityGuide guide=\{guide\} market=\{market\}/);
-  assert.match(studio, /<TattooStudioDetail studio=\{studio\} city=\{city\} market=\{market\}/);
-  assert.match(sharedStudio, /targetMarket=\{market\}/);
 });
 
 test("shared tattoo studio loader isolates and resolves the Zürich pilot", async () => {

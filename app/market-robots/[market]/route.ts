@@ -23,7 +23,6 @@ export async function GET(_request: Request, { params }: RouteProps) {
     "Allow: /ueber-uns",
     "Allow: /tattoo-singles",
     "Allow: /tattoo-studios",
-    "Allow: /tattoo-studio/",
   ];
   const body = [
     "User-agent: *",

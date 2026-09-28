@@ -93,13 +93,6 @@ function studioDocuments(market: MarketCode): SearchDocument[] {
       keywords: `${guide.cityName} ${guide.region} ${guide.studios.map((studio) => studio.name).join(" ")}`,
       pathname: `/tattoo-studios/${guide.slug}`,
     },
-    ...guide.studios.map((studio) => ({
-      area: "Tattoo-Studio" as const,
-      title: studio.name,
-      excerpt: shortenExcerpt(studio.description || `Tattoo-Studio in ${studio.cityName}.`),
-      keywords: `${studio.cityName} ${studio.styles.map((style) => style.label).join(" ")}`,
-      pathname: `/tattoo-studio/${studio.slug}`,
-    })),
   ]);
 }
 

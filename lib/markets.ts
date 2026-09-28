@@ -281,15 +281,6 @@ export function resolveMarketRequest(pathname: string): MarketRequestResolution 
       };
     }
 
-    const studioMatch = contentPath.match(/^\/tattoo-studio\/([a-z0-9]+(?:-[a-z0-9]+)*)$/);
-    if (studioMatch) {
-      return {
-        action: "market-content",
-        market,
-        pathname: `/market-tattoo-studio/${market}/${studioMatch[1]}`,
-      };
-    }
-
     if (contentPath === "/tattoo-singles") {
       return {
         action: "market-content",

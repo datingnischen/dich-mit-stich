@@ -5,7 +5,7 @@ import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
 import { withTrailingSlash } from "@/lib/markets";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
-import { getIndexableTattooStudioCities, getTattooStudioSlugs } from "@/lib/tattoo-studio-guide";
+import { getIndexableTattooStudioCities } from "@/lib/tattoo-studio-guide";
 
 const SITE_URL = "https://dich-mit-stich.de";
 
@@ -16,7 +16,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
   const categories = rawCategories.filter((category) => category.slug !== "erfolgsgeschichten");
   const studioCities = getIndexableTattooStudioCities("de");
-  const studioSlugs = getTattooStudioSlugs("de");
 
   const locations: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "daily", priority: 1 },
@@ -50,11 +49,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as const,
       priority: 0.85,
       lastModified: city.lastVerified,
-    })),
-    ...studioSlugs.map((slug) => ({
-      url: `${SITE_URL}/tattoo-studio/${slug}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.75,
     })),
   ];
   return locations.map((location) => ({ ...location, url: withTrailingSlash(location.url) }));

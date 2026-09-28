@@ -122,11 +122,7 @@ test("routes adapted AT and CH editorial families while gating untagged content"
     market: "ch",
     pathname: "/market-tattoo-studios/ch/zuerich",
   });
-  assert.deepEqual(resolveMarketRequest("/ch/tattoo-studio/example-zuerich"), {
-    action: "market-content",
-    market: "ch",
-    pathname: "/market-tattoo-studio/ch/example-zuerich",
-  });
+  assert.deepEqual(resolveMarketRequest("/ch/tattoo-studio/example-zuerich"), { action: "not-found" });
   assert.deepEqual(resolveMarketRequest("/at/tattoo-studios"), {
     action: "market-content",
     market: "at",
@@ -264,7 +260,6 @@ test("every DE page family emits a prefix-free public-domain canonical", async (
     ["../app/tattoo-singles/[slug]/page.tsx", /publicUrl\("de", `\/tattoo-singles\/\$\{slug\}`\)/],
     ["../app/tattoo-studios/page.tsx", /publicUrl\("de", "\/tattoo-studios"\)/],
     ["../app/tattoo-studios/[city]/page.tsx", /publicUrl\("de", `\/tattoo-studios\/\$\{city\}`\)/],
-    ["../app/tattoo-studio/[slug]/page.tsx", /publicUrl\("de", `\/tattoo-studio\/\$\{slug\}`\)/],
   ];
 
   for (const [relativePath, pattern] of expectations) {
@@ -289,7 +284,7 @@ test("unfinished market areas are noindex while CH city SEO is handled explicitl
   assert.match(robotsSource, /Disallow:\s*\//);
   assert.match(robotsSource, /Allow:\s*\/tattoo-singles/);
   assert.match(robotsSource, /Allow:\s*\/tattoo-studios/);
-  assert.match(robotsSource, /Allow:\s*\/tattoo-studio\//);
+  assert.doesNotMatch(robotsSource, /Allow:\s*\/tattoo-studio\//);
   assert.match(sitemapSource, /<urlset/);
   assert.match(sitemapSource, /marketSitemapLocations\(market\)/);
   const sitemapLibSource = await readFile(new URL("../lib/market-sitemap.ts", import.meta.url), "utf8");
@@ -323,12 +318,24 @@ test("AT market preview exposes all imported Austria city pages", async () => {
   assert.match(previewSource, /label: "Wiener Neustadt"/);
 });
 
-test("DE sitemap includes only indexable tattoo studio cities plus verified detail families", async () => {
+test("DE sitemap includes only indexable tattoo studio cities and no retired studio profiles", async () => {
   const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
   assert.match(sitemapSource, /getIndexableTattooStudioCities/);
-  assert.match(sitemapSource, /getTattooStudioSlugs/);
+  assert.doesNotMatch(sitemapSource, /getTattooStudioSlugs/);
   assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studios/);
-  assert.match(sitemapSource, /\$\{SITE_URL\}\/tattoo-studio\/\$\{slug\}/);
+  assert.doesNotMatch(sitemapSource, /\/tattoo-studio\//);
+});
+
+test("retired studio profile URLs redirect permanently to their city guide", async () => {
+  const source = await readFile(new URL("../app/tattoo-studio/[slug]/page.tsx", import.meta.url), "utf8");
+  assert.match(source, /permanentRedirect\(studio \? `\/tattoo-studios\/\$\{studio\.citySlug\}\/` : "\/tattoo-studios\/"\)/);
+  assert.doesNotMatch(source, /generateStaticParams|TattooStudioDetail/);
+});
+
+test("old WordPress sitemaps and the renamed studio article redirect", async () => {
+  const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+  assert.match(config, /source:\s*"\/:section\(magazin\|tattoo-studios\)\/sitemap\.xml",\s*destination:\s*"\/sitemap\.xml"/);
+  assert.match(config, /source:\s*"\/magazin\/das-richtige-tattoo-studio-finden",\s*destination:\s*"\/magazin\/tattoo-studio\/"/);
 });
 
 test("production CSP permits the configured cross-origin Next asset host", async () => {
@@ -412,6 +419,6 @@ test("retired unverified Berlin studio profiles redirect to the sourced city gui
 test("clean tattoo studio slugs preserve the previously published Prime Ink profile URL", async () => {
   const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
   assert.match(config, /prime-ink-tattoo-hannover-hannover/);
-  assert.match(config, /destination:\s*"\/tattoo-studio\/prime-ink-tattoo-hannover\/"/);
+  assert.match(config, /destination:\s*"\/tattoo-studios\/hannover\/"/);
   assert.match(config, /permanent:\s*true/);
 });

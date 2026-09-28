@@ -101,12 +101,10 @@ test("VOM SCHEITEL BIS ZUR SOHLE does not expose artist styles as studio-wide ta
 });
 
 test("AT studio guide routes share the market-aware renderers and remain noindex follow", async () => {
-  const [overview, city, cityLayout, studio, studioLayout, sharedCity] = await Promise.all([
+  const [overview, city, cityLayout, sharedCity] = await Promise.all([
     readFile(new URL("app/market-tattoo-studios/[market]/page.tsx", root), "utf8"),
     readFile(new URL("app/market-tattoo-studios/[market]/[city]/page.tsx", root), "utf8"),
     readFile(new URL("app/market-tattoo-studios/[market]/layout.tsx", root), "utf8"),
-    readFile(new URL("app/market-tattoo-studio/[market]/[slug]/page.tsx", root), "utf8"),
-    readFile(new URL("app/market-tattoo-studio/[market]/layout.tsx", root), "utf8"),
     readFile(new URL("components/tattoo-studio-city-guide.tsx", root), "utf8"),
   ]);
 
@@ -114,22 +112,16 @@ test("AT studio guide routes share the market-aware renderers and remain noindex
   // carries verified studios is publishable, a rollout draft stays out of the index.
   assert.match(overview, /index:\s*getIndexableTattooStudioCities\(market\)\.length\s*>\s*0/);
   assert.match(city, /index:\s*isIndexableTattooStudioCity\(market,\s*city\)/);
-  // Individual studio detail pages remain noindex until they are reviewed separately.
-  assert.match(studio, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
-
-  for (const source of [overview, city, studio]) {
+  for (const source of [overview, city]) {
     assert.doesNotMatch(source, /vercel\.app/);
   }
-  for (const source of [overview, city, cityLayout, studio, studioLayout]) {
+  for (const source of [overview, city, cityLayout]) {
     assert.match(source, /isTattooStudioMarket/);
   }
   assert.match(overview, /publicUrl\(market, "\/tattoo-studios"\)/);
   assert.match(city, /publicUrl\(market, `\/tattoo-studios\/\$\{city\}`\)/);
-  assert.match(studio, /publicUrl\(market, `\/tattoo-studio\/\$\{slug\}`\)/);
   assert.match(city, /<TattooStudioCityGuide guide=\{guide\} market=\{market\}/);
-  assert.match(studio, /<TattooStudioDetail studio=\{studio\} city=\{city\} market=\{market\}/);
   assert.match(cityLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
-  assert.match(studioLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
   assert.match(sharedCity, /market === "at" \? "Österreichischer "/);
   assert.match(sharedCity, /guide\.imageUrl \? staticAsset\(guide\.imageUrl\)/);
 });
@@ -250,7 +242,7 @@ test("AT robots lets crawlers read noindex on the public tattoo routes", async (
 
   assert.match(marketRobots, /"Allow: \/tattoo-singles"/);
   assert.match(marketRobots, /"Allow: \/tattoo-studios"/);
-  assert.match(marketRobots, /"Allow: \/tattoo-studio\/"/);
+  assert.doesNotMatch(marketRobots, /"Allow: \/tattoo-studio\/"/);
   assert.doesNotMatch(marketRobots, /market === "ch"[\s\S]*Allow: \/tattoo-studios/);
 });
 

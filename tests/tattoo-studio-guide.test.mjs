@@ -324,12 +324,10 @@ test("largest-city sections keep compact responsive images across all markets", 
 });
 
 test("guide overview, city and studio routes expose SEO and structured data contracts", async () => {
-  const [overview, cityRoute, city, studioRoute, studio] = await Promise.all([
+  const [overview, cityRoute, city] = await Promise.all([
     source("app/tattoo-studios/page.tsx"),
     source("app/tattoo-studios/[city]/page.tsx"),
     source("components/tattoo-studio-city-guide.tsx"),
-    source("app/tattoo-studio/[slug]/page.tsx"),
-    source("components/tattoo-studio-detail.tsx"),
   ]);
 
   assert.match(overview, /publicUrl\("de", "\/tattoo-studios"\)/);
@@ -373,48 +371,31 @@ test("guide overview, city and studio routes expose SEO and structured data cont
   assert.match(city, /Häufige Fragen zu Tattoo-Studios/);
   assert.match(city, /<time dateTime=\{guide\.lastVerified\}>/);
   assert.doesNotMatch(city, /String\(index \+ 1\)\.padStart/);
-  assert.match(city, /\/tattoo-studio\/\$\{studio\.slug\}/);
+  assert.doesNotMatch(city, /\/tattoo-studio\/|Studio-Profil ansehen/);
   assert.match(city, /Stand des Stadtguides/);
   assert.match(city, /Keine bezahlte Platzierung/);
   assert.match(city, /href=\{studio\.sourceUrl\}/);
   assert.match(city, /\? "Webseite" : "Datenquelle"/);
   assert.match(city, /rel="noopener noreferrer nofollow"/);
 
-  assert.match(studioRoute, /getTattooStudio/);
-  assert.match(studio, /"@type": "TattooParlor"/);
-  assert.match(studio, /"@type": "BreadcrumbList"/);
-  assert.match(studio, /hasCompleteStreetAddress\(studio\.address\)/);
-  assert.match(studio, /\.\.\.\(hasCompleteStreetAddress\(studio\.address\) \? \{ streetAddress: studio\.address \} : \{\}\)/);
-  assert.match(studio, /<ol>/);
-  assert.match(studioRoute, /publicUrl\("de", `\/tattoo-studio\/\$\{slug\}`\)/);
-  assert.match(studio, /rel="noopener noreferrer nofollow"/);
-  assert.match(studio, /studio\.websiteUrl\s*\?/);
   assert.match(city, /const sourceIsGuide = normalizeUrl\(studio\.sourceUrl\) === normalizeUrl\(guide\.sourceUrl\)/);
   assert.match(city, /Keine eigene Studio-Webseite verfügbar/);
   assert.doesNotMatch(city, /guide\.selectionMethodHtml|dangerouslySetInnerHTML=\{\{ __html: guide\.selectionMethodHtml \}\}/);
   assert.match(city, /So findest du das passende Studio/);
-  assert.match(studio, /const sourceIsGuide = normalizeUrl\(studio\.sourceUrl\) === normalizeUrl\(city\.sourceUrl\)/);
-  assert.match(studio, /Zum Stadtguide/);
-  assert.match(studio, /Keine Website verfügbar/);
-  assert.doesNotMatch(`${city}\n${studio}`, /übernommen|in Prüfung|Prüfstatus|Prüfdatum|redaktionellen Check|[Vv]erifizierte(?:n|r)? (?:Website|Kontaktdaten|Studio-Profile)|Redaktionelle Ausgangsseite|Datenstatus/);
-  assert.match(studio, /Datenänderung melden/);
+  assert.doesNotMatch(city, /übernommen|in Prüfung|Prüfstatus|Prüfdatum|redaktionellen Check|[Vv]erifizierte(?:n|r)? (?:Website|Kontaktdaten|Studio-Profile)|Redaktionelle Ausgangsseite|Datenstatus/);
 });
 
 test("studio city and detail pages keep every shell conversion CTA on AID location", async () => {
-  const [city, studio, chCityLayout, chStudioLayout, frame, shell, sticky] = await Promise.all([
+  const [city, chCityLayout, frame, shell, sticky] = await Promise.all([
     source("app/tattoo-studios/[city]/page.tsx"),
-    source("app/tattoo-studio/[slug]/page.tsx"),
     source("app/market-tattoo-studios/[market]/layout.tsx"),
-    source("app/market-tattoo-studio/[market]/layout.tsx"),
     source("components/site-frame.tsx"),
     source("components/site-shell.tsx"),
     source("components/sticky-cta-button.tsx"),
   ]);
 
   assert.match(city, /<SiteFrame market="de" sectionLive aid="location">/);
-  assert.match(studio, /<SiteFrame market="de" sectionLive aid="location">/);
   assert.match(chCityLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
-  assert.match(chStudioLayout, /<SiteFrame market=\{market\} sectionLive aid="location" stickyCta>/);
   assert.match(frame, /config\.contentEnabled \|\| \(sectionLive && stickyCta\)/);
   assert.match(frame, /<SiteHeader market=\{market\} sectionLive=\{sectionLive\} aid=\{aid\}/);
   assert.match(frame, /<SiteFooter market=\{market\} sectionLive=\{sectionLive\} stickyCta=\{showStickyCta\} aid=\{aid\}/);
@@ -498,27 +479,9 @@ test("DE, AT and CH city routes use the same complete studio-guide architecture"
   assert.match(shared, /Webseiten und Kontaktwege findest du direkt bei den Studios/);
 });
 
-test("DE, AT and CH detail routes use the same honest studio-profile architecture", async () => {
-  const [deRoute, chRoute, shared] = await Promise.all([
-    source("app/tattoo-studio/[slug]/page.tsx"),
-    source("app/market-tattoo-studio/[market]/[slug]/page.tsx"),
-    source("components/tattoo-studio-detail.tsx"),
-  ]);
-
-  assert.match(deRoute, /<TattooStudioDetail studio=\{studio\} city=\{city\} market="de"/);
-  assert.match(chRoute, /<TattooStudioDetail studio=\{studio\} city=\{city\} market=\{market\}/);
-  assert.match(shared, /"@type": "TattooParlor"/);
-  assert.match(shared, /"@type": "BreadcrumbList"/);
-  assert.match(shared, /hasCompleteStreetAddress\(studio\.address\)/);
-  assert.match(shared, /className="studio-detail-place"/);
-  assert.match(shared, /<LocationPinIcon/);
-  assert.match(shared, /Keine Website verfügbar/);
-});
-
 test("studio locations and city text links use a consistent place treatment", async () => {
-  const [city, detail, shell, icon, css] = await Promise.all([
+  const [city, shell, icon, css] = await Promise.all([
     source("components/tattoo-studio-city-guide.tsx"),
-    source("components/tattoo-studio-detail.tsx"),
     source("components/site-shell.tsx"),
     source("components/location-pin-icon.tsx"),
     source("app/globals.css"),
@@ -529,10 +492,6 @@ test("studio locations and city text links use a consistent place treatment", as
   assert.match(city, /<LocationPinIcon/);
   assert.match(city, /className="studio-place-card"/);
   assert.match(city, /Standort in \{guide\.cityName\}/);
-  assert.match(detail, /className="studio-detail-place"/);
-  assert.match(detail, /mailto:christian@datingnischen\.de\?subject=/);
-  assert.match(detail, /encodeURIComponent\(`Datenkorrektur Studio: \$\{studio\.name\}`\)/);
-  assert.doesNotMatch(detail, /publicUrl\(market, "\/kontakt\/"\)/);
   assert.match(shell, /function isCityLink/);
   assert.match(shell, /<LocationPinIcon className="footer-city-link-icon"/);
   assert.match(css, /\.studio-place-card\s*\{/);
@@ -541,20 +500,7 @@ test("studio locations and city text links use a consistent place treatment", as
   assert.match(css, /\.studio-editorial-card a\[href\*="\/tattoo-singles\/"\]::before/);
 });
 
-test("studio metadata mentions styles only when structured style evidence exists", async () => {
-  const [deRoute, marketRoute] = await Promise.all([
-    source("app/tattoo-studio/[slug]/page.tsx"),
-    source("app/market-tattoo-studio/[market]/[slug]/page.tsx"),
-  ]);
-
-  for (const route of [deRoute, marketRoute]) {
-    assert.match(route, /studio\.styles\.length/);
-    assert.match(route, /Stilrichtungen, Adresse/);
-    assert.match(route, /Adresse, .*Quellen/);
-  }
-});
-
-test("studio card profile and website links render as accessible buttons", async () => {
+test("studio card website links render as accessible buttons without retired profile links", async () => {
   const [city, css] = await Promise.all([
     source("components/tattoo-studio-city-guide.tsx"),
     source("app/globals.css"),
@@ -562,7 +508,7 @@ test("studio card profile and website links render as accessible buttons", async
 
   assert.match(city, /className="studio-card-actions"/);
   assert.match(city, /className="studio-card-source studio-card-action studio-card-action-secondary"/);
-  assert.match(city, /className="studio-card-link studio-card-action studio-card-action-primary"/);
+  assert.doesNotMatch(city, /studio-card-link|Studio-Profil ansehen/);
   assert.match(city, /rel="noopener noreferrer nofollow"/);
   assert.match(css, /\.studio-card-actions\s*\{[^}]*display:\s*flex/s);
   assert.match(css, /\.studio-card-action\s*\{[^}]*min-height:\s*44px/s);

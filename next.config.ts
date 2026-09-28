@@ -85,6 +85,18 @@ export default function nextConfig(phase: string): NextConfig {
           permanent: true,
         },
         {
+          // Alter Slug, noch in mehreren WordPress-Beiträgen verlinkt.
+          source: "/magazin/das-richtige-tattoo-studio-finden",
+          destination: "/magazin/tattoo-studio/",
+          permanent: true,
+        },
+        {
+          // Sitemaps des alten Magazin- und Studio-WordPress.
+          source: "/:section(magazin|tattoo-studios)/sitemap.xml",
+          destination: "/sitemap.xml",
+          permanent: true,
+        },
+        {
           source: "/magazin/tattoo-studios",
           destination: "/tattoo-studios/",
           permanent: true,
@@ -151,7 +163,7 @@ export default function nextConfig(phase: string): NextConfig {
         },
         {
           source: "/tattoo-studio/prime-ink-tattoo-hannover-hannover",
-          destination: "/tattoo-studio/prime-ink-tattoo-hannover/",
+          destination: "/tattoo-studios/hannover/",
           permanent: true,
         },
       ];

@@ -112,7 +112,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           "@type": "ListItem",
           position: index + 1,
           name: studio.name,
-          url: publicUrl(market, `/tattoo-studio/${studio.slug}`),
+          ...(studio.websiteUrl ? { url: studio.websiteUrl } : {}),
         })),
       },
       {
@@ -197,9 +197,6 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
                           {studio.websiteUrl && normalizeUrl(studio.websiteUrl) === normalizeUrl(studio.sourceUrl) ? "Webseite" : "Datenquelle"} <span aria-hidden="true">↗</span>
                         </a>
                       )}
-                      <MarketLink className="studio-card-link studio-card-action studio-card-action-primary" targetMarket={market} pathname={`/tattoo-studio/${studio.slug}`}>
-                        Studio-Profil ansehen <span aria-hidden="true">→</span>
-                      </MarketLink>
                     </div>
                   </div>
                 </article>

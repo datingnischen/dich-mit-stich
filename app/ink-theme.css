@@ -1,0 +1,661 @@
+/*
+ * Ink-Theme (2026-09): Tattoo-Studio-Look über alle Seiten.
+ * Liegt als letzte Schicht über globals.css: Tinte statt Grau, Fraunces als Display-Schrift,
+ * gestrichelte "Stich"-Nähte als Markenmotiv, dunkle Artikel-Cover wie der Footer.
+ */
+
+:root {
+  --ink: #21191d;
+  --ink-2: #2e2328;
+  --paper: #f7f2ef;
+  --foreground: #261d22;
+  --muted: #4d4247;
+  --line: #eadfe3;
+  --brand-hot: #d9467f;
+  --brand-glow: #ffb4cf;
+  --stitch: rgba(103, 19, 60, 0.42);
+  --display: var(--font-display), Georgia, "Times New Roman", serif;
+  --shadow-soft: 0 1px 2px rgba(33, 25, 29, 0.05), 0 14px 34px rgba(33, 25, 29, 0.07);
+  --shadow-lift: 0 2px 4px rgba(33, 25, 29, 0.06), 0 24px 50px rgba(103, 19, 60, 0.16);
+}
+
+body {
+  background:
+    radial-gradient(1200px 520px at 100% -8%, rgba(217, 70, 127, 0.07), transparent 60%),
+    radial-gradient(900px 480px at -10% 10%, rgba(103, 19, 60, 0.05), transparent 60%),
+    var(--paper);
+}
+
+::selection {
+  background: rgba(217, 70, 127, 0.22);
+  color: var(--ink);
+}
+
+/* Display-Schrift: nur die großen Überschriften, Fließtext bleibt Open Sans. */
+h1,
+h2,
+.magazine-story-copy h3,
+.magazine-story-copy .magazine-story-title,
+.magazine-guide-copy h3 {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 60, "WONK" 0;
+  font-weight: 700;
+  letter-spacing: -0.018em !important;
+}
+
+h1 {
+  font-weight: 800;
+  line-height: 1.02;
+}
+
+/* Eyebrows: Etikett mit gestrichelter Naht */
+.eyebrow {
+  padding: 6px 12px;
+  border: 1.5px dashed var(--stitch);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+}
+
+.eyebrow::before {
+  content: "✦";
+  margin-right: 7px;
+  font-size: 0.9em;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+/* Buttons */
+.button-primary {
+  background: linear-gradient(135deg, #7b1848, var(--brand) 60%);
+  box-shadow: 0 10px 24px rgba(103, 19, 60, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.button-primary:hover {
+  box-shadow: 0 14px 30px rgba(103, 19, 60, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.button-secondary {
+  border-color: rgba(33, 25, 29, 0.14);
+}
+
+.button-secondary:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+/* Vorteilslisten mit Stern */
+.trust-points li::before,
+.expert-facts li::before {
+  content: "✦";
+  top: 0.1em;
+  font-size: 0.85em;
+}
+
+/* Karten: ruhiger Rand, weicher Schatten, beim Hover Zoom ins Bild */
+.hero-card,
+.panel-card {
+  border-color: rgba(33, 25, 29, 0.07);
+  box-shadow: var(--shadow-soft);
+}
+
+.article-card,
+.city-card {
+  border-color: rgba(33, 25, 29, 0.07);
+  box-shadow: var(--shadow-soft);
+}
+
+.article-card:hover,
+.city-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+.article-card img,
+.city-card img {
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.article-card:hover img,
+.city-card:hover img {
+  transform: scale(1.045);
+}
+
+.magazine-story-copy h3,
+.magazine-story-copy .magazine-story-title {
+  color: var(--ink);
+  font-size: 1.42rem;
+  line-height: 1.2;
+}
+
+.article-card:hover :is(h3, .magazine-story-title) {
+  color: var(--brand);
+}
+
+.chip {
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.chip:hover {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+/* Header: dünne Naht unter der Leiste */
+.site-header-shell {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 0;
+  box-shadow: 0 1px 0 rgba(33, 25, 29, 0.06);
+}
+
+.site-header-shell::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -3px;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, var(--brand) 0 10px, transparent 10px 18px);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Magazin-Artikel: dunkles Tinten-Cover                               */
+/* ------------------------------------------------------------------ */
+
+.magazine-detail-cover {
+  position: relative;
+  isolation: isolate;
+  width: min(1120px, 100%);
+  border-radius: 30px;
+  background: var(--ink);
+  box-shadow: 0 34px 80px rgba(33, 25, 29, 0.3);
+}
+
+.magazine-detail-cover .magazine-detail-hero {
+  border: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(217, 70, 127, 0.3), transparent 46%),
+    radial-gradient(circle at 30% 120%, rgba(123, 24, 72, 0.45), transparent 50%),
+    repeating-linear-gradient(135deg, transparent 0 28px, rgba(255, 255, 255, 0.022) 28px 29px),
+    var(--ink);
+  backdrop-filter: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Innere Naht rund um das Cover */
+.magazine-detail-cover::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  z-index: 2;
+  border: 1.5px dashed rgba(255, 180, 207, 0.28);
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+.magazine-detail-cover .hero-magazine-editorial::after {
+  display: none;
+}
+
+.magazine-detail-cover .magazine-detail-hero h1 {
+  max-width: 17ch;
+  color: #fff;
+  font-size: clamp(2.5rem, 5.4vw, 4.6rem);
+  line-height: 1.02;
+}
+
+.magazine-detail-cover .magazine-detail-lead {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.magazine-detail-cover .eyebrow {
+  border-color: rgba(255, 180, 207, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--brand-glow);
+}
+
+.magazine-detail-cover .magazine-detail-meta {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.magazine-detail-cover .magazine-detail-meta a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 180, 207, 0.6);
+  text-underline-offset: 0.22em;
+}
+
+.magazine-detail-cover .magazine-detail-meta > * + *::before {
+  background: var(--brand-hot);
+}
+
+.magazine-detail-cover .magazine-detail-topics .chip {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.magazine-detail-cover .magazine-detail-topics .chip:hover {
+  border-color: var(--brand-hot);
+  background: var(--brand-hot);
+}
+
+.magazine-detail-cover .magazine-detail-media {
+  position: relative;
+}
+
+/* Bild läuft weich in die Tinte */
+.magazine-detail-cover-split .magazine-detail-media::before,
+.magazine-detail-cover-profile .magazine-detail-media::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: 38%;
+  background: linear-gradient(90deg, var(--ink), transparent);
+  pointer-events: none;
+}
+
+.magazine-detail-cover:not(.magazine-detail-cover-split):not(.magazine-detail-cover-profile) .magazine-detail-media::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 30%;
+  background: linear-gradient(180deg, var(--ink), transparent);
+  pointer-events: none;
+}
+
+.magazine-detail-cover-split,
+.magazine-detail-cover-profile {
+  background: var(--ink);
+}
+
+@media (min-width: 901px) {
+  .magazine-detail-cover-split {
+    grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
+  }
+}
+
+/* Kurz beantwortet: Karte mit Naht statt Randbalken */
+.magazine-answer-summary {
+  position: relative;
+  border: 0;
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.magazine-answer-summary::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1.5px dashed var(--stitch);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.magazine-answer-summary h2 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+}
+
+.magazine-answer-direct {
+  font-weight: 600;
+}
+
+.magazine-answer-facts {
+  list-style: none;
+  padding-left: 0;
+}
+
+.magazine-answer-facts li {
+  position: relative;
+  padding-left: 1.7rem;
+}
+
+.magazine-answer-facts li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  color: var(--brand-hot);
+}
+
+/* Kurzprofil (Tattoo-Lexikon): tiefere Tinte statt Flächen-Weinrot */
+.motif-glance {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217, 70, 127, 0.4), transparent 55%),
+    linear-gradient(135deg, #7b1848, var(--brand) 55%, #4a0d2b);
+}
+
+/* ------------------------------------------------------------------ */
+/* Magazin-Artikel: Lesetext                                           */
+/* ------------------------------------------------------------------ */
+
+.magazine-article-body {
+  width: min(880px, 100%);
+  border: 0;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.magazine-article-body :where(p, ul, ol) {
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.82;
+}
+
+.magazine-article-body :where(strong, b) {
+  color: var(--foreground);
+}
+
+/* Sprungnavigation im Lexikon klebte am ersten Absatz */
+.magazine-article-body > .lexikon-jump {
+  margin-bottom: 2em;
+}
+
+/* Initial im ersten Absatz */
+.magazine-article-body > div:first-child > p:first-child::first-letter {
+  float: left;
+  margin: 0.06em 0.1em 0 0;
+  color: var(--brand);
+  font-family: var(--display);
+  font-size: 4.3em;
+  font-weight: 800;
+  line-height: 0.8;
+}
+
+/* Jeder Textabschnitt ist ein eigenes div: Luft vor der nächsten Überschrift */
+.magazine-article-body > * + div > :is(h2, h3):first-child {
+  margin-top: 1.9em;
+}
+
+/* Zwischenüberschriften der Artikel mit Nahtlinie */
+.magazine-article-body > div > :is(h2, h3),
+.magazine-article-body > div > div > :is(h2, h3) {
+  color: var(--ink);
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 60, "WONK" 0;
+  font-size: clamp(1.55rem, 2.8vw, 2.05rem);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.magazine-article-body > div > :is(h2, h3)::before,
+.magazine-article-body > div > div > :is(h2, h3)::before {
+  content: "";
+  display: block;
+  width: 64px;
+  margin-bottom: 0.6em;
+  border-top: 3px dashed var(--brand-hot);
+}
+
+.magazine-article-body > div > h4,
+.magazine-article-body > div > div > h4 {
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+
+/* Listen mit Stern statt Punkt */
+.magazine-article-body > div > ul,
+.magazine-article-body > div > div > ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.magazine-article-body > div > ul > li,
+.magazine-article-body > div > div > ul > li {
+  position: relative;
+  padding-left: 1.8rem;
+}
+
+.magazine-article-body > div > ul > li::before,
+.magazine-article-body > div > div > ul > li::before {
+  content: "✦";
+  position: absolute;
+  left: 0.1rem;
+  top: 0.05em;
+  color: var(--brand-hot);
+  font-size: 0.95em;
+}
+
+.magazine-article-body > div > ol ::marker,
+.magazine-article-body > div > div > ol ::marker {
+  color: var(--brand);
+  font-family: var(--display);
+  font-weight: 800;
+}
+
+/* Bilder im Text */
+.magazine-article-body > div img,
+.magazine-article-body figure img {
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(33, 25, 29, 0.14);
+}
+
+.magazine-article-body figcaption {
+  margin-top: 10px;
+  color: #7a6e73;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+/* Zitate */
+.magazine-article-body blockquote:not([class]),
+.motif-pullquote {
+  position: relative;
+  margin: 2.6em 0;
+  padding: 1.6em 1.4em 1.4em 3.4rem;
+  border: 0;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #fff5f9, #fdf8f5);
+}
+
+.magazine-article-body blockquote:not([class])::before,
+.motif-pullquote::before {
+  content: "“";
+  position: absolute;
+  left: 0.9rem;
+  top: 0.1rem;
+  color: var(--brand-hot);
+  font-family: var(--display);
+  font-size: 5.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.magazine-article-body .motif-pullquote p,
+.magazine-article-body blockquote:not([class]) p {
+  color: var(--ink);
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Flirt-Einschub */
+.motif-hook {
+  border: 1.5px dashed var(--stitch);
+  background: linear-gradient(135deg, #fff5f9, #fff);
+}
+
+.motif-hook-icon {
+  background: linear-gradient(135deg, var(--brand-hot), var(--brand));
+  box-shadow: 0 8px 18px rgba(217, 70, 127, 0.35);
+}
+
+.motif-hook-title {
+  font-family: var(--display);
+  font-size: 1.22rem;
+}
+
+.motif-scene {
+  border-top: 2px dashed var(--stitch);
+}
+
+/* Dating-CTA am Artikelende: Tinte statt Rosa */
+.magazine-dating-cta {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(217, 70, 127, 0.3), transparent 45%),
+    repeating-linear-gradient(135deg, transparent 0 28px, rgba(255, 255, 255, 0.022) 28px 29px),
+    var(--ink);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 30px 70px rgba(33, 25, 29, 0.26);
+}
+
+.magazine-dating-cta::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  z-index: -1;
+  border: 1.5px dashed rgba(255, 180, 207, 0.26);
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+.magazine-dating-cta .eyebrow {
+  border-color: rgba(255, 180, 207, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--brand-glow);
+}
+
+.magazine-dating-copy h2 {
+  color: #fff;
+}
+
+.magazine-dating-copy > p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.magazine-dating-cta .trust-points li {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.magazine-dating-cta .trust-points li::before {
+  color: var(--brand-glow);
+}
+
+.magazine-dating-frame {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+}
+
+/* Magazin-Übersicht und Themen: Hero in Tinte wie die Artikel-Cover */
+.magazine-intro-card {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(217, 70, 127, 0.32), transparent 46%),
+    radial-gradient(circle at 100% 120%, rgba(123, 24, 72, 0.5), transparent 50%),
+    repeating-linear-gradient(135deg, transparent 0 28px, rgba(255, 255, 255, 0.022) 28px 29px),
+    var(--ink);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 34px 80px rgba(33, 25, 29, 0.28);
+}
+
+.magazine-intro-card.hero-magazine-editorial::after {
+  inset: 12px;
+  width: auto;
+  height: auto;
+  border: 1.5px dashed rgba(255, 180, 207, 0.28);
+  border-radius: 20px;
+  background: none;
+}
+
+.magazine-intro-card h1 {
+  color: #fff;
+}
+
+.magazine-intro-card > p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.magazine-intro-card .eyebrow {
+  border-color: rgba(255, 180, 207, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--brand-glow);
+}
+
+.magazine-intro-card .button-secondary {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.magazine-intro-card .button-secondary:hover {
+  border-color: var(--brand-glow);
+  color: var(--brand-glow);
+}
+
+.editorial-feature-copy h3 {
+  color: var(--ink);
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 60, "WONK" 0;
+  letter-spacing: -0.018em;
+}
+
+/* Abschnittsüberschriften unter dem Artikel */
+.section-header h2,
+.magazine-section-heading h2 {
+  color: var(--ink);
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  line-height: 1.12;
+}
+
+@media (max-width: 900px) {
+  .magazine-detail-cover-split .magazine-detail-media::before,
+  .magazine-detail-cover-profile .magazine-detail-media::before {
+    inset: 0 0 auto;
+    width: auto;
+    height: 34%;
+    background: linear-gradient(180deg, var(--ink), transparent);
+  }
+}
+
+@media (max-width: 560px) {
+  .magazine-detail-cover {
+    border-radius: 22px;
+  }
+
+  .magazine-detail-cover::after {
+    inset: 8px;
+    border-radius: 16px;
+  }
+
+  .magazine-detail-cover .magazine-detail-hero h1 {
+    font-size: clamp(2.1rem, 9vw, 2.6rem);
+  }
+
+  .magazine-article-body :where(p, ul, ol) {
+    font-size: 1.04rem;
+  }
+
+  .magazine-article-body > div:first-child > p:first-child::first-letter {
+    font-size: 3.6em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-card img,
+  .city-card img,
+  .chip {
+    transition: none;
+  }
+
+  .article-card:hover img,
+  .city-card:hover img {
+    transform: none;
+  }
+}

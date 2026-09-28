@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Open_Sans } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono, Open_Sans } from "next/font/google";
 import { staticAsset } from "@/lib/static-asset";
 import "./globals.css";
+import "./ink-theme.css";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
   subsets: ["latin"],
+});
+
+// Display-Schrift für große Überschriften (ink-theme.css).
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
+  axes: ["SOFT", "WONK", "opsz"],
 });
 
 const geistSans = Geist({
@@ -38,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`${openSans.variable} ${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="de" className={`${openSans.variable} ${fraunces.variable} ${geistSans.variable} ${geistMono.variable}`}>
       <body>{children}</body>
     </html>
   );

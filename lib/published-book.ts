@@ -56,11 +56,26 @@ function findPublishedBookBlock(content: string) {
   if (amazonIndex < 0) return null;
   const sectionStart = content.lastIndexOf("<section", amazonIndex);
   const sectionClose = content.indexOf("</section>", amazonIndex);
-  if (sectionStart < 0 || sectionClose < 0) return null;
+  if (sectionStart < 0 || sectionClose < 0) return findSanitizedBookBlock(content);
   const end = sectionClose + "</section>".length;
   const block = content.slice(sectionStart, end);
   if (!block.includes("Dating ohne Bullshit") || !block.includes("978-3-6963-7121-0")) return null;
   return { start: sectionStart, end, block };
+}
+
+// sanitize-html drops <section> and the marker comments: the block is then the book heading up to the Amazon paragraph.
+const SANITIZED_BOOK_HEADING = /(?:<p>\s*<strong>Neu erschienen<\/strong>\s*<\/p>\s*)?<h2\b[^>]*>Dating ohne Bullshit<\/h2>/;
+
+function findSanitizedBookBlock(content: string) {
+  const heading = SANITIZED_BOOK_HEADING.exec(content);
+  if (!heading) return null;
+  const amazonIndex = content.indexOf(AMAZON_URL, heading.index);
+  const paragraphClose = amazonIndex < 0 ? -1 : content.indexOf("</p>", amazonIndex);
+  if (paragraphClose < 0) return null;
+  const end = paragraphClose + "</p>".length;
+  const block = content.slice(heading.index, end);
+  if (!block.includes("978-3-6963-7121-0")) return null;
+  return { start: heading.index, end, block };
 }
 
 function extractBoundedBookCover(content: string) {

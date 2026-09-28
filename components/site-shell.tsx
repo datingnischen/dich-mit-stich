@@ -353,7 +353,7 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
             </div>
             {sectionLive ? (
               <nav className="footer-column footer-about-links" aria-label="Entdecken">
-                <h2>Entdecken</h2>
+                <p className="footer-column-title">Entdecken</p>
                 <ul>
                   {discoverLinks.map((link) => (
                     <li key={link.href}>
@@ -365,7 +365,7 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
             ) : null}
             {sectionLive ? (
               <nav className="footer-column footer-about-links" aria-label="Über uns">
-                <h2>Über uns</h2>
+                <p className="footer-column-title">Über uns</p>
                 <ul>
                   {aboutLinks.map((link) => (
                     <li key={link.href}>
@@ -390,7 +390,7 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
         <section className="footer-cta footer-cta-dark" aria-label="Registrierung">
           <div className="footer-cta-copy">
             <p className="footer-kicker">Szene-Dating mit Profil</p>
-            <h2>Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</h2>
+            <p className="footer-cta-title">Flirte mit Tattoo- und Piercing-Singles, die wirklich zu deinem Stil passen.</p>
             <p>Magazin, Stadtseiten und echte Erfolgsgeschichten helfen dir beim Einstieg — und führen direkt zu neuen Kontakten.</p>
           </div>
           <a className="footer-cta-button" href={conversionHref(market, "/registration/", aid)}>
@@ -422,7 +422,7 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
                 <div className="footer-topic-columns">
                   {group.columns.map((column) => (
                     <div className="footer-column" key={column.title}>
-                      <h2>{column.title}</h2>
+                      <p className="footer-column-title">{column.title}</p>
                       <ul>
                         {column.links.map((link) => {
                           const cityLink = isCityLink(link.href);

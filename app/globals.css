@@ -81,7 +81,8 @@ img {
 .panel-card h2,
 .content-section h2,
 .article-card h2,
-.article-card h3 {
+.article-card h3,
+.article-card .magazine-story-title {
   line-height: 1.15;
 }
 
@@ -268,6 +269,7 @@ img {
 }
 
 .article-card h3,
+.article-card .magazine-story-title,
 .article-card h2,
 .city-card strong,
 .panel-card h2,
@@ -838,8 +840,9 @@ img {
   text-transform: uppercase;
 }
 
-.footer-cta-copy h2 {
+.footer-cta-copy .footer-cta-title {
   max-width: 19ch;
+  font-weight: 700;
   color: #fff;
   font-size: clamp(2.1rem, 4.6vw, 4.7rem);
   line-height: 1.02;
@@ -999,8 +1002,9 @@ img {
   gap: 28px;
 }
 
-.footer-column h2 {
+.footer-column .footer-column-title {
   margin-bottom: 16px;
+  font-weight: 700;
   color: #fff;
   font-size: 1rem;
   line-height: 1.35;
@@ -1374,12 +1378,14 @@ img {
   gap: 6px 12px;
 }
 
-.author-box-identity h3 {
+.author-box-identity .author-box-name {
+  font-weight: 700;
+  color: var(--foreground);
   font-size: 1.55rem;
   line-height: 1.2;
 }
 
-.author-box-identity h3 a:hover {
+.author-box-identity .author-box-name a:hover {
   color: var(--brand);
 }
 
@@ -1478,7 +1484,7 @@ img {
   gap: 10px;
 }
 
-.author-box-compact .author-box-identity h3 {
+.author-box-compact .author-box-identity .author-box-name {
   font-size: 1.28rem;
 }
 
@@ -2226,8 +2232,10 @@ img {
   padding: 22px 24px 24px;
 }
 
-.magazine-story-copy h3 {
+.magazine-story-copy h3,
+.magazine-story-copy .magazine-story-title {
   font-size: 1.34rem;
+  font-weight: 700;
   line-height: 1.28;
 }
 
@@ -2352,7 +2360,9 @@ img {
   background: var(--brand-soft);
 }
 
-.icony-embed-card h3 {
+.icony-embed-card .icony-embed-card-title {
+  font-weight: 700;
+  color: var(--foreground);
   justify-self: start;
   font-size: 1.05rem;
   letter-spacing: -0.01em;
@@ -2697,7 +2707,7 @@ img {
     gap: 30px;
   }
 
-  .footer-cta-copy h2 {
+  .footer-cta-copy .footer-cta-title {
     font-size: 2.15rem;
   }
 
@@ -4034,7 +4044,8 @@ img {
   padding: 18px 20px 22px;
 }
 
-.magazine-topic-grid .magazine-story-copy h3 {
+.magazine-topic-grid .magazine-story-copy h3,
+.magazine-topic-grid .magazine-story-copy .magazine-story-title {
   font-size: 1.14rem;
   line-height: 1.32;
 }

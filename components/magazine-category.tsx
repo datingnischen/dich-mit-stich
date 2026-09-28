@@ -135,7 +135,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
                   sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 340px"
                 />
                 <div className="magazine-story-copy">
-                  <h3>{entry.title}</h3>
+                  <p className="magazine-story-title">{entry.title}</p>
                   <div className="meta-row magazine-story-meta">
                     {entry.authorName ? <span>Von {entry.authorName}</span> : null}
                     {visibleEntryDate(entry) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(entry))}</span> : null}

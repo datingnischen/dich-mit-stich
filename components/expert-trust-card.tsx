@@ -64,11 +64,11 @@ export function ExpertTrustCard({
           {compact ? <span className="eyebrow eyebrow-brand">{eyebrow}</span> : null}
 
           <div className="author-box-identity">
-            <h3>
+            <p className="author-box-name">
               <MarketLink targetMarket={market} pathname={profilePath}>
                 {profile.name}
               </MarketLink>
-            </h3>
+            </p>
             <span className="author-box-jobtitle">{profile.jobTitle}</span>
           </div>
 

@@ -4,7 +4,7 @@ import sanitizeHtml from "sanitize-html";
 import { decodeHtmlEntities, fetchWithRetry, stripHtml, WORDPRESS_FETCH_POLICY } from "./wordpress.ts";
 import { normalizeWordPressPayload, wordpressRestUrl } from "./wordpress-origin.ts";
 
-const CITY_SOURCE_REVISION = "city-headings-2026-09-28";
+const CITY_SOURCE_REVISION = "city-headings-2026-09-28b";
 export const CITY_ROUTE_FIELDS = "id,slug,acf.city_id,acf.city_country";
 const CITY_LIST_FIELDS = "id,slug,featured_media,acf.city_id,acf.city_name,acf.city_region,acf.city_country";
 const CITY_DETAIL_FIELDS = "id,slug,title,excerpt,content,featured_media,acf,_links,_embedded";

@@ -66,6 +66,9 @@ test("CMS book feature block can be replaced by the polished local component", a
 
   const unmarked = 'before<section><img src="https://example.com/cover.jpg" alt="Dating ohne Bullshit"><h2>Dating ohne Bullshit</h2><p>ISBN 978-3-6963-7121-0</p><a href="https://www.amazon.de/dp/3696371211/">Amazon</a></section>after';
   assert.equal(stripPublishedBookBlock(unmarked), "beforeafter");
+
+  const sanitized = 'before<h2>Dating ohne Bullshit</h2>\n<p><strong>Untertitel</strong></p>\n<ul><li>ISBN 978-3-6963-7121-0</li></ul>\n<p><a href="https://www.amazon.de/dp/3696371211/"><strong>Bei Amazon</strong></a></p>after';
+  assert.equal(stripPublishedBookBlock(sanitized), "beforeafter");
 });
 
 test("legacy low-resolution expert portrait is removed from the polished profile body", async () => {

@@ -31,12 +31,12 @@ export function IconyMagazineWidgets({ market }: { market: MarketCode }) {
 
       <div className="icony-embed-grid">
         <div className="icony-embed-card">
-          <h3>Gerade online</h3>
+          <p className="icony-embed-card-title">Gerade online</p>
           <IconyFrame widget={buildIconyActivityFrame(market, "magazin")} />
         </div>
 
         <div className="icony-embed-card">
-          <h3>Kostenlos registrieren</h3>
+          <p className="icony-embed-card-title">Kostenlos registrieren</p>
           <IconyFrame widget={buildIconyRegistrationFrame(market, "magazin")} />
         </div>
       </div>

@@ -197,7 +197,7 @@ export function CitySceneGuide({ market, slug, cityName, html, cities }: CitySce
                 <MarketLink targetMarket={market} pathname={`/tattoo-studios/${slug}`}>
                   <ThemeIcon theme="studios" />
                   <ui-strong>{studioCount}</ui-strong>
-                  <span>{cityGuideUnit("studios", studioCount)} ↗</span>
+                  <span>{cityGuideUnit("studios", studioCount)}<span className="sr-only"> in {cityName}</span> ↗</span>
                 </MarketLink>
               </li>
             ) : null}

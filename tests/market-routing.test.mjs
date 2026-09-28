@@ -430,3 +430,15 @@ test("clean tattoo studio slugs preserve the previously published Prime Ink prof
   assert.match(config, /destination:\s*"\/tattoo-studios\/hannover\/"/);
   assert.match(config, /permanent:\s*true/);
 });
+
+test("every config redirect also matches the /de-prefixed path nginx sends to Vercel", async () => {
+  const { default: createNextConfig } = await import(new URL("../next.config.ts", import.meta.url).href);
+  const redirects = await createNextConfig("phase-production-build").redirects();
+  const sources = new Set(redirects.map((redirect) => redirect.source));
+  for (const redirect of redirects.filter((entry) => !entry.source.startsWith("/de/"))) {
+    assert.ok(sources.has(`/de${redirect.source}`), redirect.source);
+  }
+  const expertTeam = redirects.find((redirect) => redirect.source === "/de/magazin/expertenteam");
+  assert.equal(expertTeam?.destination, "/ueber-uns/expertenteam/");
+  assert.equal(expertTeam?.permanent, true);
+});

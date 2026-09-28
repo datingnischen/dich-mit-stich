@@ -32,6 +32,12 @@ function normalizeAssetPathPrefix(value: string) {
   return trimmed || DEFAULT_ASSET_PATH_PREFIX;
 }
 
+type Redirect = { source: string; destination: string; permanent: boolean };
+
+function withDePrefixVariants(redirects: Redirect[]): Redirect[] {
+  return redirects.flatMap((redirect) => [redirect, { ...redirect, source: `/de${redirect.source}` }]);
+}
+
 export default function nextConfig(phase: string): NextConfig {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER;
   const assetHost = trimTrailingSlash(process.env.NEXT_PUBLIC_ASSET_HOST || DEFAULT_ASSET_HOST);
@@ -78,7 +84,9 @@ export default function nextConfig(phase: string): NextConfig {
       ];
     },
     async redirects() {
-      return [
+      // nginx ruft Vercel für dich-mit-stich.de mit /de-Präfix auf (/de/magazin/…); ohne die
+      // /de-Variante griffen diese Umleitungen live nie. Ziele bleiben relativ zur Live-Domain.
+      return withDePrefixVariants([
         {
           source: "/magazin/home",
           destination: "/magazin/",
@@ -160,7 +168,7 @@ export default function nextConfig(phase: string): NextConfig {
           destination: "/tattoo-studios/hannover/",
           permanent: true,
         },
-      ];
+      ]);
     },
     async rewrites() {
       return [

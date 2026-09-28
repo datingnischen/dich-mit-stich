@@ -206,15 +206,15 @@ export async function HomePage({ market }: { market: MarketCode }) {
           </p>
           <ul className="stats-list">
             <li>
-              <strong>{posts.length}</strong>
+              <ui-strong>{posts.length}</ui-strong>
               <span>aktuelle Beiträge</span>
             </li>
             <li>
-              <strong>{pages.length}</strong>
+              <ui-strong>{pages.length}</ui-strong>
               <span>wichtige Infoseiten</span>
             </li>
             <li>
-              <strong>{categories.length}</strong>
+              <ui-strong>{categories.length}</ui-strong>
               <span>Magazin-Themen</span>
             </li>
           </ul>

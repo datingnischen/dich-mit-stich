@@ -70,9 +70,9 @@ export default async function TattooSinglesOverviewPage() {
       </section>
 
       <nav className="content-section studio-guide-country-strip" aria-label="Tattoo-Singles nach Land">
-        <MarketLink className="studio-guide-country-link" targetMarket="de" pathname="/tattoo-singles"><strong>Deutschland</strong><span>{overview.cityLinks.length} Städte</span></MarketLink>
-        <MarketLink className="studio-guide-country-link" targetMarket="at" pathname="/tattoo-singles"><strong>Österreich</strong><span>{atOverview.cityLinks.length} Städte</span></MarketLink>
-        <MarketLink className="studio-guide-country-link" targetMarket="ch" pathname="/tattoo-singles"><strong>Schweiz</strong><span>{chOverview.cityLinks.length} Städte</span></MarketLink>
+        <MarketLink className="studio-guide-country-link" targetMarket="de" pathname="/tattoo-singles"><ui-strong>Deutschland</ui-strong><span>{overview.cityLinks.length} Städte</span></MarketLink>
+        <MarketLink className="studio-guide-country-link" targetMarket="at" pathname="/tattoo-singles"><ui-strong>Österreich</ui-strong><span>{atOverview.cityLinks.length} Städte</span></MarketLink>
+        <MarketLink className="studio-guide-country-link" targetMarket="ch" pathname="/tattoo-singles"><ui-strong>Schweiz</ui-strong><span>{chOverview.cityLinks.length} Städte</span></MarketLink>
       </nav>
 
       <section className="content-section singles-overview-cities" id="staedte" aria-labelledby="staedte-heading">
@@ -100,9 +100,9 @@ export default async function TattooSinglesOverviewPage() {
               ) : null}
               <span className="studio-city-card-copy">
                 <span>{city.region || "Deutschland"}</span>
-                <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.label}</strong></span>
+                <span className="studio-city-card-title"><LocationPinIcon /><ui-strong>{city.label}</ui-strong></span>
                 <small>Neue Singles, Szene-Tipps und Studios vor Ort</small>
-                <b>Singles in {city.label} entdecken →</b>
+                <ui-strong>Singles in {city.label} entdecken →</ui-strong>
               </span>
             </Link>
           ))}

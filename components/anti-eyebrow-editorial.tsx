@@ -100,15 +100,15 @@ export function AntiEyebrowEditorial({ market }: { market: MarketCode }) {
         <h2 id="anti-eyebrow-weiterlesen">Mehr zu Platzierung und Piercingarten</h2>
         <div className="magazine-related-links">
           <MarketLink targetMarket={market} pathname="/magazin/surface-piercing">
-            <strong>Surface Piercing</strong>
+            <ui-strong>Surface Piercing</ui-strong>
             <span>Grundlagen zu Oberflächenpiercings</span>
           </MarketLink>
           <MarketLink targetMarket={market} pathname="/magazin/augenbrauen-piercing">
-            <strong>Augenbrauenpiercing</strong>
+            <ui-strong>Augenbrauenpiercing</ui-strong>
             <span>Die klassische Alternative an der Braue</span>
           </MarketLink>
           <MarketLink targetMarket={market} pathname="/magazin/piercingarten">
-            <strong>Piercingarten im Überblick</strong>
+            <ui-strong>Piercingarten im Überblick</ui-strong>
             <span>Weitere Platzierungen entdecken</span>
           </MarketLink>
         </div>

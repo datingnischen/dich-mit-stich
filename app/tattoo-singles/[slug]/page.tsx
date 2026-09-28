@@ -121,7 +121,7 @@ export default async function TattooSinglesCityPage({ params }: PageProps) {
           data-image-attribution-version="licensed-v1"
         >
           <p>
-            <strong>Bildquelle</strong>: {cityPage.imageAttribution.label}.{" "}
+            <ui-strong>Bildquelle</ui-strong>: {cityPage.imageAttribution.label}.{" "}
             {cityPage.imageAttribution.sourceUrl ? (
               <a href={cityPage.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">
                 Originalquelle

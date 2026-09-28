@@ -53,7 +53,7 @@ export function TattooStudioLargestCities({ market }: { market: MarketCode }) {
               <LocationPinIcon />
               <span>
                 <small>Platz {city.rank}</small>
-                <strong>{city.label}</strong>
+                <ui-strong>{city.label}</ui-strong>
                 <small>{city.hasVerifiedStudios ? "Tattoo-Studios entdecken" : city.hasCityGuide ? "Studio-Guide öffnen" : "Tattoo-Stadtguide öffnen"}</small>
               </span>
             </span>
@@ -69,7 +69,7 @@ export function TattooStudioLargestCities({ market }: { market: MarketCode }) {
         <ul>
           {cities.map((city) => (
             <li key={city.slug}>
-              <strong>{city.label}:</strong>{" "}
+              <ui-strong>{city.label}:</ui-strong>{" "}
               <a href={city.imageAttribution.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
                 {city.imageAttribution.title}
               </a>{" "}

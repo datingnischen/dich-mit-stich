@@ -63,7 +63,7 @@ export function IconyOnlineCard({ market, cityName, projectKey, postalCode }: Ic
                 <img src={activity.imageurl} alt={`Profilbild von ${activity.username}`} loading="lazy" />
                 <span className="icony-online-dot" aria-hidden="true" />
                 <span className="icony-online-name">
-                  <strong>{activity.username}</strong>
+                  <ui-strong>{activity.username}</ui-strong>
                   <span>{activity.age} · {activity.city}</span>
                 </span>
               </a>

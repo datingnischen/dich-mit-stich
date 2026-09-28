@@ -42,7 +42,7 @@ export function FaqPageView({ market }: { market: MarketCode }) {
             </div>
           </div>
           <aside className="faq-hero-index" aria-label="Direkt zu einem Themenbereich">
-            <strong>Themen</strong>
+            <ui-strong>Themen</ui-strong>
             <nav>
               {faqSections.map((section, index) => (
                 <a href={`#faq-section-${index + 1}`} key={section.title}>{section.title}</a>

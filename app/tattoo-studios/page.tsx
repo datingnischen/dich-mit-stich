@@ -48,7 +48,7 @@ export default function TattooStudioGuidePage() {
           </div>
           <div className="studio-guide-hero-mark" aria-hidden="true">
             <span>INK</span>
-            <strong>GUIDE</strong>
+            <ui-strong>GUIDE</ui-strong>
             <small>DE · AT · CH</small>
           </div>
         </section>
@@ -66,9 +66,9 @@ export default function TattooStudioGuidePage() {
         </figure>
 
         <nav className="content-section studio-guide-country-strip" aria-label="Tattoo-Studio-Guides nach Land">
-          <MarketLink className="studio-guide-country-link" targetMarket="de" pathname="/tattoo-studios"><strong>Deutschland</strong><span>{cities.length} Stadtguides</span></MarketLink>
-          <MarketLink className="studio-guide-country-link" targetMarket="at" pathname="/tattoo-studios"><strong>Österreich</strong><span>{atGuideCount} Stadtguides</span></MarketLink>
-          <MarketLink className="studio-guide-country-link" targetMarket="ch" pathname="/tattoo-studios"><strong>Schweiz</strong><span>{chGuideCount} Stadtguides</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="de" pathname="/tattoo-studios"><ui-strong>Deutschland</ui-strong><span>{cities.length} Stadtguides</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="at" pathname="/tattoo-studios"><ui-strong>Österreich</ui-strong><span>{atGuideCount} Stadtguides</span></MarketLink>
+          <MarketLink className="studio-guide-country-link" targetMarket="ch" pathname="/tattoo-studios"><ui-strong>Schweiz</ui-strong><span>{chGuideCount} Stadtguides</span></MarketLink>
         </nav>
 
         <section className="content-section studio-city-finder-feature" aria-labelledby="stadt-finder-heading">
@@ -108,9 +108,9 @@ export default function TattooStudioGuidePage() {
                 ) : null}
                 <span className="studio-city-card-copy">
                   <span>{city.region}</span>
-                  <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
+                  <span className="studio-city-card-title"><LocationPinIcon /><ui-strong>{city.cityName}</ui-strong></span>
                   <small>{city.publicationStatus === "verified" ? `${city.studios.length} Studios und Tipps zur Auswahl` : "Tipps für deine Studiosuche"}</small>
-                  <b>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</b>
+                  <ui-strong>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</ui-strong>
                 </span>
               </Link>
             ))}
@@ -142,7 +142,7 @@ export default function TattooStudioGuidePage() {
                 </span>
                 <span className="studio-all-city-copy">
                   <LocationPinIcon />
-                  <span><strong>{city.label}</strong><small>Tattoo-Stadtseite öffnen</small></span>
+                  <span><ui-strong>{city.label}</ui-strong><small>Tattoo-Stadtseite öffnen</small></span>
                 </span>
               </Link>
             ))}
@@ -152,7 +152,7 @@ export default function TattooStudioGuidePage() {
             <ul>
               {additionalTattooCities.map((city) => (
                 <li key={city.slug}>
-                  <strong>{city.label}:</strong>{" "}
+                  <ui-strong>{city.label}:</ui-strong>{" "}
                   <a href={city.imageAttribution.sourceUrl} target="_blank" rel="noopener noreferrer nofollow">
                     {city.imageAttribution.title}
                   </a>{" "}

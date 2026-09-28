@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 function AttributionCaption({ sourceUrl }: { sourceUrl: string }) {
   return (
     <figcaption>
-      <strong>Bild:</strong> Dich mit Stich. Für das Dich-mit-Stich-Projektportfolio freigegeben.{" "}
+      <ui-strong>Bild:</ui-strong> Dich mit Stich. Für das Dich-mit-Stich-Projektportfolio freigegeben.{" "}
       <a href={sourceUrl} rel="noreferrer">
         Originaldatei
       </a>
@@ -133,7 +133,7 @@ function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
               ) : null}
               <div className="city-card-copy">
                 <span>{city.label}</span>
-                <strong>Singles {city.label}</strong>
+                <ui-strong>Singles {city.label}</ui-strong>
               </div>
             </MarketLink>
           ))}
@@ -196,7 +196,7 @@ function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
               ) : null}
               <div className="city-card-copy">
                 <span>{city.label}</span>
-                <strong>Singles {city.label}</strong>
+                <ui-strong>Singles {city.label}</ui-strong>
               </div>
             </MarketLink>
           ))}

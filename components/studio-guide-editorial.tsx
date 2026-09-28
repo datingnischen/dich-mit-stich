@@ -147,7 +147,7 @@ function Checklist({ section, market }: { section: StudioGuideSection; market: M
         <li key={item.name}>
           <span className="studio-ed-check" aria-hidden="true">{index + 1}</span>
           <div>
-            <strong>{item.name}</strong>
+            <ui-strong>{item.name}</ui-strong>
             <Html market={market} className="studio-ed-check-text" html={item.html} />
           </div>
         </li>

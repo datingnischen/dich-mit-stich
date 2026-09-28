@@ -152,7 +152,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           </div>
           <div className="studio-verification-line">
             <span aria-hidden="true">✓</span>
-            <div><strong>Stand des Stadtguides</strong><time dateTime={guide.lastVerified}>{formatDate(guide.lastVerified, market)}</time></div>
+            <div><ui-strong>Stand des Stadtguides</ui-strong><time dateTime={guide.lastVerified}>{formatDate(guide.lastVerified, market)}</time></div>
           </div>
         </div>
         {imageUrl ? (
@@ -180,14 +180,14 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
               const sourceIsGuide = normalizeUrl(studio.sourceUrl) === normalizeUrl(guide.sourceUrl);
               return (
                 <article className="tattoo-studio-card" key={studio.identity} data-studio-styles={studio.styles.map((style) => style.slug).join(" ")}>
-                  <div className="tattoo-studio-card-mark" aria-hidden="true"><strong>{studio.name.slice(0, 2).toUpperCase()}</strong></div>
+                  <div className="tattoo-studio-card-mark" aria-hidden="true"><ui-strong>{studio.name.slice(0, 2).toUpperCase()}</ui-strong></div>
                   <div className="tattoo-studio-card-copy">
                     <div className="tattoo-studio-card-head"><span>{studio.styles.length ? "Stilhinweise vorhanden" : `Studio in ${guide.cityName}`}</span><h3>{studio.name}</h3></div>
                     <p>{studio.description}</p>
                     {studio.styles.length ? <div className="studio-style-row" aria-label="Öffentlich belegte Stilhinweise">{studio.styles.map((style) => <span key={style.slug}>{style.label}</span>)}</div> : null}
                     <div className="studio-place-card">
                       <span className="studio-place-icon"><LocationPinIcon /></span>
-                      <span className="studio-place-copy"><small>Standort in {guide.cityName}</small><strong>{studio.address}</strong></span>
+                      <span className="studio-place-copy"><small>Standort in {guide.cityName}</small><ui-strong>{studio.address}</ui-strong></span>
                     </div>
                     <div className="studio-card-actions">
                       {sourceIsGuide && !studio.websiteUrl ? (
@@ -205,7 +205,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           </div>
         ) : (
           <div className="panel-card studio-rollout-empty-state">
-            <strong>Noch keine Studio-Profile</strong>
+            <ui-strong>Noch keine Studio-Profile</ui-strong>
             <p>Nutze bis dahin den Stadtguide und die Auswahl-Tipps, um passende Studios selbst zu vergleichen.</p>
           </div>
         )}
@@ -313,7 +313,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
                   ) : null}
                   <span className="city-related-copy">
                     <small>ca. {distanceKm} km Luftlinie</small>
-                    <strong>{city.cityName}</strong>
+                    <ui-strong>{city.cityName}</ui-strong>
                     <span>{city.studios.length} {city.studios.length === 1 ? "Studio" : "Studios"} im Guide →</span>
                   </span>
                 </MarketLink>

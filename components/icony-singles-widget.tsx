@@ -175,7 +175,7 @@ export function IconySinglesWidget({ market, cityName, projectKey, postalCode }:
 
         <div className="icony-widget-frame-card" data-selected-gender={selectedGender}>
           <div className="icony-widget-frame-head">
-            <strong>{selectedLabel} aus {cityName}</strong>
+            <ui-strong>{selectedLabel} aus {cityName}</ui-strong>
             <span>Singles aus {cityName} und Umgebung</span>
           </div>
 
@@ -201,7 +201,7 @@ export function IconySinglesWidget({ market, cityName, projectKey, postalCode }:
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={activity.imageurl} alt={`Profilbild von ${activity.username}`} loading="lazy" />
                     <span className="icony-profile-copy">
-                      <strong>{activity.username}</strong>
+                      <ui-strong>{activity.username}</ui-strong>
                       <span>{activity.age} Jahre, {activity.city}</span>
                       <small>{activity.action_text}</small>
                     </span>

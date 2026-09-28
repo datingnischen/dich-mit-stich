@@ -183,7 +183,7 @@ export function CitySceneGuide({ market, slug, cityName, html, cities }: CitySce
               <li key={section.id} data-theme={section.theme}>
                 <a href={`#${section.id}`}>
                   <ThemeIcon theme={section.theme} />
-                  {section.items.length ? <strong>{section.items.length}</strong> : null}
+                  {section.items.length ? <ui-strong>{section.items.length}</ui-strong> : null}
                   <span>
                     {section.items.length
                       ? cityGuideUnit(section.theme, section.items.length)
@@ -196,7 +196,7 @@ export function CitySceneGuide({ market, slug, cityName, html, cities }: CitySce
               <li data-theme="studios">
                 <MarketLink targetMarket={market} pathname={`/tattoo-studios/${slug}`}>
                   <ThemeIcon theme="studios" />
-                  <strong>{studioCount}</strong>
+                  <ui-strong>{studioCount}</ui-strong>
                   <span>{cityGuideUnit("studios", studioCount)} ↗</span>
                 </MarketLink>
               </li>
@@ -234,7 +234,7 @@ function RelatedCities({ market, cities }: { market: MarketCode; cities: CitySce
               ) : null}
               <span className="city-related-copy">
                 {city.region && city.region !== city.label ? <small>{city.region}</small> : null}
-                <strong>{city.label}</strong>
+                <ui-strong>{city.label}</ui-strong>
                 <span>Tattoo-Singles entdecken →</span>
               </span>
             </MarketLink>

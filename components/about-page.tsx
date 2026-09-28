@@ -178,7 +178,7 @@ export function AboutPageView({ page }: { page: AboutPage }) {
           </div>
           <aside className="about-hero-mark" aria-label={`Dich mit Stich ${countryName}`}>
             <span>Dich</span>
-            <strong>mit Stich</strong>
+            <ui-strong>mit Stich</ui-strong>
             <small>{countryName}</small>
           </aside>
         </header>

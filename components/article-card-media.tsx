@@ -30,7 +30,7 @@ export function ArticleCardMedia({
   return (
     <div className={`${mediaClassName} article-card-media-fallback`} aria-hidden="true">
       <span>{fallbackLabel}</span>
-      <strong>{fallbackTitle}</strong>
+      <ui-strong>{fallbackTitle}</ui-strong>
     </div>
   );
 }

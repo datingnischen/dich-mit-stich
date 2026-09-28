@@ -41,7 +41,7 @@ export function TattooMotifArticle({ market, html, spotlight }: TattooMotifArtic
                 </svg>
               </span>
               <div>
-                <strong className="motif-hook-title">{spotlight.flirtHook.title}</strong>
+                <ui-strong className="motif-hook-title">{spotlight.flirtHook.title}</ui-strong>
                 <p>{spotlight.flirtHook.text}</p>
                 <MarketLink className="motif-hook-link" targetMarket={market} pathname="/tattoo-singles">
                   {spotlight.hookLinkLabel}

@@ -58,7 +58,7 @@ function HubCards({ market, topic, group, entries }: { market: MarketCode; topic
               sizes="(max-width: 560px) 50vw, 240px"
             />
             <span className="lexikon-card-copy">
-              <strong>{link.label}</strong>
+              <ui-strong>{link.label}</ui-strong>
               {chips.length ? (
                 <span className="lexikon-card-chips">
                   {chips.map((chip) => (
@@ -96,7 +96,7 @@ function HubDatingBand({ market, topic }: { market: MarketCode; topic: MotifTopi
   return (
     <aside className="lexikon-dating-band" aria-label="Singles bei Dich mit Stich">
       <div>
-        <strong>{copy.bandTitle}</strong>
+        <ui-strong>{copy.bandTitle}</ui-strong>
         <p>{copy.bandText}</p>
       </div>
       <div className="lexikon-dating-actions">

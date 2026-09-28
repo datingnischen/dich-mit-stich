@@ -139,7 +139,7 @@ export default async function MarketTattooSinglesCityPage({ params }: PageProps)
         data-image-attribution-version="licensed-v1"
       >
         <p>
-          <strong>Bildquelle</strong>: {city.imageAttribution.label}. {" "}
+          <ui-strong>Bildquelle</ui-strong>: {city.imageAttribution.label}. {" "}
           {city.imageAttribution.sourceUrl ? (
             <a href={city.imageAttribution.sourceUrl} rel="license noreferrer" target="_blank">Originalquelle</a>
           ) : null}

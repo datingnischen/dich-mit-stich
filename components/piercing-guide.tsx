@@ -28,7 +28,7 @@ function GuideTimeline() {
         {PIERCING_GUIDE.timeline.map((step) => (
           <li key={step.when}>
             <span className="piercing-timeline-when">{step.when}</span>
-            <strong>{step.title}</strong>
+            <ui-strong>{step.title}</ui-strong>
             <p>{step.text}</p>
           </li>
         ))}
@@ -63,13 +63,13 @@ export function PiercingGuideArticle({ market, html, typeCount }: { market: Mark
       <div className="piercing-facts">
         {PIERCING_GUIDE.facts.map((fact) => (
           <div key={fact.label} className="piercing-fact">
-            <strong>{fact.value}</strong>
+            <ui-strong>{fact.value}</ui-strong>
             <span>{fact.label}</span>
           </div>
         ))}
         {typeCount ? (
           <a className="piercing-fact piercing-fact-link" href={`#${PIERCING_DIRECTORY_ID}`}>
-            <strong>{typeCount}</strong>
+            <ui-strong>{typeCount}</ui-strong>
             <span>Piercingarten mit eigenem Ratgeber ↓</span>
           </a>
         ) : null}
@@ -121,7 +121,7 @@ export function PiercingRegionPicker({ groups }: { groups: HubChildGroup[] }) {
               <Image src={group.imageUrl} alt={`Illustration: ${group.heading}`} width={768} height={512} sizes="(max-width: 760px) 50vw, 240px" priority />
             ) : null}
             <span className="piercing-region-tile-copy">
-              <strong>{region.short}</strong>
+              <ui-strong>{region.short}</ui-strong>
               <span>{group.links.length} Arten</span>
             </span>
           </a>

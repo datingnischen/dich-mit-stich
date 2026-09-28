@@ -18,7 +18,7 @@ export function MagazineAnswerSummary({ entry }: MagazineAnswerSummaryProps) {
         ))}
       </ul>
       <footer className="magazine-answer-sources">
-        <strong>Redaktionell geprüft am {entry.reviewedAtLabel}</strong>
+        <ui-strong>Redaktionell geprüft am {entry.reviewedAtLabel}</ui-strong>
         <span>Fachquellen:</span>
         <ul>
           {entry.sources.map((source) => (

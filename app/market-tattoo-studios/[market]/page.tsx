@@ -99,7 +99,7 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
             <a className="button button-secondary" href="#guide-prinzipien">Darauf solltest du achten</a>
           </div>
         </div>
-        <div className="studio-guide-hero-mark" aria-hidden="true"><span>INK</span><strong>GUIDE</strong><small>{copy.regionLabel} · STÄDTE</small></div>
+        <div className="studio-guide-hero-mark" aria-hidden="true"><span>INK</span><ui-strong>GUIDE</ui-strong><small>{copy.regionLabel} · STÄDTE</small></div>
       </section>
 
       <figure className="studio-directory-banner">
@@ -150,9 +150,9 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
               ) : null}
               <span className="studio-city-card-copy">
                 <span>{city.region}</span>
-                <span className="studio-city-card-title"><LocationPinIcon /><strong>{city.cityName}</strong></span>
+                <span className="studio-city-card-title"><LocationPinIcon /><ui-strong>{city.cityName}</ui-strong></span>
                 <small>{city.publicationStatus === "verified" ? `${city.studios.length} Studios und Tipps zur Auswahl` : "Tipps für deine Studiosuche"}</small>
-                <b>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</b>
+                <ui-strong>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</ui-strong>
               </span>
             </MarketLink>
           ))}

@@ -118,7 +118,7 @@ export function PiercingRegionPicker({ groups }: { groups: HubChildGroup[] }) {
         return (
           <a key={group.heading} href={`#${piercingRegionAnchor(group.heading)}`} className="piercing-region-tile">
             {group.imageUrl ? (
-              <Image src={group.imageUrl} alt="" width={768} height={512} sizes="(max-width: 760px) 50vw, 240px" priority />
+              <Image src={group.imageUrl} alt={`Illustration: ${group.heading}`} width={768} height={512} sizes="(max-width: 760px) 50vw, 240px" priority />
             ) : null}
             <span className="piercing-region-tile-copy">
               <strong>{region.short}</strong>
@@ -168,7 +168,7 @@ export function PiercingTypeDirectory({
           <article key={group.heading} id={groupAnchor(group.heading)} className="piercing-region">
             <header className={`piercing-region-head${group.imageUrl ? "" : " piercing-region-head-plain"}`}>
               {group.imageUrl ? (
-                <Image src={group.imageUrl} alt="" width={768} height={512} sizes="(max-width: 760px) 100vw, 380px" />
+                <Image src={group.imageUrl} alt={`Illustration: ${group.heading}`} width={768} height={512} sizes="(max-width: 760px) 100vw, 380px" />
               ) : null}
               <div>
                 <h3>{group.heading}</h3>

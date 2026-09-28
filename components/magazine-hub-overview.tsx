@@ -80,7 +80,7 @@ function PiercingRegionBanner({ group }: { group: CardGroup }) {
   return (
     <header id={group.id} className={`piercing-region-banner${group.imageUrl ? "" : " piercing-region-banner-plain"}`}>
       {group.imageUrl ? (
-        <Image src={group.imageUrl} alt="" width={768} height={512} sizes="(max-width: 900px) 100vw, 880px" />
+        <Image src={group.imageUrl} alt={`Illustration: ${group.heading}`} width={768} height={512} sizes="(max-width: 900px) 100vw, 880px" />
       ) : null}
       <div className="piercing-region-banner-copy">
         <span>{group.links.length} Piercingarten</span>

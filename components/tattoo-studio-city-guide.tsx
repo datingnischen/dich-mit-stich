@@ -309,7 +309,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
               <li key={city.slug}>
                 <MarketLink className="city-related-card" targetMarket={market} pathname={`/tattoo-studios/${city.slug}`}>
                   {city.imageUrl ? (
-                    <Image src={staticAsset(city.imageUrl)} alt="" fill sizes="(max-width: 760px) 100vw, 360px" />
+                    <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} fill sizes="(max-width: 760px) 100vw, 360px" />
                   ) : null}
                   <span className="city-related-copy">
                     <small>ca. {distanceKm} km Luftlinie</small>

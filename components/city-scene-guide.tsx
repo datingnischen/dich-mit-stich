@@ -121,7 +121,7 @@ function StudioTeaser({ market, slug, cityName }: { market: MarketCode; slug: st
     <aside className="city-studio-teaser" aria-labelledby="city-studio-teaser-title">
       {guide.imageUrl ? (
         <div className="city-studio-teaser-media">
-          <Image src={staticAsset(guide.imageUrl)} alt="" fill sizes="(max-width: 760px) 100vw, 320px" />
+          <Image src={staticAsset(guide.imageUrl)} alt={`Stadtansicht von ${cityName}`} fill sizes="(max-width: 760px) 100vw, 320px" />
         </div>
       ) : null}
       <div className="city-studio-teaser-copy">
@@ -230,7 +230,7 @@ function RelatedCities({ market, cities }: { market: MarketCode; cities: CitySce
           <li key={city.slug}>
             <MarketLink className="city-related-card" targetMarket={market} pathname={`/tattoo-singles/${city.slug}`}>
               {city.imageUrl ? (
-                <Image src={staticAsset(city.imageUrl)} alt="" fill sizes="(max-width: 760px) 100vw, 300px" />
+                <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.label}`} fill sizes="(max-width: 760px) 100vw, 300px" />
               ) : null}
               <span className="city-related-copy">
                 {city.region && city.region !== city.label ? <small>{city.region}</small> : null}

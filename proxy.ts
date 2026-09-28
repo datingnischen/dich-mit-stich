@@ -5,14 +5,12 @@ import { publicUrl, resolveMarketRequest, withTrailingSlash, type MarketCode } f
 const MARKET_REWRITE_HEADER = "x-dms-market-rewrite";
 const MARKET_REWRITE_TOKEN = crypto.randomUUID();
 const INTERNAL_MARKET_PATH_PATTERN = /^\/market-(?:preview|robots|sitemap|about|tattoo-singles|tattoo-studios?|tattoo-studio)(?:\/|$)/;
-const PREVIEW_HOST_PATTERN = /\.vercel\.app\.?$/i;
-
-function protectPreview(response: NextResponse, request: NextRequest) {
-  const headerHostname = request.headers.get("host")?.replace(/:\d+$/, "") || "";
-  if (
-    PREVIEW_HOST_PATTERN.test(request.nextUrl.hostname)
-    || PREVIEW_HOST_PATTERN.test(headerHostname)
-  ) {
+// nginx ruft für die Live-Domains das Produktions-Deployment unter dich-mit-stich.vercel.app auf; am Host
+// lässt sich Live nicht von Vercel unterscheiden. Ein Host-basiertes noindex, nofollow landete darum auf
+// allen Live-Seiten (Crawl brach am 2026-09-28 von 387 auf 26 Seiten ein). Nur Branch-Previews bekommen
+// es, die Produktions-URL auf vercel.app verweist per Canonical auf die Live-Domain.
+function protectPreview(response: NextResponse) {
+  if (process.env.VERCEL_ENV === "preview") {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
   return response;
@@ -52,29 +50,29 @@ export function proxy(request: NextRequest) {
     INTERNAL_MARKET_PATH_PATTERN.test(request.nextUrl.pathname)
     && request.headers.get(MARKET_REWRITE_HEADER) === MARKET_REWRITE_TOKEN
   ) {
-    return protectPreview(NextResponse.next(), request);
+    return protectPreview(NextResponse.next());
   }
 
   const slashRedirect = trailingSlashRedirect(request);
   if (slashRedirect) {
-    return protectPreview(slashRedirect, request);
+    return protectPreview(slashRedirect);
   }
 
   const resolution = resolveMarketRequest(request.nextUrl.pathname);
 
   if (resolution.action === "pass") {
-    return protectPreview(NextResponse.next(), request);
+    return protectPreview(NextResponse.next());
   }
 
   if (resolution.action === "not-found") {
-    return protectPreview(new NextResponse("Not found", { status: 404 }), request);
+    return protectPreview(new NextResponse("Not found", { status: 404 }));
   }
 
   const destination = request.nextUrl.clone();
   destination.pathname = resolution.pathname;
 
   if (resolution.action === "redirect") {
-    return protectPreview(NextResponse.redirect(destination, 308), request);
+    return protectPreview(NextResponse.redirect(destination, 308));
   }
 
   if (resolution.action === "placeholder") {
@@ -82,12 +80,12 @@ export function proxy(request: NextRequest) {
   }
 
   if (destination.pathname === request.nextUrl.pathname) {
-    return protectPreview(NextResponse.next(), request);
+    return protectPreview(NextResponse.next());
   }
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set(MARKET_REWRITE_HEADER, MARKET_REWRITE_TOKEN);
-  return protectPreview(NextResponse.rewrite(destination, { request: { headers: requestHeaders } }), request);
+  return protectPreview(NextResponse.rewrite(destination, { request: { headers: requestHeaders } }));
 }
 
 export const config = {

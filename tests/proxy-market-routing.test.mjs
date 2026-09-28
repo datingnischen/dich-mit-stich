@@ -9,7 +9,7 @@ const REENTRY_HEADER = "x-dms-market-rewrite";
 test("market proxy permits only its own rewrite re-entry token", () => {
   const first = proxy(new NextRequest("https://dich-mit-stich.vercel.app/at/tattoo-studios/"));
   assert.equal(first.headers.get("x-middleware-rewrite"), "https://dich-mit-stich.vercel.app/market-tattoo-studios/at/");
-  assert.equal(first.headers.get("x-robots-tag"), "noindex, nofollow");
+  assert.equal(first.headers.get("x-robots-tag"), null);
 
   const token = first.headers.get(`x-middleware-request-${REENTRY_HEADER}`);
   assert.ok(token, "the internal rewrite must carry a private re-entry token");
@@ -27,21 +27,28 @@ test("market proxy permits only its own rewrite re-entry token", () => {
   const direct = proxy(new NextRequest("https://dich-mit-stich.vercel.app/market-tattoo-studios/at"));
   assert.equal(direct.status, 404);
 
-  const production = proxy(new NextRequest("https://dich-mit-stich.de/magazin/"));
-  assert.equal(production.headers.get("x-robots-tag"), null);
+});
 
-  const proxiedPreview = proxy(new NextRequest("http://127.0.0.1:3010/tattoo-studios/", {
-    headers: { host: "dich-mit-stich.vercel.app" },
-  }));
-  assert.equal(proxiedPreview.headers.get("x-robots-tag"), "noindex, nofollow");
+test("only Vercel branch previews are noindex, never the production deployment nginx serves live", () => {
+  const previous = process.env.VERCEL_ENV;
+  try {
+    // nginx ruft Live-Seiten mit dem Host dich-mit-stich.vercel.app ab.
+    process.env.VERCEL_ENV = "production";
+    for (const url of ["https://dich-mit-stich.vercel.app/magazin/helix-piercing/", "https://dich-mit-stich.de/magazin/"]) {
+      assert.equal(proxy(new NextRequest(url)).headers.get("x-robots-tag"), null, url);
+    }
+    const proxied = proxy(new NextRequest("http://127.0.0.1:3010/tattoo-studios/", {
+      headers: { host: "dich-mit-stich.vercel.app" },
+    }));
+    assert.equal(proxied.headers.get("x-robots-tag"), null);
 
-  const dottedPreview = proxy(new NextRequest("https://dich-mit-stich.vercel.app./tattoo-studios/"));
-  assert.equal(dottedPreview.headers.get("x-robots-tag"), "noindex, nofollow");
-
-  const dottedProxiedPreview = proxy(new NextRequest("http://127.0.0.1:3010/tattoo-studios/", {
-    headers: { host: "dich-mit-stich.vercel.app.:443" },
-  }));
-  assert.equal(dottedProxiedPreview.headers.get("x-robots-tag"), "noindex, nofollow");
+    process.env.VERCEL_ENV = "preview";
+    const branch = proxy(new NextRequest("https://dich-mit-stich-git-feature.vercel.app/magazin/"));
+    assert.equal(branch.headers.get("x-robots-tag"), "noindex, nofollow");
+  } finally {
+    if (previous === undefined) delete process.env.VERCEL_ENV;
+    else process.env.VERCEL_ENV = previous;
+  }
 });
 
 test("page paths without a trailing slash redirect to the public path with one", () => {

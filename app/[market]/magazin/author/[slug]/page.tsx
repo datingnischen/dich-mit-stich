@@ -5,6 +5,7 @@ import { marketEditorialRobots } from "@/lib/editorial-metadata";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineAuthorProfile, getMarketMagazineAuthorSlugs } from "@/lib/market-magazine";
 import { isMarketCode, publicUrl } from "@/lib/markets";
+import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ market: string; slug: string }> };
 
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const profile = await getMarketMagazineAuthorProfile(market, slug);
   if (!profile) return {};
   return {
-    title: `${profile.name}: Beiträge im Tattoo-Magazin`,
+    title: brandedTitle(`${profile.name}: Beiträge im Tattoo-Magazin`),
     description: localizeFirstPartyText(profile.bio, publicUrl(market)).slice(0, 155),
     alternates: { canonical: publicUrl(market, profile.profileUrl) },
     robots: marketEditorialRobots(market),

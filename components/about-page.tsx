@@ -13,6 +13,7 @@ import { buildIconyRegistrationFrame } from "@/lib/icony-frame-widgets";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { marketDescription, marketLanguageAlternates, marketTitleSuffix, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
+import { brandedTitle } from "@/lib/seo-title";
 
 function PageLink({ link, market, className }: { link: AboutLink; market: AboutPage["market"]; className?: string }) {
   if (link.external) {
@@ -126,7 +127,7 @@ export function aboutPageMetadata(page: AboutPage): Metadata {
   const title = `${page.title}${marketTitleSuffix(page.market)}`;
   const description = marketDescription(page.market, page.description);
   return {
-    title,
+    title: brandedTitle(title),
     description,
     alternates: { canonical, languages: marketLanguageAlternates(page.path) },
     openGraph: {

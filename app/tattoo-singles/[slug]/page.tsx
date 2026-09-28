@@ -11,6 +11,7 @@ import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
 import { getWordPressCityOverview, getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
+import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!cityPage) return {};
 
   return {
-    title: cityPage.title,
+    title: brandedTitle(cityPage.title),
     description: cityPage.metaDescription,
     alternates: { canonical: publicUrl("de", `/tattoo-singles/${slug}`) },
   };

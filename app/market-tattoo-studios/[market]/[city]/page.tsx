@@ -11,6 +11,7 @@ import {
   isTattooStudioMarket,
   TATTOO_STUDIO_MARKETS,
 } from "@/lib/tattoo-studio-guide";
+import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ market: string; city: string }> };
 
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const imageUrl = guide.imageUrl ? staticAsset(guide.imageUrl) : null;
 
   return {
-    title,
+    title: brandedTitle(title),
     description,
     alternates: { canonical: url },
     robots: { index: isIndexableTattooStudioCity(market, city), follow: true },

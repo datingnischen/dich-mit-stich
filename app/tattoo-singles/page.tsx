@@ -8,13 +8,14 @@ import { conversionUrl } from "@/lib/conversion-links";
 import { marketLanguageAlternates, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import { getWordPressCityOverview } from "@/lib/wordpress-cities";
+import { brandedTitle } from "@/lib/seo-title";
 
 export const revalidate = 300;
 
 const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.svg");
 
 export const metadata: Metadata = {
-  title: "Tattoo-Singles in Deutschland – Singles nach Stadt",
+  title: brandedTitle("Tattoo-Singles in Deutschland – Singles nach Stadt"),
   description:
     "Finde tätowierte und gepiercte Singles in deiner Stadt: Stadtseiten von Berlin bis München, Flirtradar mit Umkreissuche und kostenloser Einstieg.",
   alternates: { canonical: publicUrl("de", "/tattoo-singles"), languages: marketLanguageAlternates("/tattoo-singles") },

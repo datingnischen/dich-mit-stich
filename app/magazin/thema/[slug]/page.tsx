@@ -3,6 +3,7 @@ import { MagazineCategory } from "@/components/magazine-category";
 import { marketEditorialRobots } from "@/lib/editorial-metadata";
 import { publicUrl } from "@/lib/markets";
 import { getMagazineCategories, getMagazineCategoryBySlug } from "@/lib/wordpress";
+import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const category = await getMagazineCategoryBySlug(slug);
   if (!category) return {};
   return {
-    title: `${category.name} im Tattoo-Magazin`,
+    title: brandedTitle(`${category.name} im Tattoo-Magazin`),
     description: category.description || `Beiträge aus dem Bereich ${category.name} im dich-mit-stich Magazin.`,
     alternates: { canonical: publicUrl("de", `/magazin/thema/${slug}`) },
     robots: marketEditorialRobots("de"),

@@ -5,6 +5,7 @@ import { SiteFrame } from "@/components/site-frame";
 import { TattooStudioCityGuide, tattooStudioCityDescription } from "@/components/tattoo-studio-city-guide";
 import { publicUrl } from "@/lib/markets";
 import { getTattooStudioCities, getTattooStudioCityGuide } from "@/lib/tattoo-studio-guide";
+import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ city: string }> };
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const url = publicUrl("de", `/tattoo-studios/${city}`);
 
   return {
-    title,
+    title: brandedTitle(title),
     description,
     alternates: { canonical: url },
     robots: guide.publicationStatus === "verified" && guide.studios.length ? undefined : { index: false, follow: true },

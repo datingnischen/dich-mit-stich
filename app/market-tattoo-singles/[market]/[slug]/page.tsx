@@ -10,6 +10,7 @@ import { getWordPressCityOverview, getWordPressCityPage, getWordPressCitySlugs }
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
+import { brandedTitle } from "@/lib/seo-title";
 
 export const dynamic = "force-static";
 
@@ -58,7 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!city) return { robots: { index: false, follow: false } };
 
   return {
-    title: city.title,
+    title: brandedTitle(city.title),
     description: city.metaDescription,
     alternates: { canonical: publicUrl(market, `/tattoo-singles/${slug}`) },
   };

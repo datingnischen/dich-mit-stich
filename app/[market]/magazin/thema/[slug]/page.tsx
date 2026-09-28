@@ -5,6 +5,7 @@ import { marketEditorialRobots } from "@/lib/editorial-metadata";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineCategories, getMarketMagazineCategoryBySlug } from "@/lib/market-magazine";
 import { isMarketCode, publicUrl } from "@/lib/markets";
+import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ market: string; slug: string }> };
 
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const category = await getMarketMagazineCategoryBySlug(market, slug);
   if (!category) return {};
   return {
-    title: `${category.name} im Tattoo-Magazin`,
+    title: brandedTitle(`${category.name} im Tattoo-Magazin`),
     description: localizeFirstPartyText(
       category.description || `Beiträge aus dem Bereich ${category.name} im dich-mit-stich Magazin.`,
       publicUrl(market),

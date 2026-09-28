@@ -144,8 +144,8 @@ h1 {
 
 /* Header: dünne Naht unter der Leiste */
 .site-header-shell {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: saturate(1.4) blur(14px);
+  /* Kein backdrop-filter: er macht die Leiste zum Bezugsrahmen des mobilen Vollbild-Menüs (position: fixed). */
+  background: rgba(255, 255, 255, 0.97);
   border-bottom: 0;
   box-shadow: 0 1px 0 rgba(33, 25, 29, 0.06);
 }

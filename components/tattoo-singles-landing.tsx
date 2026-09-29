@@ -154,6 +154,8 @@ export function TattooSinglesLanding({ content }: { content: LandingContent }) {
           </div>
         </section>
 
+        {/* Siegel und Logo sind kleine Originale (330×60, 300×60, 200×72): unverändert ausliefern,
+            der Bildoptimierer würde sie sonst verkleinern und der Browser wieder unscharf hochziehen. */}
         <section className="lp-trust-strip" aria-label="Vertrauen">
           <div className="lp-shell lp-trust-inner">
             <a className="lp-trust-item" href={TRUSTPILOT_URL} target="_blank" rel="nofollow noopener noreferrer">
@@ -161,15 +163,15 @@ export function TattooSinglesLanding({ content }: { content: LandingContent }) {
               <span>Bewertungen auf Trustpilot</span>
             </a>
             <a className="lp-trust-item" href="https://singleboersen-ueberblick.de/partnersuche/dich-mit-stich/" target="_blank" rel="nofollow noopener noreferrer">
-              <Image src={staticAsset("/about/dich-mit-stich-bewertungen-siegel-singleboersen-ueberblick.webp")} alt="Empfehlungssiegel von singleboersen-ueberblick.de" width={120} height={120} sizes="72px" />
+              <Image src={staticAsset("/about/dich-mit-stich-bewertungen-siegel-singleboersen-ueberblick.webp")} alt="Empfehlungssiegel von singleboersen-ueberblick.de" width={330} height={60} unoptimized />
               <span>Empfohlen auf singleboersen-ueberblick.de</span>
             </a>
             <a className="lp-trust-item" href="https://www.singleboersen-vergleichen.de/singleportal/dich-mit-stich/" target="_blank" rel="nofollow noopener noreferrer">
-              <Image src={staticAsset("/about/dich-mit-stich-bewertungen-siegel-singleboersen-vergleichen.webp")} alt="Bewertungssiegel von singleboersen-vergleichen.de" width={120} height={120} sizes="72px" />
+              <Image src={staticAsset("/about/dich-mit-stich-bewertungen-siegel-singleboersen-vergleichen.webp")} alt="Bewertungssiegel von singleboersen-vergleichen.de" width={300} height={60} unoptimized />
               <span>Bewertet auf singleboersen-vergleichen.de</span>
             </a>
             <span className="lp-trust-item lp-trust-item-static">
-              <Image src={staticAsset("/brand/icony-gmbh-logo.png")} alt="Icony GmbH" width={120} height={40} sizes="96px" />
+              <Image src={staticAsset("/brand/icony-gmbh-logo.png")} alt="Icony GmbH" width={200} height={72} unoptimized />
               <span>{t("Betrieb & Datenschutz: Icony GmbH")}</span>
             </span>
           </div>

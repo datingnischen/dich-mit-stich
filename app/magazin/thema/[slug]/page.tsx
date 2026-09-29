@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { MagazineCategory } from "@/components/magazine-category";
-import { marketEditorialRobots } from "@/lib/editorial-metadata";
+import { isThinMagazineCategory, marketEditorialRobots } from "@/lib/editorial-metadata";
 import { publicUrl } from "@/lib/markets";
 import { getMagazineCategories, getMagazineCategoryBySlug } from "@/lib/wordpress";
 import { brandedTitle } from "@/lib/seo-title";
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: brandedTitle(`${category.name}: Artikel im Magazin`),
     description: category.description || `Beiträge aus dem Bereich ${category.name} im dich-mit-stich Magazin.`,
     alternates: { canonical: publicUrl("de", `/magazin/thema/${slug}`) },
-    robots: marketEditorialRobots("de"),
+    robots: isThinMagazineCategory(category) ? { index: false, follow: true } : marketEditorialRobots("de"),
   };
 }
 

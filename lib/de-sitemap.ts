@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { ABOUT_PATHS } from "@/lib/about-pages";
 import { FAQ_PATH } from "@/lib/faq";
+import { isThinMagazineCategory } from "@/lib/editorial-metadata";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
 import { withTrailingSlash } from "@/lib/markets";
@@ -21,7 +22,9 @@ async function magazineLocations(): Promise<MetadataRoute.Sitemap> {
   const entries = rawEntries.filter(
     (entry) => !["expertenteam", "home", "tattoo-studios"].includes(entry.slug) && !isMagazineArticleQuarantined(entry.slug),
   );
-  const categories = rawCategories.filter((category) => category.slug !== "erfolgsgeschichten");
+  const categories = rawCategories.filter(
+    (category) => category.slug !== "erfolgsgeschichten" && !isThinMagazineCategory(category),
+  );
 
   return [
     { url: `${SITE_URL}/magazin`, changeFrequency: "daily", priority: 0.9 },

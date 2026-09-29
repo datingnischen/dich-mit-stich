@@ -38,6 +38,20 @@ test("editorial robots preserve DE indexing and safety overrides while gating AT
   assert.deepEqual(marketEditorialRobots("at", true), { index: false, follow: false });
 });
 
+test("topic pages with a single article stay out of index and sitemap (Keyword-Kannibalisierung)", async () => {
+  const { isThinMagazineCategory } = await import("../lib/editorial-metadata.ts");
+  const [topicPage, sitemap] = await Promise.all([
+    readFile(new URL("../app/magazin/thema/[slug]/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../lib/de-sitemap.ts", import.meta.url), "utf8"),
+  ]);
+
+  assert.equal(isThinMagazineCategory({ count: 0 }), true);
+  assert.equal(isThinMagazineCategory({ count: 1 }), true);
+  assert.equal(isThinMagazineCategory({ count: 4 }), false);
+  assert.match(topicPage, /isThinMagazineCategory\(category\) \? \{ index: false, follow: true \}/);
+  assert.match(sitemap, /!isThinMagazineCategory\(category\)/);
+});
+
 test("magazine route families reuse shared market-aware renderers", async () => {
   const routePairs = [
     ["../app/magazin/page.tsx", "../app/[market]/magazin/page.tsx", "MagazineOverview"],

@@ -1,0 +1,40 @@
+{
+  "tribal-tattoo": {
+    "title": "Tribal Tattoo: Herkunft, Bedeutung und Motive",
+    "edits": []
+  },
+  "polynesische-tribal-tattoo": {
+    "edits": [
+      {
+        "find": "Wer sich für ein polynesisch inspiriertes Tribal Tattoo interessiert",
+        "replace": "Wer sich für ein polynesisch inspiriertes Tattoo interessiert",
+        "reason": "Seobility: konkurriert mit dem Hub /magazin/tribal-tattoo/ um „Tribal Tattoo“"
+      },
+      {
+        "find": "Beispiel für ein Polynesisches Tribal Tattoo",
+        "replace": "Beispiel für ein polynesisches Tattoo",
+        "reason": "Keyword-Kannibalisierung mit dem Tribal-Hub"
+      },
+      {
+        "find": "Bei polynesischen Tribal Tattoos ist die Motivwahl",
+        "replace": "Bei polynesischen Tattoos ist die Motivwahl",
+        "reason": "Keyword-Kannibalisierung mit dem Tribal-Hub"
+      },
+      {
+        "find": "Häufige Fragen zu Polynesischen Tribal Tattoos",
+        "replace": "Häufige Fragen zu polynesischen Tattoos",
+        "reason": "Keyword-Kannibalisierung mit dem Tribal-Hub"
+      },
+      {
+        "find": "Worauf sollte ich bei einem polynesischen Tribal Tattoo besonders achten?",
+        "replace": "Worauf sollte ich bei einem polynesischen Tattoo besonders achten?",
+        "reason": "Keyword-Kannibalisierung mit dem Tribal-Hub"
+      },
+      {
+        "find": "Ein polynesisch inspiriertes Tribal Tattoo wirkt meist",
+        "replace": "Ein polynesisch inspiriertes Tattoo wirkt meist",
+        "reason": "Keyword-Kannibalisierung mit dem Tribal-Hub"
+      }
+    ]
+  }
+}

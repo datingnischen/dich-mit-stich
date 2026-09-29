@@ -566,3 +566,8 @@ test("site navigation links to the new studio guide rather than the singles city
   assert.doesNotMatch(`${page}\n${largestCities}`, /übernommen|in Prüfung|Prüfstatus|Prüfdatum|So prüfen wir Studios|redaktionellen Check|[Gg]eprüfte Studios|[Vv]erifizierte Einzelprofile/);
   assert.doesNotMatch(page, /Für Berlin und Hannover findest du/);
 });
+
+test("studio guide texts contain no empty links (Seobility: Linktext zur Seite ist leer)", async () => {
+  const guides = await readFile(new URL("../data/tattoo-studio-guides-de.json", import.meta.url), "utf8");
+  assert.doesNotMatch(guides, /<a href=[^>]*>\s*<\/a>/);
+});

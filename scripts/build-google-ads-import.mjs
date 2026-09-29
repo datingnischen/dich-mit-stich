@@ -16,6 +16,11 @@ import { fileURLToPath } from "node:url";
 
 export const LIMITS = { headline: 30, description: 90, path: 15, keyword: 80 };
 
+// Google Ads Editor und Web-Uploads lesen UTF-8 mit BOM und Windows-Zeilenenden am zuverlässigsten.
+const BOM = String.fromCharCode(0xfeff);
+const CRLF = String.fromCharCode(13, 10);
+const LF = String.fromCharCode(10);
+
 const LANDING_PATH = "/tattoo-singles/kennenlernen/";
 
 export const MARKETS = {
@@ -266,7 +271,48 @@ function csvCell(value = "") {
 
 export function toCsv(rows) {
   const lines = [COLUMNS.join(","), ...rows.map((row) => COLUMNS.map((column) => csvCell(row[column])).join(","))];
-  return `﻿${lines.join("\r\n")}\r\n`;
+  return `${BOM}${lines.join(CRLF)}${CRLF}`;
+}
+
+/**
+ * Dateien für die Web-Massenbearbeitung (Google Ads → Tools → Massenaktionen → Uploads). Google
+ * verlangt je Entität eine eigene Datei mit eigenen Spaltennamen (Vorlagen: support.google.com/google-ads/answer/10702525).
+ * Reihenfolge beim Hochladen: Kampagnen → Anzeigengruppen → Keywords → Anzeigen. Ausschlüsse als Liste zum Einfügen.
+ */
+export function buildWebUploads(rows = buildRows()) {
+  const campaigns = rows.filter((row) => row["Campaign Type"] === "Search").map((row) => {
+    const location = rows.find((r) => r.Campaign === row.Campaign && r.Location);
+    return {
+      "Action": "Add", "Campaign status": "Paused", "Campaign": row.Campaign, "Campaign type": "Search",
+      "Networks": "Google search", "Budget": row.Budget, "Budget type": "Daily", "Bid strategy type": "Manual CPC",
+      "Language": "de", "Location": location.Location,
+    };
+  });
+  const maxCpc = Object.fromEntries(Object.values(MARKETS).map((m) => [m.campaign, m.maxCpc]));
+  const adGroupRows = rows.filter((row) => row["Ad Group Status"]).map((row) => ({
+    "Action": "Add", "Campaign": row.Campaign, "Ad group": row["Ad Group"], "Status": "Enabled", "Default max. CPC": row["Max CPC"],
+  }));
+  const keywordRows = rows.filter((row) => row["Criterion Type"] === "Phrase" || row["Criterion Type"] === "Exact").map((row) => ({
+    "Action": "Add", "Keyword status": "Enabled", "Campaign": row.Campaign, "Ad group": row["Ad Group"], "Keyword": row.Keyword,
+    "Match Type": `${row["Criterion Type"]} match`, "Default max. CPC": maxCpc[row.Campaign],
+  }));
+  const adRows = rows.filter((row) => row["Ad type"]).map((row) => {
+    const ad = { "Action": "Add", "Ad status": "Enabled", "Campaign": row.Campaign, "Ad group": row["Ad Group"], "Ad type": "Responsive search ad" };
+    for (let i = 1; i <= 15; i += 1) if (row[`Headline ${i}`]) ad[`Headline ${i}`] = row[`Headline ${i}`];
+    ad["Headline 1 position"] = "1";
+    for (let i = 1; i <= 4; i += 1) if (row[`Description ${i}`]) ad[i === 1 ? "Description" : `Description ${i}`] = row[`Description ${i}`];
+    ad["Path 1"] = row["Path 1"];
+    ad["Path 2"] = row["Path 2"];
+    ad["Final URL"] = row["Final URL"];
+    return ad;
+  });
+  return { "1-kampagnen": campaigns, "2-anzeigengruppen": adGroupRows, "3-keywords": keywordRows, "4-anzeigen": adRows };
+}
+
+function rowsToCsv(list) {
+  const columns = [...new Set(list.flatMap((row) => Object.keys(row)))];
+  const lines = [columns.join(","), ...list.map((row) => columns.map((column) => csvCell(row[column])).join(","))];
+  return `${BOM}${lines.join(CRLF)}${CRLF}`;
 }
 
 const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -280,6 +326,13 @@ if (isMain) {
   const target = resolve(dirname(fileURLToPath(import.meta.url)), "../docs/google-ads/dich-mit-stich-kennenlernen-editor-import.csv");
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, toCsv(rows), "utf8");
+  const webDir = resolve(dirname(target), "web-upload");
+  mkdirSync(webDir, { recursive: true });
+  for (const [name, list] of Object.entries(buildWebUploads(rows))) {
+    writeFileSync(resolve(webDir, `${name}.csv`), rowsToCsv(list), "utf8");
+  }
+  writeFileSync(resolve(webDir, "5-ausschluesse.txt"), `${NEGATIVE_KEYWORDS.map((k) => `"${k}"`).join(LF)}${LF}`, "utf8");
+  writeFileSync(resolve(webDir, "5-ausschluesse-ch.txt"), `${NEGATIVE_KEYWORDS.map((k) => `"${localize("ch", k)}"`).join(LF)}${LF}`, "utf8");
   const ads = rows.filter((row) => row["Ad type"]).length;
   const keywords = rows.filter((row) => row["Criterion Type"] === "Phrase" || row["Criterion Type"] === "Exact").length;
   console.log(`${target}\n3 Kampagnen (pausiert), ${ads} Anzeigengruppen/RSAs, ${keywords} Keywords, ${NEGATIVE_KEYWORDS.length} Ausschlüsse je Kampagne`);

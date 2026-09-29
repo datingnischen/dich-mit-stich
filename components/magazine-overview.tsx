@@ -1,3 +1,4 @@
+import { CardTitleLink } from "@/components/card-title-link";
 import Image from "next/image";
 import { ArticleCardMedia } from "@/components/article-card-media";
 import { MagazineTeaser } from "@/components/magazine-teaser";
@@ -74,7 +75,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
             ) : null}
             <div className="editorial-feature-copy">
               <span className="eyebrow">{featuredPost.categories[0]?.name || "Magazin"}</span>
-              <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${featuredPost.slug}`}>{featuredPost.title}</MarketLink></h3>
+              <h3><CardTitleLink market={market} pathname={`/magazin/${featuredPost.slug}`} title={featuredPost.title} /></h3>
               <MagazineTeaser entry={featuredPost} length={220} origin={publicUrl(market)} />
               <div className="meta-row">
                 {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
@@ -118,7 +119,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
               />
               <div className="magazine-story-copy">
                 <span className="eyebrow eyebrow-muted">{post.categories[0]?.name || "Magazin"}</span>
-                <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${post.slug}`}>{post.title}</MarketLink></h3>
+                <h3><CardTitleLink market={market} pathname={`/magazin/${post.slug}`} title={post.title} /></h3>
                 <div className="meta-row magazine-story-meta">
                   {post.authorName ? <span>Von {post.authorName}</span> : null}
                   {visibleEntryDate(post) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(post))}</span> : null}
@@ -146,7 +147,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
               />
               <div className="magazine-guide-copy">
                 <span className="eyebrow eyebrow-muted">Ratgeber & Wissen</span>
-                <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${page.slug}`}>{page.title}</MarketLink></h3>
+                <h3><CardTitleLink market={market} pathname={`/magazin/${page.slug}`} title={page.title} /></h3>
                 <span className="editorial-text-link">Ratgeber lesen <span aria-hidden="true">→</span></span>
               </div>
             </div>

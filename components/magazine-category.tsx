@@ -1,3 +1,4 @@
+import { CardTitleLink } from "@/components/card-title-link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArticleCardMedia } from "@/components/article-card-media";
@@ -77,7 +78,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
             ) : null}
             <div className="editorial-feature-copy">
               <span className="eyebrow">Aktuellster Beitrag</span>
-              <h2><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${featuredEntry.slug}`}>{featuredEntry.title}</MarketLink></h2>
+              <h2><CardTitleLink market={market} pathname={`/magazin/${featuredEntry.slug}`} title={featuredEntry.title} /></h2>
               <MagazineTeaser entry={featuredEntry} length={220} origin={origin} />
               <div className="meta-row">
                 {featuredEntry.authorName ? <span>Von {featuredEntry.authorName}</span> : null}
@@ -130,7 +131,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
                   sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 340px"
                 />
                 <div className="magazine-story-copy">
-                  <p className="magazine-story-title"><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${entry.slug}`}>{entry.title}</MarketLink></p>
+                  <p className="magazine-story-title"><CardTitleLink market={market} pathname={`/magazin/${entry.slug}`} title={entry.title} /></p>
                   <div className="meta-row magazine-story-meta">
                     {entry.authorName ? <span>Von {entry.authorName}</span> : null}
                     {visibleEntryDate(entry) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(entry))}</span> : null}

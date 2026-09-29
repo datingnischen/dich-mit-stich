@@ -1,3 +1,4 @@
+import { CardTitleLink } from "@/components/card-title-link";
 import { ArticleCardMedia } from "@/components/article-card-media";
 import { MarketLink } from "@/components/market-link";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
@@ -66,7 +67,7 @@ export async function MotifMore({ market, slug, topic, preferred }: MotifMorePro
             />
             <div className="magazine-story-copy">
               <span className="eyebrow eyebrow-muted">{copy.hub.label}</span>
-              <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${entry.slug}`}>{entry.title}</MarketLink></h3>
+              <h3><CardTitleLink market={market} pathname={`/magazin/${entry.slug}`} title={entry.title} /></h3>
             </div>
           </div>
         ))}

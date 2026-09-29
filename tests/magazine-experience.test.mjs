@@ -286,7 +286,7 @@ test("quarantined bodies fail closed while pilot articles keep their full legacy
   assert.match(editorialMetadata, /if \(safetyOverride\) return \{ index: false, follow: false \}/);
   assert.match(sitemap, /!isMagazineArticleQuarantined\(entry\.slug\)/);
   const categoryPage = await readMagazineCategorySource();
-  assert.match(categoryPage, /<h2><MarketLink className="card-stretch-link"[^>]*>\{featuredEntry\.title\}<\/MarketLink><\/h2>/);
+  assert.match(categoryPage, /<h2><CardTitleLink market=\{market\} pathname=\{`\/magazin\/\$\{featuredEntry\.slug\}`\} title=\{featuredEntry\.title\} \/><\/h2>/);
   assert.doesNotMatch(categoryPage, /<h3>\{featuredEntry\.title\}<\/h3>/);
   assert.equal(safety.isMagazineArticleQuarantined("anti-tragus-piercing"), false);
   assert.equal(safety.isMagazineArticleQuarantined("suprasorb"), false);

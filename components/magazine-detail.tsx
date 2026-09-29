@@ -1,3 +1,4 @@
+import { CardTitleLink } from "@/components/card-title-link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AntiEyebrowEditorial } from "@/components/anti-eyebrow-editorial";
@@ -251,7 +252,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
                 />
                 <div className="magazine-story-copy">
                   <span className="eyebrow eyebrow-muted">{post.categories[0]?.name || "Magazin"}</span>
-                  <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${post.slug}`}>{post.title}</MarketLink></h3>
+                  <h3><CardTitleLink market={market} pathname={`/magazin/${post.slug}`} title={post.title} /></h3>
                   {visibleEntryDate(post) ? (
                     <div className="meta-row magazine-story-meta">
                       <span>Aktualisiert {formatGermanDate(visibleEntryDate(post))}</span>

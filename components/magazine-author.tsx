@@ -1,3 +1,4 @@
+import { CardTitleLink } from "@/components/card-title-link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MagazineTeaser } from "@/components/magazine-teaser";
@@ -90,7 +91,7 @@ export async function MagazineAuthor({ market, slug }: { market: MarketCode; slu
                   </div>
                 )}
                 <div className="article-card-copy">
-                  <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${post.slug}`}>{post.title}</MarketLink></h3>
+                  <h3><CardTitleLink market={market} pathname={`/magazin/${post.slug}`} title={post.title} /></h3>
                   <MagazineTeaser entry={post} length={170} origin={publicUrl(market)} />
                 </div>
               </div>

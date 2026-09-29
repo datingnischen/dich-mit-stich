@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const guide = getTattooStudioCityGuide(market, city);
   if (!guide) return { robots: { index: false, follow: false } };
 
-  const title = `Tattoo-Studios in ${guide.cityName}: redaktioneller Guide`;
+  const title = `Tattoo-Studios in ${guide.cityName} – Stadtguide`;
   const description = tattooStudioCityDescription(guide.cityName, guide.studios.length);
   const url = publicUrl(market, `/tattoo-studios/${city}`);
   const imageUrl = guide.imageUrl ? staticAsset(guide.imageUrl) : null;

@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const category = await getMarketMagazineCategoryBySlug(market, slug);
   if (!category) return {};
   return {
-    title: brandedTitle(`${category.name} im Tattoo-Magazin`),
+    title: brandedTitle(`${category.name}: Artikel im Magazin`),
     description: localizeFirstPartyText(
       category.description || `Beiträge aus dem Bereich ${category.name} im dich-mit-stich Magazin.`,
       publicUrl(market),

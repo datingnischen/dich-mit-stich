@@ -659,3 +659,12 @@ h1 {
     transform: none;
   }
 }
+
+/* Wiederholte Texte (Pull-Quote, Titel im Karten-Platzhalter) nur zeichnen, nicht als Seitentext ausgeben. */
+.motif-pullquote p[data-quote]::before {
+  content: attr(data-quote);
+}
+
+.article-card-media-fallback ui-strong[data-title]::before {
+  content: attr(data-title);
+}

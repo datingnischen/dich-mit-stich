@@ -11,7 +11,7 @@ export function MagazineAnswerSummary({ entry }: MagazineAnswerSummaryProps) {
     <section className="magazine-answer-summary" aria-labelledby={headingId}>
       <span className="eyebrow">Kurz beantwortet</span>
       <h2 id={headingId}>{entry.heading}</h2>
-      <p className="magazine-answer-direct">{entry.directAnswer}</p>
+      {/* The direct answer already opens the article as its lead, so the box starts with the facts. */}
       <ul className="magazine-answer-facts">
         {entry.keyFacts.map((fact) => (
           <li key={fact}>{fact}</li>

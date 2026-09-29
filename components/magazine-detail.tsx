@@ -35,7 +35,7 @@ import { PIERCING_GUIDE, PIERCING_GUIDE_SLUG, PIERCING_HUB_LEAD } from "@/lib/pi
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { buildTattooMotifSpotlight, motifTopicForSlug } from "@/lib/tattoo-motifs";
-import { formatGermanDate, formatGermanDateLong, teaserText, visibleEntryDate } from "@/lib/wordpress";
+import { formatGermanDate, formatGermanDateLong, stripHtml, teaserText, visibleEntryDate } from "@/lib/wordpress";
 
 const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 
@@ -132,6 +132,9 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
   // The Piercingarten hub opens with its body regions instead of a single stretched thumbnail.
   const piercingRegions = isPiercingHubPage ? extractHubChildGroups(PIERCING_HUB, renderedContent, "Körperpiercings") : [];
   const hubOverviewTopic = entry.slug === TATTOO_HUB.slug ? "tattoo" : entry.slug === PIERCING_HUB.slug ? "piercing" : null;
+  const isTeaserLead = !(answerEngineEntry || editorialOverride || authorProfilePage || isPiercingGuide || isPiercingHubPage);
+  // An excerpt that is the whole opening paragraph would stand twice on the page (Seobility: doppelte Textblöcke).
+  const leadRepeatsOpening = isTeaserLead && stripHtml(renderedContent.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1]) === articleSummary.trim();
 
   return (
     <main className="shell magazine-detail-shell">
@@ -148,7 +151,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
             {isPiercingArticle ? "Piercing-Ratgeber" : entry.type === "post" ? "Magazin-Artikel" : "Magazin-Ratgeber"}
           </span>
           <h1>{entry.title}</h1>
-          <p className="magazine-detail-lead">{articleSummary}{(answerEngineEntry || editorialOverride || authorProfilePage || isPiercingGuide || isPiercingHubPage) ? null : "…"}</p>
+          {leadRepeatsOpening ? null : <p className="magazine-detail-lead">{articleSummary}{isTeaserLead ? "…" : null}</p>}
           <div className="meta-row magazine-detail-meta">
             {entry.authorName ? (
               <span>

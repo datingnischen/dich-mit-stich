@@ -51,8 +51,9 @@ export function TattooMotifArticle({ market, html, spotlight }: TattooMotifArtic
           ) : null}
 
           {index + 1 === quoteAfter && spotlight.pullQuote ? (
-            <blockquote className="motif-pullquote">
-              <p>{spotlight.pullQuote}</p>
+            // The quote repeats a sentence of the article, so CSS draws it and crawlers read it only once.
+            <blockquote className="motif-pullquote" aria-hidden="true">
+              <p data-quote={spotlight.pullQuote} />
             </blockquote>
           ) : null}
         </Fragment>

@@ -298,7 +298,22 @@ test("pilot direct answers stay consistent across metadata, hero and schema", as
 
   assert.match(detail, /const answerEngineEntry = getAnswerEnginePilotEntry\(slug\);/);
   assert.match(detail, /answerEngineEntry\?\.directAnswer\s*\?\?/);
-  assert.match(detail, /\{\(answerEngineEntry \|\| editorialOverride \|\| authorProfilePage \|\| isPiercingGuide \|\| isPiercingHubPage\) \? null : "…"\}/);
+  assert.match(detail, /const isTeaserLead = !\(answerEngineEntry \|\| editorialOverride \|\| authorProfilePage \|\| isPiercingGuide \|\| isPiercingHubPage\);/);
+  assert.match(detail, /\{isTeaserLead \? "…" : null\}/);
+});
+
+test("repeated text blocks are not rendered twice as page text (Seobility)", async () => {
+  const detail = await readMagazineDetailSource();
+  const answerSummary = await readSource("../components/magazine-answer-summary.tsx");
+  const motifArticle = await readSource("../components/tattoo-motif-article.tsx");
+  const cardMedia = await readSource("../components/article-card-media.tsx");
+
+  // The hero lead already is the direct answer; the summary box keeps heading, facts and sources.
+  assert.doesNotMatch(answerSummary, /entry\.directAnswer/);
+  assert.match(detail, /leadRepeatsOpening \? null : <p className="magazine-detail-lead">/);
+  // Pull quotes and card placeholders repeat existing text, so they are drawn from data attributes.
+  assert.match(motifArticle, /<blockquote className="motif-pullquote" aria-hidden="true">\s*<p data-quote=\{spotlight\.pullQuote\} \/>/);
+  assert.match(cardMedia, /<ui-strong data-title=\{fallbackTitle\} \/>/);
 });
 
 test("article dateModified keeps the latest CMS or editorial change", async () => {

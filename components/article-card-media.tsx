@@ -30,7 +30,8 @@ export function ArticleCardMedia({
   return (
     <div className={`${mediaClassName} article-card-media-fallback`} aria-hidden="true">
       <span>{fallbackLabel}</span>
-      <ui-strong>{fallbackTitle}</ui-strong>
+      {/* The card heading already carries the title as text; the placeholder only draws it (ink-theme.css). */}
+      <ui-strong data-title={fallbackTitle} />
     </div>
   );
 }

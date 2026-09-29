@@ -59,7 +59,8 @@ test("landing content follows the ad group variant and the city parameter", () =
   const base = resolveLandingContent("de");
   assert.equal(base.variant, "singles");
   assert.equal(base.headline, "Tattoo-Singles in Deutschland kennenlernen");
-  assert.equal(base.registrationUrl, "https://dich-mit-stich.de/registration/?AID=location");
+  assert.equal(base.registrationUrl, "https://dich-mit-stich.de/registration/?AID=gads-kennenlernen");
+  assert.equal(base.aid, "gads-kennenlernen");
   assert.equal(base.canonical, "https://dich-mit-stich.de/tattoo-singles/kennenlernen/");
   assert.equal(base.postalCode, "10115");
   assert.equal(base.liveGender, "women");
@@ -73,7 +74,7 @@ test("landing content follows the ad group variant and the city parameter", () =
   const men = resolveLandingContent("at", { v: "maenner" });
   assert.equal(men.headline, "Tätowierte Männer kennenlernen");
   assert.equal(men.liveGender, "men");
-  assert.equal(men.registrationUrl, "https://dich-mit-stich.at/registration/?AID=location");
+  assert.equal(men.registrationUrl, "https://dich-mit-stich.at/registration/?AID=gads-kennenlernen");
   assert.equal(men.postalCode, "1010");
 
   // Unknown values fall back silently: Ads may append anything.
@@ -103,7 +104,7 @@ test("Swiss copy never uses ß and every widget city has a label", () => {
   }
   const ch = resolveLandingContent("ch", { stadt: "zuerich" });
   assert.equal(ch.headline, "Tattoo-Singles in Zürich kennenlernen");
-  assert.equal(ch.registrationUrl, "https://dich-mit-stich.ch/registration/?AID=location");
+  assert.equal(ch.registrationUrl, "https://dich-mit-stich.ch/registration/?AID=gads-kennenlernen");
 
   for (const [market, labels] of Object.entries(LANDING_CITY_LABELS)) {
     for (const slug of Object.keys(labels)) {
@@ -122,7 +123,12 @@ test("landing page source: noindex, no site navigation, one conversion target, l
   assert.doesNotMatch(component, /SiteFrame|SiteHeader|SiteFooter|MarketLink|from "next\/link"/, "no navigation off the landing page");
   assert.match(component, /publicUrl\(market, "\/impressum\.html"\)/);
   assert.match(component, /publicUrl\(market, "\/datenschutz\.html"\)/);
-  assert.match(component, /buildIconyRegistrationFrame\(market, "location"\)/);
+  assert.match(component, /buildIconyRegistrationFrame\(market, aid\)/);
+  assert.match(component, /<RegistrationFrame market=\{market\} aid=\{content\.aid\} \/>/);
+  assert.doesNotMatch(component, /"location"|"magazin"/, "the Ads page never counts as location or magazin");
+
+  const live = read("../components/landing-live-singles.tsx");
+  assert.match(live, /href=\{withAid\(activity\.vcardurl, aid\)\}/, "profile clicks carry the Ads AID too");
   assert.doesNotMatch(component, /garantiert|100 ?%|sicherste|höchste/i, "no advertising guarantees");
   assert.match(component, /data-lp-cta="sticky"/);
   assert.match(component, /data-lp-cta="hero"/);
@@ -149,4 +155,26 @@ test("Google Ads tag and CSP extension stay off without a valid account id", asy
   assert.match(tag, /consent','default'/);
   assert.match(tag, /ad_storage:'denied'/);
   assert.doesNotMatch(tag, /beforeInteractive/);
+});
+
+test("the Ads landing page tracks registrations with its own AID on every path", async () => {
+  const { ADS_LANDING_AID, withAid, conversionUrl } = await import("../lib/conversion-links.ts");
+  const { buildIconyRegistrationFrame } = await import("../lib/icony-frame-widgets.ts");
+  assert.equal(ADS_LANDING_AID, "gads-kennenlernen");
+
+  for (const market of ["de", "at", "ch"]) {
+    const content = resolveLandingContent(market, { v: "frauen" });
+    assert.equal(new URL(content.registrationUrl).searchParams.get("AID"), "gads-kennenlernen", market);
+    assert.equal(new URL(buildIconyRegistrationFrame(market, content.aid).src).searchParams.get("aid"), "gads-kennenlernen", market);
+  }
+
+  const profile = "https://dich-mit-stich.de/suche/frauen-aus-berlin-und-umgebung.html?utm_source=dichmitstich&utm_medium=widget&for_user=abc";
+  const tagged = new URL(withAid(profile, ADS_LANDING_AID));
+  assert.equal(tagged.searchParams.get("AID"), "gads-kennenlernen");
+  assert.equal(tagged.searchParams.get("for_user"), "abc", "keeps ICONY's own parameters");
+  assert.equal(new URL(withAid(`${profile}&AID=location`, ADS_LANDING_AID)).searchParams.getAll("AID").join(), "gads-kennenlernen");
+  assert.equal(withAid("kein-link", ADS_LANDING_AID), "kein-link");
+
+  // The rest of the site keeps location/magazin.
+  assert.equal(conversionUrl("https://dich-mit-stich.de", "/registration/", "location"), "https://dich-mit-stich.de/registration/?AID=location");
 });

@@ -1,4 +1,4 @@
-import { conversionUrl } from "./conversion-links.ts";
+import { ADS_LANDING_AID, conversionUrl, type ConversionAid } from "./conversion-links.ts";
 import { getIconyCityWidgetConfig, getIconyProjectKey } from "./icony-city-widgets.ts";
 import { getMarket, publicUrl, TATTOO_SINGLES_LANDING_PATH, type MarketCode } from "./markets.ts";
 
@@ -158,6 +158,8 @@ export type LandingContent = {
   liveTitle: string;
   /** Gender, das das Live-Widget zuerst zeigt (Frauen-Anzeigengruppe zeigt Frauen). */
   liveGender: "women" | "men";
+  /** Eigene AID der Ads-Landingpage für Buttons, Kurzformular und Profilkarten. */
+  aid: ConversionAid;
   /** Postleitzahl und Projekt für das ICONY-Live-Widget. */
   projectKey: string;
   postalCode: string;
@@ -218,7 +220,8 @@ export function resolveLandingContent(market: MarketCode, searchParams: LandingS
     liveGender: variant === "maenner" ? "men" : "women",
     projectKey: getIconyProjectKey(market),
     postalCode: (city ?? fallbackCity).postalCode,
-    registrationUrl: conversionUrl(publicUrl(market), "/registration/", "location"),
+    aid: ADS_LANDING_AID,
+    registrationUrl: conversionUrl(publicUrl(market), "/registration/", ADS_LANDING_AID),
     canonical: publicUrl(market, TATTOO_SINGLES_LANDING_PATH),
     title: t(`${headline} – kostenlos registrieren`),
     description: t(

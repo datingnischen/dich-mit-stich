@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { useIconyActivities, type SelectedGender } from "@/components/icony-singles-widget";
+import { withAid, type ConversionAid } from "@/lib/conversion-links";
 import type { MarketCode } from "@/lib/markets";
 
 type LandingLiveSinglesProps = {
@@ -12,6 +13,7 @@ type LandingLiveSinglesProps = {
   title: string;
   initialGender: SelectedGender;
   registrationUrl: string;
+  aid: ConversionAid;
   ctaLabel: string;
 };
 
@@ -22,7 +24,7 @@ const SHOWN_PROFILES = 8;
  * Die Profilkarten führen auf ICONY, wo ohne Login die Registrierung folgt – der Klick ist also
  * selbst ein Conversion-Pfad.
  */
-export function LandingLiveSingles({ market, projectKey, postalCode, title, initialGender, registrationUrl, ctaLabel }: LandingLiveSinglesProps) {
+export function LandingLiveSingles({ market, projectKey, postalCode, title, initialGender, registrationUrl, aid, ctaLabel }: LandingLiveSinglesProps) {
   const [gender, setGender] = useState<SelectedGender>(initialGender);
   const { activities, status, setStatus } = useIconyActivities({ market, projectKey, postalCode, gender, count: 15 });
   const shown = activities.slice(0, SHOWN_PROFILES);
@@ -59,7 +61,7 @@ export function LandingLiveSingles({ market, projectKey, postalCode, title, init
               <a
                 key={`${activity.username}-${index}`}
                 className="lp-live-profile"
-                href={activity.vcardurl}
+                href={withAid(activity.vcardurl, aid)}
                 target="_blank"
                 rel="noreferrer"
                 title={activity.action_text}

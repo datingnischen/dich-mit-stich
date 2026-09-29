@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { LandingLiveSingles } from "@/components/landing-live-singles";
+import type { ConversionAid } from "@/lib/conversion-links";
 import { buildIconyRegistrationFrame } from "@/lib/icony-frame-widgets";
 import { localizeLandingText, type LandingContent } from "@/lib/landing-tattoo-singles";
 import { publicUrl, type MarketCode } from "@/lib/markets";
@@ -37,8 +38,8 @@ const STORIES = [
 
 const CTA_LABEL = "Jetzt kostenlos registrieren";
 
-function RegistrationFrame({ market }: { market: MarketCode }) {
-  const widget = buildIconyRegistrationFrame(market, "location");
+function RegistrationFrame({ market, aid }: { market: MarketCode; aid: ConversionAid }) {
+  const widget = buildIconyRegistrationFrame(market, aid);
   // Wie IconyFrame, aber ohne loading="lazy": das Formular ist das erste Conversion-Element der Seite.
   return (
     <iframe
@@ -145,7 +146,7 @@ export function TattooSinglesLanding({ content }: { content: LandingContent }) {
               <h2 id="lp-form-title">In 2 Minuten dabei</h2>
               <p>{t("Verrate uns, wo du wohnst und wen du suchst. Wir zeigen dir, wer in deiner Nähe Tinte trägt.")}</p>
               <div className="lp-hero-frame">
-                <RegistrationFrame market={market} />
+                <RegistrationFrame market={market} aid={content.aid} />
               </div>
               <a className="lp-form-fallback" href={registrationUrl} data-lp-cta="hero-form-link">
                 Direkt zur Registrierung →
@@ -185,6 +186,7 @@ export function TattooSinglesLanding({ content }: { content: LandingContent }) {
             title={content.liveTitle}
             initialGender={content.liveGender}
             registrationUrl={registrationUrl}
+            aid={content.aid}
             ctaLabel={CTA_LABEL}
           />
 

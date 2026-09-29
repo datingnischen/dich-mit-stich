@@ -1,6 +1,7 @@
 import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
+import { normalizeHeadingLevels, splitLongParagraphs } from "./article-structure.ts";
 import { MAGAZINE_AUDIO_ATTRIBUTES, MAGAZINE_AUDIO_TAGS, magazineAudioTransforms } from "./magazine-audio.ts";
 import { cleanWordPressSeoTitle } from "./magazine-seo.ts";
 import { normalizeWordPressPayload, normalizeWordPressUrls, WORDPRESS_ORIGIN, wordpressRestUrl } from "./wordpress-origin.ts";
@@ -292,8 +293,9 @@ function hardenMagazineLink(attributes: Record<string, string>) {
   return hardened;
 }
 
-// NextGEN renders its gallery shortcode only inside the WordPress theme; the REST API leaves this marker behind.
-const NEXTGEN_GALLERY_PLACEHOLDER = /\bngg_shortcode_\d+_placeholder\b/g;
+// NextGEN renders its gallery shortcode only inside the WordPress theme; the REST API leaves this marker behind,
+// sometimes glued to the following word ("ngg_shortcode_0_placeholderEin Mandala …").
+const NEXTGEN_GALLERY_PLACEHOLDER = /\bngg_shortcode_\d+_placeholder/g;
 
 export function sanitizeMagazineHtml(html = "") {
   return sanitizeHtml(html.replace(NEXTGEN_GALLERY_PLACEHOLDER, ""), {
@@ -403,7 +405,7 @@ function normalizeEntry(item: WpRestItem): MagazineEntry {
     .flat()
     .filter((term) => term?.taxonomy === "category")
     .map(normalizeCategory);
-  const content = sanitizeMagazineHtml(item.content?.rendered || "");
+  const content = normalizeHeadingLevels(splitLongParagraphs(sanitizeMagazineHtml(item.content?.rendered || "")));
   const excerpt = sanitizeMagazineHtml(item.excerpt?.rendered || "");
   const featuredImage = sanitizeMediaUrl(featured?.source_url) || extractFirstImageFromHtml(content);
 

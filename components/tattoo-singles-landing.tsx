@@ -143,7 +143,7 @@ export function TattooSinglesLanding({ content }: { content: LandingContent }) {
             <aside className="lp-hero-form" aria-labelledby="lp-form-title">
               <span className="lp-form-eyebrow">Kostenlos starten</span>
               <h2 id="lp-form-title">In 2 Minuten dabei</h2>
-              <p>{t("PLZ, Ich bin, Ich suche – mehr braucht es für den Anfang nicht.")}</p>
+              <p>{t("Verrate uns, wo du wohnst und wen du suchst. Wir zeigen dir, wer in deiner Nähe Tinte trägt.")}</p>
               <div className="lp-hero-frame">
                 <RegistrationFrame market={market} />
               </div>

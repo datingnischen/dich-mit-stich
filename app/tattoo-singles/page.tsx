@@ -86,7 +86,7 @@ export default async function TattooSinglesOverviewPage() {
         </div>
         <div className="studio-city-grid">
           {overview.cityLinks.map((city) => (
-            <Link key={city.slug} href={`/tattoo-singles/${city.slug}/`} className="studio-city-card">
+            <div key={city.slug} className="studio-city-card card-stretch">
               {city.imageUrl ? (
                 <span className="studio-city-card-media">
                   <Image
@@ -102,9 +102,9 @@ export default async function TattooSinglesOverviewPage() {
                 <span>{city.region || "Deutschland"}</span>
                 <span className="studio-city-card-title"><LocationPinIcon /><ui-strong>{city.label}</ui-strong></span>
                 <small>Neue Singles, Szene-Tipps und Studios vor Ort</small>
-                <ui-strong>Singles in {city.label} entdecken →</ui-strong>
+                <ui-strong><Link className="card-stretch-link" href={`/tattoo-singles/${city.slug}/`}>Singles in {city.label} entdecken</Link> →</ui-strong>
               </span>
-            </Link>
+            </div>
           ))}
         </div>
         <CitySearchFallback market="de" />

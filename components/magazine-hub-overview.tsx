@@ -48,7 +48,7 @@ function HubCards({ market, topic, group, entries }: { market: MarketCode; topic
         const entry = entries.get(link.slug);
         const chips = motifProfile(topic, link.slug)?.facts[0]?.items.slice(0, 3) ?? [];
         return (
-          <MarketLink key={link.slug} className="lexikon-card" targetMarket={market} pathname={`/magazin/${link.slug}`}>
+          <div key={link.slug} className="lexikon-card card-stretch">
             <ArticleCardMedia
               imageUrl={entry?.featuredImage}
               alt={entry?.featuredImageAlt || link.label}
@@ -58,7 +58,7 @@ function HubCards({ market, topic, group, entries }: { market: MarketCode; topic
               sizes="(max-width: 560px) 50vw, 240px"
             />
             <span className="lexikon-card-copy">
-              <ui-strong>{link.label}</ui-strong>
+              <ui-strong><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${link.slug}`}>{link.label}</MarketLink></ui-strong>
               {chips.length ? (
                 <span className="lexikon-card-chips">
                   {chips.map((chip) => (
@@ -67,7 +67,7 @@ function HubCards({ market, topic, group, entries }: { market: MarketCode; topic
                 </span>
               ) : null}
             </span>
-          </MarketLink>
+          </div>
         );
       })}
     </div>

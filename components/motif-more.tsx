@@ -55,12 +55,7 @@ export async function MotifMore({ market, slug, topic, preferred }: MotifMorePro
       </div>
       <div className="motif-more-grid">
         {entries.map((entry) => (
-          <MarketLink
-            key={entry.slug}
-            targetMarket={market}
-            pathname={`/magazin/${entry.slug}`}
-            className="article-card magazine-story-card"
-          >
+          <div key={entry.slug} className="article-card magazine-story-card card-stretch">
             <ArticleCardMedia
               imageUrl={entry.featuredImage}
               alt={entry.featuredImageAlt || entry.title}
@@ -71,9 +66,9 @@ export async function MotifMore({ market, slug, topic, preferred }: MotifMorePro
             />
             <div className="magazine-story-copy">
               <span className="eyebrow eyebrow-muted">{copy.hub.label}</span>
-              <h3>{entry.title}</h3>
+              <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${entry.slug}`}>{entry.title}</MarketLink></h3>
             </div>
-          </MarketLink>
+          </div>
         ))}
       </div>
     </section>

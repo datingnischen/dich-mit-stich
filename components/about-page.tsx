@@ -102,24 +102,21 @@ function AboutCardView({ card, market, pairs }: { card: AboutCard; market: About
           <IconyFrame widget={buildIconyRegistrationFrame(market, "location")} />
         </div>
       ) : null}
-      {card.link ? <span className="about-card-action">{card.link.label}<span aria-hidden="true">→</span></span> : null}
+      {card.link ? (
+        <span className="about-card-action">
+          {card.link.external ? (
+            <a className="card-stretch-link" href={card.link.href} target="_blank" rel="nofollow noopener noreferrer">{card.link.label}</a>
+          ) : (
+            <MarketLink className="card-stretch-link" targetMarket={card.link.market ?? market} pathname={card.link.href}>{card.link.label}</MarketLink>
+          )}
+          <span aria-hidden="true">→</span>
+        </span>
+      ) : null}
     </>
   );
 
   if (!card.link) return <article className="about-topic-card">{content}</article>;
-  if (card.link.external) {
-    return (
-      <a className="about-topic-card about-topic-card-linked" href={card.link.href} target="_blank" rel="nofollow noopener noreferrer">
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <MarketLink className="about-topic-card about-topic-card-linked" targetMarket={card.link.market ?? market} pathname={card.link.href}>
-      {content}
-    </MarketLink>
-  );
+  return <article className="about-topic-card about-topic-card-linked card-stretch">{content}</article>;
 }
 
 export function aboutPageMetadata(page: AboutPage): Metadata {

@@ -159,7 +159,7 @@ test("the author article list reuses the uniform magazine story grid", async () 
   ]);
 
   assert.match(detail, /className="magazine-story-grid"/);
-  assert.match(detail, /className="article-card magazine-story-card"/);
+  assert.match(detail, /className="article-card magazine-story-card card-stretch"/);
   assert.match(detail, /className="magazine-story-media"/);
   // The ragged full-height thumbnail column is what made the list look broken.
   assert.doesNotMatch(detail, /author-article-card/);

@@ -100,7 +100,7 @@ export default function TattooStudioGuidePage() {
           </div>
           <div className="studio-city-grid">
             {guideCities.map((city) => (
-              <Link className="studio-city-card" href={`/tattoo-studios/${city.slug}/`} key={city.identity}>
+              <div className="studio-city-card card-stretch" key={city.identity}>
                 {city.imageUrl ? (
                   <span className="studio-city-card-media">
                     <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" unoptimized />
@@ -110,9 +110,9 @@ export default function TattooStudioGuidePage() {
                   <span>{city.region}</span>
                   <span className="studio-city-card-title"><LocationPinIcon /><ui-strong>{city.cityName}</ui-strong></span>
                   <small>{city.publicationStatus === "verified" ? `${city.studios.length} Studios und Tipps zur Auswahl` : "Tipps für deine Studiosuche"}</small>
-                  <ui-strong>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</ui-strong>
+                  <ui-strong><Link className="card-stretch-link" href={`/tattoo-studios/${city.slug}/`}>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`}</Link> →</ui-strong>
                 </span>
-              </Link>
+              </div>
             ))}
           </div>
           <div className="studio-guide-overview-copy">

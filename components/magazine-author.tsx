@@ -67,7 +67,7 @@ export async function MagazineAuthor({ market, slug }: { market: MarketCode; slu
           </div>
           <div className="stack-list">
             {posts.slice(0, 8).map((post) => (
-              <MarketLink key={post.id} targetMarket={market} pathname={`/magazin/${post.slug}`} className="article-card article-card-rich author-article-card">
+              <div key={post.id} className="article-card article-card-rich author-article-card card-stretch">
                 {post.featuredImage ? (
                   <div className="article-card-media">
                     <Image
@@ -90,10 +90,10 @@ export async function MagazineAuthor({ market, slug }: { market: MarketCode; slu
                   </div>
                 )}
                 <div className="article-card-copy">
-                  <h3>{post.title}</h3>
+                  <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${post.slug}`}>{post.title}</MarketLink></h3>
                   <MagazineTeaser entry={post} length={170} origin={publicUrl(market)} />
                 </div>
-              </MarketLink>
+              </div>
             ))}
           </div>
         </section>

@@ -142,7 +142,7 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
         </div>
         <div className="studio-city-grid">
           {cities.map((city) => (
-            <MarketLink className="studio-city-card" targetMarket={market} pathname={`/tattoo-studios/${city.slug}`} key={city.identity}>
+            <div className="studio-city-card card-stretch" key={city.identity}>
               {city.imageUrl ? (
                 <span className="studio-city-card-media">
                   <Image src={staticAsset(city.imageUrl)} alt={`Stadtansicht von ${city.cityName}`} width={420} height={280} sizes="(max-width: 640px) 120px, 180px" unoptimized />
@@ -152,9 +152,9 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
                 <span>{city.region}</span>
                 <span className="studio-city-card-title"><LocationPinIcon /><ui-strong>{city.cityName}</ui-strong></span>
                 <small>{city.publicationStatus === "verified" ? `${city.studios.length} Studios und Tipps zur Auswahl` : "Tipps für deine Studiosuche"}</small>
-                <ui-strong>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`} →</ui-strong>
+                <ui-strong><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/tattoo-studios/${city.slug}`}>{city.publicationStatus === "verified" ? `Studios in ${city.cityName} entdecken` : `Guide für ${city.cityName} öffnen`}</MarketLink> →</ui-strong>
               </span>
-            </MarketLink>
+            </div>
           ))}
         </div>
       </section>

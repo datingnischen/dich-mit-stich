@@ -18,8 +18,8 @@ test("magazine overview uses broad editorial grids without equal-height split pa
 
   assert.match(source, /className="magazine-story-grid"/);
   assert.match(source, /className="magazine-guide-grid"/);
-  assert.match(source, /className="article-card magazine-story-card"/);
-  assert.match(source, /className="article-card magazine-guide-card"/);
+  assert.match(source, /className="article-card magazine-story-card card-stretch"/);
+  assert.match(source, /className="article-card magazine-guide-card card-stretch"/);
   assert.doesNotMatch(source, /<section className="grid-two">/);
   assert.doesNotMatch(source, /Aktuelle Magazinbeiträge für deinen Einstieg/);
   assert.doesNotMatch(source, /Artikel kurz anhören/);
@@ -286,7 +286,7 @@ test("quarantined bodies fail closed while pilot articles keep their full legacy
   assert.match(editorialMetadata, /if \(safetyOverride\) return \{ index: false, follow: false \}/);
   assert.match(sitemap, /!isMagazineArticleQuarantined\(entry\.slug\)/);
   const categoryPage = await readMagazineCategorySource();
-  assert.match(categoryPage, /<h2>\{featuredEntry\.title\}<\/h2>/);
+  assert.match(categoryPage, /<h2><MarketLink className="card-stretch-link"[^>]*>\{featuredEntry\.title\}<\/MarketLink><\/h2>/);
   assert.doesNotMatch(categoryPage, /<h3>\{featuredEntry\.title\}<\/h3>/);
   assert.equal(safety.isMagazineArticleQuarantined("anti-tragus-piercing"), false);
   assert.equal(safety.isMagazineArticleQuarantined("suprasorb"), false);

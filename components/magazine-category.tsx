@@ -62,7 +62,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
 
       {featuredEntry ? (
         <section className="content-section magazine-feature-section">
-          <MarketLink targetMarket={market} pathname={`/magazin/${featuredEntry.slug}`} className="editorial-feature-card">
+          <div className="editorial-feature-card card-stretch">
             {featuredEntry.featuredImage ? (
               <div className="editorial-feature-media">
                 <Image
@@ -77,7 +77,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
             ) : null}
             <div className="editorial-feature-copy">
               <span className="eyebrow">Aktuellster Beitrag</span>
-              <h2>{featuredEntry.title}</h2>
+              <h2><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${featuredEntry.slug}`}>{featuredEntry.title}</MarketLink></h2>
               <MagazineTeaser entry={featuredEntry} length={220} origin={origin} />
               <div className="meta-row">
                 {featuredEntry.authorName ? <span>Von {featuredEntry.authorName}</span> : null}
@@ -85,7 +85,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
               </div>
               <span className="editorial-text-link">Artikel lesen <span aria-hidden="true">→</span></span>
             </div>
-          </MarketLink>
+          </div>
         </section>
       ) : null}
 
@@ -120,12 +120,7 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
           </div>
           <div className="magazine-story-grid magazine-topic-grid">
             {remainingEntries.map((entry) => (
-              <MarketLink
-                key={entry.id}
-                targetMarket={market}
-                pathname={`/magazin/${entry.slug}`}
-                className="article-card magazine-story-card"
-              >
+              <div key={entry.id} className="article-card magazine-story-card card-stretch">
                 <ArticleCardMedia
                   imageUrl={entry.featuredImage}
                   alt={entry.featuredImageAlt || entry.title}
@@ -135,13 +130,13 @@ export async function MagazineCategory({ market, slug }: { market: MarketCode; s
                   sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 340px"
                 />
                 <div className="magazine-story-copy">
-                  <p className="magazine-story-title">{entry.title}</p>
+                  <p className="magazine-story-title"><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${entry.slug}`}>{entry.title}</MarketLink></p>
                   <div className="meta-row magazine-story-meta">
                     {entry.authorName ? <span>Von {entry.authorName}</span> : null}
                     {visibleEntryDate(entry) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(entry))}</span> : null}
                   </div>
                 </div>
-              </MarketLink>
+              </div>
             ))}
           </div>
         </section>

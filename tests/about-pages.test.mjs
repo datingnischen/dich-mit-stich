@@ -256,7 +256,7 @@ test("provides a responsive elFlirt-inspired about composition in the Dich-mit-S
   }
 
   assert.match(css, /@media \(max-width: 900px\)[\s\S]*\.about-hero[\s\S]*grid-template-columns:\s*1fr/);
-  assert.match(css, /\.about-topic-card:focus-visible/);
+  assert.match(css, /\.about-topic-card:focus-within/);
 });
 
 test("publishes the about hierarchy through sitemaps, crawl rules and navigation", async () => {

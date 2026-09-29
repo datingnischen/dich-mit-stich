@@ -59,7 +59,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
             <span className="eyebrow">Titelstory</span>
             <h2>Eine Geschichte, die gerade bewegt</h2>
           </div>
-          <MarketLink targetMarket={market} pathname={`/magazin/${featuredPost.slug}`} className="editorial-feature-card">
+          <div className="editorial-feature-card card-stretch">
             {featuredPost.featuredImage ? (
               <div className="editorial-feature-media">
                 <Image
@@ -74,7 +74,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
             ) : null}
             <div className="editorial-feature-copy">
               <span className="eyebrow">{featuredPost.categories[0]?.name || "Magazin"}</span>
-              <h3>{featuredPost.title}</h3>
+              <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${featuredPost.slug}`}>{featuredPost.title}</MarketLink></h3>
               <MagazineTeaser entry={featuredPost} length={220} origin={publicUrl(market)} />
               <div className="meta-row">
                 {featuredPost.authorName ? <span>Von {featuredPost.authorName}</span> : null}
@@ -82,7 +82,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
               </div>
               <span className="editorial-text-link">Titelstory lesen <span aria-hidden="true">→</span></span>
             </div>
-          </MarketLink>
+          </div>
         </section>
       ) : null}
 
@@ -108,7 +108,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
         </div>
         <div className="magazine-story-grid">
           {spotlightPosts.map((post) => (
-            <MarketLink key={post.id} targetMarket={market} pathname={`/magazin/${post.slug}`} className="article-card magazine-story-card">
+            <div key={post.id} className="article-card magazine-story-card card-stretch">
               <ArticleCardMedia
                 imageUrl={post.featuredImage}
                 alt={post.featuredImageAlt || post.title}
@@ -118,13 +118,13 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
               />
               <div className="magazine-story-copy">
                 <span className="eyebrow eyebrow-muted">{post.categories[0]?.name || "Magazin"}</span>
-                <h3>{post.title}</h3>
+                <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${post.slug}`}>{post.title}</MarketLink></h3>
                 <div className="meta-row magazine-story-meta">
                   {post.authorName ? <span>Von {post.authorName}</span> : null}
                   {visibleEntryDate(post) ? <span>Aktualisiert {formatGermanDate(visibleEntryDate(post))}</span> : null}
                 </div>
               </div>
-            </MarketLink>
+            </div>
           ))}
         </div>
       </section>
@@ -137,7 +137,7 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
         </div>
         <div className="magazine-guide-grid">
           {spotlightPages.map((page) => (
-            <MarketLink key={page.id} targetMarket={market} pathname={`/magazin/${page.slug}`} className="article-card magazine-guide-card">
+            <div key={page.id} className="article-card magazine-guide-card card-stretch">
               <ArticleCardMedia
                 imageUrl={page.featuredImage}
                 alt={page.featuredImageAlt || page.title}
@@ -146,10 +146,10 @@ export async function MagazineOverview({ market }: { market: MarketCode }) {
               />
               <div className="magazine-guide-copy">
                 <span className="eyebrow eyebrow-muted">Ratgeber & Wissen</span>
-                <h3>{page.title}</h3>
+                <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${page.slug}`}>{page.title}</MarketLink></h3>
                 <span className="editorial-text-link">Ratgeber lesen <span aria-hidden="true">→</span></span>
               </div>
-            </MarketLink>
+            </div>
           ))}
         </div>
       </section>

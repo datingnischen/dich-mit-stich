@@ -240,12 +240,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
           </div>
           <div className="magazine-story-grid">
             {authorProfilePosts.slice(0, 6).map((post) => (
-              <MarketLink
-                key={post.id}
-                targetMarket={market}
-                pathname={`/magazin/${post.slug}`}
-                className="article-card magazine-story-card"
-              >
+              <div key={post.id} className="article-card magazine-story-card card-stretch">
                 <ArticleCardMedia
                   imageUrl={post.featuredImage || AUTHOR_ARTICLE_FALLBACK_IMAGE}
                   alt={post.featuredImage ? post.featuredImageAlt || post.title : "Tätowiertes Paar – Dich mit Stich Magazin"}
@@ -256,14 +251,14 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
                 />
                 <div className="magazine-story-copy">
                   <span className="eyebrow eyebrow-muted">{post.categories[0]?.name || "Magazin"}</span>
-                  <h3>{post.title}</h3>
+                  <h3><MarketLink className="card-stretch-link" targetMarket={market} pathname={`/magazin/${post.slug}`}>{post.title}</MarketLink></h3>
                   {visibleEntryDate(post) ? (
                     <div className="meta-row magazine-story-meta">
                       <span>Aktualisiert {formatGermanDate(visibleEntryDate(post))}</span>
                     </div>
                   ) : null}
                 </div>
-              </MarketLink>
+              </div>
             ))}
           </div>
         </section>

@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // Erzeugt Audio-Zusammenfassungen für Magazinbeiträge mit ElevenLabs und hängt sie in WordPress an.
-// Aufruf: node --env-file=.env.local scripts/audio-summaries.mjs <texte.json> [--write] [--out=ordner]
+// Aufruf: node --env-file=.env.local scripts/audio-summaries.mjs <texte.json> [--write] [--out=ordner] [--reuse]
 //
 // texte.json: { "<beitrags-slug>": "Sprechtext (ca. 120–140 Wörter, Du-Form, keine Werbe-/Heilversprechen)" }
 // Ohne --write werden nur die MP3s lokal erzeugt (zum Probehören). Mit --write zusätzlich: Upload in die
 // Mediathek, dem Beitrag zuordnen und den Audio-Block (<!-- audio-summary -->) an den Anfang setzen.
 // Beiträge, die schon einen Audio-Block haben, bleiben unverändert. Vor dem Schreiben wird der Rohtext gesichert.
+// --reuse nimmt eine schon erzeugte MP3 aus dem Ausgabeordner, statt erneut Credits zu verbrauchen.
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -18,6 +19,7 @@ const UPLOADS = "https://dich-mit-stich.de/cms-mag/wp-content/uploads/";
 const args = process.argv.slice(2);
 const textsPath = args.find((arg) => !arg.startsWith("--"));
 const write = args.includes("--write");
+const reuse = args.includes("--reuse");
 const outDir = args.find((arg) => arg.startsWith("--out="))?.slice(6) || path.join(os.tmpdir(), "dms-audio-summaries");
 if (!textsPath || !process.env.ELEVENLABS_API_KEY) {
   console.error("Aufruf: node --env-file=.env.local scripts/audio-summaries.mjs <texte.json> [--write]  (ELEVENLABS_API_KEY nötig)");
@@ -45,14 +47,18 @@ for (const [slug, text] of Object.entries(texts)) {
 
   const name = `${slug}-audio-zusammenfassung.mp3`;
   const file = path.join(outDir, name);
-  const tts = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}?output_format=mp3_44100_128`, {
-    method: "POST",
-    headers: { "xi-api-key": process.env.ELEVENLABS_API_KEY, "Content-Type": "application/json", Accept: "audio/mpeg" },
-    body: JSON.stringify({ text, model_id: MODEL_ID, language_code: "de" }),
-  });
-  if (!tts.ok) { console.log(slug, "– ElevenLabs", tts.status, (await tts.text()).slice(0, 200)); continue; }
-  fs.writeFileSync(file, Buffer.from(await tts.arrayBuffer()));
-  console.log(slug, `– MP3 (${MODEL_ID}):`, file);
+  if (reuse && fs.existsSync(file)) {
+    console.log(slug, "– vorhandene MP3:", file);
+  } else {
+    const tts = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}?output_format=mp3_44100_128`, {
+      method: "POST",
+      headers: { "xi-api-key": process.env.ELEVENLABS_API_KEY, "Content-Type": "application/json", Accept: "audio/mpeg" },
+      body: JSON.stringify({ text, model_id: MODEL_ID, language_code: "de" }),
+    });
+    if (!tts.ok) { console.log(slug, "– ElevenLabs", tts.status, (await tts.text()).slice(0, 200)); continue; }
+    fs.writeFileSync(file, Buffer.from(await tts.arrayBuffer()));
+    console.log(slug, `– MP3 (${MODEL_ID}):`, file);
+  }
   if (!write) continue;
 
   fs.writeFileSync(path.join(outDir, `${slug}-backup.json`), JSON.stringify({ id: post.id, raw: post.content.raw }));

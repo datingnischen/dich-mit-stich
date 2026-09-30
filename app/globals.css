@@ -6900,3 +6900,79 @@ a.pin-cta-follow:hover {
     padding: 20px;
   }
 }
+
+/* Header wie auf der Singlebörse (dich-mit-stich.de): Login als Textlink,
+   Registrieren als grüner Button mit leicht gerundeten Ecken; mobil Logo
+   mittig über zentrierter Login-/Registrieren-Zeile. */
+.site-header-shell .login-link {
+  color: #111;
+  font-weight: 600;
+}
+
+.site-header-shell .header-register {
+  border-radius: 8px;
+  background: #5b984e;
+  box-shadow: none;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.site-header-shell .header-register:hover,
+.site-header-shell .header-register:focus-visible {
+  background: #4c8341;
+}
+
+@media (max-width: 900px) {
+  .site-header-shell .site-header-bar {
+    align-items: center;
+    gap: 14px;
+    padding-top: 18px;
+    padding-bottom: 16px;
+  }
+
+  .site-header-shell .brand-lockup-header {
+    justify-content: center;
+  }
+
+  .site-header-shell .brand-logo-image-header {
+    width: min(340px, 86vw);
+    height: auto;
+    max-width: none;
+  }
+
+  .site-header-shell .header-actions {
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .site-header-shell .login-link {
+    font-size: 1.1rem;
+  }
+
+  .site-header-shell .header-register {
+    min-height: 52px;
+    padding: 0 26px;
+    font-size: 1.1rem;
+  }
+
+  .site-header-shell .header-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Offenes Vollbild-Menü: Schließen-Button oben rechts festpinnen, damit er
+   nicht über dem Suchfeld liegt. */
+@media (max-width: 560px) {
+  .site-header-shell .header-menu[open] summary {
+    position: fixed;
+    top: 18px;
+    right: 16px;
+  }
+}

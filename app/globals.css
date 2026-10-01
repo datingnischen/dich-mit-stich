@@ -6981,9 +6981,8 @@ a.pin-cta-follow:hover {
 
 /* Mobil beim Scrollen: Header wird einzeilig – kleines Logo links,
    Login/Registrieren/Menü rechts. data-compact setzt HeaderCompactWatcher. */
-.site-header-shell .site-header-bar,
-.site-header-shell .brand-logo-image-header {
-  transition: padding 180ms ease, width 180ms ease;
+.site-header-shell .site-header-bar {
+  transition: padding 180ms ease;
 }
 
 @media (max-width: 900px) {
@@ -6996,14 +6995,16 @@ a.pin-cta-follow:hover {
     padding-bottom: 8px;
   }
 
+  /* Logo nimmt den Platz links neben den Aktionen, höchstens 170 px. */
   .site-header-shell[data-compact] .brand-lockup-header {
-    flex: 0 1 auto;
+    flex: 1 1 0;
     min-width: 0;
     justify-content: flex-start;
   }
 
   .site-header-shell[data-compact] .brand-logo-image-header {
-    width: min(150px, 38vw);
+    width: 100%;
+    max-width: 170px;
   }
 
   .site-header-shell[data-compact] .header-actions {
@@ -7011,7 +7012,7 @@ a.pin-cta-follow:hover {
     width: auto;
     flex: 0 0 auto;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 10px;
   }
 
   .site-header-shell[data-compact] .login-link {
@@ -7020,7 +7021,7 @@ a.pin-cta-follow:hover {
 
   .site-header-shell[data-compact] .header-register {
     min-height: 38px;
-    padding: 0 14px;
+    padding: 0 12px;
     font-size: 0.95rem;
   }
 
@@ -7030,8 +7031,7 @@ a.pin-cta-follow:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-header-shell .site-header-bar,
-  .site-header-shell .brand-logo-image-header {
+  .site-header-shell .site-header-bar {
     transition: none;
   }
 }

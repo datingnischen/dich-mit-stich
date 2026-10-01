@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeaderCompactWatcher } from "@/components/header-compact-watcher";
 import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { SiteSearchForm } from "@/components/site-search-form";
@@ -301,6 +302,7 @@ export function SiteHeader({ market = "de", sectionLive = false, aid }: ShellPro
 
   return (
     <header className="site-header-shell">
+      <HeaderCompactWatcher />
       <div className="site-header-bar compact-header-bar shell">
         <BrandLogo market={market} />
 

@@ -15,25 +15,19 @@ export function HeaderCompactWatcher() {
     const header = markerRef.current?.closest("header");
     if (!header) return;
 
+    // Nur ein Zahlenvergleich je Scroll-Event; das DOM wird nur beim
+    // tatsächlichen Umschalten angefasst.
     let compact = false;
-    let frame = 0;
     const update = () => {
-      frame = 0;
       const next = compact ? window.scrollY > COMPACT_OFF : window.scrollY > COMPACT_ON;
       if (next === compact) return;
       compact = next;
       header.toggleAttribute("data-compact", compact);
     };
-    const onScroll = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
 
     update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
   }, []);
 
   return <span ref={markerRef} hidden />;

@@ -3,7 +3,7 @@ import { ABOUT_PATHS } from "@/lib/about-pages";
 import { FAQ_PATH } from "@/lib/faq";
 import { isThinMagazineCategory } from "@/lib/editorial-metadata";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
-import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/wordpress";
+import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/magazine";
 import { withTrailingSlash } from "@/lib/markets";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
 import { getIndexableTattooStudioCities } from "@/lib/tattoo-studio-guide";

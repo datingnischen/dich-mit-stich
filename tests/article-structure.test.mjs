@@ -54,6 +54,6 @@ test("article headings start at h2 and never skip a level (Semrush: Poor heading
 });
 
 test("NextGEN placeholders are removed even when glued to the next word", async () => {
-  const { sanitizeMagazineHtml } = await import("../lib/wordpress.ts");
+  const { sanitizeMagazineHtml } = await import("../lib/magazine.ts");
   assert.equal(sanitizeMagazineHtml("<p>ngg_shortcode_0_placeholderEin Mandala ist rund.</p>"), "<p>Ein Mandala ist rund.</p>");
 });

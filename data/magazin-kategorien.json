@@ -1,0 +1,32 @@
+[
+  {
+    "id": 22,
+    "slug": "erfolgsgeschichten",
+    "name": "Erfolgsgeschichten",
+    "description": ""
+  },
+  {
+    "id": 20,
+    "slug": "ratgeber",
+    "name": "Ratgeber",
+    "description": "Ratgeber für tätowierte Singles."
+  },
+  {
+    "id": 6,
+    "slug": "singleboerse",
+    "name": "Singlebörse",
+    "description": "Themen rund um Singlebörsen. Im Focus steht dabei Dich-mit-Stich.de!"
+  },
+  {
+    "id": 1,
+    "slug": "tattoo-models",
+    "name": "Tattoo Models und Schönheiten",
+    "description": "Tattoo-Models und Schönheiten"
+  },
+  {
+    "id": 21,
+    "slug": "tattoo-persoenlichkeiten",
+    "name": "Tattoo Persönlichkeiten",
+    "description": ""
+  }
+]

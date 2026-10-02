@@ -1,3 +1,5 @@
+import { staticAsset } from "./static-asset.ts";
+
 export type AuthorProfileContactCard = {
   eyebrow: string;
   heading: string;
@@ -36,7 +38,7 @@ const AUTHOR_PROFILE_PAGES: Record<string, AuthorProfilePage> = {
     authorSlug: "anne-schweitzer",
     lead: "Anne Schweitzer führt mit Clemens Schweitzer das älteste Tattoo-Studio Nordhessens in Kassel. Im Magazin ordnet sie Motive und Stilfragen aus der Praxis ein.",
     hero: {
-      src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin.jpg",
+      src: staticAsset("/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin.jpg"),
       alt: "Anne Schweitzer, Tattoo Artist aus Kassel, in ihrem Studio",
       width: 1201,
       height: 1197,

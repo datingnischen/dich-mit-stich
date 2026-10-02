@@ -167,10 +167,12 @@ test("the author article list reuses the uniform magazine story grid", async () 
 });
 
 test("author profiles expose XING and the vita domain as sameAs", async () => {
-  const profiles = await readSource("../lib/author-profiles.ts");
+  const { getAuthorProfile } = await import("../lib/author-profiles.ts");
+  const christian = await getAuthorProfile("redaktion");
+  const anne = await getAuthorProfile("anne-schweitzer");
 
-  assert.match(profiles, /https:\/\/www\.xing\.com\/profile\/ChristianM_Haas\/web_profiles/);
-  assert.match(profiles, /extraSameAs: \["https:\/\/datingnischen\.de\/christian\/"\]/);
-  assert.match(profiles, /extraSameAs: \["https:\/\/www\.anne-schweitzer\.de\/", "https:\/\/www\.clemens-schweitzer\.de\/"\]/);
-  assert.match(profiles, /sameAs: \[\.\.\.\(override\.socials \|\| \[\]\)\.map\(\(social\) => social\.href\), \.\.\.\(override\.extraSameAs \|\| \[\]\)\]/);
+  assert.ok(christian.sameAs.includes("https://www.xing.com/profile/ChristianM_Haas/web_profiles"));
+  assert.ok(christian.sameAs.includes("https://datingnischen.de/christian/"));
+  assert.ok(anne.sameAs.includes("https://www.anne-schweitzer.de/"));
+  assert.ok(anne.sameAs.includes("https://www.clemens-schweitzer.de/"));
 });

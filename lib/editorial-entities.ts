@@ -4,7 +4,7 @@ import { latestIsoDate } from "@/lib/json-ld";
 import { getMarket, publicUrl, withTrailingSlash, type MarketCode } from "@/lib/markets";
 import type { BreadcrumbTrailItem } from "@/lib/magazine-hubs";
 import { BRAND_SAME_AS, editorialEntityIds, OPERATOR_NAME } from "@/lib/site-entities";
-import type { MagazineEntry } from "@/lib/wordpress";
+import type { MagazineEntry } from "@/lib/magazine-text";
 
 const SITE_URL = publicUrl("de");
 

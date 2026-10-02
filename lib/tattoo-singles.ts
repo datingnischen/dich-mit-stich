@@ -2,7 +2,8 @@ import { cache } from "react";
 import tattooCityPreviewImages from "../data/tattoo-city-preview-images.json" with { type: "json" };
 import tattooCityImages from "../data/tattoo-city-images.json" with { type: "json" };
 import { atTattooCitySlugs, chTattooCitySlugs, type MarketCode } from "./markets.ts";
-import { decodeHtmlEntities } from "./wordpress.ts";
+import { decodeHtmlEntities } from "./magazine-text.ts";
+import { staticAsset } from "./static-asset.ts";
 
 export const TATTOO_SINGLES_OVERVIEW_PATH = "/tattoo-singles";
 
@@ -86,121 +87,24 @@ export type TattooSinglesOverview = {
   cityLinks: { slug: string; label: string; imageUrl?: string }[];
 };
 
-export type TattooCityPage = {
-  slug: string;
-  cityName: string;
-  title: string;
-  metaDescription: string;
-  h1: string;
-  heroTitle: string;
-  imageUrl: string;
-  imageAttribution: CityImageAttribution;
-  contentHtml: string;
-  relatedCities: { slug: string; label: string }[];
-  registrationUrl: string;
-};
-
-const BASE_URL = "https://dich-mit-stich.de";
-
-async function fetchHtml(path: string) {
-  const response = await fetch(`${BASE_URL}${path}`, {
-    headers: {
-      "User-Agent": "Amigo dich-mit-stich tattoo-singles migration",
-    },
-    next: { revalidate: 300 },
-  } as RequestInit & { next: { revalidate: number } });
-
-  if (!response.ok) {
-    throw new Error(`Tattoo singles request failed for ${path}: ${response.status} ${response.statusText}`);
-  }
-
-  return response.text();
-}
-
-function firstMatch(html: string, pattern: RegExp) {
-  const match = html.match(pattern);
-  return match?.[1] ? decodeHtmlEntities(match[1].trim()) : "";
-}
-
-function normalizeContentHtml(html: string) {
-  return html
-    .replace(/<p>\s*&nbsp;\s*<\/p>/gi, "")
-    .replace(/<p>\s*<\/p>/gi, "")
-    .replace(/loading="lazy"/gi, 'loading="lazy" decoding="async"')
-    .replace(/\sdata-media-id="[^"]*"/gi, "")
-    .trim();
-}
+const OVERVIEW_TITLE = "Tattoo-Singles in Deutschland – Singles nach Stadt";
+const OVERVIEW_DESCRIPTION =
+  "Finde tätowierte und gepiercte Singles in deiner Stadt: Stadtseiten von Berlin bis München, Flirtradar mit Umkreissuche und kostenloser Einstieg.";
 
 function cityLabelFromSlug(slug: string) {
   return cityDisplayNames[slug] || decodeHtmlEntities(slug.replace(/-/g, " "));
 }
 
-function relatedCitiesFromHtml(html: string) {
-  const matches = [...html.matchAll(/https:\/\/dich-mit-stich\.de\/tattoo-singles\/([^/]+)\//gi)];
-  const seen = new Set<string>();
-  const items: { slug: string; label: string }[] = [];
-
-  for (const match of matches) {
-    const slug = match[1];
-    if (!tattooCitySlugs.includes(slug as TattooCitySlug)) continue;
-    if (seen.has(slug)) continue;
-    seen.add(slug);
-    items.push({ slug, label: cityLabelFromSlug(slug) });
-  }
-
-  return items;
-}
-
-export const getTattooSinglesOverview = cache(async (): Promise<TattooSinglesOverview> => {
-  const html = await fetchHtml("/tattoo-singles/");
-  const title = firstMatch(html, /<title>([\s\S]*?)<\/title>/i) || "Finde dein Tattoo Single in deiner Stadt";
-  const description = firstMatch(html, /<meta name="description" content="([^"]+)"/i);
-  const cityLinks = tattooCitySlugs.map((slug) => ({
+/** Übersicht /tattoo-singles/ (Deutschland) für die Startseite; früher von der Live-Seite gelesen, jetzt direkt aus dem Repo. */
+export const getTattooSinglesOverview = cache(async (): Promise<TattooSinglesOverview> => ({
+  title: OVERVIEW_TITLE,
+  description: OVERVIEW_DESCRIPTION,
+  cityLinks: tattooCitySlugs.map((slug) => ({
     slug,
     label: cityLabelFromSlug(slug),
-    imageUrl: cityImageInventory[slug].imageUrl,
-  }));
-
-  return {
-    title,
-    description,
-    cityLinks,
-  };
-});
-
-export const getTattooCityPage = cache(async (slug: string): Promise<TattooCityPage | null> => {
-  if (!tattooCitySlugs.includes(slug as TattooCitySlug)) return null;
-
-  const cityImage = cityImageInventory[slug as TattooCitySlug];
-
-  const html = await fetchHtml(`/tattoo-singles/${slug}/`);
-  const title = firstMatch(html, /<title>([\s\S]*?)<\/title>/i);
-  const metaDescription = firstMatch(html, /<meta name="description" content="([^"]+)"/i);
-  const h1 = firstMatch(html, /<h1[^>]*>([\s\S]*?)<\/h1>/i);
-  const heroTitle = firstMatch(html, /<h2 class="h2 semibold">([\s\S]*?)<\/h2>/i);
-  const registrationUrl = firstMatch(html, /<form action="([^"]*registration[^"]*)"/i) || `${BASE_URL}/registration/`;
-
-  const contentMatch = html.match(
-    /<div class="text-content m-t-64 m-b-64">([\s\S]*?)<\/div>\s*<div class="">\s*<a href="https:\/\/dich-mit-stich\.de\/registration\//i,
-  );
-
-  const contentHtml = normalizeContentHtml(contentMatch?.[1] || "");
-  const relatedCities = relatedCitiesFromHtml(contentHtml).filter((city) => city.slug !== slug);
-
-  return {
-    slug,
-    cityName: cityLabelFromSlug(slug),
-    title,
-    metaDescription,
-    h1,
-    heroTitle,
-    imageUrl: cityImage.imageUrl,
-    imageAttribution: cityImage.imageAttribution,
-    contentHtml,
-    relatedCities,
-    registrationUrl,
-  };
-});
+    imageUrl: staticAsset(cityImageInventory[slug].imageUrl),
+  })),
+}));
 
 const SINGLES_CITY_SLUGS: Record<MarketCode, readonly string[]> = {
   de: tattooCitySlugs,

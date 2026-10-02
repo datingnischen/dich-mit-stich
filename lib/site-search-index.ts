@@ -7,8 +7,8 @@ import { isAtTattooCitySlug, isChTattooCitySlug, type MarketCode } from "@/lib/m
 import { shortenExcerpt, type SearchDocument } from "@/lib/site-search";
 import { getTattooCityDirectory } from "@/lib/tattoo-singles";
 import { getTattooStudioCities } from "@/lib/tattoo-studio-guide";
-import { stripHtml, teaserText, type MagazineEntry } from "@/lib/wordpress";
-import { getWordPressCityOverview } from "@/lib/wordpress-cities";
+import { stripHtml, teaserText, type MagazineEntry } from "@/lib/magazine-text";
+import { getCityOverview } from "@/lib/city-pages";
 import atCities from "../data/tattoo-cities-at.json" with { type: "json" };
 import chCities from "../data/tattoo-cities-ch.json" with { type: "json" };
 
@@ -60,7 +60,7 @@ const COUNTRY_LABEL: Record<MarketCode, string> = { de: "Deutschland", at: "Öst
 async function cityDocuments(market: MarketCode): Promise<SearchDocument[]> {
   let links: CityLink[];
   try {
-    links = (await getWordPressCityOverview(market)).cityLinks;
+    links = (await getCityOverview(market)).cityLinks;
     if (links.length === 0) links = fallbackCityLinks(market);
   } catch (error) {
     console.error("Seitensuche: Städteliste nicht verfügbar", error);

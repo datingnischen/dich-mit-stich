@@ -1,5 +1,5 @@
 import { localizeFirstPartyText } from "@/lib/market-html";
-import { teaserText } from "@/lib/wordpress";
+import { teaserText } from "@/lib/magazine-text";
 
 type MagazineTeaserProps = {
   entry: { excerpt?: string; content?: string };

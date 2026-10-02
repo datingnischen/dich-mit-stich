@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const { visibleEntryDate, formatGermanDateLong } = await import("../lib/wordpress.ts");
+const { visibleEntryDate, formatGermanDateLong } = await import("../lib/magazine.ts");
 const readSource = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
 test("feste Seiten zeigen kein Datum, Artikel das Aenderungsdatum", () => {

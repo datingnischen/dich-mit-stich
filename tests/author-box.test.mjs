@@ -10,14 +10,14 @@ import {
 
 const readSource = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
-test("Anne Schweitzer always points at her own magazine profile page", async () => {
-  const [profiles, config] = await Promise.all([
-    readSource("../lib/author-profiles.ts"),
-    readSource("../next.config.ts"),
-  ]);
+const readAuthors = async () => JSON.parse(await readSource("../data/magazin-autoren.json"));
 
-  assert.match(profiles, /"anne-schweitzer":\s*\{[\s\S]*?profileUrl:\s*"\/magazin\/anne-schweitzer"/);
-  assert.doesNotMatch(profiles, /profileUrl:\s*"\/magazin\/author\/anne-schweitzer"/);
+test("Anne Schweitzer always points at her own magazine profile page", async () => {
+  const [authors, config] = await Promise.all([readAuthors(), readSource("../next.config.ts")]);
+  const anne = authors.find((author) => author.slug === "anne-schweitzer");
+
+  assert.equal(anne.profileUrl, "/magazin/anne-schweitzer");
+  assert.ok(authors.every((author) => author.profileUrl !== "/magazin/author/anne-schweitzer"));
   assert.match(
     config,
     /source:\s*"\/magazin\/author\/anne-schweitzer",\s*destination:\s*"\/magazin\/anne-schweitzer\/",\s*permanent:\s*true/,
@@ -25,15 +25,17 @@ test("Anne Schweitzer always points at her own magazine profile page", async () 
 });
 
 test("author profiles carry a job title, expertise topics and social profiles", async () => {
-  const profiles = await readSource("../lib/author-profiles.ts");
+  const authors = await readAuthors();
+  const anne = authors.find((author) => author.slug === "anne-schweitzer");
+  const christian = authors.find((author) => author.slug === "redaktion");
 
-  assert.match(profiles, /jobTitle:\s*"Tattoo Artist"/);
-  assert.match(profiles, /jobTitle:\s*"Datingexperte"/);
-  assert.match(profiles, /expertise:\s*\["Old School", "Black & White", "Dotwork", "Modern Style"\]/);
-  assert.match(profiles, /https:\/\/www\.instagram\.com\/tattoostudio_schweitzer\//);
-  assert.match(profiles, /https:\/\/www\.facebook\.com\/TattooStudio\.Anne\.Clemens\.Schweitzer/);
-  assert.match(profiles, /https:\/\/www\.youtube\.com\/user\/schweitzerclemens/);
-  assert.match(profiles, /https:\/\/www\.instagram\.com\/datingnischen\//);
+  assert.equal(anne.jobTitle, "Tattoo Artist");
+  assert.equal(christian.jobTitle, "Datingexperte");
+  assert.deepEqual(anne.expertise, ["Old School", "Black & White", "Dotwork", "Modern Style"]);
+  assert.ok(anne.socials.some((social) => social.href === "https://www.instagram.com/tattoostudio_schweitzer/"));
+  assert.ok(anne.socials.some((social) => social.href === "https://www.facebook.com/TattooStudio.Anne.Clemens.Schweitzer"));
+  assert.ok(anne.socials.some((social) => social.href === "https://www.youtube.com/user/schweitzerclemens"));
+  assert.ok(christian.socials.some((social) => social.href === "https://www.instagram.com/datingnischen/"));
 });
 
 test("the author box renders identity, expertise chips and social icons", async () => {

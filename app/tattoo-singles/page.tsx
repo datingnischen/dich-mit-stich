@@ -7,10 +7,9 @@ import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { marketLanguageAlternates, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
-import { getWordPressCityOverview } from "@/lib/wordpress-cities";
+import { getCityOverview } from "@/lib/city-pages";
 import { brandedTitle } from "@/lib/seo-title";
 
-export const revalidate = 300;
 
 const FLIRTRADAR_IMAGE = staticAsset("/brand/flirtradar-umkreissuche.svg");
 
@@ -23,9 +22,9 @@ export const metadata: Metadata = {
 
 export default async function TattooSinglesOverviewPage() {
   const [overview, atOverview, chOverview] = await Promise.all([
-    getWordPressCityOverview("de"),
-    getWordPressCityOverview("at"),
-    getWordPressCityOverview("ch"),
+    getCityOverview("de"),
+    getCityOverview("at"),
+    getCityOverview("ch"),
   ]);
   const registrationUrl = conversionUrl(publicUrl("de"), "/registration/", "location");
 

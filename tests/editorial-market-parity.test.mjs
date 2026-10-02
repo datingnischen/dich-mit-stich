@@ -17,7 +17,7 @@ test("homepage wrappers reuse one country-aware renderer", async () => {
   assert.match(marketRoute, /publicUrl\(market\)/);
   assert.match(marketRoute, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
 
-  assert.match(renderer, /getWordPressCityOverview\(market\)/);
+  assert.match(renderer, /getCityOverview\(market\)/);
   assert.match(renderer, /const HOME_MARKET_COPY/);
   assert.match(renderer, /exampleCitySlug:\s*"wien"/);
   assert.match(renderer, /exampleCitySlug:\s*"zuerich"/);

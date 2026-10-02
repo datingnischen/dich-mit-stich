@@ -1,5 +1,6 @@
 import { conversionUrl } from "./conversion-links.ts";
 import { getMarket, publicUrl, type MarketCode } from "./markets.ts";
+import { staticAsset } from "./static-asset.ts";
 
 export const ABOUT_ROOT_PATH = "/ueber-uns";
 export const ABOUT_SLUGS = [
@@ -140,7 +141,7 @@ const expertCards: AboutCard[] = [
     text: "Datingexperte und Autor. Beschäftigt sich seit Jahren mit Online-Dating und Singlebörsen für besondere Zielgruppen.",
     icon: "✍",
     image: {
-      src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png",
+      src: staticAsset("/magazin/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png"),
       alt: "Christian M. Haas",
     },
     link: {
@@ -155,7 +156,7 @@ const expertCards: AboutCard[] = [
     text: "Schreibt über Tattoo-Motive, Stile und alles, was die Szene gerade bewegt.",
     icon: "✦",
     image: {
-      src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin-300x300.jpg",
+      src: staticAsset("/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin-300x300.jpg"),
       alt: "Anne Schweitzer",
     },
     link: {
@@ -189,7 +190,7 @@ const storyCards: AboutCard[] = [
     text: "Eine Liebesgeschichte, die in der Dich-mit-Stich-Facebook-Gruppe begann.",
     icon: "♥",
     image: {
-      src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/12/foto.jpeg",
+      src: staticAsset("/magazin/wp-content/uploads/2025/12/foto.jpeg"),
       alt: "Pascal und Stephanie",
     },
     link: {
@@ -204,7 +205,7 @@ const storyCards: AboutCard[] = [
     text: "Katharina und Philip erzählen, wie sie sich über Dich mit Stich kennenlernten.",
     icon: "♥",
     image: {
-      src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/10/Katharina-Phillip-Dich-mit-Stich-Lovestory.jpg",
+      src: staticAsset("/magazin/wp-content/uploads/2025/10/Katharina-Phillip-Dich-mit-Stich-Lovestory.jpg"),
       alt: "Katharina und Philip",
     },
     link: {
@@ -219,7 +220,7 @@ const storyCards: AboutCard[] = [
     text: "Andreas erzählt, wie er über Dich mit Stich Do kennengelernt hat.",
     icon: "♥",
     image: {
-      src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/10/erfolgsgeschichte.png",
+      src: staticAsset("/magazin/wp-content/uploads/2025/10/erfolgsgeschichte.png"),
       alt: "Andreas und Do",
     },
     link: {
@@ -356,9 +357,9 @@ function cooperationPage(market: MarketCode): AboutPage {
     sectionTitle: "Mit wem wir gern zusammenarbeiten",
     sectionLead: "Schreib uns kurz, wer du bist, wen du erreichst und was du dir vorstellst.",
     cards: [
-      { eyebrow: "Vor Ort", title: "Tattoo- und Piercing-Studios", text: "Gemeinsame Aktionen, lokale Guides oder eine Empfehlung im Studio – Hauptsache, es passt zur Szene.", icon: "◆", image: { src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2018/10/tattoo-stechen-lassen.jpg", alt: "Tätowierer mit Handschuhen sticht ein Tattoo", bleed: true } },
-      { eyebrow: "Reichweite", title: "Creator & Social Media", text: "Beiträge, Stories oder Videos rund um Tattoos, Piercings und Dating.", icon: "◎", image: { src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2020/05/pexels-photo-365347.jpeg", alt: "Tätowierte Hände fotografieren ein Arm-Tattoo mit dem Smartphone", bleed: true } },
-      { eyebrow: "Inhalte", title: "Medien & Communities", text: "Interviews, Gastbeiträge und gemeinsame Themen für eure Leserinnen und Leser.", icon: "✦", image: { src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2018/11/freundschafts-tattoo-arm.jpg", alt: "Zwei Unterarme mit passenden Rosen-Tattoos", bleed: true } },
+      { eyebrow: "Vor Ort", title: "Tattoo- und Piercing-Studios", text: "Gemeinsame Aktionen, lokale Guides oder eine Empfehlung im Studio – Hauptsache, es passt zur Szene.", icon: "◆", image: { src: staticAsset("/magazin/wp-content/uploads/2018/10/tattoo-stechen-lassen.jpg"), alt: "Tätowierer mit Handschuhen sticht ein Tattoo", bleed: true } },
+      { eyebrow: "Reichweite", title: "Creator & Social Media", text: "Beiträge, Stories oder Videos rund um Tattoos, Piercings und Dating.", icon: "◎", image: { src: staticAsset("/magazin/wp-content/uploads/2020/05/pexels-photo-365347.jpeg"), alt: "Tätowierte Hände fotografieren ein Arm-Tattoo mit dem Smartphone", bleed: true } },
+      { eyebrow: "Inhalte", title: "Medien & Communities", text: "Interviews, Gastbeiträge und gemeinsame Themen für eure Leserinnen und Leser.", icon: "✦", image: { src: staticAsset("/magazin/wp-content/uploads/2018/11/freundschafts-tattoo-arm.jpg"), alt: "Zwei Unterarme mit passenden Rosen-Tattoos", bleed: true } },
     ],
     detailSections: [
       {

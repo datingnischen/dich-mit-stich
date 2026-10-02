@@ -17,7 +17,7 @@ import {
   type LexikonLink,
 } from "@/lib/tattoo-lexikon-overview";
 import { motifProfile, type MotifTopic } from "@/lib/tattoo-motifs";
-import type { MagazineEntry } from "@/lib/wordpress";
+import type { MagazineEntry } from "@/lib/magazine-text";
 
 type CardGroup = { id: string; heading: string; intro?: string; imageUrl?: string; links: LexikonLink[] };
 

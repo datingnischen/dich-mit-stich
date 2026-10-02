@@ -1,4 +1,4 @@
-import { decodeHtmlEntities, stripHtml } from "./wordpress.ts";
+import { decodeHtmlEntities, stripHtml } from "./magazine-text.ts";
 import { firstPartyInternalPath } from "./market-html.ts";
 
 /**

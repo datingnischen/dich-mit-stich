@@ -7,11 +7,10 @@ import { getMagazineQuarantineDescription, isMagazineArticleQuarantined } from "
 import { getMagazineEditorialOverride } from "@/lib/magazine-editorial-overrides";
 import { magazineMetaTitle } from "@/lib/magazine-seo";
 import { publicUrl } from "@/lib/markets";
-import { getMagazineEntryBySlug, getMagazineRouteEntries, teaserText } from "@/lib/wordpress";
+import { getMagazineEntryBySlug, getMagazineRouteEntries, teaserText } from "@/lib/magazine";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const entries = await getMagazineRouteEntries();

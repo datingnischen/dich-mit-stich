@@ -15,7 +15,7 @@ import {
   getMagazinePages,
   getMagazinePosts,
   getMagazineRouteEntries,
-} from "@/lib/wordpress";
+} from "@/lib/magazine";
 
 type MarketMagazineSource = {
   posts: typeof getMagazinePosts;

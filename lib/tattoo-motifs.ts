@@ -1,4 +1,4 @@
-import { decodeHtmlEntities, stripHtml } from "./wordpress.ts";
+import { decodeHtmlEntities, stripHtml } from "./magazine-text.ts";
 
 import { PIERCING_MOTIF_PROFILES } from "./piercing-motif-profiles.ts";
 import { TATTOO_MOTIF_PROFILES, type TattooMotifProfile } from "./tattoo-motif-profiles.ts";

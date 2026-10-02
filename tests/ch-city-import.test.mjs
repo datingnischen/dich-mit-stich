@@ -103,7 +103,7 @@ test("CH city routes declare .ch canonicals and use the market-aware shell", asy
 
   assert.match(overviewSource, /publicUrl\("ch", "\/tattoo-singles"\)/);
   assert.match(detailSource, /alternates: \{ canonical: publicUrl\(market, `\/tattoo-singles\/\$\{slug\}`\) \}/);
-  assert.match(detailSource, /getWordPressCitySlugs/);
+  assert.match(detailSource, /getCitySlugs/);
   assert.match(overviewSource, /<MarketLink[\s\S]*targetMarket="ch"[\s\S]*pathname=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
   assert.doesNotMatch(overviewSource, /href=\{`\/tattoo-singles\/\$\{city\.slug\}`\}/);
   assert.match(detailSource, /<MarketLink[^>]*targetMarket=\{market\}[^>]*pathname="\/tattoo-singles"/);

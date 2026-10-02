@@ -8,7 +8,7 @@ test("homepage exposes country-specific city entrypoints for DE, AT, and CH", as
     readFile(new URL("../components/home-page.tsx", import.meta.url), "utf8"),
   ]).then((parts) => parts.join("\n"));
 
-  assert.match(source, /getWordPressCityOverview/);
+  assert.match(source, /getCityOverview/);
   assert.match(source, /countryLabel:\s*"Deutschland"/);
   assert.match(source, /countryLabel:\s*"Österreich"/);
   assert.match(source, /countryLabel:\s*"Schweiz"/);

@@ -1,0 +1,44 @@
+[
+  {
+    "id": 2,
+    "slug": "redaktion",
+    "name": "Christian M. Haas",
+    "profileUrl": "/magazin/unser-datingexperte",
+    "image": "/magazin/wp-content/uploads/2025/08/Christian-M-Haas.png",
+    "role": "Datingexperte und Autor für tätowierte Singles",
+    "jobTitle": "Datingexperte",
+    "bio": "Christian M. Haas beschäftigt sich seit über 10 Jahren mit Nischen-Singlebörsen und Online-Dating. Auf dich-mit-stich.de teilt er praxisnahe Tipps rund um die Partnersuche für alle, die stolz auf ihre Tattoos sind und jemanden mit derselben Leidenschaft kennenlernen möchten.",
+    "expertise": ["Tattoo Singles", "Online Dating", "Singlebörsen", "Partnersuche"],
+    "socials": [
+      { "platform": "instagram", "label": "Instagram", "href": "https://www.instagram.com/datingnischen/" },
+      { "platform": "linkedin", "label": "LinkedIn", "href": "https://www.linkedin.com/in/christian-m-haas-457323379" },
+      { "platform": "xing", "label": "XING", "href": "https://www.xing.com/profile/ChristianM_Haas/web_profiles" }
+    ],
+    "extraSameAs": ["https://datingnischen.de/christian/"],
+    "facts": [
+      "Langjährige Erfahrung mit Nischen-Singlebörsen und Online-Dating",
+      "Praxisnahe Tipps für tätowierte Singles und Szene-Communities"
+    ]
+  },
+  {
+    "id": 4,
+    "slug": "anne-schweitzer",
+    "name": "Anne Schweitzer",
+    "profileUrl": "/magazin/anne-schweitzer",
+    "image": "/magazin/wp-content/uploads/2025/09/Anne-Schweitzer-Tattoo-Expertin.jpg",
+    "role": "Tätowiererin in Kassel und Autorin im Tattoo-Magazin",
+    "jobTitle": "Tattoo Artist",
+    "bio": "Anne Schweitzer ist seit Jahrzehnten eine feste Größe in der Tattoo-Szene. Gemeinsam mit Clemens Schweitzer führt sie das älteste Tattoo-Studio Nordhessens – gegründet 1983 in Kassel.",
+    "expertise": ["Old School", "Black & White", "Dotwork", "Modern Style"],
+    "socials": [
+      { "platform": "instagram", "label": "Instagram", "href": "https://www.instagram.com/tattoostudio_schweitzer/" },
+      { "platform": "facebook", "label": "Facebook", "href": "https://www.facebook.com/TattooStudio.Anne.Clemens.Schweitzer" },
+      { "platform": "youtube", "label": "YouTube", "href": "https://www.youtube.com/user/schweitzerclemens" }
+    ],
+    "extraSameAs": ["https://www.anne-schweitzer.de/", "https://www.clemens-schweitzer.de/"],
+    "facts": [
+      "Tätowiert im ältesten Tattoo-Studio Nordhessens – seit 1983 in Kassel",
+      "Old School, Black & White, Dotwork und individuelle Custom-Designs"
+    ]
+  }
+]

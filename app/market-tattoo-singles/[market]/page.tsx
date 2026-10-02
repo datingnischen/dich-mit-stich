@@ -7,7 +7,7 @@ import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { type MarketCode, marketLanguageAlternates, publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
-import { getWordPressCityOverview } from "@/lib/wordpress-cities";
+import { getCityOverview } from "@/lib/city-pages";
 
 export const dynamic = "force-static";
 
@@ -81,7 +81,7 @@ function StudioGuideCrosslink({ market }: { market: MarketCode }) {
   );
 }
 
-function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressCityOverview>> extends infer T ? { overview: T } : never) {
+function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getCityOverview>> extends infer T ? { overview: T } : never) {
   return (
     <>
       <section className="hero-card hero-city">
@@ -145,7 +145,7 @@ function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressC
   );
 }
 
-function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getWordPressCityOverview>> extends infer T ? { overview: T } : never) {
+function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getCityOverview>> extends infer T ? { overview: T } : never) {
   return (
     <>
       <section className="hero-card hero-city">
@@ -215,7 +215,7 @@ export default async function MarketTattooSinglesOverviewPage({ params }: PagePr
     notFound();
   }
 
-  const overview = await getWordPressCityOverview(market);
+  const overview = await getCityOverview(market);
 
   return <main className="shell shell-narrow">{market === "at" ? <AtOverviewSection overview={overview} /> : <ChOverviewSection overview={overview} />}</main>;
 }

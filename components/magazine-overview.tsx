@@ -7,7 +7,7 @@ import { conversionUrl } from "@/lib/conversion-links";
 import { getMarketMagazineCatalog, marketHasMagazineContent } from "@/lib/market-magazine";
 import { emptyMagazineMarketCopy } from "@/lib/market-magazine-policy";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { formatGermanDate, visibleEntryDate } from "@/lib/wordpress";
+import { formatGermanDate, visibleEntryDate } from "@/lib/magazine-text";
 
 export async function MagazineOverview({ market }: { market: MarketCode }) {
   const { posts, pages, categories } = await getMarketMagazineCatalog(market);

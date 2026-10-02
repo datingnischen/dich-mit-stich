@@ -1,0 +1,834 @@
+{
+  "stand": "2026-10-02",
+  "quelle": "https://dich-mit-stich.de/cms-mag/ (REST ?rest_route=/wp/v2)",
+  "beitraege": [
+    {
+      "id": 1503,
+      "slug": "pascal-und-stephanie",
+      "link": "https://dich-mit-stich.de/cms-mag/pascal-und-stephanie/"
+    },
+    {
+      "id": 1485,
+      "slug": "katharina-und-philip",
+      "link": "https://dich-mit-stich.de/cms-mag/katharina-und-philip/"
+    },
+    {
+      "id": 1488,
+      "slug": "andreas-und-do",
+      "link": "https://dich-mit-stich.de/cms-mag/andreas-und-do/"
+    },
+    {
+      "id": 1474,
+      "slug": "polynesische-tribal-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/polynesische-tribal-tattoo/"
+    },
+    {
+      "id": 1467,
+      "slug": "maori-tribal-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/maori-tribal-tattoo/"
+    },
+    {
+      "id": 1464,
+      "slug": "borneo-tribal-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/borneo-tribal-tattoo/"
+    },
+    {
+      "id": 1461,
+      "slug": "aztekische-maya-tribal-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/aztekische-maya-tribal-tattoo/"
+    },
+    {
+      "id": 1454,
+      "slug": "afrikanische-tribal-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/afrikanische-tribal-tattoo/"
+    },
+    {
+      "id": 1448,
+      "slug": "hawaiianische-tribal-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/hawaiianische-tribal-tattoo/"
+    },
+    {
+      "id": 1441,
+      "slug": "space-galaxy-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/space-galaxy-sleeve-tattoo/"
+    },
+    {
+      "id": 1438,
+      "slug": "religious-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/religious-sleeve-tattoo/"
+    },
+    {
+      "id": 1435,
+      "slug": "trash-polka-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/trash-polka-sleeve-tattoo/"
+    },
+    {
+      "id": 1432,
+      "slug": "mythology-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/mythology-sleeve-tattoo/"
+    },
+    {
+      "id": 1429,
+      "slug": "skull-fire-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/skull-fire-sleeve-tattoo/"
+    },
+    {
+      "id": 1426,
+      "slug": "floral-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/floral-sleeve-tattoo/"
+    },
+    {
+      "id": 1421,
+      "slug": "animal-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/animal-sleeve-tattoo/"
+    },
+    {
+      "id": 1417,
+      "slug": "portrait-realism-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/portrait-realism-sleeve-tattoo/"
+    },
+    {
+      "id": 1412,
+      "slug": "biomechanical-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/biomechanical-sleeve-tattoo/"
+    },
+    {
+      "id": 1408,
+      "slug": "tribal-maori-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/tribal-maori-sleeve-tattoo/"
+    },
+    {
+      "id": 1404,
+      "slug": "geometric-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/geometric-sleeve-tattoo/"
+    },
+    {
+      "id": 1400,
+      "slug": "neo-traditional-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/neo-traditional-sleeve-tattoo/"
+    },
+    {
+      "id": 1380,
+      "slug": "black-grey-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/black-grey-sleeve-tattoo/"
+    },
+    {
+      "id": 1368,
+      "slug": "watercolor-sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/watercolor-sleeve-tattoo/"
+    },
+    {
+      "id": 1355,
+      "slug": "sleeve-tattoo-japanese",
+      "link": "https://dich-mit-stich.de/cms-mag/sleeve-tattoo-japanese/"
+    },
+    {
+      "id": 1208,
+      "slug": "vegane-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/vegane-tattoos/"
+    },
+    {
+      "id": 239,
+      "slug": "tattoo-entfernen",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-entfernen/"
+    },
+    {
+      "id": 380,
+      "slug": "old-school-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/old-school-tattoos/"
+    },
+    {
+      "id": 476,
+      "slug": "flesh-tunnel",
+      "link": "https://dich-mit-stich.de/cms-mag/flesh-tunnel/"
+    },
+    {
+      "id": 435,
+      "slug": "cover-up-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/cover-up-tattoos/"
+    },
+    {
+      "id": 410,
+      "slug": "tattoo-stile",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-stile/"
+    },
+    {
+      "id": 408,
+      "slug": "japanische-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/japanische-tattoos/"
+    },
+    {
+      "id": 369,
+      "slug": "tattoo-schriftzuege-schriftarten",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-schriftzuege-schriftarten/"
+    },
+    {
+      "id": 343,
+      "slug": "frauen-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/frauen-tattoos/"
+    },
+    {
+      "id": 330,
+      "slug": "tattoos-fuer-maenner",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoos-fuer-maenner/"
+    },
+    {
+      "id": 1071,
+      "slug": "5-geschenkideen-fuer-taetowierte-gepiercte-frauen-und-maenner",
+      "link": "https://dich-mit-stich.de/cms-mag/5-geschenkideen-fuer-taetowierte-gepiercte-frauen-und-maenner/"
+    },
+    {
+      "id": 1035,
+      "slug": "tattoos-geeignet-fuer-jedes-alter",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoos-geeignet-fuer-jedes-alter/"
+    },
+    {
+      "id": 278,
+      "slug": "freundschaftstattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/freundschaftstattoo/"
+    },
+    {
+      "id": 879,
+      "slug": "wie-gefaehrlich-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/wie-gefaehrlich-tattoo/"
+    },
+    {
+      "id": 729,
+      "slug": "suprasorb",
+      "link": "https://dich-mit-stich.de/cms-mag/suprasorb/"
+    },
+    {
+      "id": 673,
+      "slug": "sophie-logan",
+      "link": "https://dich-mit-stich.de/cms-mag/sophie-logan/"
+    },
+    {
+      "id": 571,
+      "slug": "tattoo-studio",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-studio/"
+    },
+    {
+      "id": 483,
+      "slug": "kat-von-d",
+      "link": "https://dich-mit-stich.de/cms-mag/kat-von-d/"
+    },
+    {
+      "id": 469,
+      "slug": "zombie-boy-rick-genest",
+      "link": "https://dich-mit-stich.de/cms-mag/zombie-boy-rick-genest/"
+    },
+    {
+      "id": 449,
+      "slug": "narben-taetowieren",
+      "link": "https://dich-mit-stich.de/cms-mag/narben-taetowieren/"
+    },
+    {
+      "id": 310,
+      "slug": "tattoos-im-alter",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoos-im-alter/"
+    },
+    {
+      "id": 288,
+      "slug": "taetowierte-singles-bei-adam-sucht-eva",
+      "link": "https://dich-mit-stich.de/cms-mag/taetowierte-singles-bei-adam-sucht-eva/"
+    },
+    {
+      "id": 214,
+      "slug": "tattoo-schoenheit-janine-aus-berlin",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-schoenheit-janine-aus-berlin/"
+    },
+    {
+      "id": 209,
+      "slug": "liebes-tattoo-fehler-die-du-vermeiden-solltest",
+      "link": "https://dich-mit-stich.de/cms-mag/liebes-tattoo-fehler-die-du-vermeiden-solltest/"
+    },
+    {
+      "id": 206,
+      "slug": "liebes-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/liebes-tattoo/"
+    },
+    {
+      "id": 193,
+      "slug": "partner-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/partner-tattoos/"
+    },
+    {
+      "id": 202,
+      "slug": "erste-tattoo-stechen-lassen",
+      "link": "https://dich-mit-stich.de/cms-mag/erste-tattoo-stechen-lassen/"
+    },
+    {
+      "id": 184,
+      "slug": "tattoo-flirt",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-flirt/"
+    },
+    {
+      "id": 31,
+      "slug": "nicky-26-jahre-aus-halle",
+      "link": "https://dich-mit-stich.de/cms-mag/nicky-26-jahre-aus-halle/"
+    },
+    {
+      "id": 68,
+      "slug": "singleboerse-fuer-tattoosingles",
+      "link": "https://dich-mit-stich.de/cms-mag/singleboerse-fuer-tattoosingles/"
+    }
+  ],
+  "seiten": [
+    {
+      "id": 1335,
+      "slug": "expertenteam",
+      "link": "https://dich-mit-stich.de/cms-mag/expertenteam/"
+    },
+    {
+      "id": 1325,
+      "slug": "anne-schweitzer",
+      "link": "https://dich-mit-stich.de/cms-mag/anne-schweitzer/"
+    },
+    {
+      "id": 1311,
+      "slug": "unser-datingexperte",
+      "link": "https://dich-mit-stich.de/cms-mag/unser-datingexperte/"
+    },
+    {
+      "id": 1187,
+      "slug": "industrial-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/industrial-piercing/"
+    },
+    {
+      "id": 1167,
+      "slug": "snake-eyes-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/snake-eyes-piercing/"
+    },
+    {
+      "id": 1150,
+      "slug": "anker-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/anker-tattoos/"
+    },
+    {
+      "id": 1100,
+      "slug": "kreuz-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/kreuz-tattoos/"
+    },
+    {
+      "id": 1089,
+      "slug": "vogel-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/vogel-tattoos/"
+    },
+    {
+      "id": 1006,
+      "slug": "jestrum-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/jestrum-piercing/"
+    },
+    {
+      "id": 997,
+      "slug": "tragus-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/tragus-piercing/"
+    },
+    {
+      "id": 994,
+      "slug": "deep-chest-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/deep-chest-piercing/"
+    },
+    {
+      "id": 990,
+      "slug": "lobe-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/lobe-piercing/"
+    },
+    {
+      "id": 987,
+      "slug": "orbital-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/orbital-piercing/"
+    },
+    {
+      "id": 979,
+      "slug": "daith-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/daith-piercing/"
+    },
+    {
+      "id": 974,
+      "slug": "ohrmuschel-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/ohrmuschel-piercing/"
+    },
+    {
+      "id": 970,
+      "slug": "anti-tragus-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/anti-tragus-piercing/"
+    },
+    {
+      "id": 966,
+      "slug": "zungenpiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/zungenpiercing/"
+    },
+    {
+      "id": 963,
+      "slug": "venom-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/venom-piercing/"
+    },
+    {
+      "id": 959,
+      "slug": "mandible-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/mandible-piercing/"
+    },
+    {
+      "id": 955,
+      "slug": "uvula-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/uvula-piercing/"
+    },
+    {
+      "id": 950,
+      "slug": "snakebite-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/snakebite-piercing/"
+    },
+    {
+      "id": 944,
+      "slug": "lippenbandpiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/lippenbandpiercing/"
+    },
+    {
+      "id": 939,
+      "slug": "septril-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/septril-piercing/"
+    },
+    {
+      "id": 901,
+      "slug": "nostril-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/nostril-piercing/"
+    },
+    {
+      "id": 888,
+      "slug": "nasallang-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/nasallang-piercing/"
+    },
+    {
+      "id": 870,
+      "slug": "madonna-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/madonna-piercing/"
+    },
+    {
+      "id": 867,
+      "slug": "kinnpiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/kinnpiercing/"
+    },
+    {
+      "id": 862,
+      "slug": "medusa-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/medusa-piercing/"
+    },
+    {
+      "id": 858,
+      "slug": "cheek-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/cheek-piercing/"
+    },
+    {
+      "id": 853,
+      "slug": "augenbrauen-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/augenbrauen-piercing/"
+    },
+    {
+      "id": 851,
+      "slug": "austin-bar-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/austin-bar-piercing/"
+    },
+    {
+      "id": 848,
+      "slug": "anti-eyebrow-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/anti-eyebrow-piercing/"
+    },
+    {
+      "id": 814,
+      "slug": "tattoo-studios",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-studios/"
+    },
+    {
+      "id": 802,
+      "slug": "tattoo-studio-mit-stich",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-studio-mit-stich/"
+    },
+    {
+      "id": 775,
+      "slug": "prinz-albert-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/prinz-albert-piercing/"
+    },
+    {
+      "id": 753,
+      "slug": "maori-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/maori-tattoo/"
+    },
+    {
+      "id": 717,
+      "slug": "blumen-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/blumen-tattoos/"
+    },
+    {
+      "id": 669,
+      "slug": "tattoo-persoenlichkeiten",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-persoenlichkeiten/"
+    },
+    {
+      "id": 637,
+      "slug": "frenulum-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/frenulum-piercing/"
+    },
+    {
+      "id": 628,
+      "slug": "indianer-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/indianer-tattoos/"
+    },
+    {
+      "id": 622,
+      "slug": "surface-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/surface-piercing/"
+    },
+    {
+      "id": 552,
+      "slug": "tattoo-lexikon",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-lexikon/"
+    },
+    {
+      "id": 547,
+      "slug": "bridge-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/bridge-piercing/"
+    },
+    {
+      "id": 544,
+      "slug": "penispiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/penispiercing/"
+    },
+    {
+      "id": 540,
+      "slug": "conch-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/conch-piercing/"
+    },
+    {
+      "id": 537,
+      "slug": "helix-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/helix-piercing/"
+    },
+    {
+      "id": 534,
+      "slug": "labret-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/labret-piercing/"
+    },
+    {
+      "id": 530,
+      "slug": "eskimo-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/eskimo-piercing/"
+    },
+    {
+      "id": 524,
+      "slug": "lippenpiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/lippenpiercing/"
+    },
+    {
+      "id": 520,
+      "slug": "rook-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/rook-piercing/"
+    },
+    {
+      "id": 514,
+      "slug": "ashley-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/ashley-piercing/"
+    },
+    {
+      "id": 509,
+      "slug": "christina-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/christina-piercing/"
+    },
+    {
+      "id": 498,
+      "slug": "piercingarten",
+      "link": "https://dich-mit-stich.de/cms-mag/piercingarten/"
+    },
+    {
+      "id": 487,
+      "slug": "das-wikinger-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/das-wikinger-tattoo/"
+    },
+    {
+      "id": 374,
+      "slug": "septum-piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/septum-piercing/"
+    },
+    {
+      "id": 366,
+      "slug": "brustwarzenpiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/brustwarzenpiercing/"
+    },
+    {
+      "id": 361,
+      "slug": "intimpiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/intimpiercing/"
+    },
+    {
+      "id": 348,
+      "slug": "bauchnabelpiercing",
+      "link": "https://dich-mit-stich.de/cms-mag/bauchnabelpiercing/"
+    },
+    {
+      "id": 335,
+      "slug": "piercing",
+      "link": "https://dich-mit-stich.de/cms-mag/piercing/"
+    },
+    {
+      "id": 324,
+      "slug": "polynesian-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/polynesian-tattoo/"
+    },
+    {
+      "id": 319,
+      "slug": "skull-tattoos",
+      "link": "https://dich-mit-stich.de/cms-mag/skull-tattoos/"
+    },
+    {
+      "id": 301,
+      "slug": "mandala-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/mandala-tattoo/"
+    },
+    {
+      "id": 281,
+      "slug": "wolf-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/wolf-tattoo/"
+    },
+    {
+      "id": 275,
+      "slug": "sleeve-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/sleeve-tattoo/"
+    },
+    {
+      "id": 246,
+      "slug": "tribal-tattoo",
+      "link": "https://dich-mit-stich.de/cms-mag/tribal-tattoo/"
+    },
+    {
+      "id": 243,
+      "slug": "tattoo-motive",
+      "link": "https://dich-mit-stich.de/cms-mag/tattoo-motive/"
+    },
+    {
+      "id": 9,
+      "slug": "home",
+      "link": "https://dich-mit-stich.de/cms-mag/home/"
+    }
+  ],
+  "kategorien": [
+    {
+      "id": 22,
+      "slug": "erfolgsgeschichten",
+      "count": 3
+    },
+    {
+      "id": 20,
+      "slug": "ratgeber",
+      "count": 45
+    },
+    {
+      "id": 6,
+      "slug": "singleboerse",
+      "count": 1
+    },
+    {
+      "id": 1,
+      "slug": "tattoo-models",
+      "count": 4
+    },
+    {
+      "id": 21,
+      "slug": "tattoo-persoenlichkeiten",
+      "count": 1
+    }
+  ],
+  "autoren": [
+    {
+      "id": 4,
+      "slug": "anne-schweitzer",
+      "name": "Anne Schweitzer"
+    },
+    {
+      "id": 2,
+      "slug": "redaktion",
+      "name": "Christian M. Haas"
+    }
+  ],
+  "staedte": [
+    {
+      "id": 1828,
+      "slug": "at-wiener-neustadt",
+      "stadt": "AT:wiener-neustadt"
+    },
+    {
+      "id": 1826,
+      "slug": "at-sankt-poelten",
+      "stadt": "AT:sankt-poelten"
+    },
+    {
+      "id": 1824,
+      "slug": "at-wels",
+      "stadt": "AT:wels"
+    },
+    {
+      "id": 1822,
+      "slug": "at-villach",
+      "stadt": "AT:villach"
+    },
+    {
+      "id": 1820,
+      "slug": "at-klagenfurt",
+      "stadt": "AT:klagenfurt"
+    },
+    {
+      "id": 1818,
+      "slug": "at-salzburg",
+      "stadt": "AT:salzburg"
+    },
+    {
+      "id": 1816,
+      "slug": "at-graz",
+      "stadt": "AT:graz"
+    },
+    {
+      "id": 1814,
+      "slug": "at-dornbirn",
+      "stadt": "AT:dornbirn"
+    },
+    {
+      "id": 1812,
+      "slug": "at-linz",
+      "stadt": "AT:linz"
+    },
+    {
+      "id": 1810,
+      "slug": "at-wien",
+      "stadt": "AT:wien"
+    },
+    {
+      "id": 1804,
+      "slug": "ch-basel",
+      "stadt": "CH:basel"
+    },
+    {
+      "id": 1802,
+      "slug": "ch-bern",
+      "stadt": "CH:bern"
+    },
+    {
+      "id": 1800,
+      "slug": "ch-biel-bienne",
+      "stadt": "CH:biel-bienne"
+    },
+    {
+      "id": 1798,
+      "slug": "ch-genf",
+      "stadt": "CH:genf"
+    },
+    {
+      "id": 1796,
+      "slug": "ch-lausanne",
+      "stadt": "CH:lausanne"
+    },
+    {
+      "id": 1794,
+      "slug": "ch-lugano",
+      "stadt": "CH:lugano"
+    },
+    {
+      "id": 1792,
+      "slug": "ch-luzern",
+      "stadt": "CH:luzern"
+    },
+    {
+      "id": 1790,
+      "slug": "ch-st-gallen",
+      "stadt": "CH:st-gallen"
+    },
+    {
+      "id": 1788,
+      "slug": "ch-winterthur",
+      "stadt": "CH:winterthur"
+    },
+    {
+      "id": 1786,
+      "slug": "ch-zuerich",
+      "stadt": "CH:zuerich"
+    },
+    {
+      "id": 1784,
+      "slug": "de-stuttgart",
+      "stadt": "DE:stuttgart"
+    },
+    {
+      "id": 1783,
+      "slug": "de-nuernberg",
+      "stadt": "DE:nuernberg"
+    },
+    {
+      "id": 1782,
+      "slug": "de-muenchen",
+      "stadt": "DE:muenchen"
+    },
+    {
+      "id": 1781,
+      "slug": "de-mannheim",
+      "stadt": "DE:mannheim"
+    },
+    {
+      "id": 1780,
+      "slug": "de-leipzig",
+      "stadt": "DE:leipzig"
+    },
+    {
+      "id": 1779,
+      "slug": "de-koeln",
+      "stadt": "DE:koeln"
+    },
+    {
+      "id": 1778,
+      "slug": "de-hannover",
+      "stadt": "DE:hannover"
+    },
+    {
+      "id": 1777,
+      "slug": "de-hamburg",
+      "stadt": "DE:hamburg"
+    },
+    {
+      "id": 1776,
+      "slug": "de-frankfurt-am-main",
+      "stadt": "DE:frankfurt-am-main"
+    },
+    {
+      "id": 1775,
+      "slug": "de-essen",
+      "stadt": "DE:essen"
+    },
+    {
+      "id": 1774,
+      "slug": "de-duesseldorf",
+      "stadt": "DE:duesseldorf"
+    },
+    {
+      "id": 1773,
+      "slug": "de-dresden",
+      "stadt": "DE:dresden"
+    },
+    {
+      "id": 1772,
+      "slug": "de-dortmund",
+      "stadt": "DE:dortmund"
+    },
+    {
+      "id": 1771,
+      "slug": "de-bremen",
+      "stadt": "DE:bremen"
+    },
+    {
+      "id": 1770,
+      "slug": "de-bochum",
+      "stadt": "DE:bochum"
+    },
+    {
+      "id": 1769,
+      "slug": "de-berlin",
+      "stadt": "DE:berlin"
+    }
+  ]
+}

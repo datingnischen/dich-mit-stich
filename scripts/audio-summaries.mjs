@@ -1,20 +1,20 @@
 #!/usr/bin/env node
-// Erzeugt Audio-Zusammenfassungen für Magazinbeiträge mit ElevenLabs und hängt sie in WordPress an.
+// Erzeugt Audio-Zusammenfassungen für Magazinbeiträge mit ElevenLabs und legt sie im Repo ab (kein WordPress mehr).
 // Aufruf: node --env-file=.env.local scripts/audio-summaries.mjs <texte.json> [--write] [--out=ordner] [--reuse]
 //
 // texte.json: { "<beitrags-slug>": "Sprechtext (ca. 120–140 Wörter, Du-Form, keine Werbe-/Heilversprechen)" }
-// Ohne --write werden nur die MP3s lokal erzeugt (zum Probehören). Mit --write zusätzlich: Upload in die
-// Mediathek, dem Beitrag zuordnen und den Audio-Block (<!-- audio-summary -->) an den Anfang setzen.
-// Beiträge, die schon einen Audio-Block haben, bleiben unverändert. Vor dem Schreiben wird der Rohtext gesichert.
+// Ohne --write werden nur die MP3s lokal erzeugt (zum Probehören). Mit --write zusätzlich: MP3 nach
+// public/magazin/wp-content/uploads/<Jahr>/<Monat>/ kopieren und den Audio-Block an den Anfang von
+// content/magazin/beitraege/<slug>.md setzen. Beiträge, die schon einen Audio-Block haben, bleiben unverändert.
 // --reuse nimmt eine schon erzeugte MP3 aus dem Ausgabeordner, statt erneut Credits zu verbrauchen.
+// Danach committen und pushen; Vercel baut die Seite neu (Datei-Pfad der MP3 steht im Beitrag).
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
 const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "mDRP1h6KfUD1XAUJxqr0"; // Doreen – Clear and Dynamic
 const MODEL_ID = process.env.ELEVENLABS_MODEL_ID || "eleven_v4"; // seit 2026-09-28 Standard (Christian)
-const API = (route) => `https://dich-mit-stich.de/cms-mag/?rest_route=/wp/v2${route}`;
-const UPLOADS = "https://dich-mit-stich.de/cms-mag/wp-content/uploads/";
+const UPLOADS_PATH = "/magazin/wp-content/uploads/";
 
 const args = process.argv.slice(2);
 const textsPath = args.find((arg) => !arg.startsWith("--"));
@@ -27,23 +27,16 @@ if (!textsPath || !process.env.ELEVENLABS_API_KEY) {
 }
 const texts = JSON.parse(fs.readFileSync(textsPath, "utf8"));
 fs.mkdirSync(outDir, { recursive: true });
-const auth = "Basic " + Buffer.from(`${process.env.DMS_WP_USERNAME}:${process.env.DMS_WP_APPLICATION_PASSWORD}`).toString("base64");
-
-async function wp(route, init = {}) {
-  const res = await fetch(API(route), { ...init, headers: { Authorization: auth, ...(init.headers || {}) } });
-  const body = await res.json();
-  if (!res.ok) throw new Error(`${route}: ${res.status} ${JSON.stringify(body).slice(0, 300)}`);
-  return body;
-}
 
 function audioBlock(src) {
-  return `<!-- audio-summary:start -->\n<h2>Artikel kurz anhören</h2>\n<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>\n\n<audio controls preload="none">\n  <source src="${src}" type="audio/mpeg">\n  Dein Browser unterstützt das Audio-Element nicht.\n</audio>\n<!-- audio-summary:end -->\n\n`;
+  return `<h2>Artikel kurz anhören</h2>\n<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>\n<p><audio controls preload="none"><source src="${src}" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>\n`;
 }
 
 for (const [slug, text] of Object.entries(texts)) {
-  const [post] = await wp(`/posts&slug=${encodeURIComponent(slug)}&context=edit&_fields=id,slug,content`);
-  if (!post) { console.log(slug, "– Beitrag nicht gefunden"); continue; }
-  if (post.content.raw.includes("audio-summary:start")) { console.log(slug, "– hat schon ein Audio, übersprungen"); continue; }
+  const articleFile = path.join("content", "magazin", "beitraege", `${slug}.md`);
+  if (!fs.existsSync(articleFile)) { console.log(slug, "– Beitrag nicht gefunden"); continue; }
+  const raw = fs.readFileSync(articleFile, "utf8");
+  if (raw.includes("<audio")) { console.log(slug, "– hat schon ein Audio, übersprungen"); continue; }
 
   const name = `${slug}-audio-zusammenfassung.mp3`;
   const file = path.join(outDir, name);
@@ -61,18 +54,18 @@ for (const [slug, text] of Object.entries(texts)) {
   }
   if (!write) continue;
 
-  fs.writeFileSync(path.join(outDir, `${slug}-backup.json`), JSON.stringify({ id: post.id, raw: post.content.raw }));
-  const media = await wp("/media", {
-    method: "POST",
-    headers: { "Content-Type": "audio/mpeg", "Content-Disposition": `attachment; filename="${name}"` },
-    body: fs.readFileSync(file),
-  });
-  await wp(`/media/${media.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ post: post.id }) });
-  // Bei Audio fehlt media_details.file; die Site-URL von WordPress ist fehlerhaft, darum Pfad aus source_url.
-  const src = UPLOADS + new URL(media.source_url).pathname.replace(/^.*\/wp-content\/uploads\//, "");
-  const head = await fetch(src, { method: "HEAD" });
-  if (!head.ok) throw new Error(`${slug}: MP3 unter ${src} nicht erreichbar (${head.status})`);
-  const next = audioBlock(src) + post.content.raw;
-  const saved = await wp(`/posts/${post.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: next }) });
-  console.log(slug, "– hochgeladen (Media", media.id + "), Beitrag aktualisiert:", saved.content.raw === next);
+  const now = new Date();
+  const folder = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const target = path.join("public", ...UPLOADS_PATH.split("/").filter(Boolean), ...folder.split("/"), name);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.copyFileSync(file, target);
+
+  // Körper beginnt nach dem Frontmatter (zweites "---"); Zeilenenden der Datei bleiben erhalten.
+  const eol = raw.includes("\r\n") ? "\r\n" : "\n";
+  const close = raw.indexOf(`${eol}---${eol}`, 3);
+  if (!raw.startsWith("---") || close < 0) throw new Error(`${slug}: kein Frontmatter gefunden`);
+  const bodyStart = close + `${eol}---${eol}`.length;
+  const block = audioBlock(`${UPLOADS_PATH}${folder}/${name}`).replace(/\n/g, eol);
+  fs.writeFileSync(articleFile, raw.slice(0, bodyStart) + block + raw.slice(bodyStart));
+  console.log(slug, "– MP3 abgelegt:", target, "– Audio-Block im Beitrag gesetzt");
 }

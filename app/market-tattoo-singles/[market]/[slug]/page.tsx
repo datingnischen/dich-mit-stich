@@ -6,7 +6,7 @@ import { CitySceneGuide } from "@/components/city-scene-guide";
 import { MagazineDatingCta } from "@/components/magazine-dating-cta";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
-import { getWordPressCityOverview, getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
+import { getCityOverview, getCityPage, getCitySlugs } from "@/lib/city-pages";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
@@ -47,7 +47,7 @@ function isSupportedMarket(market: string): market is SupportedMarket {
 export async function generateStaticParams() {
   const markets: SupportedMarket[] = ["at", "ch"];
   const entries = await Promise.all(markets.map(async (market) =>
-    (await getWordPressCitySlugs(market)).map((slug) => ({ market, slug })),
+    (await getCitySlugs(market)).map((slug) => ({ market, slug })),
   ));
   return entries.flat();
 }
@@ -55,7 +55,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { market, slug } = await params;
   if (!isSupportedMarket(market)) return { robots: { index: false, follow: false } };
-  const city = await getWordPressCityPage(market, slug);
+  const city = await getCityPage(market, slug);
   if (!city) return { robots: { index: false, follow: false } };
 
   return {
@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function MarketTattooSinglesCityPage({ params }: PageProps) {
   const { market, slug } = await params;
   if (!isSupportedMarket(market)) notFound();
-  const [city, overview] = await Promise.all([getWordPressCityPage(market, slug), getWordPressCityOverview(market)]);
+  const [city, overview] = await Promise.all([getCityPage(market, slug), getCityOverview(market)]);
   if (!city) notFound();
   const copy = MARKET_COPY[market];
   const widgetConfig = getIconyCityWidgetConfig(market, slug);

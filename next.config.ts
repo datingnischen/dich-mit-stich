@@ -49,6 +49,11 @@ export default function nextConfig(phase: string): NextConfig {
   );
 
   return {
+    // Die Suche liest Magazin- und Stadtdateien erst zur Laufzeit (dynamische Route): Dateien ins Bundle legen.
+    outputFileTracingIncludes: {
+      "/ueber-uns/suche": ["./content/**/*", "./data/magazin-*.json"],
+      "/[market]/ueber-uns/suche": ["./content/**/*", "./data/magazin-*.json"],
+    },
     // Slash-Umleitung übernimmt proxy.ts, weil nur dort der interne Marktpräfix bekannt ist.
     trailingSlash: true,
     skipTrailingSlashRedirect: true,
@@ -59,11 +64,6 @@ export default function nextConfig(phase: string): NextConfig {
       // leitet /app-assets/_next/image auf den Vercel-Bildoptimierer weiter.
       path: isDev ? "/_next/image" : `${assetHost}${assetPathPrefix}/_next/image`,
       remotePatterns: [
-        {
-          protocol: "https",
-          hostname: "dich-mit-stich.de",
-          pathname: "/cms-mag/wp-content/uploads/**",
-        },
         {
           protocol: "https",
           hostname: "dich-mit-stich.vercel.app",
@@ -91,6 +91,33 @@ export default function nextConfig(phase: string): NextConfig {
       return withDePrefixVariants([
         {
           source: "/magazin/home",
+          destination: "/magazin/",
+          permanent: true,
+        },
+        // WordPress-Reste: die frühere Redaktionsinstanz lag unter /cms-mag/ (Beiträge und Seiten dort hatten
+        // dieselben Slugs wie unter /magazin/); Kategorien hießen schon dort /thema/.
+        {
+          source: "/cms-mag/wp-content/uploads/:path*",
+          destination: `${assetHost}${assetPathPrefix}/magazin/wp-content/uploads/:path*`,
+          permanent: true,
+        },
+        {
+          source: "/cms-mag/thema/:slug",
+          destination: "/magazin/thema/:slug/",
+          permanent: true,
+        },
+        {
+          source: "/cms-mag/author/:slug",
+          destination: "/magazin/author/:slug/",
+          permanent: true,
+        },
+        {
+          source: "/magazin/category/:slug",
+          destination: "/magazin/thema/:slug/",
+          permanent: true,
+        },
+        {
+          source: "/magazin/feed",
           destination: "/magazin/",
           permanent: true,
         },

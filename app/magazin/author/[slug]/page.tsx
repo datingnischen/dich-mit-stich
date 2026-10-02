@@ -7,7 +7,6 @@ import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export const revalidate = 1800;
 
 export async function generateStaticParams() {
   const slugs = await getKnownAuthorSlugs();

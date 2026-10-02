@@ -1,4 +1,4 @@
-import { decodeHtmlEntities } from "./wordpress.ts";
+import { decodeHtmlEntities } from "./magazine-text.ts";
 
 /**
  * The /magazin/piercing overview article. Its WordPress text stays as written; the page adds a

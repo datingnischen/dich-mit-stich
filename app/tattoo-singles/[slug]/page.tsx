@@ -10,22 +10,21 @@ import { conversionUrl } from "@/lib/conversion-links";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { getIconyCityWidgetConfig } from "@/lib/icony-city-widgets";
 import { publicUrl } from "@/lib/markets";
-import { getWordPressCityOverview, getWordPressCityPage, getWordPressCitySlugs } from "@/lib/wordpress-cities";
+import { getCityOverview, getCityPage, getCitySlugs } from "@/lib/city-pages";
 import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return (await getWordPressCitySlugs("de")).map((slug) => ({ slug }));
+  return (await getCitySlugs("de")).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const cityPage = await getWordPressCityPage("de", slug);
+  const cityPage = await getCityPage("de", slug);
   if (!cityPage) return {};
 
   return {
@@ -38,9 +37,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function TattooSinglesCityPage({ params }: PageProps) {
   const { slug } = await params;
   const [cityPage, expert, overview] = await Promise.all([
-    getWordPressCityPage("de", slug),
+    getCityPage("de", slug),
     getDatingExpertProfile(),
-    getWordPressCityOverview("de"),
+    getCityOverview("de"),
   ]);
   if (!cityPage) notFound();
 

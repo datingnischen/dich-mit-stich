@@ -25,15 +25,15 @@ const inventory = JSON.parse(
   await readFile(new URL("../data/tattoo-city-images.json", import.meta.url), "utf8"),
 );
 
-test("every supported German tattoo city has a branded WordPress image", () => {
+test("every supported German tattoo city has a branded image in the repo", () => {
   for (const slug of expectedSlugs) {
     assert.ok(inventory[slug], `${slug} must exist in the shared image inventory`);
     assert.match(
       inventory[slug].imageUrl,
       new RegExp(
-        `^https://dich-mit-stich\\.de/cms-mag/wp-content/uploads/\\d{4}/\\d{2}/dich-mit-stich-tattoo-singles-${slug}\\.jpg$`,
+        `^/magazin/wp-content/uploads/\\d{4}/\\d{2}/dich-mit-stich-tattoo-singles-${slug}\\.jpg$`,
       ),
-      `${slug} must use its branded WordPress image`,
+      `${slug} must use its branded image in the repo`,
     );
   }
 });

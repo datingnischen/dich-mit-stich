@@ -7,9 +7,9 @@ import { conversionUrl } from "@/lib/conversion-links";
 import { getDatingExpertProfile } from "@/lib/expert-profile";
 import { getMarketMagazineCatalog } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { getWordPressCityOverview } from "@/lib/wordpress-cities";
+import { getCityOverview } from "@/lib/city-pages";
 import { staticAsset } from "@/lib/static-asset";
-import { formatGermanDate, visibleEntryDate } from "@/lib/wordpress";
+import { formatGermanDate, visibleEntryDate } from "@/lib/magazine-text";
 import { getTattooSinglesOverview } from "@/lib/tattoo-singles";
 
 const HOME_HERO_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
@@ -23,7 +23,7 @@ const HOME_MARKET_COPY = {
 
 export async function HomePage({ market }: { market: MarketCode }) {
   const [overview, magazineCatalog, expert] = await Promise.all([
-    market === "de" ? getTattooSinglesOverview() : getWordPressCityOverview(market),
+    market === "de" ? getTattooSinglesOverview() : getCityOverview(market),
     getMarketMagazineCatalog(market),
     getDatingExpertProfile(),
   ]);
@@ -32,7 +32,7 @@ export async function HomePage({ market }: { market: MarketCode }) {
   const featuredPost = posts[0];
   const magazineStarts = [...posts.slice(1, 4), ...pages.slice(0, 1)];
   const secondaryOverviews = market === "de"
-    ? await Promise.all([getWordPressCityOverview("at"), getWordPressCityOverview("ch")])
+    ? await Promise.all([getCityOverview("at"), getCityOverview("ch")])
     : [];
   const [atOverview, chOverview] = secondaryOverviews;
   const allCountryCityEntrypoints = [

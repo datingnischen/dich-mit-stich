@@ -7,11 +7,10 @@ import { magazineMetaTitle } from "@/lib/magazine-seo";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import { getMarketMagazineDetailContext, getMarketMagazineEntryBySlug, getMarketMagazineRouteEntries } from "@/lib/market-magazine";
 import { isMarketCode, publicUrl } from "@/lib/markets";
-import { teaserText } from "@/lib/wordpress";
+import { teaserText } from "@/lib/magazine-text";
 
 type PageProps = { params: Promise<{ market: string; slug: string }> };
 
-export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const [atEntries, chEntries] = await Promise.all([

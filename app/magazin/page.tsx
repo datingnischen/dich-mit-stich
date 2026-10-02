@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { MagazineOverview } from "@/components/magazine-overview";
 import { publicUrl } from "@/lib/markets";
 
-export const revalidate = 900;
 
 export const metadata: Metadata = {
   title: "Flirtradar: Tattoo-, Piercing- & Szene-Magazin",

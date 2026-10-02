@@ -36,7 +36,7 @@ import { PIERCING_GUIDE, PIERCING_GUIDE_SLUG, PIERCING_HUB_LEAD } from "@/lib/pi
 import { stripLegacyExpertPortrait, stripPublishedBookBlock, stripPublishedBookSchema } from "@/lib/published-book";
 import { staticAsset } from "@/lib/static-asset";
 import { buildTattooMotifSpotlight, motifTopicForSlug } from "@/lib/tattoo-motifs";
-import { formatGermanDate, formatGermanDateLong, stripHtml, teaserText, visibleEntryDate } from "@/lib/wordpress";
+import { formatGermanDate, formatGermanDateLong, stripHtml, teaserText, visibleEntryDate } from "@/lib/magazine-text";
 
 const AUTHOR_ARTICLE_FALLBACK_IMAGE = staticAsset("/brand/frontpage-visual-dichmitstich.webp");
 

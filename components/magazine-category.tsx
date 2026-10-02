@@ -13,7 +13,7 @@ import {
   getMarketMagazineEntriesForCategory,
 } from "@/lib/market-magazine";
 import { publicUrl, type MarketCode } from "@/lib/markets";
-import { formatGermanDate, visibleEntryDate } from "@/lib/wordpress";
+import { formatGermanDate, visibleEntryDate } from "@/lib/magazine-text";
 
 export async function MagazineCategory({ market, slug }: { market: MarketCode; slug: string }) {
   const [category, entries, categories] = await Promise.all([

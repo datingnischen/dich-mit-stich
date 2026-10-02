@@ -1,5 +1,5 @@
 import { firstPartyInternalPath } from "./market-html.ts";
-import { decodeHtmlEntities } from "./wordpress.ts";
+import { decodeHtmlEntities } from "./magazine-text.ts";
 
 /**
  * The Tattoo-Lexikon page as WordPress writes it, cut into prose and link lists. Every list whose

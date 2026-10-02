@@ -22,17 +22,17 @@ const STORIES = [
   {
     names: "Pascal & Stephanie",
     text: "Eine Liebesgeschichte, die in der Dich-mit-Stich-Community begann.",
-    image: { src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/12/foto.jpeg", alt: "Pascal und Stephanie" },
+    image: { src: staticAsset("/magazin/wp-content/uploads/2025/12/foto.jpeg"), alt: "Pascal und Stephanie" },
   },
   {
     names: "Katharina & Philip",
     text: "Katharina und Philip haben sich über Dich mit Stich kennengelernt.",
-    image: { src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/10/Katharina-Phillip-Dich-mit-Stich-Lovestory.jpg", alt: "Katharina und Philip" },
+    image: { src: staticAsset("/magazin/wp-content/uploads/2025/10/Katharina-Phillip-Dich-mit-Stich-Lovestory.jpg"), alt: "Katharina und Philip" },
   },
   {
     names: "Andreas & Do",
     text: "Andreas hat über Dich mit Stich sein Gegenstück gefunden.",
-    image: { src: "https://dich-mit-stich.de/cms-mag/wp-content/uploads/2025/10/erfolgsgeschichte.png", alt: "Andreas und Do" },
+    image: { src: staticAsset("/magazin/wp-content/uploads/2025/10/erfolgsgeschichte.png"), alt: "Andreas und Do" },
   },
 ] as const;
 

@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { MagazineCategory } from "@/components/magazine-category";
 import { isThinMagazineCategory, marketEditorialRobots } from "@/lib/editorial-metadata";
 import { publicUrl } from "@/lib/markets";
-import { getMagazineCategories, getMagazineCategoryBySlug } from "@/lib/wordpress";
+import { getMagazineCategories, getMagazineCategoryBySlug } from "@/lib/magazine";
 import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export const revalidate = 1800;
 
 export async function generateStaticParams() {
   const categories = await getMagazineCategories();

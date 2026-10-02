@@ -6,7 +6,6 @@ import { marketHasMagazineContent } from "@/lib/market-magazine";
 import { emptyMagazineMarketCopy } from "@/lib/market-magazine-policy";
 import { isMarketCode, publicUrl } from "@/lib/markets";
 
-export const revalidate = 900;
 
 export function generateStaticParams() {
   return [{ market: "at" }, { market: "ch" }];

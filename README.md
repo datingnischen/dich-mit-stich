@@ -19,6 +19,23 @@ Loader: `lib/magazine.ts` (Abfrage-API), `lib/magazine-text.ts` (Typen, Textwerk
 
 Die Einmalwerkzeuge der Ablösung stehen in `scripts/export-wordpress.mjs`, `scripts/download-wp-uploads.mjs`, `scripts/import-wordpress.mjs`, der Vorher/Nachher-Vergleich in `scripts/crawl-routes.mjs` und `scripts/compare-routes.mjs`; die alten WordPress-Schreibskripte liegen unter `archiv/wordpress-abloesung/`. Nach redaktionellen Korrekturen den Import nicht erneut laufen lassen.
 
+### WordPress-kompatibler Endpunkt für ICONY
+
+ICONY (Heiko Grossmann) liest auf den Plattform-Startseiten drei Magazin-Teaser im WP-Format. Der Endpunkt wird aus den
+Magazin-Beiträgen erzeugt (`lib/wp-rest-compat.ts`, `app/cms-mag/wp-json/…`, `app/magazin/wp-json/…`, Umleitung von `?rest_route=` in `proxy.ts`):
+
+- `https://dich-mit-stich.de/cms-mag/wp-json/wp/v2/posts?per_page=3&_embed=1` und gleichwertig `/magazin/wp-json/wp/v2/posts`
+  (außerdem `/posts/<id>`, `/categories`, `/tags`, `/media/<id>`)
+- `…/cms-mag/?rest_route=/wp/v2/posts` und `…/cms-mag/index.php?rest_route=/wp/v2/posts` (ebenso unter `/magazin/`)
+- Parameter: `per_page`, `page`, `_embed`, `_fields`, `orderby`, `order`, `categories`, `slug`, `search`, `include`, `after`/`before`;
+  Header `X-WP-Total`, `X-WP-TotalPages`, CORS `*`, `Cache-Control`; OPTIONS/HEAD.
+- Nur Magazin-**Beiträge** (`content/magazin/beitraege`). Keine Seiten (Hubs, Lexikon, Autorenprofile), keine Tattoo-Studios oder Städte,
+  kein `/wp/v2/users` (404), `author` nur als ID, kein `_embedded.author`. `link` ist die Live-URL `https://dich-mit-stich.de/magazin/<slug>/`,
+  Bild-URLs kommen vom Asset-Host (`/app-assets/…`).
+- **nginx/ICONY:** `/cms-mag/wp-json/` und `/magazin/wp-json/` (außerdem `/cms-mag/` bzw. `/magazin/` mit `rest_route` sowie `…/index.php`) müssen
+  wie die Seitenrouten an Vercel durchgereicht werden. nginx ruft Vercel mit `/de/…` auf; beides geht (Slash am Ende wird nicht erzwungen).
+- Bildmaße kommen aus `data/magazin-bilder.json`; nach neuen Titelbildern `node scripts/build-magazine-image-sizes.mjs` ausführen.
+
 ## Markt-Routing
 
 | Vercel-Pfad | Öffentliche Domain | Status |

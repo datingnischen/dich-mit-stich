@@ -53,6 +53,9 @@ export default function nextConfig(phase: string): NextConfig {
     outputFileTracingIncludes: {
       "/ueber-uns/suche": ["./content/**/*", "./data/magazin-*.json"],
       "/[market]/ueber-uns/suche": ["./content/**/*", "./data/magazin-*.json"],
+      // WP-kompatibler REST-Endpunkt für ICONY (lib/wp-rest-compat.ts)
+      "/cms-mag/wp-json/[[...route]]": ["./content/magazin/**/*", "./data/magazin-*.json"],
+      "/magazin/wp-json/[[...route]]": ["./content/magazin/**/*", "./data/magazin-*.json"],
     },
     // Slash-Umleitung übernimmt proxy.ts, weil nur dort der interne Marktpräfix bekannt ist.
     trailingSlash: true,

@@ -45,6 +45,30 @@ function trailingSlashRedirect(request: NextRequest) {
   return NextResponse.redirect(destination, 308);
 }
 
+// WordPress-kompatibler REST-Endpunkt des Magazins (app/cms-mag/wp-json, app/magazin/wp-json): JSON ohne
+// Slash-Umleitung und ohne Marktlogik. ICONY ruft /cms-mag/wp-json/wp/v2/posts, ?rest_route= und
+// index.php?rest_route= auf; nginx stellt dem Pfad für die .de-Domain /de voran.
+const WP_REST_PATH = /^\/(?:de\/)?(?:cms-mag|magazin)\/wp-json(?:\/|$)/;
+const WP_REST_ENTRY = /^\/(?:de\/)?(cms-mag|magazin)(?:\/index\.php)?\/?$/;
+
+function wpRestRequest(request: NextRequest) {
+  const { pathname, searchParams } = request.nextUrl;
+  const restRoute = searchParams.get("rest_route");
+  const entry = restRoute !== null ? pathname.match(WP_REST_ENTRY) : null;
+  if (!entry && !WP_REST_PATH.test(pathname)) return null;
+
+  const destination = request.nextUrl.clone();
+  if (entry && restRoute !== null) {
+    destination.searchParams.delete("rest_route");
+    destination.pathname = `/${entry[1]}/wp-json/${restRoute.replace(/^\/+/, "")}`;
+  } else if (pathname.startsWith("/de/")) {
+    destination.pathname = pathname.slice(3);
+  } else {
+    return NextResponse.next();
+  }
+  return NextResponse.rewrite(destination);
+}
+
 export function proxy(request: NextRequest) {
   if (
     INTERNAL_MARKET_PATH_PATTERN.test(request.nextUrl.pathname)
@@ -52,6 +76,9 @@ export function proxy(request: NextRequest) {
   ) {
     return protectPreview(NextResponse.next());
   }
+
+  const wpRest = wpRestRequest(request);
+  if (wpRest) return protectPreview(wpRest);
 
   const slashRedirect = trailingSlashRedirect(request);
   if (slashRedirect) {

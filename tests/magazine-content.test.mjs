@@ -118,7 +118,9 @@ test("all articles that carry an audio player point at an existing MP3", async (
 
 test("the app no longer calls WordPress at runtime or build", () => {
   const sources = [...walk(path.join(root, "lib")), ...walk(path.join(root, "app")), ...walk(path.join(root, "components"))].filter((file) => /\.(ts|tsx)$/.test(file));
-  for (const file of sources) {
+  // Ausnahme: der WP-kompatible Ausgabe-Endpunkt für ICONY (liefert nur, ruft kein WordPress auf), siehe tests/wp-rest-compat.test.mjs
+  const compat = ["lib/wp-rest-compat.ts", "app/cms-mag/wp-json/[[...route]]/route.ts", "app/magazin/wp-json/[[...route]]/route.ts"].map((file) => path.join(root, file));
+  for (const file of sources.filter((item) => !compat.includes(item))) {
     const text = fs.readFileSync(file, "utf8");
     assert.doesNotMatch(text, /rest_route|wp-json|WORDPRESS_(?:BASE_URL|ORIGIN|UPLOADS_URL|REST)|\/wp\/v2|cms-mag\/\?/, file);
     assert.doesNotMatch(text, /\bfetch\(/, `${file} ruft fetch() auf`);

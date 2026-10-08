@@ -161,11 +161,6 @@ export default function nextConfig(phase: string): NextConfig {
           permanent: true,
         },
         {
-          source: "/bewertungen-und-erfahrungen",
-          destination: "/ueber-uns/bewertungen/",
-          permanent: true,
-        },
-        {
           source: "/wir-suchen",
           destination: "/ueber-uns/kooperationen/",
           permanent: true,

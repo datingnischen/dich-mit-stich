@@ -282,7 +282,6 @@ test("redirects legacy trust URLs to exact destinations in the new hierarchy", a
     ["/magazin/expertenteam", "/ueber-uns/expertenteam"],
     ["/magazin/thema/erfolgsgeschichten", "/ueber-uns/erfolgsgeschichten"],
     ["/social-media", "/ueber-uns/social-media"],
-    ["/bewertungen-und-erfahrungen", "/ueber-uns/bewertungen"],
     ["/wir-suchen", "/ueber-uns/kooperationen"],
     ["/kooperation-mit-tattoo-studios", "/ueber-uns/kooperationen"],
     ["/kooperation-mit-influencern", "/ueber-uns/kooperationen"],

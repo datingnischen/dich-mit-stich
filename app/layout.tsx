@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono, Open_Sans } from "next/font/google";
-import { staticAsset } from "@/lib/static-asset";
+import { staticAsset, assetHost } from "@/lib/static-asset";
 import "./globals.css";
 import "./ink-theme.css";
+import { Analytics } from "@vercel/analytics/next";
+import { vercelAnalyticsProps } from "@/lib/vercel-analytics";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -47,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`${openSans.variable} ${fraunces.variable} ${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>{children}<Analytics {...vercelAnalyticsProps(assetHost)} /></body>
     </html>
   );
 }

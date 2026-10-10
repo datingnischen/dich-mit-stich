@@ -11,6 +11,7 @@
     "import:cities:ch": "node scripts/import-icony-city-pages.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "gray-matter": "^4.0.3",
     "next": "16.3.5",
     "react": "19.2.4",

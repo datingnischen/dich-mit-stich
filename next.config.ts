@@ -13,7 +13,8 @@ function buildContentSecurityPolicy(assetOrigin: string, isDev: boolean) {
     `style-src 'self' 'unsafe-inline' ${assetOrigin}`,
     "img-src 'self' data: https:",
     `font-src 'self' data: ${assetOrigin}`,
-    "connect-src 'self' https://dich-mit-stich.de",
+    // Contest: Fotos gehen per Client-Upload direkt zu Vercel Blob (components/contest/entry-form.tsx).
+    "connect-src 'self' https://dich-mit-stich.de https://blob.vercel-storage.com https://*.public.blob.vercel-storage.com",
     "media-src 'self' https:",
     "frame-src https://www.youtube-nocookie.com https://js.icony.com",
     "object-src 'none'",
@@ -71,6 +72,12 @@ export default function nextConfig(phase: string): NextConfig {
           protocol: "https",
           hostname: "dich-mit-stich.vercel.app",
           pathname: "/app-assets/**",
+        },
+        // Contest-Fotos liegen in Vercel Blob (lib/contest/validation.ts prüft Host und Ordner).
+        {
+          protocol: "https",
+          hostname: "*.public.blob.vercel-storage.com",
+          pathname: "/contest/**",
         },
       ],
     },

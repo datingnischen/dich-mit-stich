@@ -8,10 +8,13 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
-    "import:cities:ch": "node scripts/import-icony-city-pages.mjs"
+    "import:cities:ch": "node scripts/import-icony-city-pages.mjs",
+    "contest:migrate": "node --env-file=.env.local --experimental-strip-types scripts/contest-migrate.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/blob": "^2.8.1",
     "gray-matter": "^4.0.3",
     "next": "16.3.5",
     "react": "19.2.4",
@@ -19,6 +22,7 @@
     "sanitize-html": "2.17.7"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

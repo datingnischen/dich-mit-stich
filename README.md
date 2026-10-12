@@ -89,6 +89,19 @@ npm run import:cities:ch
 
 Der Import erwartet exakt zehn freigegebene Städte, speichert die Bilder lokal unter `public/cities/ch/` und verändert unveränderte Dateien nicht.
 
+## Tattoo-Contest (Foto-Voting)
+
+`/tattoo-singles/contest/` (nur DE): Teilnehmende laden ein Foto zu Vercel Blob hoch, die Redaktion gibt unter
+`/tattoo-singles/contest/admin/` frei, Besucher stimmen einmal am Tag je Beitrag ab. Daten liegen in Neon Postgres
+(Vercel-Marktplatz), Zugriff über `lib/contest/*`; Einrichtung der Env-Variablen (`DATABASE_URL`, `BLOB_READ_WRITE_TOKEN`,
+`CONTEST_SECRET`, `CONTEST_ADMIN_TOKEN`) und Betrieb in `docs/contest.md`. Tabellen anlegen:
+
+```bash
+npm run contest:migrate
+```
+
+Ohne konfigurierte Env-Variablen zeigen Hub und Formular einen „startet in Kürze“-Hinweis; Tests laufen gegen PGlite.
+
 ## Lokale TLS-Inspection
 
 In Netzen mit Fortinet oder vergleichbarer TLS-Inspection darf die Zertifikatsprüfung nicht deaktiviert werden. Die kontrolliert verifizierte öffentliche Unternehmens-/Appliance-CA wird nur lokal eingebunden:

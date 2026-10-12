@@ -120,9 +120,16 @@ test("the app no longer calls WordPress at runtime or build", () => {
   const sources = [...walk(path.join(root, "lib")), ...walk(path.join(root, "app")), ...walk(path.join(root, "components"))].filter((file) => /\.(ts|tsx)$/.test(file));
   // Ausnahme: der WP-kompatible Ausgabe-Endpunkt für ICONY (liefert nur, ruft kein WordPress auf), siehe tests/wp-rest-compat.test.mjs
   const compat = ["lib/wp-rest-compat.ts", "app/cms-mag/wp-json/[[...route]]/route.ts", "app/magazin/wp-json/[[...route]]/route.ts"].map((file) => path.join(root, file));
+  // Ausnahme: die Contest-Oberfläche (components/contest) ruft im Browser nur die eigene Contest-API auf, kein WordPress.
+  const contestUi = path.join(root, "components", "contest");
   for (const file of sources.filter((item) => !compat.includes(item))) {
     const text = fs.readFileSync(file, "utf8");
     assert.doesNotMatch(text, /rest_route|wp-json|WORDPRESS_(?:BASE_URL|ORIGIN|UPLOADS_URL|REST)|\/wp\/v2|cms-mag\/\?/, file);
+    if (file.startsWith(contestUi) && /\bfetch\(/.test(text)) {
+      assert.match(text, /^'use client';/, `${file} darf fetch() nur als Client-Komponente nutzen`);
+      assert.doesNotMatch(text, /fetch\(\s*[`"']https?:/, `${file} ruft fremde Hosts auf`);
+      continue;
+    }
     assert.doesNotMatch(text, /\bfetch\(/, `${file} ruft fetch() auf`);
   }
   const config = fs.readFileSync(path.join(root, "next.config.ts"), "utf8");

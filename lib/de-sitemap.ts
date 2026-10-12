@@ -5,6 +5,7 @@ import { isThinMagazineCategory } from "@/lib/editorial-metadata";
 import { isMagazineArticleQuarantined } from "@/lib/magazine-content-safety";
 import { getMagazineCategories, getMagazineRouteEntries } from "@/lib/magazine";
 import { withTrailingSlash } from "@/lib/markets";
+import { CONTEST_PATH } from "@/lib/contest/config";
 import { tattooCitySlugs } from "@/lib/tattoo-singles";
 import { getIndexableTattooStudioCities } from "@/lib/tattoo-studio-guide";
 
@@ -59,6 +60,7 @@ function siteLocations(): MetadataRoute.Sitemap {
   return [
     { url: `${SITE_URL}/`, changeFrequency: "daily", priority: 1 },
     { url: `${SITE_URL}/tattoo-singles`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}${CONTEST_PATH}`, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}${FAQ_PATH}`, changeFrequency: "monthly", priority: 0.8 },
     ...ABOUT_PATHS.map((path) => ({
       url: `${SITE_URL}${path}`,

@@ -17,6 +17,8 @@ function protectPreview(response: NextResponse) {
 }
 
 const NO_SLASH_PREFIXES = ["/_next/", "/app-assets/", "/api/", "/.well-known/"];
+// Contest-API (app/tattoo-singles/contest/api): JSON-Endpunkte, nginx ruft sie live auch mit /de-Präfix auf.
+const CONTEST_API_PATTERN = /^\/(?:de\/)?tattoo-singles\/contest\/api(?:\/|$)/;
 
 // Ersetzt die eingebaute Slash-Umleitung von Next.js (skipTrailingSlashRedirect): Seitenpfade enden
 // immer auf "/". Next.js kannte nur den Upstream-Pfad: nginx ruft für dich-mit-stich.at/faq hier /at/faq
@@ -28,6 +30,7 @@ function trailingSlashRedirect(request: NextRequest) {
     pathname.endsWith("/")
     || withTrailingSlash(pathname) === pathname
     || NO_SLASH_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+    || CONTEST_API_PATTERN.test(pathname)
     || INTERNAL_MARKET_PATH_PATTERN.test(pathname)
   ) {
     return null;

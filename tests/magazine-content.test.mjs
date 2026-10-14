@@ -119,7 +119,8 @@ test("all articles that carry an audio player point at an existing MP3", async (
 test("the app no longer calls WordPress at runtime or build", () => {
   const sources = [...walk(path.join(root, "lib")), ...walk(path.join(root, "app")), ...walk(path.join(root, "components"))].filter((file) => /\.(ts|tsx)$/.test(file));
   // Ausnahme: der WP-kompatible Ausgabe-Endpunkt für ICONY (liefert nur, ruft kein WordPress auf), siehe tests/wp-rest-compat.test.mjs
-  const compat = ["lib/wp-rest-compat.ts", "app/cms-mag/wp-json/[[...route]]/route.ts", "app/magazin/wp-json/[[...route]]/route.ts"].map((file) => path.join(root, file));
+  // lib/teaser-image.ts liefert die Teaserbilder des Endpunkts aus (holt sie per fetch() vom eigenen Asset-Host, kein WordPress)
+  const compat = ["lib/wp-rest-compat.ts", "lib/teaser-image.ts", "app/cms-mag/wp-json/[[...route]]/route.ts", "app/magazin/wp-json/[[...route]]/route.ts"].map((file) => path.join(root, file));
   // Ausnahme: die Contest-Oberfläche (components/contest) ruft im Browser nur die eigene Contest-API auf, kein WordPress.
   const contestUi = path.join(root, "components", "contest");
   for (const file of sources.filter((item) => !compat.includes(item))) {

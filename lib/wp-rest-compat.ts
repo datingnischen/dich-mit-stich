@@ -2,6 +2,7 @@ import { loadMagazineCategories, loadMagazinePosts, readDataJson } from "./magaz
 import type { MagazineCategory, MagazineEntry } from "./magazine-text.ts";
 import { SITE_ORIGIN } from "./magazine-urls.ts";
 
+import { teaserImageUrl } from "./teaser-image.ts";
 /**
  * WordPress-kompatibler REST-Endpunkt für die Magazin-BEITRÄGE, erzeugt aus den Dateien im Repo.
  *
@@ -164,7 +165,7 @@ function buildSource(): WpSource {
         slug: (file.split("/").pop() || file).replace(/\.[a-z0-9]+$/i, ""),
         // Eigene Domain unter /magazin/…: Die ICONY-Startseiten laden Teaserbilder nur von der eigenen Domain (CSP);
         // Vercel liefert public/magazin/wp-content/uploads auch unter diesem Pfad, nginx muss ihn durchreichen.
-        sourceUrl: `${PUBLIC_ORIGIN}${hostPath}`,
+        sourceUrl: teaserImageUrl(`${PUBLIC_ORIGIN}/magazin/wp-json`, hostPath),
         alt: entry.featuredImageAlt?.trim() || title,
         title: entry.featuredImageAlt?.trim() || title,
         date: published.local,
@@ -227,7 +228,7 @@ function mediaObject(media: MediaItem): Json {
     details.height = media.height;
     // Nur eine Datei je Bild; "medium"/"large" sind Aliase, damit ICONY unabhängig von der gewählten Größe ein Bild bekommt.
     const size = { file: media.file.split("/").pop(), width: media.width, height: media.height, mime_type: media.mime, source_url: media.sourceUrl };
-    details.sizes = { medium: size, large: size, full: size };
+    details.sizes = Object.fromEntries(["thumbnail", "medium", "medium_large", "large", "full"].map((name) => [name, size]));
   }
   return {
     id: media.id,

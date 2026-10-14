@@ -1,4 +1,5 @@
 import { handleWpRest, wpRestPreflight, wpRestResponse } from "@/lib/wp-rest-compat";
+import { isTeaserImageRoute, teaserImageResponse } from "@/lib/teaser-image";
 
 // WordPress-kompatibler REST-Endpunkt für Magazin-Beiträge (aus den Dateien erzeugt), siehe lib/wp-rest-compat.ts.
 // Die URL bleibt wie im früheren WordPress: https://dich-mit-stich.de/cms-mag/wp-json/wp/v2/posts (und /magazin/wp-json/…).
@@ -9,6 +10,8 @@ type RouteContext = { params: Promise<{ route?: string[] }> };
 
 export async function GET(request: Request, context: RouteContext) {
   const { route = [] } = await context.params;
+  // Teaserbilder für ICONY ohne Dateiendung (lib/teaser-image.ts)
+  if (isTeaserImageRoute(route)) return teaserImageResponse(route, request.method);
   const result = handleWpRest(`/${route.join("/")}`, new URL(request.url).searchParams);
   return wpRestResponse(result, request.method);
 }

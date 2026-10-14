@@ -162,7 +162,9 @@ function buildSource(): WpSource {
         id: MEDIA_ID_OFFSET + entry.id,
         postId: entry.id,
         slug: (file.split("/").pop() || file).replace(/\.[a-z0-9]+$/i, ""),
-        sourceUrl: entry.featuredImage,
+        // Eigene Domain unter /magazin/…: Die ICONY-Startseiten laden Teaserbilder nur von der eigenen Domain (CSP);
+        // Vercel liefert public/magazin/wp-content/uploads auch unter diesem Pfad, nginx muss ihn durchreichen.
+        sourceUrl: `${PUBLIC_ORIGIN}${hostPath}`,
         alt: entry.featuredImageAlt?.trim() || title,
         title: entry.featuredImageAlt?.trim() || title,
         date: published.local,
@@ -223,9 +225,9 @@ function mediaObject(media: MediaItem): Json {
   if (media.width && media.height) {
     details.width = media.width;
     details.height = media.height;
-    details.sizes = {
-      full: { file: media.file.split("/").pop(), width: media.width, height: media.height, mime_type: media.mime, source_url: media.sourceUrl },
-    };
+    // Nur eine Datei je Bild; "medium"/"large" sind Aliase, damit ICONY unabhängig von der gewählten Größe ein Bild bekommt.
+    const size = { file: media.file.split("/").pop(), width: media.width, height: media.height, mime_type: media.mime, source_url: media.sourceUrl };
+    details.sizes = { medium: size, large: size, full: size };
   }
   return {
     id: media.id,

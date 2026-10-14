@@ -69,6 +69,11 @@ function wpRestRequest(request: NextRequest) {
   } else {
     return NextResponse.next();
   }
+  // Vercel verwirft bei Rewrites Parameter ohne Wert; ICONY ruft "?_embed" ohne Wert auf (WordPress-Schreibweise).
+  // Ohne diese Angleichung fehlten hinter nginx (Upstream-Pfad /de/…) die eingebetteten Beitragsbilder.
+  if (destination.searchParams.has("_embed") && destination.searchParams.get("_embed") === "") {
+    destination.searchParams.set("_embed", "1");
+  }
   return NextResponse.rewrite(destination);
 }
 

@@ -40,7 +40,9 @@ test("posts: Beitragsbild mit source_url, alt_text und media_details, Datumsfeld
   const withImage = get("/wp/v2/posts", "slug=5-geschenkideen-fuer-taetowierte-gepiercte-frauen-und-maenner&_embed=1").body[0];
   assert.ok(withImage.featured_media > 0);
   const media = withImage._embedded["wp:featuredmedia"][0];
-  assert.match(media.source_url, /^https:\/\/[^/]+\/app-assets\/magazin\/wp-content\/uploads\/2020\/12\/geschenke-fuer-taetowierte-gepiercte-singles\.jpg$/);
+  // Eigene Domain statt Asset-Host: die ICONY-Startseite darf Bilder nur von der eigenen Domain laden (CSP, Heiko 2026-10-14)
+  assert.equal(media.source_url, "https://dich-mit-stich.de/magazin/wp-content/uploads/2020/12/geschenke-fuer-taetowierte-gepiercte-singles.jpg");
+  assert.equal(media.media_details.sizes.medium.source_url, media.source_url);
   assert.ok(media.alt_text.trim());
   assert.ok(media.media_details.width > 0 && media.media_details.height > 0);
   assert.equal(media.id, withImage.featured_media);
@@ -176,6 +178,9 @@ test("proxy: wp-json und rest_route liefern JSON statt Slash-Umleitung, auch mit
     assert.equal(slash.headers.get("location"), null);
 
     const prefixed = proxy(request(`/de/${base}/wp-json/wp/v2/posts`, "dich-mit-stich.de"));
+    // "?_embed" ohne Wert (ICONY/WordPress-Schreibweise) überlebt den Rewrite als _embed=1
+    const embed = proxy(request(`/de/${base}/wp-json/wp/v2/posts/?per_page=3&_embed`, "dich-mit-stich.de"));
+    assert.match(embed.headers.get("x-middleware-rewrite") ?? "", /per_page=3&_embed=1$/, base);
     assert.equal(prefixed.headers.get("location"), null);
     assert.match(prefixed.headers.get("x-middleware-rewrite") ?? "", new RegExp(`/${base}/wp-json/wp/v2/posts/?$`));
 

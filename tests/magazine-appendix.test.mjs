@@ -125,9 +125,10 @@ test("the hand-built piercing source card uses the same collapsed block", async 
   assert.doesNotMatch(css, /magazine-source-list/);
 });
 
-test("hub overviews render the reference block once, after all pieces", async () => {
+test("chapter-split articles and hub overviews render the reference block once, at the end", async () => {
   const { splitMagazineAppendix } = await import("../lib/market-html.ts");
   const { parseLexikonBlocks } = await import("../lib/tattoo-lexikon-overview.ts");
+  const { splitArticleSections } = await import("../lib/tattoo-motifs.ts");
   const source = await readSource("../content/magazin/beitraege/borneo-tribal-tattoo.md");
   const { body, appendix } = splitMagazineAppendix(source.replace(/^---[\s\S]*?\n---\r?\n/, ""));
 
@@ -136,6 +137,11 @@ test("hub overviews render the reference block once, after all pieces", async ()
   assert.doesNotMatch(body, /magazine-appendix|Genutzte Quellen|Stand, Quellen/);
   const pieces = parseLexikonBlocks(body).filter((block) => block.kind === "html").map((block) => block.html).join("");
   assert.doesNotMatch(pieces, /<details/);
+  assert.doesNotMatch(splitArticleSections(body).join(""), /<details|Genutzte Quellen/);
+
+  const motifArticle = await readSource("../components/tattoo-motif-article.tsx");
+  assert.match(motifArticle, /splitArticleSections\(body\)/);
+  assert.match(motifArticle, /\{appendix \? <MarketHtmlContent market=\{market\} html=\{appendix\} \/> : null\}/);
 
   const overview = await readSource("../components/magazine-hub-overview.tsx");
   assert.match(overview, /splitMagazineAppendix\(html\)/);

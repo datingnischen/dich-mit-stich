@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
+import { splitMagazineAppendix } from "@/lib/market-html";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { planArticleSlots, splitArticleSections, type TattooMotifSpotlight } from "@/lib/tattoo-motifs";
 
@@ -17,7 +18,9 @@ type TattooMotifArticleProps = {
  * a pull quote further down and a scene line at the end. The WordPress text stays untouched.
  */
 export function TattooMotifArticle({ market, html, spotlight }: TattooMotifArticleProps) {
-  const sections = splitArticleSections(html);
+  // Split at its subheadings the sources block would turn up once per chapter; it closes the article once.
+  const { body, appendix } = splitMagazineAppendix(html);
+  const sections = splitArticleSections(body);
   const { hookAfter, quoteAfter } = planArticleSlots(sections.length);
   const registrationHref = conversionUrl(publicUrl(market), "/", "magazin");
 
@@ -67,6 +70,8 @@ export function TattooMotifArticle({ market, html, spotlight }: TattooMotifArtic
           </a>
         </aside>
       ) : null}
+
+      {appendix ? <MarketHtmlContent market={market} html={appendix} /> : null}
     </>
   );
 }

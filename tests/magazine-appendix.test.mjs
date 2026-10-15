@@ -124,3 +124,20 @@ test("the hand-built piercing source card uses the same collapsed block", async 
   assert.doesNotMatch(component, /magazine-source-list/);
   assert.doesNotMatch(css, /magazine-source-list/);
 });
+
+test("hub overviews render the reference block once, after all pieces", async () => {
+  const { splitMagazineAppendix } = await import("../lib/market-html.ts");
+  const { parseLexikonBlocks } = await import("../lib/tattoo-lexikon-overview.ts");
+  const source = await readSource("../content/magazin/beitraege/borneo-tribal-tattoo.md");
+  const { body, appendix } = splitMagazineAppendix(source.replace(/^---[\s\S]*?\n---\r?\n/, ""));
+
+  assert.match(appendix, /^<details class="magazine-appendix magazine-sources">/);
+  assert.match(appendix, /<p class="magazine-sources__label">Genutzte Quellen<\/p>\s*<ul>/);
+  assert.doesNotMatch(body, /magazine-appendix|Genutzte Quellen|Stand, Quellen/);
+  const pieces = parseLexikonBlocks(body).filter((block) => block.kind === "html").map((block) => block.html).join("");
+  assert.doesNotMatch(pieces, /<details/);
+
+  const overview = await readSource("../components/magazine-hub-overview.tsx");
+  assert.match(overview, /splitMagazineAppendix\(html\)/);
+  assert.match(overview, /\{appendix \? <MarketHtmlContent market=\{market\} html=\{appendix\} \/> : null\}/);
+});

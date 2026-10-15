@@ -122,3 +122,14 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
     },
   });
 }
+
+/**
+ * Pulls the closing reference block out of a text that is rendered in several pieces (hub
+ * overviews), so it appears once, collapsed, at the very end instead of once per piece.
+ */
+export function splitMagazineAppendix(html: string) {
+  const normalized = normalizeMagazineAppendix(normalizeMagazineMedia(html));
+  const match = normalized.match(/<details class="magazine-appendix[^"]*">[\s\S]*?<\/details>/);
+  if (!match) return { body: html, appendix: "" };
+  return { body: normalized.replace(match[0], ""), appendix: match[0] };
+}

@@ -6,6 +6,7 @@ import { MarketHtmlContent } from "@/components/market-html-content";
 import { MarketLink } from "@/components/market-link";
 import { conversionUrl } from "@/lib/conversion-links";
 import { getMarketMagazineCatalog } from "@/lib/market-magazine";
+import { splitMagazineAppendix } from "@/lib/market-html";
 import { hubGroupImage } from "@/lib/magazine-hubs";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 import { piercingRegion, piercingRegionAnchor, stripGroupIntro } from "@/lib/piercing-guide";
@@ -120,7 +121,9 @@ type MagazineHubOverviewProps = { market: MarketCode; html: string; topic: Motif
  */
 export async function MagazineHubOverview({ market, html, topic }: MagazineHubOverviewProps) {
   const copy = OVERVIEW_COPY[topic];
-  const blocks = parseLexikonBlocks(html);
+  // The sources block would otherwise be split at its subheadings and repeated per piece.
+  const { body, appendix } = splitMagazineAppendix(html);
+  const blocks = parseLexikonBlocks(body);
   const { posts, pages } = await getMarketMagazineCatalog(market);
   const entries = new Map([...posts, ...pages].map((entry) => [entry.slug, entry]));
 
@@ -191,6 +194,7 @@ export async function MagazineHubOverview({ market, html, topic }: MagazineHubOv
           </Fragment>
         );
       })}
+      {appendix ? <MarketHtmlContent market={market} html={appendix} /> : null}
     </>
   );
 }

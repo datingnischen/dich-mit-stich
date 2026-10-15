@@ -27,7 +27,12 @@ const APPENDIX_HEADINGS = [
   /^disclaimer/i,
 ];
 
-export const MAGAZINE_APPENDIX_CLASS_TOKENS = new Set(["magazine-appendix"]);
+export const MAGAZINE_APPENDIX_CLASS_TOKENS = new Set([
+  "magazine-appendix",
+  "magazine-sources",
+  "magazine-sources__body",
+  "magazine-sources__label",
+]);
 
 function plainText(html: string) {
   return html
@@ -80,8 +85,29 @@ function contentEnd(html: string) {
     const opening = `<${closer[1].toLowerCase()}`;
     const start = inner.trimStart().toLowerCase();
     if (!start.startsWith(`${opening} `) && !start.startsWith(`${opening}>`)) return index;
+    // "<p>Intro</p> … <p>Schluss</p>" starts and ends with the same tag without one wrapping the other.
+    if (firstElementEnd(html, head.length - head.trimStart().length) !== inner.length) return index;
     index = inner.length;
   }
+}
+
+/** Position of the closing tag that belongs to the element opened at `from`. */
+function firstElementEnd(html: string, from: number) {
+  const stack: string[] = [];
+  TAG.lastIndex = from;
+  for (let match = TAG.exec(html); match; match = TAG.exec(html)) {
+    const tag = match[2].toLowerCase();
+    if (match[3] === "/" || VOID_TAGS.has(tag)) continue;
+    if (match[1] !== "/") {
+      stack.push(tag);
+      continue;
+    }
+    const opened = stack.lastIndexOf(tag);
+    if (opened < 0) return -1;
+    stack.length = opened;
+    if (stack.length === 0) return match.index;
+  }
+  return -1;
 }
 
 /**
@@ -99,7 +125,7 @@ export function normalizeMagazineAppendix(html: string) {
       isAppendix: isAppendixHeading(plainText(match[2])),
     };
   });
-  if (!headings.some((heading) => heading.isAppendix)) return html;
+  if (!headings.some((heading) => heading.isAppendix)) return collapseCredits(html);
 
   const sections: { start: number; end: number; body: string }[] = [];
   for (let index = 0; index < headings.length; index += 1) {
@@ -117,7 +143,7 @@ export function normalizeMagazineAppendix(html: string) {
     sections.push({ start: heading.start, end, body: html.slice(heading.start, end).trim() });
     while (index + 1 < headings.length && headings[index + 1].start < end) index += 1;
   }
-  if (sections.length === 0) return html;
+  if (sections.length === 0) return collapseCredits(html);
 
   let stripped = "";
   let cursor = 0;
@@ -128,7 +154,63 @@ export function normalizeMagazineAppendix(html: string) {
   }
   stripped = (stripped + html.slice(cursor)).replace(EMPTY_WRAPPER, "");
 
-  const block = `<aside class="magazine-appendix">${sections.map((section) => section.body).join("\n")}</aside>`;
-  const end = contentEnd(stripped);
-  return `${stripped.slice(0, end).trimEnd()}\n${block}${stripped.slice(end)}`;
+  const extracted = extractCredits(stripped);
+  return appendBlock(extracted.html, [...sections.map((section) => section.body), ...extracted.credits]);
+}
+
+/**
+ * Image credits the editors put into a quote or paragraph of their own ("Bildquelle: …",
+ * "Quellen: …") join the reference block as well, without a heading of their own.
+ */
+const CREDIT_QUOTE = /<blockquote\b[^>]*>((?:(?!<\/?blockquote\b)[\s\S])*?)<\/blockquote>/gi;
+const CREDIT_PARAGRAPH = /<p\b[^>]*>(?:(?!<\/?p\b)[\s\S])*?<\/p>/gi;
+const CREDIT_TEXT = /^(?:bildquellen?|bildnachweise?|quellen)\s*:/i;
+
+function extractCredits(html: string) {
+  const credits: string[] = [];
+  const take = (block: string, inner: string) => {
+    if (!CREDIT_TEXT.test(plainText(inner))) return block;
+    credits.push(inner.trim());
+    return "";
+  };
+  const withoutQuotes = html.replace(CREDIT_QUOTE, (block, inner: string) => take(block, inner));
+  const withoutParagraphs = withoutQuotes.replace(CREDIT_PARAGRAPH, (block) => take(block, block));
+  return { html: withoutParagraphs.replace(EMPTY_WRAPPER, ""), credits };
+}
+
+function collapseCredits(html: string) {
+  const extracted = extractCredits(html);
+  return extracted.credits.length > 0 ? appendBlock(extracted.html, extracted.credits) : html;
+}
+
+function escapeText(text: string) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/**
+ * The reference block is a native, closed `details` element: small, at the very end and only
+ * taking up room once a reader opens it. The leading heading becomes the summary; further
+ * headings turn into small labels so they neither break the outline nor look like chapters.
+ */
+function appendBlock(html: string, bodies: string[]) {
+  let body = bodies.join("\n");
+  const first = body.match(/^<h[1-6]\b[^>]*>([\s\S]*?)<\/h[1-6]>/i);
+  const headingTexts = [...body.matchAll(HEADING)].map((match) => plainText(match[2]));
+  const label = headingTexts.some((text) => /quell/i.test(text))
+    ? "Quellen & Transparenz"
+    : headingTexts[0] || "Quellen & Transparenz";
+  const firstText = first ? plainText(first[1]) : "";
+  if (first && (firstText === label || /quell|transparenz/i.test(firstText))) body = body.slice(first[0].length).trimStart();
+  body = body.replace(HEADING, (_match, _level, inner: string) => `<p class="magazine-sources__label">${inner.trim()}</p>`);
+
+  const block = [
+    '<details class="magazine-appendix magazine-sources">',
+    `<summary>${escapeText(label)}</summary>`,
+    '<div class="magazine-sources__body">',
+    body,
+    "</div>",
+    "</details>",
+  ].join("\n");
+  const end = contentEnd(html);
+  return `${html.slice(0, end).trimEnd()}\n${block}${html.slice(end)}`;
 }

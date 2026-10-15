@@ -70,13 +70,15 @@ function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
   return sanitizeHtml(normalizeMagazineAppendix(normalizeMagazineMedia(html)), {
-    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img", ...MAGAZINE_AUDIO_TAGS],
+    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img", "details", "summary", ...MAGAZINE_AUDIO_TAGS],
     selfClosing: [...sanitizeHtml.defaults.selfClosing, "source"],
     allowedAttributes: {
       ...MAGAZINE_AUDIO_ATTRIBUTES,
       a: ["href", "name", "target", "title", "rel", "class", "data-dms-internal"],
       aside: ["class"],
       blockquote: ["cite"],
+      details: ["class"],
+      div: ["class"],
       figure: ["class"],
       img: ["src", "srcset", "alt", "title", "width", "height", "loading", "decoding"],
       li: ["value"],
@@ -91,6 +93,8 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
     transformTags: {
       ...magazineAudioTransforms,
       aside: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
+      details: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
+      div: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
       figure: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
       p: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
       a: (tagName, attributes) => {

@@ -114,31 +114,32 @@ export function AntiEyebrowEditorial({ market }: { market: MarketCode }) {
         </div>
       </section>
 
-      <aside className="magazine-appendix" aria-labelledby="anti-eyebrow-quellen">
-        <span className="eyebrow">Fachlich geprüft</span>
-        <h2 id="anti-eyebrow-quellen">Quellen und medizinischer Hinweis</h2>
-        <p>
-          Dieser redaktionelle Überblick ersetzt keine persönliche Beratung, Diagnose oder Behandlung. Bei Beschwerden
-          oder Unsicherheit wende dich an medizinisches Fachpersonal und ein qualifiziertes Piercingstudio.
-        </p>
-        <ul>
-          <li>
-            <a href="https://safepiercing.org/aftercare/" target="_blank" rel="noopener noreferrer nofollow">
-              Association of Professional Piercers: Suggested Aftercare for Body Piercings
-            </a>
-          </li>
-          <li>
-            <a href="https://safepiercing.org/jewelry-for-initial-piercings/" target="_blank" rel="noopener noreferrer nofollow">
-              Association of Professional Piercers: Jewelry for Initial Piercings
-            </a>
-          </li>
-          <li>
-            <a href="https://www.nhs.uk/conditions/infected-piercings/" target="_blank" rel="noopener noreferrer nofollow">
-              NHS: Infected piercings – symptoms and when to get medical help
-            </a>
-          </li>
-        </ul>
-      </aside>
+      <details className="magazine-appendix magazine-sources">
+        <summary>Quellen und medizinischer Hinweis</summary>
+        <div className="magazine-sources__body">
+          <p>
+            Dieser redaktionelle Überblick ersetzt keine persönliche Beratung, Diagnose oder Behandlung. Bei Beschwerden
+            oder Unsicherheit wende dich an medizinisches Fachpersonal und ein qualifiziertes Piercingstudio.
+          </p>
+          <ul>
+            <li>
+              <a href="https://safepiercing.org/aftercare/" target="_blank" rel="noopener noreferrer nofollow">
+                Association of Professional Piercers: Suggested Aftercare for Body Piercings
+              </a>
+            </li>
+            <li>
+              <a href="https://safepiercing.org/jewelry-for-initial-piercings/" target="_blank" rel="noopener noreferrer nofollow">
+                Association of Professional Piercers: Jewelry for Initial Piercings
+              </a>
+            </li>
+            <li>
+              <a href="https://www.nhs.uk/conditions/infected-piercings/" target="_blank" rel="noopener noreferrer nofollow">
+                NHS: Infected piercings – symptoms and when to get medical help
+              </a>
+            </li>
+          </ul>
+        </div>
+      </details>
     </>
   );
 }

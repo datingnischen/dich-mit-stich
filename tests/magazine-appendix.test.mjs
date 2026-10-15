@@ -119,7 +119,13 @@ test("the hand-built piercing source card uses the same collapsed block", async 
     readSource("../app/globals.css"),
   ]);
 
-  assert.match(component, /<details className="magazine-appendix magazine-sources">\s*<summary>Quellen und medizinischer Hinweis<\/summary>/);
+  assert.match(component, /<details className="magazine-appendix magazine-sources">\s*<summary>Quellen<\/summary>/);
+  const notice = component.indexOf('<div className="magazine-notice">');
+  const details = component.indexOf("<details");
+  assert.ok(notice >= 0 && notice < details, "medical notice sits visibly above the collapsed sources");
+  assert.match(component.slice(notice, details), /ersetzt keine persönliche Beratung, Diagnose oder Behandlung/);
+  assert.doesNotMatch(component.slice(details), /ersetzt keine/);
+  assert.match(component.slice(details), /safepiercing\.org\/aftercare/);
   assert.doesNotMatch(component, /<details[^>]*\bopen\b/);
   assert.doesNotMatch(component, /magazine-source-list/);
   assert.doesNotMatch(css, /magazine-source-list/);
@@ -146,4 +152,96 @@ test("chapter-split articles and hub overviews render the reference block once, 
   const overview = await readSource("../components/magazine-hub-overview.tsx");
   assert.match(overview, /splitMagazineAppendix\(html\)/);
   assert.match(overview, /\{appendix \? <MarketHtmlContent market=\{market\} html=\{appendix\} \/> : null\}/);
+});
+
+const NOTICE = /<div class="magazine-notice">([\s\S]*?)<\/div>\s*(?=<details|$)/;
+const DETAILS = /<details class="magazine-appendix magazine-sources">([\s\S]*?)<\/details>/;
+const stripFrontmatter = (source) => source.replace(/^---[\s\S]*?\n---\r?\n/, "");
+
+test("a medical notice inside the sources stays visible above the collapsed block", () => {
+  const html = marketizeSanitizedHtml(
+    [
+      "<p>Text.</p>",
+      "<h2>Quellen und medizinischer Hinweis</h2>",
+      "<p>Dieser Überblick ersetzt keine ärztliche Beratung, Diagnose oder Behandlung.</p>",
+      "<ul><li>NHS: Infected piercings – medizinische Hinweise</li></ul>",
+      "<p>Bildquelle: Medizinisches Archiv</p>",
+    ].join("\n"),
+    "de",
+  );
+
+  const notice = html.match(NOTICE);
+  const details = html.match(DETAILS);
+  assert.ok(notice && details, html);
+  assert.ok(html.indexOf("magazine-notice") < html.indexOf("<details"));
+  assert.match(notice[1], /ersetzt keine ärztliche Beratung/);
+  assert.doesNotMatch(notice[1], /NHS|Bildquelle/);
+  assert.match(details[1], /<summary>Quellen<\/summary>/);
+  assert.match(details[1], /NHS: Infected piercings/);
+  assert.match(details[1], /Bildquelle: Medizinisches Archiv/);
+  assert.doesNotMatch(details[1], /ersetzt keine/);
+  assert.doesNotMatch(html, /<details[^>]*\bopen\b/);
+  assert.equal(html.match(/<details/g).length, 1);
+});
+
+test("a section under a medical or legal notice heading is shown in full, the sources stay collapsed", () => {
+  const html = marketizeSanitizedHtml(
+    [
+      "<p>Text.</p>",
+      "<h2>Quellen</h2>",
+      "<ul><li>safepiercing.org – Aftercare</li></ul>",
+      "<h2>Rechtlicher Hinweis</h2>",
+      "<p>Die Angaben dienen der allgemeinen Information.</p>",
+    ].join("\n"),
+    "de",
+  );
+
+  const notice = html.match(NOTICE);
+  assert.ok(notice, html);
+  assert.match(notice[1], /<p class="magazine-notice__label">Rechtlicher Hinweis<\/p>\s*<p>Die Angaben dienen der allgemeinen Information\.<\/p>/);
+  assert.match(html.match(DETAILS)[1], /safepiercing\.org/);
+  assert.doesNotMatch(html.match(DETAILS)[1], /Rechtlicher Hinweis|allgemeinen Information/);
+});
+
+test("a transparency note without a notice keeps the existing collapsed block", () => {
+  const html = marketizeSanitizedHtml(SOURCES_SECTION, "de");
+  assert.doesNotMatch(html, /magazine-notice/);
+  assert.match(html, BLOCK_START);
+});
+
+test("chapter-split texts move the visible notice together with the collapsed sources", async () => {
+  const { splitMagazineAppendix } = await import("../lib/market-html.ts");
+  const source = await readSource("../content/magazin/beitraege/maori-tribal-tattoo.md");
+  const { body, appendix } = splitMagazineAppendix(stripFrontmatter(source));
+
+  assert.match(appendix, /^<div class="magazine-notice">[\s\S]*ersetzt der Beitrag keine persönliche Beratung[\s\S]*<\/div>\s*<details class="magazine-appendix magazine-sources">[\s\S]*<\/details>$/);
+  assert.doesNotMatch(body, /magazine-notice|<details|Genutzte Quellen/);
+});
+
+test("in every magazine text notices render visibly outside and sources inside the collapsed block", async () => {
+  let withNotice = 0;
+  for (const folder of ["beitraege", "seiten"]) {
+    const dir = new URL(`../content/magazin/${folder}/`, import.meta.url);
+    for (const name of (await readdir(dir)).filter((file) => file.endsWith(".md"))) {
+      const html = marketizeSanitizedHtml(stripFrontmatter(await readFile(new URL(name, dir), "utf8")), "de");
+      const details = html.match(DETAILS);
+      if (details) {
+        assert.doesNotMatch(details[1], /ersetz\w*\s+(?:[^\s.]+\s+){0,3}?(?:keine|nicht)\b[^.]*\b(?:Beratung|Diagnose|Behandlung)/i, name);
+        assert.doesNotMatch(details[1], /<p class="magazine-sources__label">[^<]*Hinweis/i, name);
+      }
+      const notice = html.match(NOTICE);
+      if (!notice) continue;
+      withNotice += 1;
+      assert.equal(html.match(/class="magazine-notice"/g).length, 1, name);
+      assert.doesNotMatch(notice[1], /<li>|Bildquelle|Genutzte Quellen/, name);
+      if (details) assert.ok(html.indexOf('class="magazine-notice"') < html.indexOf("<details"), name);
+    }
+  }
+  assert.ok(withNotice >= 2, `only ${withNotice} texts with a notice found`);
+});
+
+test("the notice is styled as a visible, muted box", async () => {
+  const css = await readSource("../app/globals.css");
+  assert.match(css, /\.magazine-notice \{[^}]*border-left:[^}]*font-size: 14px;/);
+  assert.doesNotMatch(css, /\.magazine-notice[^{]*\{[^}]*display: none/);
 });

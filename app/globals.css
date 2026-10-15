@@ -4229,6 +4229,36 @@ a.pin-cta-follow:hover {
   }
 }
 
+/* Medical or legal notice: stays visible, right above the collapsed sources. */
+.magazine-notice {
+  margin: 2.5rem 0 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--brand);
+  border-radius: 0 8px 8px 0;
+  background: var(--brand-soft);
+  color: var(--foreground);
+  font-size: 14px;
+}
+
+.magazine-notice p {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.magazine-notice p + p {
+  margin-top: 6px;
+}
+
+.magazine-notice .magazine-notice__label {
+  font-weight: 600;
+}
+
+.magazine-notice + .magazine-appendix {
+  margin-top: 1.25rem;
+}
+
 /* Closing reference block: sources, transparency note, image credits. Native details, closed by default, small. */
 .magazine-appendix {
   margin: 2.5rem 0 0;

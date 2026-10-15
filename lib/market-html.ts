@@ -1,6 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 
-import { MAGAZINE_APPENDIX_CLASS_TOKENS, normalizeMagazineAppendix } from "./magazine-appendix.ts";
+import { MAGAZINE_APPENDIX_CLASS_TOKENS, findMagazineAppendix, normalizeMagazineAppendix } from "./magazine-appendix.ts";
 import { MAGAZINE_AUDIO_ATTRIBUTES, MAGAZINE_AUDIO_TAGS, magazineAudioTransforms } from "./magazine-audio.ts";
 import { MAGAZINE_MEDIA_CLASS_TOKENS, normalizeMagazineMedia } from "./magazine-media.ts";
 import { withTrailingSlash, type MarketCode } from "./markets.ts";
@@ -129,7 +129,10 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
  */
 export function splitMagazineAppendix(html: string) {
   const normalized = normalizeMagazineAppendix(normalizeMagazineMedia(html));
-  const match = normalized.match(/<details class="magazine-appendix[^"]*">[\s\S]*?<\/details>/);
-  if (!match) return { body: html, appendix: "" };
-  return { body: normalized.replace(match[0], ""), appendix: match[0] };
+  const found = findMagazineAppendix(normalized);
+  if (!found) return { body: html, appendix: "" };
+  return {
+    body: normalized.slice(0, found.start) + normalized.slice(found.end),
+    appendix: normalized.slice(found.start, found.end),
+  };
 }

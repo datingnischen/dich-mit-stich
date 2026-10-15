@@ -114,13 +114,17 @@ export function AntiEyebrowEditorial({ market }: { market: MarketCode }) {
         </div>
       </section>
 
+      <div className="magazine-notice">
+        <p className="magazine-notice__label">Medizinischer Hinweis</p>
+        <p>
+          Dieser redaktionelle Überblick ersetzt keine persönliche Beratung, Diagnose oder Behandlung. Bei Beschwerden
+          oder Unsicherheit wende dich an medizinisches Fachpersonal und ein qualifiziertes Piercingstudio.
+        </p>
+      </div>
+
       <details className="magazine-appendix magazine-sources">
-        <summary>Quellen und medizinischer Hinweis</summary>
+        <summary>Quellen</summary>
         <div className="magazine-sources__body">
-          <p>
-            Dieser redaktionelle Überblick ersetzt keine persönliche Beratung, Diagnose oder Behandlung. Bei Beschwerden
-            oder Unsicherheit wende dich an medizinisches Fachpersonal und ein qualifiziertes Piercingstudio.
-          </p>
           <ul>
             <li>
               <a href="https://safepiercing.org/aftercare/" target="_blank" rel="noopener noreferrer nofollow">

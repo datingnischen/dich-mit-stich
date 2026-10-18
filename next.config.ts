@@ -202,6 +202,27 @@ export default function nextConfig(phase: string): NextConfig {
           destination: "/tattoo-studios/hannover/",
           permanent: true,
         },
+        // Alte ICONY-Stadtseiten (2021), heute die Stadtseiten unter /tattoo-singles/
+        {
+          source: "/partnersuche/baden-wuerttemberg/stuttgart",
+          destination: "/tattoo-singles/stuttgart/",
+          permanent: true,
+        },
+        {
+          source: "/partnersuche/bayern/muenchen",
+          destination: "/tattoo-singles/muenchen/",
+          permanent: true,
+        },
+        {
+          source: "/partnersuche/hamburg/hamburg",
+          destination: "/tattoo-singles/hamburg/",
+          permanent: true,
+        },
+        {
+          source: "/partnersuche/:path*",
+          destination: "/tattoo-singles/",
+          permanent: true,
+        },
       ]);
     },
     async rewrites() {

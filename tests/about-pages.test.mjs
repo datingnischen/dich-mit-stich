@@ -293,6 +293,20 @@ test("redirects legacy trust URLs to exact destinations in the new hierarchy", a
   assert.doesNotMatch(config, /source: "\/unsere-erfolgsgeschichten\.html"/);
 });
 
+test("redirects old ICONY city pages under /partnersuche/ to the tattoo-singles city pages", async () => {
+  const config = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+  const expected = [
+    ["/partnersuche/baden-wuerttemberg/stuttgart", "/tattoo-singles/stuttgart"],
+    ["/partnersuche/bayern/muenchen", "/tattoo-singles/muenchen"],
+    ["/partnersuche/hamburg/hamburg", "/tattoo-singles/hamburg"],
+    ["/partnersuche/:path\\*", "/tattoo-singles"],
+  ];
+
+  for (const [source, destination] of expected) {
+    assert.match(config, new RegExp(`source: \\"${source}\\"[\\s\\S]{0,100}destination: \\"${destination}/\\"`));
+  }
+});
+
 test("overview tiles open with an emotional full-bleed image in every market", async () => {
   const { getAboutPage } = await loadAboutPages();
   const { existsSync } = await import("node:fs");

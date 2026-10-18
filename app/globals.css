@@ -1488,6 +1488,19 @@ img {
   color: #fff;
 }
 
+.author-social-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  background: center / contain no-repeat;
+}
+
+.author-box-socials a:hover .author-social-icon,
+.author-contact-socials a:hover .author-social-icon {
+  filter: brightness(0) invert(1);
+}
+
 .author-box-bio-link {
   color: var(--brand);
   font-weight: 700;

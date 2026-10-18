@@ -67,6 +67,10 @@ export default function nextConfig(phase: string): NextConfig {
       // Unter dem Asset-Präfix, damit alle App-Dateien unter /app-assets/ liegen; der Rewrite unten
       // leitet /app-assets/_next/image auf den Vercel-Bildoptimierer weiter.
       path: isDev ? "/_next/image" : `${assetHost}${assetPathPrefix}/_next/image`,
+      // Knappe Breitenlisten: Bilder mit px-sizes bekommen sonst alle 15 Standardbreiten ins srcset,
+      // das blähte das HTML (Semrush: niedriges Text-HTML-Verhältnis, Trello #1252).
+      deviceSizes: [640, 828, 1200, 1920],
+      imageSizes: [96, 256, 384],
       remotePatterns: [
         {
           protocol: "https",

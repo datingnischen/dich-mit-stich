@@ -16,7 +16,7 @@
 const ASSET_BASE = "https://dich-mit-stich.vercel.app/app-assets";
 export const TEASER_IMAGE_NAMESPACE = ["datingnischen", "v1", "bild"] as const;
 
-const ALLOWED_PATH = /^\/(?:(?:magazin|kochbuch|magazine)\/(?:wp-content\/uploads|media)|imported|brand|city-images)\//;
+const ALLOWED_PATH = /^\/(?:(?:magazin|kochbuch|magazine)\/(?:wp-content\/uploads|media)|imported|brand|city-images|cities)\//;
 const MIME: Record<string, string> = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", avif: "image/avif" };
 
 /** Asset-Pfad aus einer absoluten oder relativen Bildadresse: "https://x.vercel.app/app-assets/a/b.jpg" -> "/a/b.jpg". */

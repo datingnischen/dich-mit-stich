@@ -209,3 +209,44 @@ test("Route: Quelltext-Muster der Next.js-Routen und Dateiverfolgung", () => {
   const lib = readFileSync(new URL("lib/wp-rest-compat.ts", root), "utf8");
   assert.doesNotMatch(lib, /loadMagazinePages|tattoo-studio|staedte/, "keine Seiten, Studios oder Städte");
 });
+
+// Heiko (2026-10-19): .at/.ch-Startseiten holten die Teaser von .de, Bilder scheiterten an der CSP (img-src 'self').
+test("AT/CH-Knoten: drei größte Städteseiten mit Link und Bild auf der Landesdomain", async () => {
+  const { loadMarketTeaserSource } = await import("../lib/wp-market-teasers.ts");
+  const expected = { at: ["wien", "graz", "linz"], ch: ["zuerich", "genf", "basel"] };
+  for (const [market, slugs] of Object.entries(expected)) {
+    const result = handleWpRest("/wp/v2/posts", new URLSearchParams("per_page=3&_embed=1"), loadMarketTeaserSource(market));
+    assert.equal(result.status, 200);
+    assert.deepEqual(result.body.map((post) => post.slug), slugs, market);
+    for (const post of result.body) {
+      assert.equal(post.link, `https://dich-mit-stich.${market}/tattoo-singles/${post.slug}/`);
+      assert.ok(post.title.rendered.length > 10);
+      assert.ok(post.excerpt.rendered.length > 50);
+      const media = post._embedded["wp:featuredmedia"][0];
+      const url = `https://dich-mit-stich.${market}/magazin/wp-json/datingnischen/v1/bild/cities/${market}/${post.slug}~jpg`;
+      assert.equal(media.source_url, url);
+      assert.equal(media.media_details.sizes.medium_large.source_url, url);
+      assert.ok(media.media_details.width > 0 && media.media_details.height > 0);
+    }
+  }
+});
+
+test("proxy: /at und /ch vor wp-json gehen ohne Umleitung an den Länderknoten", async () => {
+  const { proxy } = await import("../proxy.ts");
+  const request = (path) => new NextRequest(`https://dich-mit-stich.vercel.app${path}`, { headers: { host: "dich-mit-stich.vercel.app" } });
+  for (const market of ["at", "ch"]) {
+    for (const path of [`/${market}/magazin/wp-json/wp/v2/posts?per_page=3&_embed`, `/${market}/magazin/wp-json/wp/v2/posts/?per_page=3&_embed`, `/${market}/magazin/index.php?rest_route=/wp/v2/posts&per_page=3&_embed`]) {
+      const response = proxy(request(path));
+      assert.equal(response.headers.get("location"), null, path);
+      const target = response.headers.get("x-middleware-rewrite") ?? "";
+      assert.match(target, /\/magazin\/wp-json\/wp\/v2\/posts\/?\?/, path);
+      assert.match(target, new RegExp(`dms_market=${market}`), path);
+      assert.match(target, /_embed=1/, path);
+    }
+    const image = proxy(request(`/${market}/magazin/wp-json/datingnischen/v1/bild/cities/${market}/wien~jpg`)).headers.get("x-middleware-rewrite") ?? "";
+    assert.match(image, /\/magazin\/wp-json\/datingnischen\/v1\/bild\/cities\//);
+  }
+  // .de bleibt ohne Länderparameter, ein von außen gesetzter wird entfernt.
+  const de = proxy(request("/de/magazin/wp-json/wp/v2/posts?per_page=3&dms_market=at")).headers.get("x-middleware-rewrite") ?? "";
+  assert.doesNotMatch(de, /dms_market/);
+});

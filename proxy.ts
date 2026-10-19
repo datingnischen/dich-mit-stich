@@ -50,25 +50,31 @@ function trailingSlashRedirect(request: NextRequest) {
 
 // WordPress-kompatibler REST-Endpunkt des Magazins (app/cms-mag/wp-json, app/magazin/wp-json): JSON ohne
 // Slash-Umleitung und ohne Marktlogik. ICONY ruft /cms-mag/wp-json/wp/v2/posts, ?rest_route= und
-// index.php?rest_route= auf; nginx stellt dem Pfad für die .de-Domain /de voran.
-const WP_REST_PATH = /^\/(?:de\/)?(?:cms-mag|magazin)\/wp-json(?:\/|$)/;
-const WP_REST_ENTRY = /^\/(?:de\/)?(cms-mag|magazin)(?:\/index\.php)?\/?$/;
+// index.php?rest_route= auf; nginx stellt dem Pfad je Domain /de, /at oder /ch voran. Für .at/.ch hängt der
+// Rewrite dms_market an: Der Länderknoten liefert statt der .de-Beiträge die größten Städteseiten des Landes
+// (lib/wp-market-teasers.ts). Als Query-Parameter, damit der CDN-Cache die Länder getrennt hält.
+const WP_REST_PATH = /^\/(?:(de|at|ch)\/)?(?:cms-mag|magazin)\/wp-json(?:\/|$)/;
+const WP_REST_ENTRY = /^\/(?:(de|at|ch)\/)?(cms-mag|magazin)(?:\/index\.php)?\/?$/;
 
 function wpRestRequest(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const restRoute = searchParams.get("rest_route");
   const entry = restRoute !== null ? pathname.match(WP_REST_ENTRY) : null;
-  if (!entry && !WP_REST_PATH.test(pathname)) return null;
+  const path = entry ? null : pathname.match(WP_REST_PATH);
+  if (!entry && !path) return null;
 
+  const market = entry ? entry[1] : path![1];
   const destination = request.nextUrl.clone();
+  destination.searchParams.delete("dms_market");
   if (entry && restRoute !== null) {
     destination.searchParams.delete("rest_route");
-    destination.pathname = `/${entry[1]}/wp-json/${restRoute.replace(/^\/+/, "")}`;
-  } else if (pathname.startsWith("/de/")) {
-    destination.pathname = pathname.slice(3);
-  } else {
+    destination.pathname = `/${entry[2]}/wp-json/${restRoute.replace(/^\/+/, "")}`;
+  } else if (market) {
+    destination.pathname = pathname.slice(market.length + 1);
+  } else if (!searchParams.has("dms_market")) {
     return NextResponse.next();
   }
+  if (market === "at" || market === "ch") destination.searchParams.set("dms_market", market);
   // Vercel verwirft bei Rewrites Parameter ohne Wert; ICONY ruft "?_embed" ohne Wert auf (WordPress-Schreibweise).
   // Ohne diese Angleichung fehlten hinter nginx (Upstream-Pfad /de/…) die eingebetteten Beitragsbilder.
   if (destination.searchParams.has("_embed") && destination.searchParams.get("_embed") === "") {

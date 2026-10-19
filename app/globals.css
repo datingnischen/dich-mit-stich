@@ -1068,11 +1068,15 @@ img {
   gap: 7px;
 }
 
-.footer-city-link-icon {
+/* Pin als CSS-Maske statt Inline-SVG je Link (HTML + RSC, Trello #1252). */
+.footer-column a.footer-city-link::before {
+  content: "";
   width: 15px;
   height: 15px;
   flex: 0 0 auto;
-  color: #f292b6;
+  background: #f292b6;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.6'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .footer-column a:hover,
@@ -1093,12 +1097,6 @@ img {
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   color: rgba(255, 255, 255, 0.48);
   font-size: 0.88rem;
-}
-
-.sub-footer-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2761,10 +2759,6 @@ img {
 
   .footer-cta-button {
     width: 100%;
-  }
-
-  .sub-footer-links {
-    flex-wrap: wrap;
   }
 
   .sticky-cta-button {

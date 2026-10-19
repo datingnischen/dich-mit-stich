@@ -493,7 +493,8 @@ test("studio locations and city text links use a consistent place treatment", as
   assert.match(city, /className="studio-place-card"/);
   assert.match(city, /Standort in \{guide\.cityName\}/);
   assert.match(shell, /function isCityLink/);
-  assert.match(shell, /<LocationPinIcon className="footer-city-link-icon"/);
+  assert.match(shell, /className=\{cityLink \? "footer-city-link" : undefined\}/);
+  assert.match(css, /\.footer-column a\.footer-city-link::before\s*\{/);
   assert.match(css, /\.studio-place-card\s*\{/);
   assert.match(css, /\.studio-place-icon\s*\{/);
   assert.match(css, /\.footer-city-link\s*\{/);

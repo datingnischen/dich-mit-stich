@@ -58,7 +58,7 @@ test("footer keeps its link diversity inside four intentional topic groups", asy
     "Unser Expertenteam",
     "Studio-Guide Übersicht",
     "Tattoo-Singles Übersicht",
-    "Kostenlos registrieren",
+    "Kostenlose Basis-Mitgliedschaft",
     "Datenschutz",
   ]) {
     assert.match(shell, new RegExp(`label: "${link}"`));
@@ -126,4 +126,16 @@ test("all non-magazine public registration surfaces default to location attribut
     assert.match(source, /conversionUrl\([^\n]+"\/registration\/", "location"\)/);
     assert.doesNotMatch(source, /href=\{publicUrl\([^\n]+"\/registration\/"\)\}/);
   }
+});
+
+test("footer stays lean: static logo, CSS pins, no duplicate conversion links", async () => {
+  const [shell, css] = await Promise.all([read("components/site-shell.tsx"), read("app/globals.css")]);
+
+  assert.doesNotMatch(shell, /from "next\/image"/);
+  assert.match(shell, /dich-mit-stich-logo-header-600\.webp/);
+  assert.doesNotMatch(shell, /LocationPinIcon/);
+  assert.match(css, /\.footer-column a\.footer-city-link::before\s*\{[^}]*mask:/);
+  assert.doesNotMatch(shell, /sub-footer-links/);
+  assert.doesNotMatch(shell, /label: "Kostenlos registrieren"/);
+  assert.equal((shell.match(/conversionHref\(market, "\/registration\/", aid\)/g) ?? []).length, 2);
 });

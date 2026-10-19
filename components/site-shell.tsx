@@ -1,6 +1,4 @@
-import Image from "next/image";
 import { HeaderCompactWatcher } from "@/components/header-compact-watcher";
-import { LocationPinIcon } from "@/components/location-pin-icon";
 import { MarketLink } from "@/components/market-link";
 import { SiteSearchForm } from "@/components/site-search-form";
 import { conversionUrl, type ConversionAid } from "@/lib/conversion-links";
@@ -143,7 +141,6 @@ const footerColumns: Array<{
     title: "Mitgliedschaft",
     links: [
       { label: "Singlebörse", href: "https://dich-mit-stich.de/?AID=magazin", external: true },
-      { label: "Kostenlos registrieren", href: "https://dich-mit-stich.de/registration/", external: true },
       { label: "Login", href: "https://dich-mit-stich.de/login/", external: true },
       { label: "Kostenlose Basis-Mitgliedschaft", href: "https://dich-mit-stich.de/kostenlose-basis-mitgliedschaft.html", external: true },
     ],
@@ -166,12 +163,14 @@ const footerGroups = [
   { title: "Mitmachen & Service", columns: footerColumns.slice(6, 8) },
 ];
 
-const HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-header.jpg");
+// Statisches WebP (600 px = 2x der Kopfzeile) statt next/image: das srcset mit sieben langen
+// Optimierer-URLs stand in Kopf- und Fußzeile jeder Seite (Text-HTML-Verhältnis, Trello #1252).
+const HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-header-600.webp");
 const AT_HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-at.svg");
 const CH_HEADER_LOGO_URL = staticAsset("/brand/dich-mit-stich-logo-ch.svg");
 
 const BRAND_LOGOS: Record<MarketCode, { src: string; alt: string; width: number; height: number }> = {
-  de: { src: HEADER_LOGO_URL, alt: "dich-mit-stich.de", width: 691, height: 140 },
+  de: { src: HEADER_LOGO_URL, alt: "dich-mit-stich.de", width: 600, height: 122 },
   at: { src: AT_HEADER_LOGO_URL, alt: "dich-mit-stich.at", width: 345, height: 60 },
   ch: { src: CH_HEADER_LOGO_URL, alt: "dich-mit-stich.ch", width: 1417, height: 283 },
 };
@@ -225,14 +224,16 @@ function BrandLogo({ footer = false, market }: { footer?: boolean; market: Marke
       targetMarket={market}
       aria-label="Dich mit Stich Startseite"
     >
-      <Image
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         className={`brand-logo-image ${footer ? "brand-logo-image-footer" : "brand-logo-image-header"}`}
         src={logo.src}
         alt={logo.alt}
         width={logo.width}
         height={logo.height}
-        sizes={footer ? "260px" : "220px"}
-        priority={!footer}
+        decoding="async"
+        loading={footer ? "lazy" : undefined}
+        fetchPriority={footer ? undefined : "high"}
       />
     </MarketLink>
   );
@@ -431,7 +432,6 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
                           return (
                             <li key={`${column.title}-${link.label}`}>
                               <a className={cityLink ? "footer-city-link" : undefined} href={marketHref(link, market, aid)} {...externalAttrs(link.external)}>
-                                {cityLink ? <LocationPinIcon className="footer-city-link-icon" /> : null}
                                 <span>{link.label}</span>
                               </a>
                             </li>
@@ -449,10 +449,6 @@ export function SiteFooter({ market = "de", sectionLive = false, stickyCta = fal
         <div className="sub-footer">
           <div>
             <span>© {new Date().getFullYear()} Dich mit Stich</span>
-          </div>
-          <div className="sub-footer-links">
-            <a href={conversionHref(market, "/registration/", aid)}>Registrieren</a>
-            <a href={publicUrl(market, "/login/")}>Login</a>
           </div>
         </div>
       </div>

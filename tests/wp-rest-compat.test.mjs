@@ -248,5 +248,6 @@ test("proxy: /at und /ch vor wp-json gehen ohne Umleitung an den Länderknoten",
   }
   // .de bleibt ohne Länderparameter, ein von außen gesetzter wird entfernt.
   const de = proxy(request("/de/magazin/wp-json/wp/v2/posts?per_page=3&dms_market=at")).headers.get("x-middleware-rewrite") ?? "";
-  assert.doesNotMatch(de, /dms_market/);
+  assert.match(de, /dms_market=de/);
+  assert.doesNotMatch(de, /dms_market=at/);
 });

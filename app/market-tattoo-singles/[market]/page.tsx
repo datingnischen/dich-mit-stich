@@ -25,9 +25,17 @@ const AT_OVERVIEW_HERO = {
     width: 1170,
     height: 659,
     assetKey: "legacy-icony-at-home-hero",
-    sourceUrl:
+    // Nur Herkunftsvermerk, wird nicht gerendert: Bild liegt im Repo unter public/.
+    originalImageUrl:
       "https://static2.icony-hosting.de/dyncontentbf91b1bc561a9d20d467d3270352d3e5/img/generic2021/frontpage-v4/backgrounds/frontpage-visual-dichmitstich.webp",
   },
+};
+
+const CH_OVERVIEW_IMAGE = {
+  path: "/images/ch/dich-mit-stich-ch-partnersuche.jpg",
+  // Nur Herkunftsvermerk, wird nicht gerendert: Bild liegt im Repo unter public/.
+  originalImageUrl:
+    "https://static-cms.icony-hosting.de/cms/639CB037D8430757BEE61CDBFF2A243E7794CCCBA1E5242CB0B73A56AB076DB4/1000/dich-mit-stich-ch-partnersuche.jpg",
 };
 
 function isSupportedMarket(value: string): value is MarketCode {
@@ -60,11 +68,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-function AttributionCaption({ sourceUrl }: { sourceUrl: string }) {
+function AttributionCaption({ imagePath }: { imagePath: string }) {
   return (
     <figcaption>
       <ui-strong>Bild:</ui-strong> Dich mit Stich. Für das Dich-mit-Stich-Projektportfolio freigegeben.{" "}
-      <a href={sourceUrl} rel="noreferrer">
+      <a href={staticAsset(imagePath)}>
         Originaldatei
       </a>
     </figcaption>
@@ -97,7 +105,7 @@ function AtOverviewSection({ overview }: Awaited<ReturnType<typeof getCityOvervi
             priority
             sizes="(max-width: 760px) 100vw, 980px"
           />
-          <AttributionCaption sourceUrl={AT_OVERVIEW_HERO.image.sourceUrl} />
+          <AttributionCaption imagePath={AT_OVERVIEW_HERO.image.path} />
         </figure>
         <div className="button-row">
           <a className="button button-primary" href={conversionUrl(publicUrl("at"), "/registration/", "location")}>
@@ -154,14 +162,14 @@ function ChOverviewSection({ overview }: Awaited<ReturnType<typeof getCityOvervi
         <p>{overview.description}</p>
         <figure className="market-overview-asset" data-market-overview-asset="legacy-icony-3506">
           <Image
-            src={staticAsset("/images/ch/dich-mit-stich-ch-partnersuche.jpg")}
+            src={staticAsset(CH_OVERVIEW_IMAGE.path)}
             alt="Tattoo-Singles nach Region in der Schweiz"
             width={1000}
             height={563}
             priority
             sizes="(max-width: 760px) 100vw, 980px"
           />
-          <AttributionCaption sourceUrl="https://static-cms.icony-hosting.de/cms/639CB037D8430757BEE61CDBFF2A243E7794CCCBA1E5242CB0B73A56AB076DB4/1000/dich-mit-stich-ch-partnersuche.jpg" />
+          <AttributionCaption imagePath={CH_OVERVIEW_IMAGE.path} />
         </figure>
         <div className="button-row">
           <a className="button button-primary" href={conversionUrl(publicUrl("ch"), "/registration/", "location")}>

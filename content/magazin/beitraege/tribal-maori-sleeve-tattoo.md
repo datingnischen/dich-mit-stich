@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2025/09/tribal-sleeve-tattoo.png
 imageAlt: Tribal Sleeve Tattoo im Maori-Stil mit schwarzen Mustern
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/tribal-maori-sleeve-tattoo-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <article>Tribal und Maori Sleeves arbeiten mit kraftvollen, schwarzen Mustern: Spiralen, Dreiecke, Koru-Formen. Sie wirken grafisch, zeitlos und symbolstark. Der Stil passt besonders gut, wenn du eine klare, markante Optik suchst und Wert auf starke Kontraste legst. Gerade bei einem Sleeve ist es wichtig, dass die Flächen ruhig genug geplant sind, damit das Motiv am Arm harmonisch wirkt.<p></p>
 <h2>Beispiel für ein Tribal / Maori Sleeve Tattoo</h2>
 <p><img loading="lazy" decoding="async" src="/magazin/wp-content/uploads/2025/09/tribal-sleeve-tattoo-200x300.png" alt="Tribal Sleeve Tattoo im Maori-Stil mit schwarzen Mustern" width="600" height="900" srcset="/magazin/wp-content/uploads/2025/09/tribal-sleeve-tattoo-200x300.png 200w, /magazin/wp-content/uploads/2025/09/tribal-sleeve-tattoo-683x1024.png 683w, /magazin/wp-content/uploads/2025/09/tribal-sleeve-tattoo-768x1152.png 768w, /magazin/wp-content/uploads/2025/09/tribal-sleeve-tattoo.png 1024w" /></p>

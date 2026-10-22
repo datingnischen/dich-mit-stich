@@ -13,6 +13,9 @@ author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/03/Tattoo-Schriftarten-Schriftzuege-Sprueche.jpg
 imageAlt: 'Tattoo Schriftarten, Schriftzüge & Sprüche'
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/tattoo-schriftzuege-schriftarten-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <p>Es ist ja in jetziger Zeit nicht mehr ungewöhnlich, sich am Körper etwas stechen zu lassen. Ideen und Motive gibt es wie Sand am Meer, dennoch hat jeder seine eigene Persönlichkeit und Vorstellungen, wie es aussehen soll. Das kann ein markanter Satz sein, ein wichtiges Datum der Kinder z. B. oder ein Wort der Liebe. Wem das Zauberwort für die Auserwählte nicht reicht, der lässt sich eben ein Konterfei seiner Geliebten stechen. Es muss ja nicht gerade auf der Stirn sein und die Persönlichkeit beeinträchtigen.</p>
 <p>Es sind aber nicht nur die Worte, die Eindruck machen sollen, oder auf eine Bedeutung hinweisen. Im Laufe der Zeit haben sich auch die Schriftarten verändert. Vor gar nicht so langer Zeit prangte auf dem Arm noch ein Wort oder Spruch in Gothic Buchstaben. Dieser Trend ist kaum noch sichtbar, da sich in letzter Zeit immer mehr der Trend zu filigranen Buchstaben durchsetzt. Was nicht alleine daran liegt, dass die Tattoo-Nadeln immer feiner werden und so auch ein Höchstmaß an Feinarbeit und Präzision bieten können.</p>
 <h2>Einmal drauf, nimmt das Tattoo seinen Lauf</h2>

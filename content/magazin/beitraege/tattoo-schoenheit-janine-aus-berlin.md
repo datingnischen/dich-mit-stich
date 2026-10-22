@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2018/10/Janine-Mama-aus-Berlin-Titelbild.jpg
 imageAlt: Tattoo-Schönheit - Janine Mama aus Berlin
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/tattoo-schoenheit-janine-aus-berlin-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <p>Heute stellen wir euch die Tattoo-Schönheit Janine vor. Sie ist dreifache Mama und hat einen traumhaften Körper. Sie ist fast am ganzen Körper tätowiert. <a href="https://dich-mit-stich.de/magazin/tattoos-fuer-maenner/">Männer</a> und Frauen aufgepasst: Hier ist Janine aus Berlin.<br />
 </p>
 <hr />

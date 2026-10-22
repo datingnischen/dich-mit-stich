@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2025/09/neo-traditional-sleeve-tattoo.png
 imageAlt: 'Neo-Traditional Sleeve Tattoo mit Tiger, Eule und Schiff'
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/neo-traditional-sleeve-tattoo-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <article>Neo-Traditional Sleeves verbinden kräftige Linien mit satten Farben. Beliebt sind Tiere, Schiffe oder mythische Figuren – modern interpretiert und extrem kontrastreich.<p></p>
 <h2>Beispiel für ein Neo-Traditional Sleeve Tattoo</h2>
 <p><img loading="lazy" decoding="async" src="/magazin/wp-content/uploads/2025/09/neo-traditional-sleeve-tattoo-200x300.png" alt="Neo-Traditional Sleeve Tattoo mit Tiger, Eule und Schiff" width="600" height="900" srcset="/magazin/wp-content/uploads/2025/09/neo-traditional-sleeve-tattoo-200x300.png 200w, /magazin/wp-content/uploads/2025/09/neo-traditional-sleeve-tattoo-683x1024.png 683w, /magazin/wp-content/uploads/2025/09/neo-traditional-sleeve-tattoo-768x1152.png 768w, /magazin/wp-content/uploads/2025/09/neo-traditional-sleeve-tattoo.png 1024w" /></p>

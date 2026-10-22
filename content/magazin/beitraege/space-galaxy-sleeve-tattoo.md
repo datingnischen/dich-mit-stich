@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2025/09/space-galaxy-sleeve-tattoo-1.png
 imageAlt: Sleeve Tattoo mit Astronauten und Planeten
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/space-galaxy-sleeve-tattoo-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <article>
 <p>Space &amp; Galaxy Sleeves zeigen Astronauten, Planeten, Nebel und Galaxien – farbintensiv und spektakulär. Perfekt für alle, die das Universum lieben.</p>
 <p>Der Stil lebt von Tiefe, Kontrasten und einer Bildsprache, die oft zwischen realistischen Elementen und träumerischen Farbverläufen steht. Gerade auf einem großflächigen Sleeve kann diese Kombination besonders gut wirken, weil sich einzelne Motive wie Sterne, Planeten oder Nebel über den ganzen Arm zu einer zusammenhängenden Szene verbinden lassen.</p>

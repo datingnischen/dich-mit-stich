@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2018/12/Tattoo-im-Alter.jpg
 imageAlt: Tattoos im Alter
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/tattoos-im-alter-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <h2>Einleitende Worte zum Thema Tattoos im Alter</h2>
 <p>Tattoos sind ein Trend, der in den letzten Jahrzehnten enormen Anklang gefunden hat und längst nicht mehr verpönt ist. Was einst bei den Urvölkern aus verschiedensten Motivationen heraus begonnen hat, ist heutzutage zu einer regelrechten Modewelle geworden. </p>
 <p>Mittlerweile findet man tätowierte Menschen in jeder Gesellschaftsschicht von jung bis alt. Dass ein Tattoo für die Ewigkeit gedacht ist, beweist uns die jedem bekannte Gletschermumie Ötzi, bei der sogar heute noch Tätowierungen zu erkennen sind.<br />

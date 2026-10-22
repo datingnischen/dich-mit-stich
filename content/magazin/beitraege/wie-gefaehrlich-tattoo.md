@@ -13,6 +13,9 @@ author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/05/pexels-photo-365347.jpeg
 imageAlt: Wie gefährlich ist Tattoo
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/wie-gefaehrlich-tattoo-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <h2>Tätowierungen – Wie hoch ist das gesundheitliche Risiko?</h2>
 <p>Tätowierungen liegen seit Jahren im Trend und erfreuen sich besonders bei der Altersgruppe bis 35 nach wie vor großer Beliebtheit.</p>
 <p>Wer sich für ein Tattoo interessiert, denkt oft zuerst an das Motiv. Ebenso wichtig ist aber die Frage, welche gesundheitlichen Risiken grundsätzlich mit dem Stechen verbunden sein können. Dazu zählen vor allem Entzündungen, Narbenbildung, allergische Reaktionen und Probleme bei der Beurteilung der Haut. Wie groß das Risiko im Einzelfall ist, hängt unter anderem von der Haut, der Hygiene und den verwendeten Farben ab.</p>

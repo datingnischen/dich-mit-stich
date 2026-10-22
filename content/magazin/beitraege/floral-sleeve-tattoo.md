@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2025/09/floral-sleeve-tattoo-blumen.png
 imageAlt: Floral Sleeve Tattoo mit Rosen und Blättern in Black & Grey
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/floral-sleeve-tattoo-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <article>
 <p>Floral Sleeves nutzen Rosen, Pfingstrosen, Lotus &amp; Co. – häufig in Black &amp; Grey, manchmal farbig. Sie wirken elegant, harmonisch und zeitlos, wobei Blätter das Motiv oft besonders stimmig ergänzen.</p>
 <p>Beliebt sind solche Sleeves vor allem, weil sich Blüten, Blätter und fließende Übergänge gut zu einer zusammenhängenden Komposition verbinden lassen. Gerade Rosen und weiche Blattformen sorgen oft für eine ruhige Gesamtwirkung, die sowohl auffällig als auch ausgewogen wirken kann.</p>

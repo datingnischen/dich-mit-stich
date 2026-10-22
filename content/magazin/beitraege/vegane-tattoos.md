@@ -13,6 +13,9 @@ author: anne-schweitzer
 image: /magazin/wp-content/uploads/2022/05/vegane-tatoos.jpg
 imageAlt: vegane- tatoos
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/vegane-tattoos-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <p>Nur weil du vegan lebst, musst du nicht auf Tattoos verzichten. Ein veganes Tattoo bedeutet in der Praxis meist nicht nur vegane Farbe, sondern auch einen genaueren Blick auf Studio-Produkte, Vorbereitung und Nachsorge. Es gibt also ein paar Punkte, die du beachten und vorab mit dem Tattoo Studio deiner Wahl besprechen solltest.</p>
 <p>Jetzt fragst du dich wahrscheinlich, was an einem Tattoo nicht vegan sein kann? Abgesehen von der Farbe an sich gibt es rund um das Stechen einige Produkte, die dir einen Strich durch die Rechnung machen können. Aber zunächst geht es um Details, die nur wenige beachten, aber durchaus wichtig sein können. Wenn du dich für eine/n Künstler/in entscheidest, möchtest du vielleicht vorab recherchieren, welcher <a href="https://dich-mit-stich.de/magazin/tattoo-stile/">Stil</a> und welche <a href="https://dich-mit-stich.de/magazin/tattoo-motive/">Motive</a> ihm oder ihr bekannt sind.</p>
 <p>Als Veganerin fühlt es sich nämlich nicht gut an, nachträglich herauszufinden, dass der/die Künstler/in des Vertrauens besonders gerne und oft brutale Tiermotive sticht. Nicht nur die Farbe, sondern auch die Kunst geht unter die Haut und da kann es wichtig sein, mit dem Künstler bestimmte Werte zu teilen. Das bedeutet natürlich nicht, dass dein/e Lieblingskünstler/in notgedrungen selbst vegan leben muss!</p>

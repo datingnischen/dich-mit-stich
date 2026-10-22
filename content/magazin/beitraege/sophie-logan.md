@@ -13,6 +13,9 @@ author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/01/Sophie-Logan-Erotikstar-1.jpg
 imageAlt: Sophie Logan Erotikstar
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/sophie-logan-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <p><strong>Sophie Logan</strong> ist ein wasserstoffblondes Tattoo Model aus Deutschland und darüber hinaus ein bekannter Erotik-Star. Sie hat bereits mit den angesagtesten deutschen Stars und Models gedreht und unter anderem für Beate Uhse und Inflagranti-Film vor der Kamera gestanden. Ihre nach wie vor tolle Figur erhält sie sich mit regelmäßigen Workouts und gesunder Ernährung. Ihren fitten Körper zeigt sie gern und häufig und präsentiert dabei auch ihre kunstvollen Tattoos, auf die sie besonders stolz ist. Sophie Logan ist mit Sicherheit eine sehr spannende Persönlichkeit in der Szene hierzulande.</p>
 <h2>Steckbrief</h2>
 <ul>

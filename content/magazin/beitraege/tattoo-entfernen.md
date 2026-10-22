@@ -13,6 +13,9 @@ author: anne-schweitzer
 image: /magazin/wp-content/uploads/2018/10/tattoo-entfernen-lassen.jpg
 imageAlt: Tattoo Entfernung - Tattoo entfernen lassen
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/tattoo-entfernen-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <h2>Drum prüfe, wer sich ewig bindet…</h2>
 <p>Immer häufiger sind sie heutzutage zu sehen – Tätowierungen. Was früher als Stigma für Strafgefangene oder Seefahrer galt, ist heute fast gang und gäbe. Nach einer Umfrage des Statistik-Portals Statista.de aus dem Jahr 2017 haben gute 25 % der Deutschen mindestens ein Tattoo. Doch was ist, wenn das Motiv nicht mehr gefällt oder die Liebelei, die die Tätowierung der Welt zeigen sollte, endet?</p>
 <p></p>

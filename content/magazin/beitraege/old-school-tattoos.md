@@ -13,6 +13,9 @@ author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/04/Old-School-Tattoos.jpg
 imageAlt: Old School Tattoos (Traditionals)
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/old-school-tattoos-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <p>Bei dem Stichwort „<strong>Old-School-Tattoo</strong>“ oder „<strong>Traditionals</strong>“ wissen viele sofort, welche Motive gemeint sind. Ob Rosen, <a title="Das Kreuz – ein beliebtes Tattoomotiv" href="https://dich-mit-stich.de/magazin/kreuz-tattoos/">Kreuze</a>, Pin-up oder Adler, der Old-School-Stil zählt zu den wohl ältesten und bekanntesten Formen in der Welt der Tattoos. Aber was ist dieser Stil eigentlich genau? Wo hat er seinen Ursprung und wie lange gibt es diese zweidimensionalen Motive eigentlich schon?</p>
 <p></p>
 <h2>Old-School: Schlicht und einfach</h2>

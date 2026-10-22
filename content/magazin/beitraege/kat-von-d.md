@@ -11,6 +11,9 @@ categories:
   - tattoo-persoenlichkeiten
 author: anne-schweitzer
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/kat-von-d-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <h2>Kat von D</h2>
 <p>Kat von D zählt zu den bekanntesten Tattoo-Künstlerinnen, Medienfiguren und Unternehmerinnen ihrer Generation. Bekannt wurde sie vor allem durch ihre Arbeit als Tätowiererin, durch TV-Formate rund um die Tattoo-Szene und später auch durch ihre Aktivitäten in der Beauty- und Modewelt.</p>
 <p>Als Tochter christlicher Missionare in Mexiko geboren, wuchs Katherine von Drachenberg – so Kat von Ds bürgerlicher Name – bis zu einem Alter von sechs Jahren in dem kleinen Dorf Montemorelos in Mexiko auf. Ihre Kindheit verbringt Kat von D in einem sehr minimalistischen Haushalt mit ihren beiden Geschwistern Karoline und Michael ohne Strom und fließendes Wasser.<br />

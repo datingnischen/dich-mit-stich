@@ -13,6 +13,9 @@ author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/02/Suprasorb-F-Tattoofolie-1.jpg
 imageAlt: Suprasorb-F - Tattoofolie - Verpackung
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/suprasorb-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <h2>Suprasorb® F: Was die Tattoo-Schutzfolie kann und worauf du achten solltest</h2>
 <p>Früher wurde ein frisches Tattoo meist mit Frischhaltefolie abgedeckt. Heute setzen viele Tattoo-Studios stattdessen auf selbstklebende Folienverbände wie Suprasorb® F. Solche Folien werden oft auch als „Second Skin“ bezeichnet.</p>
 <p></p>

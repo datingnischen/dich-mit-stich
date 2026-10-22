@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2019/08/Zombie-Boy-Rick-Genest.jpg
 imageAlt: Zombie Boy - Rick-Genest
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/zombie-boy-rick-genest-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <blockquote>
 <p><small><br />
 Bildquelle: <a href="https://de.wikipedia.org/wiki/Rick_Genest#/media/Datei:Ricogenest02.jpg" rel="noopener noreferrer nofollow">https://de.wikipedia.org/wiki/Rick_Genest#/media/Datei:Ricogenest02.jpg</a><br />

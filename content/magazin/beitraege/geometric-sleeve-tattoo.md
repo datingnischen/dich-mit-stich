@@ -13,6 +13,9 @@ author: redaktion
 image: /magazin/wp-content/uploads/2025/09/geometric-sleeve-tattoo.png
 imageAlt: 'Geometric Sleeve Tattoo mit Mandala, Linien und Dreiecken'
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/geometric-sleeve-tattoo-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <article>Geometric Sleeves setzen auf Linien, Mandalas, Dreiecke und Symmetrie. Der minimalistische Look wirkt modern, präzise und zeitlos, häufig in tiefem Schwarz. Der Stil lebt vor allem von klaren Formen, ruhigen Flächen und einem sauberen Gesamtbild.<p></p>
 <h2>Beispiel für ein Geometric Sleeve Tattoo</h2>
 <p><img loading="lazy" decoding="async" src="/magazin/wp-content/uploads/2025/09/geometric-sleeve-tattoo-200x300.png" alt="Geometric Sleeve Tattoo mit Mandala, Linien und Dreiecken" width="600" height="900" srcset="/magazin/wp-content/uploads/2025/09/geometric-sleeve-tattoo-200x300.png 200w, /magazin/wp-content/uploads/2025/09/geometric-sleeve-tattoo-683x1024.png 683w, /magazin/wp-content/uploads/2025/09/geometric-sleeve-tattoo-768x1152.png 768w, /magazin/wp-content/uploads/2025/09/geometric-sleeve-tattoo.png 1024w" /></p>

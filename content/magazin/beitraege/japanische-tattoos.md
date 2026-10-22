@@ -11,6 +11,9 @@ categories:
   - ratgeber
 author: anne-schweitzer
 ---
+<h2>Artikel kurz anhören</h2>
+<p>Die wichtigsten Punkte kurz und verständlich zusammengefasst.</p>
+<p><audio controls preload="none"><source src="/magazin/wp-content/uploads/2026/10/japanische-tattoos-audio-zusammenfassung.mp3" type="audio/mpeg" />Dein Browser unterstützt das Audio-Element nicht.</audio></p>
 <p>Irezumi stellen traditionelle japanische Tattoos dar. Vor allem findet man diese Tattoos bei den Yakuza. Irezumi ist dabei das japanische Wort für Tattoo. Die japanische Tattoo Kunst wird bereits über mehrere Jahrhunderte praktiziert. Dabei sind nicht nur die Motive, sondern auch das Handwerk fest in der japanischen Kultur verwurzelt. Für viele Leser ist dabei vor allem wichtig, die kulturelle Bedeutung der Motive zu verstehen und japanische Tattoos nicht nur als reine Optik zu betrachten.<br />
 </p>
 <h2>Tradition und Ursprung</h2>

@@ -3,7 +3,7 @@ import sanitizeHtml from "sanitize-html";
 import { MAGAZINE_APPENDIX_CLASS_TOKENS, findMagazineAppendix, normalizeMagazineAppendix } from "./magazine-appendix.ts";
 import { MAGAZINE_AUDIO_ATTRIBUTES, MAGAZINE_AUDIO_TAGS, magazineAudioTransforms } from "./magazine-audio.ts";
 import { MAGAZINE_MEDIA_CLASS_TOKENS, normalizeMagazineMedia } from "./magazine-media.ts";
-import { withTrailingSlash, type MarketCode } from "./markets.ts";
+import { publicUrl, withTrailingSlash, type MarketCode } from "./markets.ts";
 
 const FIRST_PARTY_HOST = /^(?:www\.)?dich-mit-stich\.(?:de|at|ch)$/i;
 const ABSOLUTE_HTTPS_URL = /^https:\/\/([^/?#]*)([^?#]*)/i;
@@ -66,8 +66,10 @@ function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
   return attribs;
 }
 
-// Der Markt bleibt Teil der Signatur: Die Links sind heute für alle Märkte gleich, das Präfix setzt nur der Vorschau-Client.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Das Präfix für Vorschau-Hosts setzt der Client. Magazinartikel gibt es nur auf .de (AT/CH-Magazin im Aufbau):
+// Auf AT/CH zeigen sie absolut auf .de, relativ wären sie dort 404 (Search Console, dich-mit-stich.ch 2026-10-22).
+const MAGAZINE_ARTICLE_PATH = /^\/magazin\/[^/?#]+/;
+
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
   return sanitizeHtml(normalizeMagazineAppendix(normalizeMagazineMedia(html)), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, "img", "details", "summary", ...MAGAZINE_AUDIO_TAGS],
@@ -105,11 +107,9 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
 
         // Präfixlos ausliefern: So stimmen die Links hinter dem Reverse-Proxy auch ohne JavaScript.
         // Nur auf Vorschau-Hosts ergänzt der Client das Marktpräfix.
-        const attribs: Record<string, string> = {
-          ...cleanAttributes,
-          href: withTrailingSlash(internalPath),
-          "data-dms-internal": "true",
-        };
+        const attribs: Record<string, string> = market !== "de" && MAGAZINE_ARTICLE_PATH.test(internalPath)
+          ? { ...cleanAttributes, href: publicUrl("de", internalPath) }
+          : { ...cleanAttributes, href: withTrailingSlash(internalPath), "data-dms-internal": "true" };
         delete attribs.target;
 
         const relTokens = (attribs.rel || "").toLowerCase().split(/\s+/).filter(Boolean);

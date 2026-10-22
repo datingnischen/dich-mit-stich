@@ -2,7 +2,7 @@
 id: 239
 title: 'Ein Tattoo entfernen – Drum prüfe, wer sich ewig bindet'
 seoTitle: Ein Tattoo entfernen lassen
-description: Du bist unzufrieden mit deinem Tattoo und möchtest es enfernen lassen? Doch welche Methode bietet sich an und was kostet es? Hier die Antworten.
+description: Du bist unzufrieden mit deinem Tattoo und möchtest es entfernen lassen? Doch welche Methode bietet sich an und was kostet es? Hier die Antworten.
 excerpt: |
   <p>Drum prüfe, wer sich ewig bindet… Immer häufiger sind sie heutzutage zu sehen – Tätowierungen. Was früher als Stigma für</p>
 published: '2021-10-21T14:23:39'

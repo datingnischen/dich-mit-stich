@@ -6,7 +6,7 @@ description: Man findet tattoowierte Menschen von jung bis alt. Aber bleiben Tat
 excerpt: |
   <p>Einleitende Worte zum Thema Tattoos im Alter Tattoos sind ein Trend, der in den letzten Jahrzehnten enormen Anklang gefunden hat</p>
 published: '2018-12-10T12:14:45'
-updated: '2026-09-24T11:32:00'
+updated: '2026-10-22T12:00:00'
 categories:
   - ratgeber
 author: redaktion
@@ -22,7 +22,7 @@ imageAlt: Tattoos im Alter
 Genau aus diesem Grund ist es ungemein wichtig, sich vorher genau zu überlegen, ob und was man sich tätowiert. Zum jetzigen Zeitpunkt erscheint einem dieses oder jenes Tattoo als eine coole Sache, doch können wir uns auch in 30 oder gar 50 Jahren noch damit identifizieren und das Motiv mit unserer Persönlichkeit vereinbaren?</p>
 <p>Abgesehen davon dürfen wir nicht vergessen, dass nicht nur unsere Person einen Reifeprozess durchläuft, sondern sich natürlich auch die Haut im unabwendbaren biologischen Alterungsprozess von ihrer Struktur und Straffheit her verändert. Im folgenden Artikel beleuchten wir Aspekte, die man bedenken sollte, um sich entweder für oder gegen ein Tattoo zu entscheiden, wollen wir uns eine <a href="https://dich-mit-stich.de/magazin/tattoo-entfernen/">schmerzhafte und kostspielige Entfernung durch eine Lasertherapie</a> ersparen.</p>
 <h2>Die Wahl des Motivs und der emotionale Hintergrund</h2>
-<p>Bevor ein Tattoo gestochen wird, sollte man sich gut überlegen, <a href="https://dich-mit-stich.de/magazin/tattoo-motive/">welches Motiv</a> jetzt und auch in hohem Alter zu mir passt. Nicht umsonst ist das Tätowieren vom Gesetzgeber erst ab 18 Jahren erlaubt und sollte nicht aus einer Laune heraus im jugendlichen Leichtsinn gestochen werden. Es kommt nicht selten vor, dass wir Menschen begegnen, die sich während ihres Mallorcaurlaubs vielleicht sogar im Alkoholrausch ein lustiges Motiv stechen lassen und sich heute dafür schämen.<br />
+<p>Bevor ein Tattoo gestochen wird, sollte man sich gut überlegen, <a href="https://dich-mit-stich.de/magazin/tattoo-motive/">welches Motiv</a> jetzt und auch in hohem Alter zu mir passt. Nicht umsonst tätowieren die meisten seriösen Studios erst ab 18 Jahren – ein ausdrückliches gesetzliches Mindestalter gibt es in Deutschland zwar nicht, Minderjährige brauchen aber die Einwilligung ihrer Eltern. Ein Tattoo sollte also nicht aus einer Laune heraus im jugendlichen Leichtsinn gestochen werden. Es kommt nicht selten vor, dass wir Menschen begegnen, die sich während ihres Mallorcaurlaubs vielleicht sogar im Alkoholrausch ein lustiges Motiv stechen lassen und sich heute dafür schämen.<br />
 Neben dieser offensichtlichen Leichtsinnigkeit gibt es auch andere Hintergründe, die im Moment sinnvoll erscheinen, aber im Alter keine Bedeutung mehr haben.<br />
 Folgende Fragen sollten wir uns stellen:</p>
 <p><strong>1. Haben wir ein gesundes Selbstwertgefühl?</strong><br />

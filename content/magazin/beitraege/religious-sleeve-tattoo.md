@@ -1,12 +1,12 @@
 ---
 id: 1438
-title: 'Religious Sleeve Tattoo – Jesus, Maria und Engel – fein schattierte Spiritualiät als Full Sleeve'
+title: 'Religious Sleeve Tattoo – Jesus, Maria und Engel – fein schattierte Spiritualität als Full Sleeve'
 seoTitle: 'Religious Sleeve Tattoo: Jesus, Maria und Engel'
 description: 'Religious Sleeves in Black & Grey zeigen Jesus, Maria, Engel oder Rosenkranz. Beispielmotiv, Symbolik und Tipps für eine würdevolle Bildkomposition.'
 excerpt: |
   <p>Religious Sleeves vereinen Motive wie Jesus, Maria, Engel oder Rosenkranz. In Black &amp; Grey entstehen spirituelle, bedeutungsvolle Kompositionen mit starker</p>
 published: '2025-09-16T22:23:47'
-updated: '2026-09-24T11:49:56'
+updated: '2026-10-22T12:00:00'
 categories:
   - ratgeber
 author: redaktion

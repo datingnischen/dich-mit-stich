@@ -6,7 +6,7 @@ description: 'Was sind die richtigen Schriftarten, Schriftzüge und Sprüche fü
 excerpt: |
   <p>Es ist ja in jetziger Zeit nicht mehr ungewöhnlich, sich am Körper etwas stechen zu lassen. Ideen und Motive gibt</p>
 published: '2021-03-08T15:30:27'
-updated: '2026-09-24T11:31:47'
+updated: '2026-10-22T12:00:00'
 categories:
   - ratgeber
 author: anne-schweitzer
@@ -25,12 +25,10 @@ imageAlt: 'Tattoo Schriftarten, Schriftzüge & Sprüche'
 <p>Nun sind die meisten Menschen keine Stars, keine Persönlichkeiten und sollten daher auch genau überlegen, wie und was darauf stehen soll, schließlich ist man ja kein Weltstar wie Megan Fox, auf deren Rücken der Schriftzug „We will all laugh at gilded butterflies“ prangt. Übrigens eine Verszeile von Shakespeare.<br />
 Hier sind Schriften von wilden dekorativen Schriftarten bis hin zu tollen und einmaligen handgeschriebenen Skripts, die sehr wahrscheinlich alle Bedürfnisse dieser Tattoo-Kunst abdecken.</p>
 <h2>Tätowierungs-Skript-Schriftart</h2>
-<p>Es gibt nichts Schöneres, als mit einer tollen Tätowierungs-Schriftart zu starten. Bedingt durch die Wirbel traditioneller Tätowierungen wurde diese einzigartige</p>
-<h3>Handbeschriftungsart inspiriert</h3>
+<p>Es gibt nichts Schöneres, als mit einer tollen Tätowierungs-Schriftart zu starten. Die folgenden Schriftarten sind von den Schwüngen traditioneller Tätowierungen und von Handbeschriftungen inspiriert.</p>
+<h3>Von Handbeschriftung inspirierte Schriftarten</h3>
 <h4>Captain Cook Tätowierungs-Schriftart</h4>
-<p>Über die Wunder der im Pazifik lebenden Menschen stolperte Captain Cook, mit Sichtweite auf die dortigen schönen Tattoos. So wurde diese Schriftart in einem kühlen und dekorativen Stil auch nach Captain Cook benannt, da diese Schriftart schon bei Piraten und Seeleuten perfekt war. Die für ein solches Tattoo empfohlene Größe beträgt 36 pt.</p>
-<h4>Mashsetta Schriftart</h4>
-<p>Diese sehr schöne Mashetta Schriftart besticht durch einen atemberaubenden kalligrafischen handgemachten Stil. In diesem Set sind alle Zahlen und Buchstaben enthalten, plus 473 Glyphen für weitere stilvolle Optionen.</p>
+<p>Eine dekorative Schriftart im Stil traditioneller Seefahrer-Tattoos. Benannt ist sie nach dem britischen Seefahrer James Cook, auf dessen Pazifikreisen europäische Seeleute die Tattoo-Kunst Polynesiens kennenlernten. Wie groß der Schriftzug gestochen werden sollte, hängt von Körperstelle und Textlänge ab – das klärst du am besten mit deinem Tätowierer.</p>
 <h4>Alitide Schriftbild</h4>
 <p>Vom westlichen Design inspiriert, bietet die Eigenschaft dieses Schriftbildes einen modernen Background für moderne Tätowierungs-Liebhaber. Enthalten in dem Set sind mehrere Font-Dateien, für die Verwendung der alternativen Glyph-Zeichen, inklusive eines Videos.</p>
 <h4>Aseina Schriftbild</h4>
@@ -47,7 +45,7 @@ Hier sind Schriften von wilden dekorativen Schriftarten bis hin zu tollen und ei
 <li>Es gibt keinen Weg ins Glück, der Weg ist das Glück</li>
 <li>Omnia vincit amor (Liebe überwindet alles)</li>
 <li>Semper fidelis (Ewige Treue)</li>
-<li>Co runde venis (Herz, wohin gehst Du?)</li>
+<li>Quo vadis? (Wohin gehst Du?)</li>
 <li>All that we see or seem is a dream within a dream (von Edgar Allan Poe)</li>
 </ul>
 <h2>Worauf du bei der Auswahl achten kannst</h2>

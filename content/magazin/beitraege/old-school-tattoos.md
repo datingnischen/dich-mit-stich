@@ -6,7 +6,7 @@ description: 'Die Old-School-Motive gehören mit zu den Bekanntesten der Welt. W
 excerpt: |
   <p>Bei dem Stichwort „Old-School-Tattoo“ oder „Traditionals“ wissen viele sofort, welche Motive gemeint sind. Ob Rosen, Kreuze, Pin-up oder Adler, der</p>
 published: '2021-09-16T06:07:10'
-updated: '2026-09-28T13:55:02'
+updated: '2026-10-22T12:00:00'
 categories:
   - ratgeber
 author: anne-schweitzer
@@ -23,7 +23,7 @@ imageAlt: Old School Tattoos (Traditionals)
 <p>Der Grund dafür? Zur damaligen Zeit standen Tätowierern nur bestimmte Farben wie Rot, Schwarz oder Gelb zur Verfügung. Zudem lagen die damaligen Techniken sowie die Qualität der Tattoos weit hinter der heutigen.</p>
 
 <h2>Der Ursprung der Old-Schools</h2>
-<p>Old-School-Tattoos besitzen eine lange Tradition und wurden bereits im 16. und 17. Jahrhundert praktiziert. Zur damaligen Zeit waren sie vor allem in der Seefahrt sehr beliebt. Durch die Entdeckung unterschiedlicher Kulturen machten Seefahrer Bekanntschaft mit zahlreichen Tattoo-Künstlern und beschlossen daher, sich selbst die Kunst des Tätowierens beizubringen.</p>
+<p>Die Wurzeln der Old-School-Tattoos liegen in der Seefahrt: Spätestens seit den Pazifikreisen von James Cook im 18. Jahrhundert verbreitete sich das Tätowieren unter europäischen Seeleuten, der typische Old-School-Stil mit kräftigen Outlines entwickelte sich dann vor allem im späten 19. und frühen 20. Jahrhundert in den USA. Durch die Entdeckung unterschiedlicher Kulturen machten Seefahrer Bekanntschaft mit zahlreichen Tattoo-Künstlern und beschlossen daher, sich selbst die Kunst des Tätowierens beizubringen.</p>
 <p>Neben den bekannten <a href="https://dich-mit-stich.de/magazin/maori-tattoo/">Maori-Tattoos</a> faszinierten auch <a href="https://dich-mit-stich.de/magazin/tribal-tattoo/">Tribal-Varianten</a> die umherwandernden Seefahrer und inspirierten sie dazu, ihren eigenen Stil zu entwerfen. Diese Tattoos wurden jedoch weniger für optische Zwecke gestochen, sondern beispielsweise um den Alltag auf hoher See darzustellen. Auch als Glücksbringer, Erinnerung oder zum Schutz vor Gefahren waren diese Tattoos sehr beliebt.<br />
 Old-Schools prägten die weitere Tattoo-Szene</p>
 <p>Dank der Seefahrer blühte die Tattoo-Szene vor allem im westlichen Raum stark auf. Fast jeder Matrose schmückte sich mit einem Old-School-Tattoo und dies blieb natürlich auch an Land nicht unbemerkt. Immer mehr Menschen erfreuten sich an diesem simplen Körperschmuck, der nicht selten von den Hoffnungen und Leiden der Seefahrer sprach. In den 1920er- bis 1960er-Jahren erlebte die Tattoo-Szene hinsichtlich des Old-School-Stils sogar einen regelrechten Boom.<br />
@@ -47,7 +47,7 @@ Sailor Jerry als Tattoo-Pionier</p>
 <h3>Schiff</h3>
 <p>Natürlich darf auch das Schiff-Symbol nicht fehlen. In erster Linie galt dieses Symbol als Beweis für die Überquerung einer See. Üblicherweise erhielt jeder Seemann bei der Umschiffung von Kap Horn ein solches Tattoo.</p>
 <h3>Nautischer Stern</h3>
-<p>Auch unter dem Namen Nordstern bekannt, diente dieses Symbol Seefahrern auf hoher See als Orientierungshilfe während der Nacht. Darüber hinaus bot der nautische Stern dem Träger stets Sicherheit und Schutz vor Gefahren.</p>
+<p>Der nautische Stern ist an die Kompassrose angelehnt und erinnert an den Polarstern (Nordstern), an dem sich Seefahrer nachts orientierten. Als Tattoo steht er deshalb für Orientierung, eine sichere Heimkehr und Schutz vor Gefahren.</p>
 <p>Weitere beliebte Motive waren unter anderem Haie, Schädel, Schlangen oder Dolche.<br />
 Old-School-Motive in kombinierter Weise</p>
 <p>Neben den typischen Traditionals werden diese <a href="https://dich-mit-stich.de/magazin/tattoo-motive/">Motive</a><br />

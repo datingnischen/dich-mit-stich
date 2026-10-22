@@ -6,7 +6,7 @@ description: 'Watercolor Sleeves leben von fließenden Farbverläufen und abstra
 excerpt: |
   <p>Watercolor Sleeve Tattoos überzeugen durch fließende Farbverläufe, abstrakte Formen und einen künstlerischen Look. Der Stil wirkt oft leicht, lebendig und</p>
 published: '2025-09-11T13:11:03'
-updated: '2026-09-24T11:49:42'
+updated: '2026-10-22T12:00:00'
 categories:
   - ratgeber
 author: anne-schweitzer
@@ -28,7 +28,7 @@ zu einem modernen, künstlerischen Tattoo-Design.</figcaption></figure>
 <ul>
 <li><strong>Künstlerische Wirkung:</strong> Farbspritzer, Pinselstriche, Transparenzen.</li>
 <li><strong>Flexibel kombinierbar:</strong> Florale Motive, Tiere, Schriftzüge oder Geometrie.</li>
-<li><strong>Hautfreundliche Wirkung:</strong> Weniger harte Outlines, mehr „Gemälde“-Feeling.</li>
+<li><strong>Weiche Wirkung:</strong> Weniger harte Outlines, mehr „Gemälde“-Feeling.</li>
 </ul>
 <h2>Worauf du bei der Auswahl achten kannst</h2>
 <p>Wenn du ein Watercolor Sleeve planst, lohnt sich ein genauer Blick auf die gewünschte Farbstimmung und auf das Motiv selbst. Nicht jedes Motiv funktioniert in jeder Farbwelt gleich gut, deshalb ist es hilfreich, Beispiele zu sammeln, die in der Wirkung zu deiner Idee passen.</p>

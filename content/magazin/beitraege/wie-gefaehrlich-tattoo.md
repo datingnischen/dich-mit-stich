@@ -6,7 +6,7 @@ description: 'Du möchtest dir ein Tattoo stechen lassen, hast aber Fragen? Wie 
 excerpt: |
   <p>Tätowierungen – Wie hoch ist das gesundheitliche Risiko? Tätowierungen liegen seit Jahren im Trend und erfreuen sich besonders bei der</p>
 published: '2020-05-26T13:18:11'
-updated: '2026-09-24T11:49:33'
+updated: '2026-10-22T12:00:00'
 categories:
   - ratgeber
 author: anne-schweitzer
@@ -23,10 +23,9 @@ imageAlt: Wie gefährlich ist Tattoo
 </p>
 <h2>Gesundheitliche Gefahren</h2>
 <h3>Entzündete Wunde</h3>
-<p>Dass der Bereich um das frisch gestochene Tattoo gerötet und geschwollen ist, ist vollkommen normal. Ungesund wird es, wenn folgende Zustände über mehrere Tage (oder sogar Wochen) bestehen:</p>
+<p>Dass der Bereich um das frisch gestochene Tattoo gerötet und geschwollen ist und während der Heilung auch etwas juckt, ist vollkommen normal. Ungesund wird es, wenn folgende Zustände über mehrere Tage (oder sogar Wochen) bestehen:</p>
 <ul>
 <li>Enorme Schwellung</li>
-<li>Juckreiz</li>
 <li>Überwärmte Haut</li>
 <li>Rötung der Haut</li>
 <li>Starke Schmerzen</li>
@@ -41,11 +40,11 @@ imageAlt: Wie gefährlich ist Tattoo
 <h3>Allergien</h3>
 <p>Tattoofarben können ungesunde Stoffe, wie Nickel, Mangan, Kobalt oder Chrom, besitzen, die bei gewissen Menschen Allergien entstehen lassen. Besonders schädlich sollen dabei farbige Tattoos sein. Vor allem rote Farbtöne stehen im Verdacht, häufiger Allergien auszulösen. Früher wurde Rot teils aus quecksilberhaltigem Zinnober hergestellt; quecksilberhaltige Pigmente sind in Tattoofarben in der EU heute verboten.</p>
 <p>Allergische Reaktionen treten möglicherweise auch erst Jahre später und an einer weit von dem Tattoo entfernten Körperstelle auf, weshalb oftmals zunächst keine Verbindung hergestellt wird. Es kann aber dazu führen, dass Tätowierungen wieder aufwendig entfernt werden müssen.</p>
-<p>Auch Henna Tattoos sind keinesfalls harmlos, da auch sie zum Teil Schäden auf der Haut verursachen.</p>
+<p>Auch sogenannte schwarze Henna-Tattoos sind keinesfalls harmlos: Ihnen wird häufig der Farbstoff p-Phenylendiamin (PPD) beigemischt, der starke Kontaktallergien auslösen kann. Reines, rotbraunes Henna gilt dagegen als deutlich weniger problematisch.</p>
 <h3>Hautkrebs</h3>
-<p>Können Tattoos Hautkrebs verursachen? Diese Frage stellen sich immer mehr Menschen, bevor sie sich eine Tätowierung stechen lassen. Zwar enthalten manche Farben krebserregende Stoffe – durch das Tattoo wird aber auch die Krebsfrüherkennung problematisch.</p>
+<p>Können Tattoos Hautkrebs verursachen? Diese Frage stellen sich immer mehr Menschen, bevor sie sich eine Tätowierung stechen lassen. Manche Farben können Stoffe enthalten, die als krebserregend eingestuft sind oder im Verdacht stehen, etwa bestimmte polyzyklische aromatische Kohlenwasserstoffe (PAK) in schwarzen Farben oder Spaltprodukte mancher Azopigmente. Ob Tattoos das Hautkrebsrisiko tatsächlich erhöhen, ist wissenschaftlich bislang nicht abschließend geklärt. Sicher ist dagegen: Durch das Tattoo kann die Krebsfrüherkennung schwieriger werden.</p>
 <p>Um Hautkrebs rechtzeitig zu erkennen, sollte regelmäßig ein Hautscreening durchgeführt werden. Großflächige Tattoos erschweren dies allerdings, da aufgrund der Farbe Pigmentveränderungen schlechter zu erkennen sind.</p>
-<p>Menschen, die ein erhöhtes Hautkrebsrisiko besitzen (genetische Vorbelastung, heller Hauttyp, übermäßige UV-Bestrahlung etc.), wird aus diesem Grund empfohlen, auf eine Tätowierung zu verzichten.</p>
+<p>Menschen, die ein erhöhtes Hautkrebsrisiko besitzen (genetische Vorbelastung, heller Hauttyp, übermäßige UV-Bestrahlung etc.), sollten deshalb vorher mit ihrer Hautärztin oder ihrem Hautarzt besprechen, ob und an welcher Stelle ein Tattoo sinnvoll ist – zum Beispiel, damit Muttermale ausgespart bleiben.</p>
 <h2>Vor dem Termin: Wichtige Fragen und Vorbereitung</h2>
 <p>Bevor ein Tattoo-Termin vereinbart wird, ist es sinnvoll, die wichtigsten Punkte in Ruhe zu klären. Dazu gehört vor allem, ob das Studio transparent über Hygiene, Aufklärung und die verwendeten Materialien informiert.</p>
 <p>Hilfreich ist es auch, auf den eigenen Gesundheitszustand und mögliche Hautempfindlichkeiten zu achten. Wer zu Allergien neigt oder unsicher ist, sollte die Verträglichkeit der eingesetzten Farben und die allgemeine Vorgehensweise im Studio vorher ansprechen.</p>
@@ -53,7 +52,7 @@ imageAlt: Wie gefährlich ist Tattoo
 <h2>Minimierung der gesundheitlichen Gefahren</h2>
 <p>Absolute Sicherheit kann kein Tätowierer garantieren. Es bestehen jedoch mehrere Möglichkeiten, wie sich das Risiko für negative Folgen minimieren lässt.</p>
 <h3>Allergietest</h3>
-<p>Bevor ein Termin für eine Tätowierung überhaupt vereinbart wird, sollte ein Allergietest beim (Haut-)Arzt erfolgen. Dies gilt besonders für Menschen, die generell zu allergischen Reaktionen neigen.</p>
+<p>Wer zu Allergien neigt oder schon auf bestimmte Stoffe wie Nickel reagiert hat, kann vor dem Termin beim Hautarzt abklären lassen, ob ein Allergietest sinnvoll ist. Ein routinemäßiger Test vor jedem Tattoo ist nicht üblich, zumal sich die Verträglichkeit einer Tattoofarbe damit nur eingeschränkt vorhersagen lässt.</p>
 <p>Der sogenannte Epikutantest bietet dann die Möglichkeit, Spätallergien zu erkennen. Dafür werden Allergene mittels eines Pflasters auf der Haut am Rücken fixiert. Nach 48 Stunden wird es wieder entfernt und die Hautreaktion ausgewertet. Nach weiteren 24 Stunden erfolgt eine zweite Ablesung.</p>
 <p>Zeigen sich Auffälligkeiten bezüglich gewisser Stoffe, sollte dies mit dem Tätowierer besprochen werden. Farben mit dem jeweiligen Inhaltsstoff kommen dann nicht infrage, da sie für den betroffenen Menschen schlichtweg ungesund und gefährlich sind.</p>
 <h3>Hygienisch einwandfreies Studio</h3>

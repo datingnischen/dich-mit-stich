@@ -5,6 +5,7 @@ import "./globals.css";
 import "./ink-theme.css";
 import { Analytics } from "@vercel/analytics/next";
 import { vercelAnalyticsProps } from "@/lib/vercel-analytics";
+import { IconyGa4 } from "@/components/icony-ga4";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -49,7 +50,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`${openSans.variable} ${fraunces.variable} ${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}<Analytics {...vercelAnalyticsProps(assetHost)} /></body>
+      <body>{children}<Analytics {...vercelAnalyticsProps(assetHost)} /><IconyGa4 /></body>
     </html>
   );
 }

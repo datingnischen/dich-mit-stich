@@ -5,16 +5,23 @@ import { withGoogleAdsOrigins } from "./lib/google-ads.ts";
 const DEFAULT_ASSET_HOST = "https://dich-mit-stich.vercel.app";
 const DEFAULT_ASSET_PATH_PREFIX = "/app-assets";
 // Google-Ads-Tag (components/google-ads-tag.tsx): Google-Quellen kommen nur dazu, wenn NEXT_PUBLIC_GOOGLE_ADS_ID gesetzt ist.
+// ICONY-GA4 (components/icony-ga4.tsx): gtag.js und Messpings, geladen nur mit ICONY-Consent (ccp_state).
+const ICONY_GA4_CSP = {
+  script: "https://www.googletagmanager.com",
+  connect: "https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+  img: "https://*.google-analytics.com https://*.googletagmanager.com",
+};
+
 function buildContentSecurityPolicy(assetOrigin: string, isDev: boolean) {
   const developmentEval = isDev ? " 'unsafe-eval'" : "";
   return withGoogleAdsOrigins([
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${developmentEval} ${assetOrigin} https://js.icony.com`,
+    `script-src 'self' 'unsafe-inline'${developmentEval} ${assetOrigin} https://js.icony.com ${ICONY_GA4_CSP.script}`,
     `style-src 'self' 'unsafe-inline' ${assetOrigin}`,
-    "img-src 'self' data: https:",
+    `img-src 'self' data: https: ${ICONY_GA4_CSP.img}`,
     `font-src 'self' data: ${assetOrigin}`,
     // Contest: Fotos gehen per Client-Upload direkt zu Vercel Blob (components/contest/entry-form.tsx).
-    "connect-src 'self' https://dich-mit-stich.de https://blob.vercel-storage.com https://*.public.blob.vercel-storage.com",
+    `connect-src 'self' https://dich-mit-stich.de https://blob.vercel-storage.com https://*.public.blob.vercel-storage.com ${ICONY_GA4_CSP.connect}`,
     "media-src 'self' https:",
     "frame-src https://www.youtube-nocookie.com https://js.icony.com",
     "object-src 'none'",

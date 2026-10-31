@@ -18,6 +18,14 @@ const walk = (dir) =>
     return entry.isDirectory() ? walk(full) : [full];
   });
 
+// Neue Beiträge nach der WordPress-Ablösung (slug + Kategorie), zusätzlich zum Inventar.
+const NEW_POSTS = [{ slug: "tattoos-attraktivitaet-studien", category: "ratgeber" }];
+const expectedPostSlugs = [...inventory.beitraege.map((post) => post.slug), ...NEW_POSTS.map((post) => post.slug)];
+const expectedCategoryCounts = inventory.kategorien.map((category) => [
+  category.slug,
+  category.count + NEW_POSTS.filter((post) => post.category === category.slug).length,
+]);
+
 const contentFiles = [...walk(path.join(root, "content")), ...walk(path.join(root, "data"))].filter(
   (file) => !file.endsWith("wordpress-inventar.json"),
 );
@@ -25,11 +33,11 @@ const contentFiles = [...walk(path.join(root, "content")), ...walk(path.join(roo
 test("every WordPress post and page of the inventory is served with the same slug", async () => {
   const posts = await getMagazinePosts();
   const pages = await getMagazinePages();
-  assert.equal(posts.length, inventory.beitraege.length);
+  assert.equal(posts.length, expectedPostSlugs.length);
   assert.equal(pages.length, inventory.seiten.length);
-  assert.deepEqual(posts.map((post) => post.slug).sort(), inventory.beitraege.map((post) => post.slug).sort());
+  assert.deepEqual(posts.map((post) => post.slug).sort(), [...expectedPostSlugs].sort());
   assert.deepEqual(pages.map((page) => page.slug).sort(), inventory.seiten.map((page) => page.slug).sort());
-  assert.equal((await getMagazineRouteEntries()).length, inventory.beitraege.length + inventory.seiten.length);
+  assert.equal((await getMagazineRouteEntries()).length, expectedPostSlugs.length + inventory.seiten.length);
   assert.ok(posts.every((post) => post.type === "post") && pages.every((page) => page.type === "page"));
 });
 
@@ -37,7 +45,7 @@ test("categories, authors and their post counts match the inventory", async () =
   const categories = await getMagazineCategories();
   assert.deepEqual(
     categories.map((category) => [category.slug, category.count]).sort(),
-    inventory.kategorien.map((category) => [category.slug, category.count]).sort(),
+    [...expectedCategoryCounts].sort(),
   );
   for (const category of categories) {
     assert.equal((await getMagazineEntriesForCategory(category.slug)).length, category.count, category.slug);

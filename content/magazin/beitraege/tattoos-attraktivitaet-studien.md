@@ -20,7 +20,7 @@ imageAlt: 'Zwei Menschen lachen beim Café-Date, ein Mann zeigt Tattoos am Unter
 <div class="mag-stats">
 <p class="mag-stat"><strong class="mag-stat-value">1 von 5</strong><span class="mag-stat-label">Menschen in Deutschland ab 14 Jahren ist tätowiert, am häufigsten die 25- bis 34-Jährigen.</span><small class="mag-stat-source">Universität Leipzig, Bundesgesundheitsblatt 2019</small></p>
 <p class="mag-stat"><strong class="mag-stat-value">35 %</strong><span class="mag-stat-label">der Singles in Deutschland finden kleine Tattoos attraktiv oder sehr attraktiv.</span><small class="mag-stat-source">Parship/Innofact 2021</small></p>
-<p class="mag-stat"><strong class="mag-stat-value">26 % zu 10 %</strong><span class="mag-stat-label">Tätowierte finden Tätowierte deutlich häufiger attraktiver als Menschen ohne Tattoo.</span><small class="mag-stat-source">Cureus 2023, USA</small></p>
+<p class="mag-stat"><strong class="mag-stat-value">26 %</strong><span class="mag-stat-label">der Tätowierten finden Tätowierte attraktiver. Bei Menschen ohne Tattoo sind es nur 10 %.</span><small class="mag-stat-source">Cureus 2023, USA</small></p>
 <p class="mag-stat"><strong class="mag-stat-value">68 %</strong><span class="mag-stat-label">halten Gesichtstattoos für meistens oder immer inakzeptabel. Am Arm sind es nur 14 %.</span><small class="mag-stat-source">YouGov 2025, USA</small></p>
 </div>
 <aside class="mag-callout">

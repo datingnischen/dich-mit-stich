@@ -516,3 +516,8 @@
     left: 16px;
   }
 }
+
+.rich-content .mag-stat-value,
+.rich-content .mag-chart-title {
+  text-wrap: balance;
+}

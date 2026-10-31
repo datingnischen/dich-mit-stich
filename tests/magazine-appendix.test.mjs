@@ -95,7 +95,8 @@ test("every magazine text with sources renders them collapsed at the end", async
       assert.match(html, /<details class="magazine-appendix magazine-sources">\s*<summary>/, name);
       assert.doesNotMatch(html, /<details[^>]*\bopen\b/, name);
       assert.doesNotMatch(html, /<h[2-6][^>]*>[^<]*(?:Quellen|Transparenz)[^<?]*<\/h[2-6]>/, name);
-      assert.equal(html.match(/<details/g).length, 1, name);
+      // Redaktionelle Bausteine (FAQ, Rohdaten) bringen eigene <details class="mag-…"> mit.
+      assert.equal(html.match(/<details(?! class="mag-)/g).length, 1, name);
     }
   }
   assert.ok(withSources >= 5, `only ${withSources} texts with sources found`);

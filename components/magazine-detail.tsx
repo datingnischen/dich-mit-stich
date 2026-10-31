@@ -21,6 +21,7 @@ import { TattooMotifArticle } from "@/components/tattoo-motif-article";
 import { TattooMotifGlance } from "@/components/tattoo-motif-glance";
 import { getAuthorProfilePage, stripAuthorProfileDuplicates } from "@/lib/author-profile-pages";
 import { buildMagazineArticleGraph } from "@/lib/editorial-entities";
+import { extractMagazineFaq } from "@/lib/magazine-blocks";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { localizeFirstPartyText } from "@/lib/market-html";
 import {
@@ -98,6 +99,7 @@ export async function MagazineDetail({ market, slug }: { market: MarketCode; slu
     pilotEntry: answerEngineEntry,
     breadcrumb: breadcrumbTrail,
     market,
+    faq: extractMagazineFaq(entry.content),
   });
   const publishedProfileGraph = getMarketMagazinePublishedProfileGraph(market, {
     slug: entry.slug,

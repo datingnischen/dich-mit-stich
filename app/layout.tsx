@@ -3,6 +3,7 @@ import { Fraunces, Geist, Geist_Mono, Open_Sans } from "next/font/google";
 import { staticAsset, assetHost } from "@/lib/static-asset";
 import "./globals.css";
 import "./ink-theme.css";
+import "./magazine-blocks.css";
 import { Analytics } from "@vercel/analytics/next";
 import { vercelAnalyticsProps } from "@/lib/vercel-analytics";
 import { IconyGa4 } from "@/components/icony-ga4";

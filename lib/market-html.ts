@@ -2,6 +2,7 @@ import sanitizeHtml from "sanitize-html";
 
 import { MAGAZINE_APPENDIX_CLASS_TOKENS, findMagazineAppendix, normalizeMagazineAppendix } from "./magazine-appendix.ts";
 import { MAGAZINE_AUDIO_ATTRIBUTES, MAGAZINE_AUDIO_TAGS, magazineAudioTransforms } from "./magazine-audio.ts";
+import { MAGAZINE_BAR_WIDTH, MAGAZINE_BLOCK_CLASS, MAGAZINE_BLOCK_TAGS } from "./magazine-blocks.ts";
 import { MAGAZINE_MEDIA_CLASS_TOKENS, normalizeMagazineMedia } from "./magazine-media.ts";
 import { publicUrl, withTrailingSlash, type MarketCode } from "./markets.ts";
 
@@ -59,7 +60,9 @@ const OWN_CLASS_TOKENS = new Set([...MAGAZINE_MEDIA_CLASS_TOKENS, ...MAGAZINE_AP
 
 /** WordPress ships its own class soup; only the classes this app emits itself survive. */
 function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
-  const tokens = (attributes.class || "").split(/\s+/).filter((token) => OWN_CLASS_TOKENS.has(token));
+  const tokens = (attributes.class || "")
+    .split(/\s+/)
+    .filter((token) => OWN_CLASS_TOKENS.has(token) || MAGAZINE_BLOCK_CLASS.test(token));
   const attribs = { ...attributes };
   if (tokens.length > 0) attribs.class = tokens.join(" ");
   else delete attribs.class;
@@ -70,11 +73,17 @@ function keepOwnClasses(attributes: sanitizeHtml.Attributes) {
 // Auf AT/CH zeigen sie absolut auf .de, relativ wären sie dort 404 (Search Console, dich-mit-stich.ch 2026-10-22).
 const MAGAZINE_ARTICLE_PATH = /^\/magazin\/[^/?#]+/;
 
+const blockClassAttributes = Object.fromEntries(MAGAZINE_BLOCK_TAGS.map((tag) => [tag, ["class"]]));
+const blockClassTransforms = Object.fromEntries(
+  MAGAZINE_BLOCK_TAGS.map((tag) => [tag, (tagName: string, attributes: sanitizeHtml.Attributes) => ({ tagName, attribs: keepOwnClasses(attributes) })]),
+);
+
 export function marketizeSanitizedHtml(html: string, market: MarketCode) {
   return sanitizeHtml(normalizeMagazineAppendix(normalizeMagazineMedia(html)), {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, "img", "details", "summary", ...MAGAZINE_AUDIO_TAGS],
     selfClosing: [...sanitizeHtml.defaults.selfClosing, "source"],
     allowedAttributes: {
+      ...blockClassAttributes,
       ...MAGAZINE_AUDIO_ATTRIBUTES,
       a: ["href", "name", "target", "title", "rel", "class", "data-dms-internal"],
       aside: ["class"],
@@ -83,16 +92,25 @@ export function marketizeSanitizedHtml(html: string, market: MarketCode) {
       div: ["class"],
       figure: ["class"],
       img: ["src", "srcset", "alt", "title", "width", "height", "loading", "decoding"],
-      li: ["value"],
+      li: ["class", "value"],
       p: ["class"],
-      ol: ["start"],
+      ol: ["class", "start"],
+      span: ["class", "style"],
       td: ["colspan", "rowspan", "headers"],
       th: ["colspan", "rowspan", "headers", "scope"],
       time: ["datetime"],
     },
+    allowedStyles: { span: { width: [MAGAZINE_BAR_WIDTH] } },
     allowedSchemes: ["http", "https", "mailto", "tel"],
     allowProtocolRelative: false,
     transformTags: {
+      ...blockClassTransforms,
+      // Breite nur für Balken der Diagramm-Bausteine, nie als allgemeines Styling.
+      span: (tagName, attributes) => {
+        const attribs = keepOwnClasses(attributes);
+        if (!(attribs.class || "").split(/\s+/).includes("mag-bar")) delete attribs.style;
+        return { tagName, attribs };
+      },
       ...magazineAudioTransforms,
       aside: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),
       details: (tagName, attributes) => ({ tagName, attribs: keepOwnClasses(attributes) }),

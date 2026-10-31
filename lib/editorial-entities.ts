@@ -1,5 +1,6 @@
 import type { AuthorProfile } from "@/lib/author-profiles";
 import type { AnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
+import type { MagazineFaqItem } from "@/lib/magazine-blocks";
 import { latestIsoDate } from "@/lib/json-ld";
 import { getMarket, publicUrl, withTrailingSlash, type MarketCode } from "@/lib/markets";
 import type { BreadcrumbTrailItem } from "@/lib/magazine-hubs";
@@ -78,6 +79,7 @@ type MagazineArticleGraphInput = {
   pilotEntry: AnswerEnginePilotEntry | null;
   breadcrumb?: BreadcrumbTrailItem[];
   market?: MarketCode;
+  faq?: MagazineFaqItem[];
 };
 
 export function buildMagazineArticleGraph({
@@ -85,6 +87,7 @@ export function buildMagazineArticleGraph({
   description,
   authorProfile,
   featuredImage,
+  faq = [],
   pilotEntry,
   breadcrumb,
   market = "de",
@@ -187,6 +190,21 @@ export function buildMagazineArticleGraph({
     ] : undefined,
     citation: pilotEntry?.sources.map((source) => source.url),
   });
+
+  // FAQ-Bausteine im Beitrag (<details class="mag-faq-item">) werden als FAQPage ausgezeichnet.
+  if (faq.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      isPartOf: { "@id": pageId },
+      inLanguage: locale,
+      mainEntity: faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    });
+  }
 
   return {
     "@context": "https://schema.org",

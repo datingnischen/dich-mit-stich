@@ -58,3 +58,10 @@ npm test
 ```
 
 Git-Autor und -Committer ausschließlich `christian@datingnischen.de` (`git var GIT_AUTHOR_IDENT` / `git var GIT_COMMITTER_IDENT`). Danach pushen, live prüfen (Bilder laden mit 200 auch hinter dem ICONY-nginx) und das Ergebnis als Kommentar in die Trello-Karte schreiben.
+
+
+## Umsetzung durch Codex · 31. Oktober 2026
+
+Vier WebP-Dateien erstellt und im Artikel eingebunden. Titelbild 1200 × 800, ca. 98 KB; Infografiken 1200 × 1000, 1200 × 850 und 1200 × 1240. Die Infografiken sind deterministisch mit Pillow gesetzt; reproduzierbarer Quellcode: `scripts/create-tattoo-study-graphics.py` (Arial unter Windows). Tabellen und Studienlinks bleiben erhalten. Die vorhandene Magazin-Pipeline setzt Upload-Pfade auf den Asset-Host um und faltet Quellen/Bildnachweise in native Details ein.
+
+Titelbild mit dem eingebauten image_gen erstellt, anschließend auf 1200 × 800 skaliert und WebP-komprimiert. Verwendeter Prompt: „Photorealistic editorial lifestyle photograph, landscape 3:2. Two adults in their early thirties on a first date at a cozy cafe, both naturally laughing in conversation, one with clearly visible artistic forearm tattoos. Natural window light, realistic skin and anatomy, warm candid atmosphere, tasteful casual clothing. No text, no logos, no facial tattoos, nothing suggestive. Final website cover, composition suitable for 1200x800.“

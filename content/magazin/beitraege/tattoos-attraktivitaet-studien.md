@@ -10,6 +10,8 @@ updated: '2026-10-31T12:00:00'
 categories:
   - ratgeber
 author: redaktion
+image: /magazin/wp-content/uploads/2026/10/tattoos-attraktivitaet-studien.webp
+imageAlt: 'Zwei Menschen lachen beim Café-Date, ein Mann zeigt Tattoos am Unterarm'
 ---
 <p>Tattoos sind längst kein Randphänomen mehr. In Deutschland ist rund jeder fünfte Mensch ab 14 Jahren tätowiert, bei Singles zwischen 30 und 49 Jahren ist es etwa jede beziehungsweise jeder Fünfte. Trotzdem hört man beim Dating immer wieder beides: „Tattoos sind sexy“ und „Mit so vielen Tattoos würde ich niemanden daten“.</p>
 <p>Was stimmt? Wir haben Umfragen aus Deutschland und den USA sowie psychologische Experimente ausgewertet, in denen dieselben Menschen einmal mit und einmal ohne Tattoo bewertet wurden. Das Ergebnis ist differenzierter als beide Sprüche: <strong>Tattoos machen Menschen nicht pauschal attraktiver oder unattraktiver. Entscheidend ist, wer hinschaut.</strong></p>
@@ -42,6 +44,7 @@ author: redaktion
 <tr><td>ab 60 Jahre</td><td>6 %</td><td>21 %</td></tr>
 </tbody>
 </table>
+<figure><img src="/magazin/wp-content/uploads/2026/10/tattoo-singles-deutschland-alter.webp" alt="Balkendiagramm: Von den Singles in Deutschland sind 14 Prozent tätowiert und 35 Prozent finden kleine Tattoos attraktiv, bei unter 50-Jährigen über 40 Prozent, ab 60 Jahren 21 Prozent" width="1200" height="1000" loading="lazy" /></figure>
 <p>Auffällig: Tätowierte Singles sind häufiger Frauen, während Männer kleine Tattoos häufiger attraktiv finden. Zu großflächigen Tattoos hat Parship keine Zahlen veröffentlicht.</p>
 <h3>USA</h3>
 <p>In den USA sind Tattoos noch verbreiteter. Laut Pew Research Center (2023, 8.480 Befragte) haben 32 % der Erwachsenen mindestens ein Tattoo und 22 % mehr als eins. Frauen sind mit 38 % häufiger tätowiert als Männer mit 27 %. Bei Frauen zwischen 18 und 29 Jahren sind es sogar 56 %.</p>
@@ -68,6 +71,7 @@ author: redaktion
 <tr><td>weniger attraktiv</td><td>35,4 %</td><td>5,5 %</td></tr>
 </tbody>
 </table>
+<figure><img src="/magazin/wp-content/uploads/2026/10/tattoos-attraktiv-taetowierte-vs-nicht-taetowierte.webp" alt="Diagramm: 35,4 Prozent der Befragten ohne Tattoo finden Tätowierte weniger attraktiv, nur 10,2 Prozent attraktiver; bei Tätowierten finden 26 Prozent Tätowierte attraktiver und 5,5 Prozent weniger attraktiv" width="1200" height="850" loading="lazy" /></figure>
 <p>Unter Nicht-Tätowierten überwiegt also die Skepsis deutlich, unter Tätowierten die positive Sicht. Die meisten Befragten beider Gruppen sahen allerdings keinen Unterschied. Ohne Tattoo hielten die Befragten Tätowierte außerdem häufiger für weniger intelligent und professionell und für rebellischer.</p>
 
 <h2>Was Experimente zeigen</h2>
@@ -97,6 +101,8 @@ author: redaktion
 <li>Unter 50-Jährige fanden die Stufe mit sehr vielen Tattoos schöner als Menschen über 50.</li>
 <li>Die Stufe mit Gesichtstattoo schnitt in allen Gruppen am schlechtesten ab.</li>
 </ul>
+
+<figure><img src="/magazin/wp-content/uploads/2026/10/tattoo-experimente-wirkung-maenner-frauen.webp" alt="Übersicht: In Experimenten wirken tätowierte Männer männlicher und dominanter, aber für Frauen nicht attraktiver; tätowierte Frauen werden häufiger angesprochen, aber nicht als attraktiver bewertet" width="1200" height="1240" loading="lazy" /></figure>
 
 <h2>Wie belastbar sind die Ergebnisse?</h2>
 <ul>
@@ -138,6 +144,7 @@ author: redaktion
 <h2>Stand, Quellen &amp; Transparenz</h2>
 <p>Stand der Informationen: Oktober 2026. Die Zahlen stammen aus den unten genannten Studien und Umfragen. US-Ergebnisse lassen sich nicht direkt auf Deutschland übertragen.</p>
 <h3>Genutzte Quellen</h3>
+<p>Titelbild: KI-generiertes Symbolbild. Infografiken: eigene Darstellung nach den genannten Studien.</p>
 <ul>
 <li>Borkenhagen, A., Mirastschijski, U., Petrowski, K. &amp; Brähler, E. (2019): Tattoos in der deutschen Bevölkerung – Prävalenzen, Soziodemografie und Gesundheitsorientierung. Bundesgesundheitsblatt 62. <a href="https://doi.org/10.1007/s00103-019-02999-7">doi.org/10.1007/s00103-019-02999-7</a></li>
 <li>Parship (2021): Tattoos, Piercings oder Botox? Singles in Deutschland sind vorwiegend natürlich unterwegs. Innofact AG, 3.653 Singles. <a href="https://www.parship.de/studien/parship-wissen-tattoos-piercings-oder-botox-singles-in-deutschland-sind-vorwiegend-natuerlich-unterwegs/">parship.de</a></li>

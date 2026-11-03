@@ -6,7 +6,7 @@ description: 'Wirken Tattoos beim Dating anziehend oder abschreckend? Zahlen aus
 excerpt: |
   <p>Rund jeder fünfte Mensch in Deutschland ist tätowiert. Doch wie wirken Tattoos auf mögliche Partner? Wir haben Umfragen und Experimente ausgewertet.</p>
 published: '2026-10-31T12:00:00'
-updated: '2026-10-31T12:00:00'
+updated: '2026-11-03T12:00:00'
 categories:
   - ratgeber
 author: redaktion
@@ -110,6 +110,11 @@ imageAlt: 'Zwei Menschen lachen beim Café-Date, ein Mann zeigt Tattoos am Unter
 </div>
 </details>
 <p>Menschen ohne Tattoo hielten Tätowierte außerdem häufiger für weniger intelligent und professionell und für rebellischer.</p>
+<aside class="mag-callout">
+<p class="mag-callout-title">Aus der Forschung: Tattoos und das eigene Körpergefühl</p>
+<p>Eine Studie aus Polen hat die Perspektive umgedreht: Wie attraktiv finden Tätowierte und Gepiercte sich selbst? 202 Erwachsene bewerteten ihren eigenen Körper, 116 davon mit Tattoos oder Piercings. Frauen und Männer mit Körperschmuck schätzten ihre Körperpartien attraktiver ein als die Vergleichsgruppe ohne, und zwar auch dort, wo sie gar nicht tätowiert oder gepierct waren (Kozieł und Sitek, <em>Homo</em> 2013).</p>
+<p>Die Studie ist klein und misst nur die Selbsteinschätzung, nicht die Wirkung auf andere. Ob das Tattoo das Körpergefühl stärkt oder ob sich Menschen mit gutem Körpergefühl eher tätowieren lassen, zeigt sie nicht.</p>
+</aside>
 
 <h2>Was Experimente zeigen</h2>
 <p>Umfragen messen Meinungen. Experimente zeigen denselben Menschen einmal mit und einmal ohne Tattoo, etwa auf bearbeiteten Fotos. So wird der Effekt des Tattoos selbst sichtbar.</p>
@@ -205,4 +210,5 @@ imageAlt: 'Zwei Menschen lachen beim Café-Date, ein Mann zeigt Tattoos am Unter
 <li>Guéguen, N. (2013): Effects of a tattoo on men's behavior and attitudes towards women: An experimental field study. Archives of Sexual Behavior 42(8), 1517–1524. <a href="https://pubmed.ncbi.nlm.nih.gov/23657810/">PubMed 23657810</a></li>
 <li>Broussard, K. A. &amp; Harton, H. C. (2018): Tattoo or taboo? Tattoo stigma and negative attitudes toward tattooed individuals. The Journal of Social Psychology 158(5), 521–540. <a href="https://pubmed.ncbi.nlm.nih.gov/28934022/">PubMed 28934022</a></li>
 <li>Weiler, S. M., Duer, C., Krämer, D. &amp; Jacobsen, T. (2024): Effects of tattoos on the aesthetic appreciation of human stimuli as influenced by expertise, tattoo status, and age reflecting internalized social norms. PLOS ONE. <a href="https://doi.org/10.1371/journal.pone.0313940">doi.org/10.1371/journal.pone.0313940</a></li>
+<li>Kozieł, S. &amp; Sitek, A. (2013): Self-assessment of attractiveness of persons with body decoration. Homo 64(4), 317–325. <a href="https://doi.org/10.1016/j.jchb.2013.04.004">doi.org/10.1016/j.jchb.2013.04.004</a></li>
 </ul>

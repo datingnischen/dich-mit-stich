@@ -5,7 +5,7 @@ slug: bern
 cityName: Bern
 cityRegion: Bern
 title: 'Tattoo-Singles in Bern: alternative Szene und Events'
-metaDescription: 'Tattoo-Singles in Bern: Entdecke kreative Tattoo-Studios, alternative Szene-Hotspots und spannende Events in der Hauptstadt der Schweiz.'
+metaDescription: 'Tattoo-Singles in Bern: Reitschule, Progr Zentrum und Schützenmatte, dazu Gurtenfestival, Buskers Bern und die Bern Tattoo Convention.'
 h1: 'Tattoo-Singles in Bern: alternative Szene und Events'
 heroTitle: Finde kostenlos Singles in Bern und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-bern.jpg

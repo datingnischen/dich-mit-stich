@@ -5,7 +5,7 @@ slug: basel
 cityName: Basel
 cityRegion: Basel-Stadt
 title: 'Tattoo-Singles in Basel: Alternative Kultur'
-metaDescription: 'Tattoo-Singles in Basel: Entdecke kreative Tattoo-Studios, alternative Szene-Hotspots und einzigartige Events in der Kulturhauptstadt der Schweiz.'
+metaDescription: 'Tattoo-Singles in Basel: Klybeckquartier, Hinterhof, Werkraum Warteck und Voltaplatz, dazu Basel Art Walk und Fantasy Basel als Treffpunkte.'
 h1: 'Tattoo-Singles in Basel: Alternative Kultur'
 heroTitle: Finde kostenlos Singles in Basel und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-basel.jpg

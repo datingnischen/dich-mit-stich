@@ -5,7 +5,7 @@ slug: linz
 cityName: Linz
 cityRegion: Oberösterreich
 title: Linz – alternative Szene und Events für Tattoo-Singles
-metaDescription: 'Tattoo-Singles in Linz: Entdecken Sie kreative Tattoo-Studios, alternative Szene-Hotspots und beliebte Locations und Events für tätowierte Singles im Herzen Oberösterreichs'
+metaDescription: 'Tattoo-Singles in Linz: Wildstyle & Tattoo Messe, Crossing Europe, Mural Harbour und Zuckerfabrik – alternative Treffpunkte am Linzer Donauufer.'
 h1: 'Tattoo-Dating: Partnersuche in Linz für Singles mit Stich'
 heroTitle: Finde kostenlos Singles in Linz und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-linz.jpg

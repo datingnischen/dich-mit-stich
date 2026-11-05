@@ -4,12 +4,12 @@ market: at
 slug: wels
 cityName: Wels
 cityRegion: Oberösterreich
-title: Wels – eine Stadt mit vielen Möglichkeiten für tätowierte Singles erleben
-metaDescription: 'Hier können Sie unseren Artikel um die beste Locations, Veranstaltungen und Events in Wels, wo tatöwierte Singles sich treffen können und neue Kontakte knüpfen'
+title: 'Tattoo-Singles in Wels: Stadtpark, Traunufer & Street Art'
+metaDescription: 'Tattoo-Singles in Wels: Stadtpark und Traunufer, Café Ludwig und Lutz – der Klub, dazu das Wels Street Art Festival und die Galerie Forum.'
 h1: 'Tattoo trifft Herz: Partnersuche für Singles in Wels'
 heroTitle: Finde kostenlos Singles in Wels und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-wels.jpg
-imageAlt: Wels - eine Stadt mit vielen Möglichkeiten für tätowierte Singles erleben
+imageAlt: 'Wels – eine Stadt mit vielen Möglichkeiten für tätowierte Singles'
 imageAttribution:
   label: Foto von maxmann auf Pixabay
   sourceUrl: 'https://pixabay.com/de/photos/wels-stadt-wels-%C3%B6sterreich-3732831/'

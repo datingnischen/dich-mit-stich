@@ -5,7 +5,7 @@ slug: klagenfurt
 cityName: Klagenfurt
 cityRegion: Kärnten
 title: Klagenfurt – die coolsten Treffpunkte für Tattoo-Singles
-metaDescription: 'Hier können Sie unseren Artikel um die besten Locations, Bars, Veranstaltungen und Events zum Treffen von tatöwierten Singles in Klagenfurt lesen.'
+metaDescription: 'Tattoo-Singles in Klagenfurt: World-Bodypainting-Festival, Tattoo Convention und Freigeist – Treffpunkte und Events rund um den Lindwurm.'
 h1: Treffpunkte für tatöwierte Singles in Klagenfurt - die Stadt mit dem riesigen Drachen in der Form eines Brunnens
 heroTitle: Finde kostenlos Singles in Klagenfurt am Wörthersee und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-klagenfurt.jpg

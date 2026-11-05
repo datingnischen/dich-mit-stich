@@ -4,9 +4,9 @@ market: at
 slug: villach
 cityName: Villach
 cityRegion: Kärnten
-title: Villach – die wunderschöne Stadt zum Treffen von tätowierten Singles
-metaDescription: 'Lesen Sie unseren Artikel um die beste Locations, Bars, Tattoo-Studios und Veranstaltungen in Villach - die Stadt mit sehr vielen Sehenswürdigkeiten und reichen Kultur'
-h1: Partnersuche für Tattoo - Singles in österreichische Stadt Villach
+title: 'Tattoo-Singles in Villach: Rathausplatz & Nikolaiplatz'
+metaDescription: 'Tattoo-Singles in Villach: Nikolaiplatz, Rathausplatz und Maibachl, Partys in der Tanzarena Colosseum und Tattoo-Studios wie House of Tattoo.'
+h1: Partnersuche für Tattoo-Singles in der österreichischen Stadt Villach
 heroTitle: Finde kostenlos Singles in Villach und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-villach.jpg
 imageAlt: Villach - die wunderschöne Stadt zum Treffen von tätowierten Singles

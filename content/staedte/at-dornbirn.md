@@ -4,12 +4,12 @@ market: at
 slug: dornbirn
 cityName: Dornbirn
 cityRegion: Vorarlberg
-title: Dornbirn – romantische Dates auf ein neues Level für Tattoo-Single
-metaDescription: Hier können Sie Information zu vielen romantischen Plätzen mit Flirtpotenzial auf ein neues Level für tätowierte Singles in Dornbirn bekommen.
+title: 'Tattoo-Singles in Dornbirn: Conrad Sohm & Karren'
+metaDescription: 'Tattoo-Singles in Dornbirn: Konzerte im Conrad Sohm, Dates an der Karren-Kante, Stadtbad, Sämtisersee und das Origanofestival als Treffpunkte.'
 h1: Partnersuche für Tattoo-Singles in Dornbirn
 heroTitle: Finde kostenlos Singles in Dornbirn und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-dornbirn.jpg
-imageAlt: Dornbirn - romantische Dates auf ein neues Level für Tattoo-Single
+imageAlt: 'Dornbirn – romantische Dates für Tattoo-Singles'
 imageAttribution:
   label: Foto von Pixel-Sepp auf Pixabay
   sourceUrl: 'https://pixabay.com/de/photos/karren-dornbirn-panorama-bregenz-5342438/'

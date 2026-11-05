@@ -4,12 +4,12 @@ market: at
 slug: wien
 cityName: Wien
 cityRegion: Wien
-title: Wien – Schöne Ort für Tattoofans um ihre große Liebe zu finden
-metaDescription: 'Hier können Sie unseren spannenden Artikel um die Tattoofans und die große Liebe lesen. Es gibt viele Orte in Wien, an denen die tätowierten Wiener sich flirten lassen.'
+title: 'Tattoo-Singles in Wien: Tattoomesse, Prater & Naschmarkt'
+metaDescription: 'Tattoo-Singles in Wien: Tattoomesse, Café Central und Tanzcafe Jenseits, dazu Prater, Naschmarkt, Donauinsel und Museumsquartier als Treffpunkte.'
 h1: Singles mit interessanten Tattoos in Wien
 heroTitle: Finde kostenlos Singles in Wien und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-wien.jpg
-imageAlt: Wien - Schöne Ort für Tattoofans um ihre große Liebe zu finden
+imageAlt: 'Wien – schöne Orte für Tattoofans, um die große Liebe zu finden'
 imageAttribution:
   label: Foto von hbieser auf Pixabay
   sourceUrl: 'https://pixabay.com/de/photos/schloss-belvedere-wien-architektur-2003867/'

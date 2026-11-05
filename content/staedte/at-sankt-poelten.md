@@ -4,8 +4,8 @@ market: at
 slug: sankt-poelten
 cityName: Sankt Pölten
 cityRegion: Niederösterreich
-title: Sankt Pölten – interessante Treffpunkte für Singles mit Tattoos
-metaDescription: 'Lesen Sie unseren Artikel um die beste Locations zum Flirten für Singles mit Tattoo in Sankt Pölten - von der sportlichen und kulturellen Aktivitäten bis zur Bars, Cafés, Restaurants und Clubs.'
+title: 'Tattoo-Singles in Sankt Pölten: Wildstyle & Tattoo Messe'
+metaDescription: 'Tattoo-Singles in Sankt Pölten: Wildstyle & Tattoo Messe, The Lovers Ink Studio, Parks und Lokale der Innenstadt als Treffpunkte zum Kennenlernen.'
 h1: Gelegenheiten zum Kennenlernen in Sankt Pölten und Umgebung
 heroTitle: Finde kostenlos Singles in St. Pölten und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-sankt-poelten.jpg

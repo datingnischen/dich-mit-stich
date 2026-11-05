@@ -4,12 +4,12 @@ market: ch
 slug: lausanne
 cityName: Lausanne
 cityRegion: Waadt
-title: 'Tattoo-Singles in Lausanne: Kultur und kreative Studio'
-metaDescription: 'Tattoo-Singles in Lausanne: Entdecke kreative Tattoo-Studios, alternative Subkultur-Hotspots und spannende Events am Genfersee. Lesen Sie weiter.'
-h1: 'Tattoo-Singles in Lausanne: Kultur und kreative Studio'
+title: 'Tattoo-Singles in Lausanne: Le Flon & Les Docks'
+metaDescription: 'Tattoo-Singles in Lausanne: Quartier du Flon, Les Docks und Le Bourg, dazu das Festival de la Cité und Label Suisse Festival am Genfersee.'
+h1: 'Tattoo-Singles in Lausanne: Kultur und kreative Studios'
 heroTitle: Finde kostenlos Singles in Lausanne und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-lausanne.jpg
-imageAlt: 'Tattoo-Singles in Lausanne: Kultur und kreative Studio'
+imageAlt: 'Tattoo-Singles in Lausanne: Kultur und kreative Studios'
 imageAttribution:
   label: Foto von SLPix auf Pixabay
   sourceUrl: 'https://pixabay.com/de/photos/amtsgericht-lausanne-waadt-schweiz-2518361/'

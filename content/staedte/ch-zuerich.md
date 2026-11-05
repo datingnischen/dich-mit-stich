@@ -4,8 +4,8 @@ market: ch
 slug: zuerich
 cityName: Zürich
 cityRegion: Zürich
-title: 'Tattoo-Singles in Zürich: Kreative Studios, alternative Szene'
-metaDescription: 'Tattoo-Singles in Zürich: Entdecke kreative Tattoo-Studios, alternative Treffpunkte und spannende Events in der größten Stadt der Schweiz.'
+title: 'Tattoo-Singles in Zürich: Langstrasse & Rote Fabrik'
+metaDescription: 'Tattoo-Singles in Zürich: Langstrasse im Kreis 4, Rote Fabrik und Dynamo, dazu Street Parade und Zurich Tattoo Convention als Treffpunkte.'
 h1: 'Tattoo-Singles in Zürich: Kreative Studios, alternative Szene'
 heroTitle: Finde kostenlos Singles in Zürich und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-zuerich.jpg

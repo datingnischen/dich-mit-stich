@@ -59,11 +59,20 @@ test("tattoo singles city pages have unique titles that are not a city-only temp
   const dir = new URL("../content/staedte/", import.meta.url);
   const files = (await readdir(dir)).filter((name) => name.endsWith(".md") && !name.startsWith("_"));
   const titles = new Set();
+  const descriptions = new Set();
   const skeletons = new Map();
   for (const name of files) {
     const { data } = matter(await readFile(new URL(name, dir), "utf8"));
     assert.ok(data.title.includes(data.cityName), `${name}: Stadtname fehlt im Titel`);
+    assert.ok(rendered(data.title).length <= 60, `${name}: Titel ${rendered(data.title).length} Zeichen`);
     assert.ok(!titles.has(data.title), `${name}: Titel doppelt`);
+    if (data.market !== "de") {
+      const length = data.metaDescription.length;
+      assert.ok(length >= 110 && length <= 155, `${name}: Description ${length} Zeichen`);
+      assert.ok(!descriptions.has(data.metaDescription), `${name}: Description doppelt`);
+      descriptions.add(data.metaDescription);
+    }
+    if (data.market === "ch") assert.doesNotMatch(`${data.title} ${data.metaDescription}`, /ß/, `${name}: ß in der Schweiz`);
     titles.add(data.title);
     const skeleton = data.title.replace(data.cityName, "X");
     skeletons.set(skeleton, [...(skeletons.get(skeleton) || []), name]);

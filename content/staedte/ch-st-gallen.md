@@ -5,7 +5,7 @@ slug: st-gallen
 cityName: St. Gallen
 cityRegion: St. Gallen
 title: 'Tattoo-Singles in St. Gallen: Kreative Studios und Kultur'
-metaDescription: 'Tattoo-Singles in St. Gallen: Entdecke kreative Tattoo-Studios, alternative Szene-Hotspots und spannende Events in der Ostschweiz. Lesen Sie weiter.'
+metaDescription: 'Tattoo-Singles in St. Gallen: Grabenhalle, Pfalzkeller und Linsebühl-Viertel, dazu OpenAir St. Gallen und Buskers Festival in der Ostschweiz.'
 h1: 'Tattoo-Singles in St. Gallen: Kreative Studios und Kultur'
 heroTitle: Finde kostenlos Singles in St. Gallen und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-st-gallen.jpg

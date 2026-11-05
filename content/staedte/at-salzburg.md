@@ -4,12 +4,12 @@ market: at
 slug: salzburg
 cityName: Salzburg
 cityRegion: Salzburg
-title: Salzburg – Flirt-Hotspots an den besten Orte zum Treffen von tätowierten Singles
-metaDescription: 'Lesen Sie unseren Artikel mit guten Tipps, wo man Singles mit Tattoo in Salzburg treffen kann. Mozart - Stadt ist eine Mischung von Kunst, Kultur, Traditionen und Veranstaltungen.'
-h1: Die besten Orte in Salzburg für Tattoo - Single
+title: 'Tattoo-Singles in Salzburg: Stadtalm, Russ Bar & Skybar'
+metaDescription: 'Tattoo-Singles in Salzburg: Stadtalm, Russ Bar und Skybar über der Stadtbibliothek, dazu Kletterhalle, Hochseilgarten und Waldfest Hallwang.'
+h1: Die besten Orte in Salzburg für Tattoo-Singles
 heroTitle: Finde kostenlos Singles in Salzburg und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-salzburg.jpg
-imageAlt: Salzburg - Flirt-Hotspots an den besten Orte zum Treffen von tätowierten Singles
+imageAlt: 'Salzburg – Flirt-Hotspots zum Treffen von tätowierten Singles'
 imageAttribution:
   label: Foto von ChiemSeherin auf Pixabay
   sourceUrl: 'https://pixabay.com/de/photos/salzburg-mozartstadt-7175556/'

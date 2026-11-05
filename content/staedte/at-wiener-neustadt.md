@@ -5,7 +5,7 @@ slug: wiener-neustadt
 cityName: Wiener Neustadt
 cityRegion: Niederösterreich
 title: 'Wiener Neustadt – die Stadt, wo die Liebe tätowiert wird'
-metaDescription: Ein Partner mit Tattoo in Wiener Neustadt zu finden ist so facettenreich wie die Stadt selbst. Lesen Sie unseren Artikel um die Treffpunkte in der kulturellen und kreativen Metropole.
+metaDescription: 'Tattoo-Singles in Wiener Neustadt: Bar Mephisto, Cavallo Café-Bar und Bar No12, dazu Streetfood Festival, Urban Art Festival und Tattoo-Studios.'
 h1: Angesagte Locations für tätowierte Singles in Wiener Neustadt
 heroTitle: Finde kostenlos Singles in Wiener Neustadt und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-wiener-neustadt.jpg

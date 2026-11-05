@@ -4,8 +4,8 @@ market: de
 slug: mannheim
 cityName: Mannheim
 cityRegion: Baden-Württemberg
-title: Alternative Singles in Mannheim – Tattoos
-metaDescription: 'Tattoo-Singles in Mannheim: Erkunde kreative Tattoo-Studios, alternative Treffpunkte und spannende Subkultur-Events in der Quadratestadt.'
+title: 'Tattoo-Singles in Mannheim: Jungbusch & Alte Feuerwache'
+metaDescription: 'Tattoo-Singles in Mannheim: Jungbusch, Alte Feuerwache, Capitol und Multihalle, dazu Maifeld Derby und Tattoo-Studios in der Quadratestadt.'
 h1: Alternative Singles in Mannheim - Tattoos
 heroTitle: Finde kostenlos Singles in Mannheim und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-mannheim.jpg

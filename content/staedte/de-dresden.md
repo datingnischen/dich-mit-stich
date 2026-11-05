@@ -4,8 +4,8 @@ market: de
 slug: dresden
 cityName: Dresden
 cityRegion: Sachsen
-title: 'Singles in Dresden: Tattoo-Studios und Subkultur-Hotspots'
-metaDescription: 'Dresden - alternative Szene für tätowierte und gepiercte Singles. Entdecke Tattoo-Studios, Subkultur-Hotspots, Events und mehr.'
+title: 'Tattoo-Singles in Dresden: Neustadt & Kunsthofpassage'
+metaDescription: 'Dresden für tätowierte und gepiercte Singles: Neustadt mit Kunsthofpassage und Louisenstraße, Ostpol, Scheune und die Bunte Republik Neustadt.'
 h1: 'Singles in Dresden: Tattoo-Studios und Subkultur-Hotspots'
 heroTitle: Finde kostenlos Singles in Dresden und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-dresden.jpg

@@ -11,7 +11,7 @@ import { staticAsset } from "@/lib/static-asset";
 import { getNearbyStudioCities } from "@/lib/studio-city-neighbours";
 import { studioStyleCounts } from "@/lib/studio-guide-sections";
 import { tattooSinglesPath } from "@/lib/tattoo-singles";
-import type { TattooStudioCityGuide as TattooStudioCityGuideData } from "@/lib/tattoo-studio-guide";
+import { getTattooStudioCitySeo, type TattooStudioCityGuide as TattooStudioCityGuideData } from "@/lib/tattoo-studio-guide";
 
 type FaqItem = { question: string; answer: string };
 
@@ -19,12 +19,6 @@ type TattooStudioCityGuideProps = {
   guide: TattooStudioCityGuideData;
   market: MarketCode;
 };
-
-export function tattooStudioCityDescription(cityName: string, studioCount: number) {
-  return studioCount
-    ? `${studioCount} Tattoo-Studios in ${cityName} mit Adressen, direkten Links und praktischen Tipps für deine Auswahl.`
-    : `Tattoo-Stadtguide für ${cityName} mit Tipps zu Stil, Portfolio, Beratung und Hygiene.`;
-}
 
 function formatDate(value: string, market: MarketCode) {
   const locale = market === "ch" ? "de-CH" : market === "at" ? "de-AT" : "de-DE";
@@ -86,7 +80,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
         "@type": "CollectionPage",
         "@id": `${pageUrl}#webpage`,
         name: `Tattoo-Studios in ${guide.cityName}`,
-        description: tattooStudioCityDescription(guide.cityName, studios.length),
+        description: getTattooStudioCitySeo(guide).description,
         url: pageUrl,
         dateModified: guide.lastVerified,
         breadcrumb: { "@id": breadcrumbId },

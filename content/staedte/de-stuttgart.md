@@ -4,8 +4,8 @@ market: de
 slug: stuttgart
 cityName: Stuttgart
 cityRegion: Baden-Württemberg
-title: Tätowierte und gepiercte Singles in Stuttgart
-metaDescription: 'Entdecke die alternative Szene in Stuttgart: Tattoo-Studios, Subkultur-Hotspots und Kunst für tätowierte und gepiercte Singles.'
+title: 'Tattoo-Singles in Stuttgart: Wagenhallen und der Westen'
+metaDescription: 'Stuttgart für tätowierte und gepiercte Singles: Street Art an den Wagenhallen, Stuttgart-West, Hans-im-Glück-Viertel und Events wie die Tattoo Expo.'
 h1: Tätowierte und gepiercte Singles in Stuttgart
 heroTitle: Finde kostenlos Singles in Stuttgart und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-stuttgart.jpg

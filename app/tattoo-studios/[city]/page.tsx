@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { SiteFrame } from "@/components/site-frame";
-import { TattooStudioCityGuide, tattooStudioCityDescription } from "@/components/tattoo-studio-city-guide";
+import { TattooStudioCityGuide } from "@/components/tattoo-studio-city-guide";
 import { publicUrl } from "@/lib/markets";
-import { getTattooStudioCities, getTattooStudioCityGuide } from "@/lib/tattoo-studio-guide";
+import { getTattooStudioCities, getTattooStudioCityGuide, getTattooStudioCitySeo } from "@/lib/tattoo-studio-guide";
 import { brandedTitle } from "@/lib/seo-title";
 
 type PageProps = { params: Promise<{ city: string }> };
@@ -18,8 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const guide = getTattooStudioCityGuide("de", city);
   if (!guide) return {};
 
-  const title = `Tattoo-Studios in ${guide.cityName} – Stadtguide`;
-  const description = tattooStudioCityDescription(guide.cityName, guide.studios.length);
+  const { metaTitle: title, description } = getTattooStudioCitySeo(guide);
   const url = publicUrl("de", `/tattoo-studios/${city}`);
 
   return {

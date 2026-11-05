@@ -4,8 +4,8 @@ market: ch
 slug: luzern
 cityName: Luzern
 cityRegion: Luzern
-title: 'Tattoo-Singles in Luzern: Kreative Studios'
-metaDescription: 'Tattoo-Singles in Luzern: Entdecke kreative Studios, alternative Treffpunkte und einzigartige Events in der Stadt am Vierwaldstättersee.'
+title: 'Tattoo-Singles in Luzern: Südpol, Neubad und Neustadt'
+metaDescription: 'Tattoo-Singles in Luzern: Südpol, Neubad und Bar 59, das Neustadt-Viertel sowie Blue Balls Festival und Fumetto – Treffpunkte am Vierwaldstättersee.'
 h1: 'Tattoo-Singles in Luzern: Kreative Studios'
 heroTitle: Finde kostenlos Singles in Luzern und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-luzern.jpg

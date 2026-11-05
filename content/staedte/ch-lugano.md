@@ -4,8 +4,8 @@ market: ch
 slug: lugano
 cityName: Lugano
 cityRegion: Tessin
-title: 'Tattoo-Singles in Lugano: alternative Treffpunkte'
-metaDescription: 'Tattoo-Singles in Lugano: Entdecke kreative Tattoo-Studios, alternative Subkultur-Hotspots und spannende Events in der italienischsprachigen Schweiz.'
+title: 'Tattoo-Singles in Lugano: Studio Foce & Quartiere Maghetti'
+metaDescription: 'Tattoo-Singles in Lugano: Studio Foce, Living Room und Quartiere Maghetti, dazu LongLake Festival und Tattoo-Studios in der italienischsprachigen Schweiz.'
 h1: 'Tattoo-Singles in Lugano: alternative Treffpunkte'
 heroTitle: Finde kostenlos Singles in Lugano und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-lugano.jpg

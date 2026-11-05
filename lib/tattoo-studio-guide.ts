@@ -14,6 +14,7 @@ import deGuideCatalog from "../data/tattoo-studio-guides-de.json" with { type: "
 import atTattooCities from "../data/tattoo-cities-at.json" with { type: "json" };
 import chTattooCities from "../data/tattoo-cities-ch.json" with { type: "json" };
 import cityImages from "../data/tattoo-city-images.json" with { type: "json" };
+import citySeo from "../data/tattoo-studio-seo.json" with { type: "json" };
 import type { MarketCode } from "./markets.ts";
 
 const EDITORIAL_HTML_POLICY: sanitizeHtml.IOptions = {
@@ -389,4 +390,24 @@ export function getTattooStudio(market: MarketCode, slug: string): TattooStudio 
 
 export function getTattooStudioSlugs(market: MarketCode): string[] {
   return getTattooStudioCities(market).flatMap((city) => city.studios.map((studio) => studio.slug));
+}
+
+type TattooStudioCitySeo = { metaTitle: string; description: string };
+const CITY_SEO = citySeo as unknown as Record<string, TattooStudioCitySeo>;
+
+/**
+ * Individueller <title> und Meta-Description je Stadtguide (data/tattoo-studio-seo.json,
+ * Christian 4.11.2026: keine Schablone, in der nur die Stadt wechselt). Der Fallback greift
+ * nur für neue Städte, bis ihr Eintrag gepflegt ist; ein Test verlangt den Eintrag.
+ */
+export function getTattooStudioCitySeo(guide: Pick<TattooStudioCityGuide, "market" | "slug" | "cityName" | "studios">): TattooStudioCitySeo & { custom: boolean } {
+  const entry = CITY_SEO[`${guide.market}/${guide.slug}`];
+  if (entry) return { ...entry, custom: true };
+  return {
+    metaTitle: `Tattoo-Studios in ${guide.cityName} – Stadtguide`,
+    description: guide.studios.length
+      ? `${guide.studios.length} Tattoo-Studios in ${guide.cityName} mit Adressen, direkten Links und praktischen Tipps für deine Auswahl.`
+      : `Tattoo-Stadtguide für ${guide.cityName} mit Tipps zu Stil, Portfolio, Beratung und Hygiene.`,
+    custom: false,
+  };
 }

@@ -4,8 +4,8 @@ market: de
 slug: leipzig
 cityName: Leipzig
 cityRegion: Sachsen
-title: 'Singles in Leipzig: Tattoo-Studios und Subkultur-Hotspots'
-metaDescription: 'Leipzigs alternative Szene für tätowierte und gepiercte Singles: Entdecke Tattoo-Studios, Subkultur-Hotspots, Events und mehr.'
+title: 'Tattoo-Singles in Leipzig: Connewitz, KarLi & Werk 2'
+metaDescription: 'Leipzig für tätowierte und gepiercte Singles: Connewitz, Werk 2 und die KarLi, Spinnerei und Westwerk sowie das Wave-Gotik-Treffen.'
 h1: 'Singles in Leipzig: Tattoo-Studios und Subkultur-Hotspots'
 heroTitle: Finde kostenlos Singles in Leipzig und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-leipzig.jpg

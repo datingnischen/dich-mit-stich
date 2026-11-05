@@ -1,0 +1,167 @@
+{
+  "_hinweis": "Individuelle <title>- und Meta-Description-Texte je Studio-Stadtguide (Christian, 4.11.2026). Nicht aus Importen überschreiben. Jeder Titel nennt nur Viertel, Stile oder Besonderheiten, die im jeweiligen Guide belegt sind; gerenderter Titel max. 60 Zeichen, Description 110–155 Zeichen.",
+  "de/berlin": {
+    "metaTitle": "Tattoo-Studios Berlin: Kreuzberg, Mitte, Neukölln",
+    "description": "Tattoo-Studios in Berlin von Neukölln über Kreuzberg bis Mitte: Old School, japanisches Tattooing und Fineline – mit Adressen und Tipps zur Auswahl."
+  },
+  "de/bochum": {
+    "metaTitle": "Tattoo-Studios Bochum: Bermudadreieck bis Wattenscheid",
+    "description": "Tattoo-Studios in Bochum zwischen Bermudadreieck, Innenstadt, Wattenscheid und Linden: Fineline, Blackwork und Cover-ups mit Adressen im Vergleich."
+  },
+  "de/bonn": {
+    "metaTitle": "Tattoo-Studios Bonn: Altstadt, Beuel und Innenstadt",
+    "description": "Tattoo-Studios in Bonn von der Altstadt über das Viktoriaviertel bis Beuel: Fine Line, Realistic und Custom-Arbeiten mit Adressen und Auswahltipps."
+  },
+  "de/bremen": {
+    "metaTitle": "Tattoo-Studios in Bremen: vom Viertel bis Vegesack",
+    "description": "Tattoo-Studios in Bremen zwischen Innenstadt, Viertel, Walle und Vegesack: Black & Grey, Fineline und Cover-ups, dazu Tipps für Beratung und Portfolio."
+  },
+  "de/dortmund": {
+    "metaTitle": "Tattoo-Studios Dortmund: Brückstraße, Marten, Scharnhorst",
+    "description": "Tattoo-Studios in Dortmund rund um Brückstraße und Hoher Wall sowie in Marten und Scharnhorst: Anime, Traditional und Cover-ups mit Adressen."
+  },
+  "de/dresden": {
+    "metaTitle": "Tattoo-Studios Dresden: Neustadt, Blackwork & Realistic",
+    "description": "Tattoo-Studios in Dresden mit Schwerpunkt Neustadt, dazu Adressen in Striesen und Löbtau: Blackwork, Realistic und Linework für deine Studiowahl."
+  },
+  "de/duisburg": {
+    "metaTitle": "Tattoo-Studios Duisburg: Neudorf, Ruhrort, Rheinhausen",
+    "description": "Tattoo-Studios in Duisburg zwischen Innenstadt, Neudorf, Ruhrort und Rheinhausen: nahbare Studios mit Tattoo und Piercing, Adressen und Auswahltipps."
+  },
+  "de/duesseldorf": {
+    "metaTitle": "Tattoo-Studios Düsseldorf: Fineline in Bilk und Flingern",
+    "description": "Tattoo-Studios in Düsseldorf von Bilk über Flingern bis Pempelfort: Fineline, Microrealism, Anime und Black & Grey mit Adressen und Anfrage-Tipps."
+  },
+  "de/essen": {
+    "metaTitle": "Tattoo-Studios Essen: Innenstadt, Altenessen, Steele",
+    "description": "Tattoo-Studios in Essen rund um Limbecker Straße und Lindenallee sowie in Altenessen, Frohnhausen und Steele: Adressen, Stile und Tipps zur Auswahl."
+  },
+  "de/frankfurt-am-main": {
+    "metaTitle": "Tattoo-Studios Frankfurt am Main: Nordend bis Sachsenhausen",
+    "description": "Tattoo-Studios in Frankfurt am Main von Bahnhofsviertel und Nordend bis Sachsenhausen: Concept-Studios, Fineline und englischsprachige Beratung."
+  },
+  "de/hamburg": {
+    "metaTitle": "Tattoo-Studios Hamburg: St. Pauli, Sternschanze, Ottensen",
+    "description": "Tattoo-Studios in Hamburg von St. Pauli über Sternschanze und Ottensen bis Winterhude und Wandsbek: Adressen, Stilrichtungen und Tipps zur Auswahl."
+  },
+  "de/hannover": {
+    "metaTitle": "Tattoo-Studios Hannover: Linden, List und Nordstadt",
+    "description": "Tattoo-Studios in Hannover von der Limmerstraße in Linden über die List bis zur Nordstadt und Südstadt: individuelle Designs, Adressen und Kontaktwege."
+  },
+  "de/karlsruhe": {
+    "metaTitle": "Tattoo-Studios Karlsruhe: Kaiserstraße bis Durlach",
+    "description": "Tattoo-Studios in Karlsruhe nahe Kaiserstraße, Kronenplatz und Südstadt bis Durlach: Galeriekonzepte, Fine Line, Realistic und Cover-ups im Überblick."
+  },
+  "de/koeln": {
+    "metaTitle": "Tattoo-Studios Köln: Ehrenfeld, Belgisches Viertel, Sülz",
+    "description": "Tattoo-Studios in Köln zwischen Ehrenfeld, Belgischem Viertel, Innenstadt und Sülz: Fine Line, Blackwork, Realistic und Cover-ups mit Adressen."
+  },
+  "de/leipzig": {
+    "metaTitle": "Tattoo-Studios Leipzig: Zentrum, Plagwitz, Südvorstadt",
+    "description": "Tattoo-Studios in Leipzig vom Zentrum über Plagwitz und den Leipziger Westen bis zur Südvorstadt an der KarLi: Ateliers, Gast-Artists und Adressen."
+  },
+  "de/muenchen": {
+    "metaTitle": "Tattoo-Studios München: Maxvorstadt, Haidhausen, Giesing",
+    "description": "Tattoo-Studios in München von Maxvorstadt und Schwabing über Haidhausen bis Giesing und Pasing: Fineline, Realistic und Cover-ups mit Adressen."
+  },
+  "de/muenster": {
+    "metaTitle": "Tattoo-Studios Münster: Fineline, Realistic & Cover-up",
+    "description": "Tattoo-Studios in Münster vom ruhigen Atelier bis zum Studio mit Gast-Artists: Fineline, Realistic, Blackwork und Cover-ups mit Adressen und FAQ."
+  },
+  "de/nuernberg": {
+    "metaTitle": "Tattoo-Studios Nürnberg: Altstadt, Gostenhof und Südstadt",
+    "description": "Tattoo-Studios in Nürnberg zwischen Altstadt, Gostenhof und Südstadt: Custom-Tattoos, Realistic, Anime und Black & Grey mit Adressen und Auswahltipps."
+  },
+  "de/stuttgart": {
+    "metaTitle": "Tattoo-Studios Stuttgart: vom Westen bis Untertürkheim",
+    "description": "Tattoo-Studios in Stuttgart vom Westen über Mitte und Süd bis Untertürkheim: Walk-in, Fineline, Blackwork und Dotwork mit Adressen im Überblick."
+  },
+  "de/wuppertal": {
+    "metaTitle": "Tattoo-Studios Wuppertal: Elberfeld, Barmen, Luisenviertel",
+    "description": "Tattoo-Studios in Wuppertal zwischen Elberfeld, Luisenviertel und Barmen bis Langerfeld: Black and Grey, Realismus und Handpoke mit Adressen."
+  },
+  "at/dornbirn": {
+    "metaTitle": "Tattoo-Studios in Dornbirn – Vorarlbergs größte Stadt",
+    "description": "Tattoo-Studios in Dornbirn und im Vorarlberger Rheintal: Adressen, Wartezeiten bei gefragten Studios und Tipps zu Portfolio, Beratung und Hygiene."
+  },
+  "at/graz": {
+    "metaTitle": "Tattoo-Studios Graz: Galerie-Ateliers und Custom-Tattoos",
+    "description": "Tattoo-Studios in Graz vom Joanneumring bis zur Mariahilfer Straße: Galerie-Ateliers, Custom-Motive, Realismus und Cover-ups mit Adressen."
+  },
+  "at/innsbruck": {
+    "metaTitle": "Tattoo-Studios Innsbruck: Innrain bis Tiergartenstraße",
+    "description": "Tattoo-Studios in Innsbruck an Innrain, Museumsstraße, Andreas-Hofer-Straße und Tiergartenstraße: Adressen, Kontaktwege und Tipps zur Beratung."
+  },
+  "at/klagenfurt": {
+    "metaTitle": "Tattoo-Studios Klagenfurt: Galerie-Ateliers am Wörthersee",
+    "description": "Tattoo-Studios in Klagenfurt am Wörthersee: langjährige Adressen, jüngere Galerie-Ateliers mit Walk-in-Tagen und Tipps für deine Studioauswahl."
+  },
+  "at/linz": {
+    "metaTitle": "Tattoo-Studios Linz: Urfahr, Fineline und Cover-ups",
+    "description": "Tattoo-Studios in Linz von der Innenstadt bis Urfahr: Fineline, Cover-ups, Dotwork und Watercolor mit Adressen und Hinweisen zur Studioauswahl."
+  },
+  "at/salzburg": {
+    "metaTitle": "Tattoo-Studios Salzburg: Realismus, Black & Grey, Custom",
+    "description": "Tattoo-Studios in Salzburg von der Altstadt bis Liefering: realistische Black-and-Grey-Arbeiten, Fineline und individuelle Designs mit Adressen."
+  },
+  "at/sankt-poelten": {
+    "metaTitle": "Tattoo-Studios Sankt Pölten: Innenstadt-Szene nahe Wien",
+    "description": "Tattoo-Studios in Sankt Pölten: kleine Innenstadt-Szene, 25 Minuten von Wien entfernt. Adressen und Tipps, worauf du bei Portfolio und Beratung achtest."
+  },
+  "at/villach": {
+    "metaTitle": "Tattoo-Studios Villach: Gerbergasse bis Karlgasse",
+    "description": "Tattoo-Studios in Villach liegen nah beieinander: Gerbergasse, Lederergasse und Karlgasse. Adressen und Tipps, um Studios an einem Tag zu vergleichen."
+  },
+  "at/wels": {
+    "metaTitle": "Tattoo-Studios Wels: Ateliers rund um den Stadtplatz",
+    "description": "Tattoo-Studios in Wels zwischen Stadtplatz und angrenzenden Vierteln: langjährige Studios und Ateliers für handgezeichnete Einzelstücke mit Adressen."
+  },
+  "at/wien": {
+    "metaTitle": "Tattoo-Studios Wien: Wieden, Margareten, Neubau",
+    "description": "Tattoo-Studios in Wien von Wieden, Margareten und Neubau bis Floridsdorf und Donaustadt: Realismus, Dotwork, Fineline und Cover-ups mit Adressen."
+  },
+  "at/wiener-neustadt": {
+    "metaTitle": "Tattoo-Studios Wiener Neustadt: Tattoo und Piercing",
+    "description": "Tattoo-Studios in Wiener Neustadt rund um den Hauptplatz und an den Ausfallstraßen: Studios mit Tattoo und Piercing, Adressen und Auswahltipps."
+  },
+  "ch/basel": {
+    "metaTitle": "Tattoo-Studios Basel: illustrativ im Dreiländereck",
+    "description": "Tattoo-Studios in Basel im Dreiländereck: illustrative und ornamentale Handschriften, mehrsprachige Beratung, Adressen und Tipps zur Terminplanung."
+  },
+  "ch/bern": {
+    "metaTitle": "Tattoo-Studios Bern: Altstadt und Quartiere im Vergleich",
+    "description": "Tattoo-Studios in Bern zwischen Altstadt und Quartieren: Walk-ins in der Innenstadt, ruhige Beratung ausserhalb, dazu Adressen und Auswahltipps."
+  },
+  "ch/biel-bienne": {
+    "metaTitle": "Tattoo-Studios Biel/Bienne: zweisprachig beraten",
+    "description": "Tattoo-Studios in Biel/Bienne: Beratung auf Deutsch oder Französisch, Kundschaft aus Jura und Seeland, dazu Adressen und Tipps für deine Studiowahl."
+  },
+  "ch/genf": {
+    "metaTitle": "Tattoo-Studios Genf: mehrsprachig und international",
+    "description": "Tattoo-Studios in Genf: mehrsprachige Beratung, Gastkünstlerinnen und Gastkünstler aus dem Ausland, Tipps zur Grenzlage und Adressen im Überblick."
+  },
+  "ch/lausanne": {
+    "metaTitle": "Tattoo-Studios Lausanne: Universitätsstadt am Genfersee",
+    "description": "Tattoo-Studios in Lausanne am Genfersee: feine kleine Arbeiten und grossflächige Projekte, Beratung meist auf Französisch, mit Adressen und Tipps."
+  },
+  "ch/lugano": {
+    "metaTitle": "Tattoo-Studios Lugano: Beratung auf Italienisch",
+    "description": "Tattoo-Studios in Lugano: Beratung meist auf Italienisch, illustrative Arbeiten, Farbe und Black-and-Grey-Realismus, dazu Adressen und Sprachtipps."
+  },
+  "ch/luzern": {
+    "metaTitle": "Tattoo-Studios in Luzern: Tipps für mehrere Sitzungen",
+    "description": "Tattoo-Studios in Luzern: kompakte Stadt, langjährige Adressen und Tipps, wie du ein Projekt mit mehreren Sitzungen planst und Studios vergleichst."
+  },
+  "ch/st-gallen": {
+    "metaTitle": "Tattoo-Studios St. Gallen: Blackwork, Ornamental, Fineline",
+    "description": "Tattoo-Studios in St. Gallen: spezialisierte Adressen für Blackwork, ornamentale Arbeiten, Fineline und Mikrorealismus, mit Adressen und Auswahltipps."
+  },
+  "ch/winterthur": {
+    "metaTitle": "Tattoo-Studios Winterthur: Alternative zu Zürich",
+    "description": "Tattoo-Studios in Winterthur: eigene Szene in umgenutzten Industriequartieren, oft kürzere Wartezeiten als in Zürich, mit Adressen und Tipps."
+  },
+  "ch/zuerich": {
+    "metaTitle": "Tattoo-Studios Zürich: Altstetten, Oerlikon, Wiedikon",
+    "description": "Tattoo-Studios in Zürich von Altstetten und Oerlikon bis Wiedikon und Zentrum: Fineline, Mikrorealismus, Realistic und Custom-Tattoos mit Adressen."
+  }
+}

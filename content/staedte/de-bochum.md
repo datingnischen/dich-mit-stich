@@ -4,8 +4,8 @@ market: de
 slug: bochum
 cityName: Bochum
 cityRegion: Nordrhein-Westfalen
-title: Tätowierte und gepiercte Singles in Bochum
-metaDescription: 'Entdecke die alternative Szene in Bochum: Tattoo-Studios, Subkultur-Hotspots und Kunst für tätowierte und gepiercte Singles.'
+title: 'Tätowierte Singles in Bochum: Bermudadreieck & Rotunde'
+metaDescription: 'Bermudadreieck, Rotunde, Zeche Bochum und Westpark: Treffpunkte, Events und Tattoo-Studios für tätowierte und gepiercte Singles in Bochum.'
 h1: Tätowierte und gepiercte Singles in Bochum
 heroTitle: Finde kostenlos Singles in Bochum und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-bochum.jpg

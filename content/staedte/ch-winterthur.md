@@ -4,8 +4,8 @@ market: ch
 slug: winterthur
 cityName: Winterthur
 cityRegion: Zürich
-title: 'Tattoo-Singles in Winterthur: alternative Treffpunkte'
-metaDescription: 'Tattoo-Singles in Winterthur: Entdecke kreative Tattoo-Studios, alternative Subkultur-Hotspots und spannende Events in der sechstgrößten Stadt der Schweiz.'
+title: 'Tattoo-Singles in Winterthur: Gaswerk und Lagerplatz'
+metaDescription: 'Tattoo-Singles in Winterthur: Gaswerk, Albani Music Club und Lagerplatz, dazu die Musikfestwochen und lokale Tattoo-Studios für die alternative Szene.'
 h1: 'Tattoo-Singles in Winterthur: alternative Treffpunkte'
 heroTitle: Finde kostenlos Singles in Winterthur und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-winterthur.jpg

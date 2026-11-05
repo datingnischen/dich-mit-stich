@@ -4,8 +4,8 @@ market: de
 slug: hannover
 cityName: Hannover
 cityRegion: Niedersachsen
-title: Alternative Singles in Hannover – Tattoos
-metaDescription: 'Tattoo- und Piercing-Singles in Hannover: Entdecke kreative Studios, alternative Hotspots und Events in der Landeshauptstadt Niedersachsens.'
+title: 'Alternative Singles in Hannover: Glocksee & Linden-Nord'
+metaDescription: 'Tattoo- und Piercing-Singles in Hannover: Glocksee, Linden-Nord und Steintorviertel, dazu Sprengel Museum, Fährmannsfest und Tattoo-Studios.'
 h1: Alternative Singles in Hannover - Tattoos
 heroTitle: Finde kostenlos Singles in Hannover und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dich-mit-stich-tattoo-singles-hannover.jpg

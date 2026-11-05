@@ -4,8 +4,8 @@ market: ch
 slug: biel-bienne
 cityName: Biel/Bienne
 cityRegion: Bern
-title: 'Tattoo-Singles in Biel/Bienne: Kreative Studios'
-metaDescription: 'Tattoo-Singles in Biel/Bienne: Entdecke kreative Studios, alternative Treffpunkte und Street Art in der zweisprachigen Stadt der Schweiz.'
+title: 'Tattoo-Singles in Biel/Bienne: Gaskessel & Altstadt'
+metaDescription: 'Tattoo-Singles in Biel/Bienne: Gaskessel, Chessu und Coupole, die Altstadt und das Pod’Ring Festival – Treffpunkte in der zweisprachigen Stadt.'
 h1: 'Tattoo-Singles in Biel/Bienne: Kreative Studios'
 heroTitle: Finde kostenlos Singles in Biel/Bienne und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-biel-bienne.jpg

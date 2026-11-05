@@ -4,8 +4,8 @@ market: ch
 slug: genf
 cityName: Genf
 cityRegion: Genf
-title: 'Tattoo-Singles in Genf: Studios, Subkultur und Events'
-metaDescription: 'Tattoo-Singles in Genf: Entdecke kreative Studios, alternative Szene-Hotspots und spannende Events in der internationalen Stadt am Genfersee.'
+title: 'Tattoo-Singles in Genf: Pâquis, Plainpalais & Les Grottes'
+metaDescription: 'Tattoo-Singles in Genf: Pâquis-Viertel, Plainpalais und Quartier des Grottes, dazu La Gravière, Le Chat Noir und La Bâtie in der Stadt am Genfersee.'
 h1: 'Tattoo-Singles in Genf: Studios, Subkultur und Events'
 heroTitle: Finde kostenlos Singles in Genève 18 und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-ch-genf.jpg

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { TattooStudioCityGuide, tattooStudioCityDescription } from "@/components/tattoo-studio-city-guide";
+import { TattooStudioCityGuide } from "@/components/tattoo-studio-city-guide";
 import { publicUrl } from "@/lib/markets";
 import { staticAsset } from "@/lib/static-asset";
 import {
   getTattooStudioCities,
   getTattooStudioCityGuide,
+  getTattooStudioCitySeo,
   isIndexableTattooStudioCity,
   isTattooStudioMarket,
   TATTOO_STUDIO_MARKETS,
@@ -27,8 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const guide = getTattooStudioCityGuide(market, city);
   if (!guide) return { robots: { index: false, follow: false } };
 
-  const title = `Tattoo-Studios in ${guide.cityName} – Stadtguide`;
-  const description = tattooStudioCityDescription(guide.cityName, guide.studios.length);
+  const { metaTitle: title, description } = getTattooStudioCitySeo(guide);
   const url = publicUrl(market, `/tattoo-studios/${city}`);
   const imageUrl = guide.imageUrl ? staticAsset(guide.imageUrl) : null;
 

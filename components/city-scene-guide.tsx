@@ -130,8 +130,8 @@ function StudioTeaser({ market, slug, cityName }: { market: MarketCode; slug: st
           {count} {count === 1 ? "geprüftes Tattoo-Studio" : "geprüfte Tattoo-Studios"} in {cityName}
         </h2>
         <p>
-          Adressen, Stile und Kontaktwege haben wir im eigenen Studio-Guide gesammelt – redaktionell geprüft und mit
-          Profil für jedes Studio.
+          Adressen, Stile und Kontaktwege der Studios in {cityName} haben wir im eigenen Studio-Guide gesammelt –
+          redaktionell geprüft und mit Profil für jedes Studio.
         </p>
         {styles.length ? (
           <ul className="city-studio-teaser-styles" aria-label="Stile der Studios">

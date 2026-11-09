@@ -36,19 +36,19 @@ function faqItems(cityName: string, market: MarketCode): FaqItem[] {
   return [
     {
       question: `Wie wähle ich ein Tattoo-Studio in ${cityName} aus?`,
-      answer: `Vergleiche zuerst Portfolios für dein gewünschtes Motiv. Kläre danach Beratung, Ablauf, ${size}, Adresse und Kontaktweg direkt mit dem Studio, bevor du einen Termin vereinbarst.`,
+      answer: `Vergleiche zuerst die Portfolios der Studios in ${cityName} für dein gewünschtes Motiv. Kläre danach Beratung, Ablauf, ${size}, Adresse und Kontaktweg direkt mit dem Studio, bevor du einen Termin vereinbarst.`,
     },
     {
       question: "Ist die Reihenfolge der Studios eine Bewertung?",
-      answer: "Nein. Die alphabetische Reihenfolge ist weder ein Ranking noch eine Qualitätsbewertung. Entscheidend sind dein Motiv, der passende Stil, ein persönliches Beratungsgespräch und dein eigener Eindruck.",
+      answer: `Nein. Die alphabetische Reihenfolge der Studios in ${cityName} ist weder ein Ranking noch eine Qualitätsbewertung. Entscheidend sind dein Motiv, der passende Stil, ein persönliches Beratungsgespräch und dein eigener Eindruck.`,
     },
     {
       question: `Sind Preise, ${openingHours} und freie Termine aktuell?`,
-      answer: `Diese Angaben können sich kurzfristig ändern. Prüfe Preise, ${openingHours}, Terminverfügbarkeit und den genauen Ablauf deshalb immer direkt beim jeweiligen Studio.`,
+      answer: `Diese Angaben können sich kurzfristig ändern. Prüfe Preise, ${openingHours}, Terminverfügbarkeit und den genauen Ablauf deshalb immer direkt beim jeweiligen Studio in ${cityName}.`,
     },
     {
-      question: "Wo finde ich aktuelle Angaben zum Studio?",
-      answer: "Nutze die verlinkte Studio-Webseite für aktuelle Kontaktdaten, Öffnungszeiten, Preise und freie Termine. Diese Angaben können sich jederzeit ändern.",
+      question: `Wo finde ich aktuelle Angaben zu den Studios in ${cityName}?`,
+      answer: `Nutze die verlinkte Webseite des jeweiligen Studios in ${cityName} für aktuelle Kontaktdaten, ${openingHours}, Preise und freie Termine. Diese Angaben können sich jederzeit ändern.`,
     },
   ];
 }
@@ -139,7 +139,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           <h1>Tattoo-Studios in {guide.cityName}</h1>
           <p>{isRollout
             ? `Nutze den Stadtguide für deine Studiosuche in ${guide.cityName}. Aktuell findest du hier noch keine einzelnen Studio-Profile.`
-            : `${studios.length} Tattoo-Studios mit Adressen, direkten Links und hilfreichen Auswahlhinweisen – alphabetisch und ohne Rangliste.`}</p>
+            : `${studios.length} Tattoo-Studios in ${guide.cityName} mit Adressen, direkten Links und Auswahlhinweisen – alphabetisch und ohne Rangliste.`}</p>
           <div className="studio-hero-actions">
             {studios.length ? <a className="button button-primary" href="#studio-auswahl">Studios vergleichen</a> : null}
             <a className="button button-secondary" href={studios.length ? "#auswahl-check" : "#tattoo-stile"}>{studios.length ? "Auswahl-Check ansehen" : "Stadtguide lesen"}</a>
@@ -162,7 +162,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           <span className="eyebrow">Studio-Auswahl</span>
           <h2 id="studio-auswahl-heading">{studios.length ? `${studios.length} Tattoo-Studios in ${guide.cityName}` : `So findest du ein Tattoo-Studio in ${guide.cityName}`}</h2>
           <p>{studios.length
-            ? "Alphabetische Auswahl, keine Rangliste. Öffne ein Profil für Kontaktangaben, Links und weitere Details."
+            ? "Alphabetische Auswahl, keine Rangliste. Öffne ein Profil für Kontaktangaben und Links."
             : "Vergleiche Portfolios, Stil, Beratung und Hygiene direkt bei den Studios. Der Stadtguide hilft dir mit den wichtigsten Fragen für deine Auswahl."}</p>
         </div>
         {studios.length && styleCounts.length > 1 ? (
@@ -209,12 +209,12 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
         <div className="section-header studio-guide-section-header">
           <span className="eyebrow">Vor dem Termin</span>
           <h2 id="auswahl-check-heading">Das solltest du vor der Anfrage prüfen</h2>
-          <p>Ein passendes Studio erkennst du nicht an seiner Position in einer Liste. Diese drei Schritte helfen dir bei einer belastbaren Vorauswahl.</p>
+          <p>Ein passendes Studio in {guide.cityName} erkennst du nicht an seiner Position in einer Liste. Diese drei Schritte helfen dir bei einer belastbaren Vorauswahl.</p>
         </div>
         <div className="studio-choice-grid">
-          <article><span>01</span><h3>Stil und Portfolio</h3><p>Sieh dir mehrere verheilte Arbeiten an und prüfe, ob Linienführung, Flächen und Motive zu deiner Idee passen.</p></article>
+          <article><span>01</span><h3>Stil und Portfolio</h3><p>Sieh dir bei den Studios in {guide.cityName} mehrere verheilte Arbeiten an und prüfe, ob Linienführung, Flächen und Motive zu deiner Idee passen.</p></article>
           <article><span>02</span><h3>Beratung und Ablauf</h3><p>Kläre Motiv, Körperstelle, {isSwiss ? "Grösse" : "Größe"}, Vorbereitung, Terminablauf und Nachsorge direkt mit dem Studio.</p></article>
-          <article><span>03</span><h3>Adresse und Kontakt</h3><p>Prüfe die aktuelle Studioseite, den genauen Standort sowie Preise, Öffnungszeiten und freie Termine.</p></article>
+          <article><span>03</span><h3>Adresse und Kontakt</h3><p>Prüfe die aktuelle Studioseite, den genauen Standort in {guide.cityName} sowie Preise, Öffnungszeiten und freie Termine.</p></article>
         </div>
       </section>
 
@@ -242,7 +242,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
           <aside className="studio-transparency-card">
             <span className="eyebrow">Deine Auswahl</span>
             <h2>So findest du das passende Studio</h2>
-            <p>Sieh dir aktuelle Portfolios an, kläre offene Fragen im Beratungsgespräch und achte auf saubere, verständliche Abläufe.</p>
+            <p>Sieh dir aktuelle Portfolios der Studios in {guide.cityName} an, kläre offene Fragen im Beratungsgespräch und achte auf saubere, verständliche Abläufe.</p>
             {!isRollout ? <p><strong>Keine bezahlte Platzierung.</strong> Die Reihenfolge ist alphabetisch und keine Qualitätsbewertung.</p> : null}
             {sourceIsPage ? (
               <p className="studio-card-source-missing">Webseiten und Kontaktwege findest du direkt bei den Studios.</p>

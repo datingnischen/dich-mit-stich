@@ -6,7 +6,7 @@ cityName: Wels
 cityRegion: Oberösterreich
 title: 'Tattoo-Singles in Wels: Stadtpark, Traunufer & Street Art'
 metaDescription: 'Tattoo-Singles in Wels: Stadtpark und Traunufer, Café Ludwig und Lutz – der Klub, dazu das Wels Street Art Festival und die Galerie Forum.'
-h1: 'Tattoo trifft Herz: Partnersuche für Singles in Wels'
+h1: Partnersuche in Wels für Singles mit Tattoos
 heroTitle: Finde kostenlos Singles in Wels und Umgebung
 image: /magazin/wp-content/uploads/2026/08/dms-city-at-wels.jpg
 imageAlt: 'Wels – eine Stadt mit vielen Möglichkeiten für tätowierte Singles'

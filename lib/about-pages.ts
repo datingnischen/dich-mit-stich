@@ -61,6 +61,8 @@ export type AboutPage = {
   path: string;
   eyebrow: string;
   title: string;
+  /** Longer H1 when the title alone is too short for a page heading. */
+  heading?: string;
   description: string;
   lead: string;
   highlights: string[];
@@ -261,6 +263,7 @@ function rootPage(market: MarketCode): AboutPage {
     path: ABOUT_ROOT_PATH,
     eyebrow: "Hinter den Kulissen",
     title: "Über Dich mit Stich",
+    heading: "Über Dich mit Stich, die Singlebörse für Tattoos und Piercings",
     description: `Wer steckt hinter Dich mit Stich ${countryPhrase[market]}? Das Team, echte Paare aus der Community und unsere Kanäle.`,
     lead: "Dich mit Stich ist die Singlebörse für Menschen mit Tattoos und Piercings. Hier erfährst du, wer dahintersteckt, welche Paare sich bei uns gefunden haben und wo du uns sonst noch triffst.",
     highlights: ["Das Team", "Echte Paare", "Facebook, Instagram & YouTube", "Direkter Kontakt"],
@@ -312,6 +315,7 @@ function expertPage(market: MarketCode): AboutPage {
     path: aboutPath("expertenteam"),
     eyebrow: "Das Team",
     title: "Unser Expertenteam",
+    heading: "Unser Expertenteam: die Menschen hinter Dich mit Stich",
     description: "Wer bei Dich mit Stich schreibt und wer die Plattform betreibt.",
     lead: expertLead[market],
     highlights: ["Dating-Know-how", "Tattoo-Wissen", "Autorenprofile", "Betrieb: Icony GmbH"],

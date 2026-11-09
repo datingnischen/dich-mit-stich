@@ -93,7 +93,7 @@ export default async function MarketTattooStudioGuidePage({ params }: PageProps)
         <div className="studio-guide-hero-copy">
           <span className="eyebrow studio-guide-eyebrow">Dich mit Stich {copy.countryName} · Studio Guide</span>
           <h1>Tattoo-Studio-Guide für {copy.countryWithArticle}</h1>
-          <p>Finde Tattoo-Studios nach Stadt und Stil. Vergleiche Adressen, direkte Links und praktische Tipps für deine Auswahl.</p>
+          <p>Der Tattoo-Studio-Guide für {copy.countryWithArticle} ordnet Tattoo-Studios nach Stadt und Stil. Vergleiche Adressen, direkte Links und praktische Tipps für deine Auswahl.</p>
           <div className="button-row">
             <a className="button button-primary" href="#stadtguides">Stadtguides ansehen</a>
             <a className="button button-secondary" href="#guide-prinzipien">Darauf solltest du achten</a>

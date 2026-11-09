@@ -163,7 +163,7 @@ export function AboutPageView({ page }: { page: AboutPage }) {
         <header className="about-hero">
           <div className="about-hero-copy">
             <span className="eyebrow">{page.eyebrow}</span>
-            <h1>{page.title}</h1>
+            <h1>{page.heading ?? page.title}</h1>
             <p className="about-hero-lead">{page.lead}</p>
             <div className="about-highlight-row" aria-label="Das findest du hier">
               {page.highlights.map((highlight) => <span key={highlight}>{highlight}</span>)}

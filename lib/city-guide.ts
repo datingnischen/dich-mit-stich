@@ -182,8 +182,19 @@ export function dedupeIds<T extends { id: string }>(sections: T[]) {
   return sections;
 }
 
+/**
+ * Repairs imported WordPress markup: drops empty headings, unwraps bold tags that only hold
+ * spaces or brackets and joins bold words that were split into several neighbouring tags.
+ */
+export function cleanImportedMarkup(html: string) {
+  return html
+    .replace(/<h([1-6])[^>]*>(?:\s|&nbsp;| |<br\s*\/?>)*<\/h\1>/gi, "")
+    .replace(/<(strong|b)>((?:\s|&nbsp;| |[()[\],.;:–-])*)<\/\1>/gi, "$2")
+    .replace(/<\/strong>((?:\s|&nbsp;| )*)<strong>/gi, "$1");
+}
+
 export function parseCityGuide(html = ""): CityGuide {
-  const { introHtml, sections: rawSections } = splitH2Sections(html);
+  const { introHtml, sections: rawSections } = splitH2Sections(cleanImportedMarkup(html));
   const relatedCitySlugs: string[] = [];
   let hasStudioSection = false;
   const sections: CityGuideSection[] = [];

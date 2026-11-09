@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { cityGuideTheme, parseCityGuide } from "../lib/city-guide.ts";
+import { cityGuideTheme, cleanImportedMarkup, parseCityGuide } from "../lib/city-guide.ts";
 
 const BERLIN_LIKE = `
 <p>Berlin ist das Herz der alternativen Szene.</p>
@@ -115,4 +115,14 @@ test("studio city sidebar shows who is online when the city has an ICONY postcod
       assert.ok(getIconyCityWidgetConfig(market, guide.slug), `${market}/${guide.slug} needs an ICONY postcode`);
     }
   }
+});
+
+test("imported city markup loses empty headings and stray bold tags", () => {
+  const html = '<h2>&nbsp;</h2><p><strong>Das</strong> <strong>Tatuarium</strong> <strong>(</strong> Lange Gasse<strong> )</strong> und <strong>Café Ludwig</strong><strong> </strong>: Text</p>';
+  assert.equal(
+    cleanImportedMarkup(html),
+    "<p><strong>Das Tatuarium</strong> ( Lange Gasse ) und <strong>Café Ludwig</strong> : Text</p>",
+  );
+  const guide = parseCityGuide(`<p>Intro</p>${html}<h2>Bars</h2><p>Text</p>`);
+  assert.deepEqual(guide.sections.map((section) => section.heading), ["Bars"]);
 });

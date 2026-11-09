@@ -144,7 +144,7 @@ export function IconySinglesWidget({ market, cityName, projectKey, postalCode }:
           <p className="eyebrow eyebrow-brand">Singles entdecken</p>
           <h2>Neue Singles in {cityName}</h2>
           <p>
-            Wähle, ob du Frauen oder Männer sehen möchtest. Wenn du den Umkreis erweitern willst, kannst du direkt ausführlicher suchen.
+            Wähle, ob du Frauen oder Männer aus {cityName} sehen möchtest. Wenn du den Umkreis erweitern willst, kannst du direkt ausführlicher suchen.
           </p>
         </div>
 

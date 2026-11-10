@@ -181,6 +181,26 @@ export function AboutPageView({ page }: { page: AboutPage }) {
         </header>
 
         {page.slug === null ? (
+          <section className="panel-card about-detail-section" aria-labelledby="about-history-title">
+            <h2 id="about-history-title">Unsere Geschichte</h2>
+            <p>
+              2017 begann die Geschichte von Dich mit Stich. Christian M. Haas wollte eine Singlebörse schaffen, auf der
+              Menschen mit Tattoos und Piercings Gleichgesinnte kennenlernen können. Gemeinsam mit der Icony GmbH setzte
+              er die Idee um.
+            </p>
+            <p>
+              Im Oktober 2018 stellte die Icony GmbH das Tattoo-Magazin vor. Es berichtet über die Tattoo-Szene und
+              darüber, welche Rolle Tattoos beim Kennenlernen und in Beziehungen spielen.
+            </p>
+            <p>
+              Mit TattooSingles.de gab es damals bereits ein weiteres Angebot für tätowierte Singles im deutschsprachigen
+              Raum. 2025 übernahmen wir die Rechte an der Marke und die zugehörigen Social-Media-Kanäle. Heute sind beide
+              Angebote Teil des ICONY-Partnernetzwerks.
+            </p>
+          </section>
+        ) : null}
+
+        {page.slug === null ? (
           <section className="panel-card about-search-panel" aria-labelledby="about-search-title">
             <div>
               <span className="eyebrow">Suche</span>

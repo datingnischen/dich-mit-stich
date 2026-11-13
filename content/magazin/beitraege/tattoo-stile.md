@@ -6,7 +6,7 @@ description: 'Möchtest Du mehr über verschiedene Tattoo Stile und Arten wissen
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Mittlerweile sind Tätowierungen in</p>
 published: '2021-04-26T09:58:06'
-updated: '2026-09-28T16:40:16'
+updated: '2026-09-03T16:40:16'
 categories:
   - ratgeber
 author: anne-schweitzer

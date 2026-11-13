@@ -5,7 +5,7 @@ seoTitle: 'Aztekische & Maya Tribal Tattoos: Symbole & Bedeutung'
 description: 'Aztekische und Maya Tribal Tattoos zeigen Götter, Kalenderzeichen und Kriegersymbole. Bedeutung der Motive und worauf du bei der Gestaltung achtest.'
 excerpt: |
   <p>Aztekische und Maya Tribal Tattoos sind von der reichen Mythologie Mittelamerikas inspiriert. Sie zeigen Götter, Kalenderzeichen und Kriegersymbole – Ausdruck</p>
-published: '2025-09-29T18:45:06'
+published: '2025-09-25T16:29:41'
 updated: '2026-10-13T21:28:10'
 categories:
   - ratgeber

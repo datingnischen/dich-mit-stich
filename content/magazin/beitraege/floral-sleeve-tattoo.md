@@ -5,7 +5,7 @@ seoTitle: 'Floral Sleeve Tattoo: Rosen und Blätter als Full Sleeve'
 description: 'Floral Sleeves mit Rosen, Pfingstrosen und Blättern wirken elegant und zeitlos. Beispielmotiv in Black & Grey und Tipps für eine stimmige Komposition.'
 excerpt: |
   <p>Floral Sleeves nutzen Rosen, Pfingstrosen, Lotus &amp; Co. – häufig in Black &amp; Grey, manchmal farbig. Sie wirken elegant, harmonisch</p>
-published: '2025-09-16T22:02:26'
+published: '2025-09-09T21:21:36'
 updated: '2026-09-01T16:29:18'
 categories:
   - ratgeber

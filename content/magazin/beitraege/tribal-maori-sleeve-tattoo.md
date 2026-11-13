@@ -5,7 +5,7 @@ seoTitle: 'Tribal & Maori Sleeve Tattoo: Muster, Linien, Kontraste'
 description: 'Tribal- und Maori-Sleeves arbeiten mit schwarzen Spiralen, Dreiecken und Koru-Formen. Beispielmotiv, Symbolik und Tipps für die Flächenplanung.'
 excerpt: |
   <p>Tribal und Maori Sleeves arbeiten mit kraftvollen, schwarzen Mustern: Spiralen, Dreiecke, Koru-Formen. Sie wirken grafisch, zeitlos und symbolstark. Der Stil</p>
-published: '2025-09-14T22:22:30'
+published: '2025-09-13T13:25:24'
 updated: '2026-10-09T09:14:24'
 categories:
   - ratgeber

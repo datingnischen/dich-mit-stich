@@ -5,7 +5,7 @@ seoTitle: 'Mythology Sleeve Tattoo: Zeus, Göttin und Medusa'
 description: 'Mythology Sleeves erzählen von Göttern und Sagen, etwa Zeus, Athena oder Medusa. Beispielmotiv, Bedeutung der Figuren und Tipps für die Komposition.'
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Mythology Sleeves greifen Götter,</p>
-published: '2025-09-16T22:14:26'
+published: '2025-09-12T21:20:49'
 updated: '2026-05-30T20:50:18'
 categories:
   - ratgeber

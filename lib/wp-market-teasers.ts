@@ -31,17 +31,17 @@ const TEASER_CITIES: Record<MarketTeaserCode, { slug: string; width: number; hei
 };
 
 // Feste Datumswerte: Reihenfolge = Einwohnerzahl (neuester „Beitrag“ zuerst). Bewusst unregelmäßige Uhrzeiten,
-// `gmt` = Ortszeit Europe/Berlin minus 2 h (Sommerzeit am 19.10.).
+// Höchstens zwei „Beiträge“ je Tag; `gmt` = Ortszeit Europe/Berlin minus 2 h (Sommerzeit im Oktober bis 25.10.).
 const DATES: Record<MarketTeaserCode, { local: string; gmt: string }[]> = {
   at: [
     { local: "2026-10-19T16:47:23", gmt: "2026-10-19T14:47:23" },
     { local: "2026-10-19T14:12:51", gmt: "2026-10-19T12:12:51" },
-    { local: "2026-10-19T09:38:06", gmt: "2026-10-19T07:38:06" },
+    { local: "2026-10-16T09:38:06", gmt: "2026-10-16T07:38:06" },
   ],
   ch: [
     { local: "2026-10-19T17:21:44", gmt: "2026-10-19T15:21:44" },
     { local: "2026-10-19T15:03:19", gmt: "2026-10-19T13:03:19" },
-    { local: "2026-10-19T10:56:37", gmt: "2026-10-19T08:56:37" },
+    { local: "2026-10-17T20:56:37", gmt: "2026-10-17T18:56:37" },
   ],
 };
 const ID_BASE: Record<MarketTeaserCode, number> = { at: 910_000, ch: 920_000 };

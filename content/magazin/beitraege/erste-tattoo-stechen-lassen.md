@@ -6,7 +6,7 @@ description: 'Möchtest Du dein erstes Tattoo stechen lassen? Hier findes Du Din
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Tattoos sind noch immer</p>
 published: '2018-10-04T09:45:10'
-updated: '2026-09-28T14:57:17'
+updated: '2026-09-08T14:57:17'
 categories:
   - ratgeber
 author: redaktion

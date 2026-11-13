@@ -6,7 +6,7 @@ description: Das ungewöhnliche Leben und der tragische Tod von Rick Genest der 
 excerpt: |
   <p>Bildquelle: https://de.wikipedia.org/wiki/Rick_Genest#/media/Datei:Ricogenest02.jpg Autor: Nora Lives Lizenz: CC BY-SA 3.0 Rick Genest, Modeikone und Künstler, bekannt als Zombie-Boy und Rico the</p>
 published: '2019-08-15T15:09:54'
-updated: '2026-09-28T17:10:51'
+updated: '2026-09-22T17:10:51'
 categories:
   - tattoo-models
 author: redaktion

@@ -6,7 +6,7 @@ description: Du willst mehr zu Partner-Tattoos wissen? Suchst nach Motiven und B
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Häufig lassen Liebespaare sich</p>
 published: '2018-10-09T08:13:24'
-updated: '2026-09-28T19:15:30'
+updated: '2026-09-22T19:15:30'
 categories:
   - ratgeber
 author: redaktion

@@ -17,6 +17,8 @@ Seit 2026-10-02 liest die App keine WordPress-REST-API mehr, weder zur Laufzeit 
 
 Loader: `lib/magazine.ts` (Abfrage-API), `lib/magazine-text.ts` (Typen, Textwerkzeuge), `lib/magazine-content.ts`, `lib/city-pages.ts`. Die Breadcrumb-Ebene unter `/magazin/piercingarten` und `/magazin/tattoo-lexikon` ergibt sich aus der Linkliste der jeweiligen Hub-Seite in `content/magazin/seiten/`. Neuer Beitrag = Datei anlegen, committen, pushen. Audio-Zusammenfassungen: `node --env-file=.env.local scripts/audio-summaries.mjs <texte.json> --write`.
 
+Zeitstempel (`published`/`updated`): nie runde oder immer gleiche Uhrzeiten, höchstens zwei Beiträge je Erscheinungstag, keine Sammel-Aktualisierung vieler Beiträge an einem Tag. Werte liefert `node scripts/zeitstempel.mjs <slug> [JJJJ-MM-TT] [--update]`; die Prüfsperre steht in `tests/magazine-timestamps.test.mjs`.
+
 Die Einmalwerkzeuge der Ablösung stehen in `scripts/export-wordpress.mjs`, `scripts/download-wp-uploads.mjs`, `scripts/import-wordpress.mjs`, der Vorher/Nachher-Vergleich in `scripts/crawl-routes.mjs` und `scripts/compare-routes.mjs`; die alten WordPress-Schreibskripte liegen unter `archiv/wordpress-abloesung/`. Nach redaktionellen Korrekturen den Import nicht erneut laufen lassen.
 
 ### WordPress-kompatibler Endpunkt für ICONY

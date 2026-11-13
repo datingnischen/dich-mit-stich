@@ -5,7 +5,7 @@ seoTitle: 'Portrait Realism Sleeve Tattoo: Porträt, Uhr und Rose'
 description: 'Portrait Realism Sleeves zeigen fotorealistische Gesichter, oft mit Uhr oder Rose kombiniert. Beispielmotiv, Symbolik und worauf es bei Details ankommt.'
 excerpt: |
   <p>Portrait Realism Sleeves zeigen fotorealistische Gesichter, oft kombiniert mit Symbolen wie Uhren oder Blumen. Ein persönlicher, ausdrucksstarker Stil mit hoher</p>
-published: '2025-09-16T19:01:05'
+published: '2025-09-02T10:19:46'
 updated: '2026-09-21T10:52:41'
 categories:
   - ratgeber

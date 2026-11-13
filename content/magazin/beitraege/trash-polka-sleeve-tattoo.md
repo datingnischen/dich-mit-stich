@@ -5,7 +5,7 @@ seoTitle: 'Trash Polka Sleeve Tattoo: Schwarz, Rot und Geometrie'
 description: 'Trash Polka Sleeves verbinden Schwarz mit roten Akzenten, Realismus mit Geometrie und Pinselstrichen. Beispielmotiv und was den Stil ausmacht.'
 excerpt: |
   <p>Trash Polka Sleeves kombinieren Schwarz mit markanten Rotakzenten, realistische Elemente mit abstrakten Formen, Splattern und Typografie – ein expressiver, moderner</p>
-published: '2025-09-16T22:19:05'
+published: '2025-08-28T16:02:06'
 updated: '2026-05-29T17:45:06'
 categories:
   - ratgeber

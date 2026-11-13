@@ -5,7 +5,7 @@ seoTitle: 'Animal Sleeve Tattoo: Wolf, Eule und Schlange'
 description: 'Animal Sleeves verbinden Wolf, Eule oder Schlange zu einer Bildidee. Bedeutung der Tiermotive, Beispielmotiv und Tipps zu Stil und Kontrasten.'
 excerpt: |
   <p>Animal Sleeves vereinen Motive wie Wolf, Löwe, Eule oder Schlange – oft mit floralen Akzenten. Sie stehen für Stärke, Weisheit,</p>
-published: '2025-09-16T19:10:31'
+published: '2025-09-06T17:34:52'
 updated: '2026-05-29T09:43:40'
 categories:
   - ratgeber

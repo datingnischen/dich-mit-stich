@@ -6,7 +6,7 @@ description: 'Aztekische und Maya Tribal Tattoos zeigen Götter, Kalenderzeichen
 excerpt: |
   <p>Aztekische und Maya Tribal Tattoos sind von der reichen Mythologie Mittelamerikas inspiriert. Sie zeigen Götter, Kalenderzeichen und Kriegersymbole – Ausdruck</p>
 published: '2025-09-29T18:45:06'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-13T21:28:10'
 categories:
   - ratgeber
 author: redaktion

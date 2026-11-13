@@ -6,7 +6,7 @@ description: 'Hast du Fragen zu Skull-Tattoos? Hier findest du Infos über Herku
 excerpt: |
   <p>Totenschädelromantik und Vergänglichkeit Totenschädel (engl. Skull) und andere Knochenteile haben in der Geschichte der Menschheit eine lange kultische Tradition.</p>
 published: '2018-12-18T09:56:28'
-updated: '2026-09-24T11:49:25'
+updated: '2026-09-20T15:26:02'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2018/12/skull-tattoo-totenkopf.jpg
 imageAlt: 'Skull Tattoo, auch Totenkopf-Tattoo genannt.'

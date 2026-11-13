@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Mandible Piercing? Alles zur Herkunft, Motivati
 excerpt: |
   <p>Allgemeines Das eher unbekannte und umstrittene „Mandible Piercing“ wird vertikal im Mundraum unter der Zunge eingesetzt. Unterhalb des Kinns befindet</p>
 published: '2020-06-19T06:17:45'
-updated: '2026-09-24T08:34:22'
+updated: '2026-09-13T08:48:36'
 author: anne-schweitzer
 ---
 <h2>Allgemeines</h2>

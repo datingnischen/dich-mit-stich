@@ -6,7 +6,7 @@ description: Man findet tattoowierte Menschen von jung bis alt. Aber bleiben Tat
 excerpt: |
   <p>Einleitende Worte zum Thema Tattoos im Alter Tattoos sind ein Trend, der in den letzten Jahrzehnten enormen Anklang gefunden hat</p>
 published: '2018-12-10T12:14:45'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-05T10:46:26'
 categories:
   - ratgeber
 author: redaktion

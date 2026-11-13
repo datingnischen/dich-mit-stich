@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Snake Eyes Piercing? Alles zu Herkunft, Motivat
 excerpt: |
   <p>Das Snake Eyes Piercing ist eine moderne Variante des altbekannten Zungenpiercings. Dabei erfolgt das Stechen von der linken Seite auf</p>
 published: '2021-11-18T12:03:57'
-updated: '2026-09-24T08:34:19'
+updated: '2026-09-15T17:20:51'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2021/11/snake-eyes-piercing-1-scaled.jpg
 imageAlt: snake eyes piercing

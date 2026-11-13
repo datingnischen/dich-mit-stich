@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Deep Chest Piercing? Alles zu Geschichte, Motiv
 excerpt: |
   <p>Mit dem Deep Chest Piercing auf den Spuren von Fakir Musafar Das Deep Chest Piercing ist ein eher spezielles Körperpiercing</p>
 published: '2020-07-23T06:33:55'
-updated: '2026-09-24T11:25:46'
+updated: '2026-09-18T14:40:05'
 author: anne-schweitzer
 ---
 <h2>Mit dem Deep Chest Piercing auf den Spuren von Fakir Musafar</h2>

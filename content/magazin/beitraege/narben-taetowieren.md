@@ -6,7 +6,7 @@ description: 'Narben mit einem Tattoo gestalten: der richtige Zeitpunkt, die Vor
 excerpt: |
   <p>Ob aufgrund eines Sportunfalls, einer lebensrettenden Operation, Selbstverletzungen oder vielleicht eines Kaiserschnitts – immer mehr Menschen tragen Narben auf ihrem</p>
 published: '2019-06-17T11:36:16'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-05T10:20:24'
 categories:
   - ratgeber
 author: redaktion

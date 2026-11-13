@@ -6,7 +6,7 @@ description: 'Portrait Realism Sleeves zeigen fotorealistische Gesichter, oft mi
 excerpt: |
   <p>Portrait Realism Sleeves zeigen fotorealistische Gesichter, oft kombiniert mit Symbolen wie Uhren oder Blumen. Ein persönlicher, ausdrucksstarker Stil mit hoher</p>
 published: '2025-09-16T19:01:05'
-updated: '2026-09-24T11:32:32'
+updated: '2026-09-21T10:52:41'
 categories:
   - ratgeber
 author: redaktion

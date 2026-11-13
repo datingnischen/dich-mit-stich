@@ -6,7 +6,7 @@ description: 'Du möchtest dir ein Tattoo stechen lassen, hast aber Fragen? Wie 
 excerpt: |
   <p>Tätowierungen – Wie hoch ist das gesundheitliche Risiko? Tätowierungen liegen seit Jahren im Trend und erfreuen sich besonders bei der</p>
 published: '2020-05-26T13:18:11'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-03T11:44:42'
 categories:
   - ratgeber
 author: anne-schweitzer

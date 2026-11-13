@@ -6,7 +6,7 @@ description: 'Datingexperte für tätowierte Singles Christian M. Haas unterstü
 excerpt: |
   <p>Datingexperte für tätowierte Singles Christian M. Haas unterstützt dich-mit-stich.de als Experte und Berater im Bereich Online-Dating mit besonderem Fokus auf</p>
 published: '2025-08-14T21:46:59'
-updated: '2026-08-24T14:05:16'
+updated: '2026-08-24T10:52:40'
 author: redaktion
 ---
 <p><img loading="lazy" decoding="async" src="/magazin/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png" alt="Datingexperte" width="200" height="300" srcset="/magazin/wp-content/uploads/2025/08/Christian-M-Haas-200x300.png 200w, /magazin/wp-content/uploads/2025/08/Christian-M-Haas-683x1024.png 683w, /magazin/wp-content/uploads/2025/08/Christian-M-Haas-768x1152.png 768w, /magazin/wp-content/uploads/2025/08/Christian-M-Haas.png 1024w" /></p>

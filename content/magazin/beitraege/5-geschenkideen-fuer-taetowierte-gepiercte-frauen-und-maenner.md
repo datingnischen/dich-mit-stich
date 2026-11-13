@@ -6,7 +6,7 @@ description: 'Diese Ideen sollen dich dabei zu unterstützen und inspirieren, wa
 excerpt: |
   <p>Weihnachten steht vor der Tür und gerade in diesem Jahr wollen wir unseren Liebsten zeigen, wie viel sie uns bedeuten.</p>
 published: '2020-12-13T21:26:02'
-updated: '2026-08-05T00:03:12'
+updated: '2026-08-05T13:12:37'
 categories:
   - ratgeber
 author: anne-schweitzer

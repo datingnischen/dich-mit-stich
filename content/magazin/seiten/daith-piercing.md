@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Daith-Piercing? Alles zu Geschichte, Motivation
 excerpt: |
   <p>Beim Stechen eines Daith-Piercings ist der Name Programm, denn es sitzt an einer der empfindlichsten Körperstellen: im ersten Knorpel der</p>
 published: '2020-07-10T10:05:08'
-updated: '2026-09-24T08:34:33'
+updated: '2026-09-12T13:33:05'
 author: anne-schweitzer
 ---
 <p>Beim Stechen eines Daith-Piercings ist der Name Programm, denn es sitzt an einer der empfindlichsten Körperstellen: im ersten Knorpel der Ohrmuschel direkt über dem Gehörgang. Für Einsteiger ist vor allem wichtig zu wissen, dass nicht jedes Ohr gleich geeignet ist und dass bei diesem Piercing Erfahrung, Hygiene und eine ruhige Heilungsphase besonders wichtig sind.</p>

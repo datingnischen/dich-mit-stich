@@ -5,8 +5,8 @@ seoTitle: 'Machen Tattoos attraktiv? Was Studien zum Dating zeigen'
 description: 'Wirken Tattoos beim Dating anziehend oder abschreckend? Zahlen aus Deutschland, Umfragen und Experimente – und was sie für tätowierte Singles bedeuten.'
 excerpt: |
   <p>Rund jeder fünfte Mensch in Deutschland ist tätowiert. Doch wie wirken Tattoos auf mögliche Partner? Wir haben Umfragen und Experimente ausgewertet.</p>
-published: '2026-10-31T12:00:00'
-updated: '2026-11-03T12:00:00'
+published: '2026-10-31T11:51:33'
+updated: '2026-11-03T17:23:49'
 categories:
   - ratgeber
 author: redaktion

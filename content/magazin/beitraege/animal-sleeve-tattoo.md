@@ -6,7 +6,7 @@ description: 'Animal Sleeves verbinden Wolf, Eule oder Schlange zu einer Bildide
 excerpt: |
   <p>Animal Sleeves vereinen Motive wie Wolf, Löwe, Eule oder Schlange – oft mit floralen Akzenten. Sie stehen für Stärke, Weisheit,</p>
 published: '2025-09-16T19:10:31'
-updated: '2026-05-29T20:52:19'
+updated: '2026-05-29T09:43:40'
 categories:
   - ratgeber
 author: redaktion

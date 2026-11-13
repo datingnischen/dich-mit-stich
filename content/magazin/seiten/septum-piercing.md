@@ -6,7 +6,7 @@ description: Hast du Fragen zum Septum-Piercing? Möchtest dir eins stechen lass
 excerpt: |
   <p>Ergänzend zu den historischen Hintergründen hilft dieser Artikel dabei, das Septum-Piercing besser einzuordnen. Er erklärt, was beim Stechen passiert, welche</p>
 published: '2019-03-21T10:56:07'
-updated: '2026-09-24T08:33:56'
+updated: '2026-09-20T15:20:39'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/04/piercing-septum.png
 imageAlt: Das Septum Piercing

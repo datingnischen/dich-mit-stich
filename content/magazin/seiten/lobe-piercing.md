@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Lobe Piercing? Alles zu Geschichte, Motivation,
 excerpt: |
   <p>Das Lobe Piercing ist mit Abstand das häufigste Piercing. Lobe Piercings werden durch das Ohrläppchen gestochen, das ist der weiche</p>
 published: '2020-07-16T07:43:35'
-updated: '2026-09-24T08:34:34'
+updated: '2026-09-23T11:29:17'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/07/lobe-piercing.jpg
 imageAlt: Lobe Piercing

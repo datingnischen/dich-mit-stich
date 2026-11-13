@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Rook Piercing? Alles zu Geschichte, Stechen, Ri
 excerpt: |
   <p>Bei dem sogenannten Rook Piercing handelt es sich um ein Knorpelpiercing. Es wird durch die Antihelix des Ohrs gestochen. Da</p>
 published: '2019-11-09T17:50:15'
-updated: '2026-09-24T08:34:28'
+updated: '2026-09-17T13:27:40'
 author: anne-schweitzer
 ---
 <p>Bei dem sogenannten <i>Rook Piercing</i> handelt es sich um ein Knorpelpiercing. Es wird durch die <i>Antihelix</i> des Ohrs gestochen. Da es recht schmerzhaft ist, wird das Rook Piercing nicht ganz so häufig durchgeführt wie andere Ohr-Piercings. Dennoch hat es seinen Reiz und sieht dazu auch noch sehr interessant aus. Im folgenden Ratgeber erfährst Du alles, was Du zum Rook Piercing wissen musst, von den ersten Überlegungen vor dem Stechen bis zu Schmerzen, Heilung und Pflege.</p>

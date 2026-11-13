@@ -53,8 +53,8 @@ test("posts: Beitragsbild mit source_url, alt_text und media_details, Datumsfeld
   assert.equal(media.mime_type, "image/jpeg");
   assert.equal(withImage.date, "2020-12-13T21:26:02");
   assert.equal(withImage.date_gmt, "2020-12-13T20:26:02", "Winterzeit: UTC+1");
-  assert.equal(withImage.modified, "2026-08-05T00:03:12");
-  assert.equal(withImage.modified_gmt, "2026-08-04T22:03:12", "Sommerzeit: UTC+2");
+  assert.equal(withImage.modified, "2026-08-05T13:12:37");
+  assert.equal(withImage.modified_gmt, "2026-08-05T11:12:37", "Sommerzeit: UTC+2");
   assert.equal(withImage.id, 1071);
 
   const single = get(`/wp/v2/media/${withImage.featured_media}`);

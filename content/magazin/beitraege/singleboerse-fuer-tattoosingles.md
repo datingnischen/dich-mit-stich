@@ -6,7 +6,7 @@ description: Bei uns stehen Menschen mit Tattoos im Mittelpunkt. Bist du auf der
 excerpt: |
   <p>Du hast selbst Tattoos und/ oder findest tätowierte Menschen einfach toll oder anziehend? Dann kann eine Singlebörse mit passender Zielgruppe</p>
 published: '2017-11-01T00:01:38'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-10T12:51:55'
 categories:
   - singleboerse
 author: redaktion

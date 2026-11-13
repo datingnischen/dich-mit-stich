@@ -6,7 +6,7 @@ description: 'Space & Galaxy Sleeves zeigen Astronauten, Planeten und Nebel übe
 excerpt: |
   <p>Space &amp; Galaxy Sleeves zeigen Astronauten, Planeten, Nebel und Galaxien – farbintensiv und spektakulär. Perfekt für alle, die das Universum</p>
 published: '2025-09-16T22:28:21'
-updated: '2026-05-29T19:52:27'
+updated: '2026-05-29T12:49:04'
 categories:
   - ratgeber
 author: redaktion

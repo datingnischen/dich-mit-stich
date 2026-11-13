@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Ashley Piercing? Alles zu Geschichte, Motivatio
 excerpt: |
   <p>Das Ashley Piercing, auch Racoon Piercing genannt, gehört zu den Labret Piercings. Es wird so gestochen, dass vom Schmuck äußerlich</p>
 published: '2019-11-05T19:31:40'
-updated: '2026-09-24T08:34:11'
+updated: '2026-09-17T11:46:50'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/03/ashley-piercing.jpg
 imageAlt: Ashley Piercing

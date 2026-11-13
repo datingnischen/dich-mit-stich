@@ -5,7 +5,7 @@ seoTitle: Industrial piercing - Heilung & Pflege
 description: 'Willst du mehr über Industrial piercing erfahren? Hier findest du zahlreiche Informationen über Geschichte und Herkunft, Heilung & Pflege und Kosten.'
 excerpt: "<p>Überblick Name:\_Industrial Piercing Wo wird es gestochen: an der Ohrmuschel Kosten Piercing: 60-100 EUR Art: Ohrpiercing Heilungsdauer: 3-24 Monate Schmerzen</p>\n"
 published: '2021-11-23T12:41:46'
-updated: '2026-09-24T08:34:37'
+updated: '2026-09-09T09:58:21'
 author: anne-schweitzer
 ---
 <h2>Überblick</h2>

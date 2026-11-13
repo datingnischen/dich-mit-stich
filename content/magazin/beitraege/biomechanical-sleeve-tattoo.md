@@ -6,7 +6,7 @@ description: 'Biomechanical Sleeves zeigen Zahnräder, Kolben und Metallstruktur
 excerpt: |
   <p>Biomechanical Sleeves verschmelzen Haut und Maschine: Zahnräder, Pistons und Metallstrukturen erzeugen eine eindrucksvolle 3D-Optik – futuristisch und kraftvoll. Typisch für</p>
 published: '2025-09-15T21:54:51'
-updated: '2026-09-24T11:49:53'
+updated: '2026-09-04T11:36:03'
 categories:
   - ratgeber
 author: redaktion

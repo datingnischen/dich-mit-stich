@@ -6,7 +6,7 @@ description: Welche Motive eignen sich? Was gibt es für Ideen für ein Liebes-T
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Allgemeine Fakten über Tattoos</p>
 published: '2018-10-11T09:42:29'
-updated: '2026-09-29T13:23:23'
+updated: '2026-09-29T12:28:20'
 categories:
   - ratgeber
 author: redaktion

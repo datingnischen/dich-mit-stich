@@ -6,7 +6,7 @@ description: Du interessierst dich für Piercings? Wir erklären dir den geschic
 excerpt: |
   <p>Wer Piercing hört, hat ein ganz eigenes Bild vor Augen, oft geprägt durch die Modetrends der letzten Jahrzehnte. Sei es</p>
 published: '2019-01-15T10:55:53'
-updated: '2026-08-18T02:01:48'
+updated: '2026-08-18T15:46:37'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/01/Piercing.jpg
 imageAlt: Das Piercing

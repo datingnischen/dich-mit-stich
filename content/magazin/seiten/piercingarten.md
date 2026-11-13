@@ -6,7 +6,7 @@ description: 'Hier unser Lexikon der Piercingarten: Gesichtspiercings, Mundpierc
 excerpt: |
   <p>Diese Übersicht bündelt verschiedene Piercingarten und verlinkt zu den jeweiligen Detailartikeln. So lassen sich die Kategorien leichter vergleichen und gezielt</p>
 published: '2019-10-25T13:02:12'
-updated: '2026-08-19T06:02:24'
+updated: '2026-08-19T17:37:19'
 author: anne-schweitzer
 ---
 <p>Diese Übersicht bündelt verschiedene Piercingarten und verlinkt zu den jeweiligen Detailartikeln. So lassen sich die Kategorien leichter vergleichen und gezielt weiterlesen.</p>

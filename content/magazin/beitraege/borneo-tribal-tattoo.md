@@ -6,7 +6,7 @@ description: 'Borneo Tribal Tattoos: Entdecke die traditionellen Dayak-Muster, i
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Borneo Tribal Tattoos stammen</p>
 published: '2025-09-29T18:56:46'
-updated: '2026-09-28T17:03:18'
+updated: '2026-09-28T14:47:45'
 categories:
   - ratgeber
 author: redaktion

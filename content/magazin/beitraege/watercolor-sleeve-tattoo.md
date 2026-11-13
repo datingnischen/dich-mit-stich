@@ -6,7 +6,7 @@ description: 'Watercolor Sleeves leben von fließenden Farbverläufen und abstra
 excerpt: |
   <p>Watercolor Sleeve Tattoos überzeugen durch fließende Farbverläufe, abstrakte Formen und einen künstlerischen Look. Der Stil wirkt oft leicht, lebendig und</p>
 published: '2025-09-11T13:11:03'
-updated: '2026-10-22T12:00:00'
+updated: '2026-09-29T20:38:45'
 categories:
   - ratgeber
 author: anne-schweitzer

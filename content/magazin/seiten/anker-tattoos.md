@@ -6,7 +6,7 @@ description: 'Willst du mehr über Anker Tatoos wissen? Lies alles zu Geschichte
 excerpt: |
   <p>Der Anker – zeitloser Klassiker in der Tattooszene Tattoo-Trends sind stets im Wandel. Dennoch gibt es einige Motive, die jeden</p>
 published: '2021-11-15T09:51:29'
-updated: '2026-09-24T11:31:18'
+updated: '2026-09-18T17:52:13'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2021/11/Anker-Tatoos.jpg
 imageAlt: Anker Tatoos

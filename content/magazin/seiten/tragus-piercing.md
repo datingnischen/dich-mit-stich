@@ -6,7 +6,7 @@ description: 'Fragen zum Tragus-Piercing? Alles zur Tradition des Tragus Piercin
 excerpt: |
   <p>Das Tragus-Piercing ist eine besondere Form des Ohrpiercings, die vor allem durch ihre Lage und ihren auffälligen, aber dennoch eher</p>
 published: '2020-07-24T12:40:13'
-updated: '2026-09-24T11:25:39'
+updated: '2026-09-01T17:16:29'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/07/tragus-piercing-e1595594395933.jpeg
 imageAlt: Tragus Piercing

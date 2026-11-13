@@ -6,7 +6,7 @@ description: 'Skull & Fire Sleeves kombinieren Totenköpfe mit Flammen – zwisc
 excerpt: |
   <p>Skull &amp; Fire Sleeves kombinieren Totenköpfe mit lodernden Flammen – ein kraftvolles Motiv zwischen Vergänglichkeit, Energie und Rebellion. Gerade als</p>
 published: '2025-09-16T22:09:37'
-updated: '2026-09-24T11:32:28'
+updated: '2026-09-20T11:40:43'
 categories:
   - ratgeber
 author: redaktion

@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Lippenbandpiercing? Alles zur Herkunft, Motivat
 excerpt: |
   <p>Alles, was du über das Lippenbandpiercing wissen solltest Das Lippenbandpiercing ist ein Piercing im Mundbereich. Wie auch der Name verrät,</p>
 published: '2020-06-11T05:38:26'
-updated: '2026-09-24T08:34:16'
+updated: '2026-09-24T15:02:39'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/06/Lippenbandpiercing-e1591853543629.jpeg
 imageAlt: Lippenbandpiercing

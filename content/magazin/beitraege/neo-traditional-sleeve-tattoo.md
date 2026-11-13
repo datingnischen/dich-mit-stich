@@ -6,7 +6,7 @@ description: 'Neo-Traditional Sleeves verbinden kräftige Outlines mit satten Fa
 excerpt: |
   <p>Neo-Traditional Sleeves verbinden kräftige Linien mit satten Farben. Beliebt sind Tiere, Schiffe oder mythische Figuren – modern interpretiert und extrem</p>
 published: '2025-09-14T22:00:57'
-updated: '2026-08-18T02:02:14'
+updated: '2026-08-18T18:39:39'
 categories:
   - ratgeber
 author: redaktion

@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Bridge Piercing? Alles zu Geschichte, Motivatio
 excerpt: |
   <p>Wissenswertes über das Bridge Piercing Das Bridge Piercing ist ein Piercing, das zwischen den Augen gestochen wird. Es wird auch</p>
 published: '2020-01-03T19:26:46'
-updated: '2026-09-24T08:33:57'
+updated: '2026-09-07T19:02:04'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/05/Bridge_Piecing-e1590520986775.jpeg
 imageAlt: Bridge Piercing

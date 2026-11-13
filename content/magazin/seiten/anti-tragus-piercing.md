@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Anti-Tragus-Piercing? Alles zur Herkunft, Motiv
 excerpt: |
   <p>Für Piercing-Fans ist das Ohr ein sehr beliebtes Objekt zur Verschönerung. Es bietet viele Möglichkeiten für unterschiedliche Piercing-Arten. Eine davon</p>
 published: '2020-06-26T20:06:12'
-updated: '2026-09-24T08:18:04'
+updated: '2026-09-24T13:30:17'
 author: anne-schweitzer
 ---
 <p>Für Piercing-Fans ist das Ohr ein sehr beliebtes Objekt zur Verschönerung. Es bietet viele Möglichkeiten für unterschiedliche <a href="https://dich-mit-stich.de/magazin/piercingarten/">Piercing-Arten</a>. Eine davon ist das Anti-Tragus-Piercing. Piercings erlebten vor allem in den 90er Jahren einen starken Aufschwung. Das Anti-Tragus-Piercing war im Vergleich zu anderen Ohrpiercings lange eher selten zu sehen. Es hat keine bekannte historische oder kulturelle Tradition und wird vor allem aus modischen Gründen getragen.</p>

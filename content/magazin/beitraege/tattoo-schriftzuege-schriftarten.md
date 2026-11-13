@@ -6,7 +6,7 @@ description: 'Was sind die richtigen Schriftarten, Schriftzüge und Sprüche fü
 excerpt: |
   <p>Es ist ja in jetziger Zeit nicht mehr ungewöhnlich, sich am Körper etwas stechen zu lassen. Ideen und Motive gibt</p>
 published: '2021-03-08T15:30:27'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-10T09:10:13'
 categories:
   - ratgeber
 author: anne-schweitzer

@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Kinnpiercing? Alles zu Geschichte, Motivation, 
 excerpt: |
   <p>Das Piercing oder das Durchstechen von Körperstellen ist bereits aus dem alten Ägypten bekannt. Gräber der Pharaonen beinhalteten Schmuck für</p>
 published: '2020-05-13T17:31:28'
-updated: '2026-09-24T08:34:03'
+updated: '2026-09-22T20:25:05'
 author: anne-schweitzer
 ---
 <p>Das Piercing oder das Durchstechen von Körperstellen ist bereits aus dem alten Ägypten bekannt. Gräber der Pharaonen beinhalteten Schmuck für Nase und Ohren. Im frühen Amerika der Indigenen und Mayas wurden die Ohren, die Nasenscheidewand sowie die Nasenflügel durchstochen. Die alten Völker nutzten diese Piercings im Gesicht für religiöse Zwecke.</p>

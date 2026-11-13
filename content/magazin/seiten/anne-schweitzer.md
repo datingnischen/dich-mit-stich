@@ -5,7 +5,7 @@ seoTitle: 'Tattoo-Expertin: Anne Schweitzer'
 excerpt: |
   <p>Anne Schweitzer ist seit Jahrzehnten eine feste Größe in der Tattoo-Szene. Als langjährig erfahrene Tätowiererin und Autorin ordnet sie Themen</p>
 published: '2025-09-03T08:10:44'
-updated: '2026-08-09T10:03:53'
+updated: '2026-08-09T10:48:18'
 author: anne-schweitzer
 ---
 <article>

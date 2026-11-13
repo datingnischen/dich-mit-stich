@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Cheek Piercing? Alles zur Herkunft, Motivation,
 excerpt: |
   <p>Das Cheek Piercing ist eine spezielle Piercingmethode. Dieses eher seltene Gesichtspiercing wird seitlich in die Wange an einer Grübchenstelle gestochen.</p>
 published: '2020-05-04T17:59:07'
-updated: '2026-09-24T08:34:01'
+updated: '2026-08-31T11:45:49'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/05/Cheek-Piercing-e1588614932646.jpg
 imageAlt: Cheek Piercing

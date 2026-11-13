@@ -6,7 +6,7 @@ description: 'Die Old-School-Motive gehören mit zu den Bekanntesten der Welt. W
 excerpt: |
   <p>Bei dem Stichwort „Old-School-Tattoo“ oder „Traditionals“ wissen viele sofort, welche Motive gemeint sind. Ob Rosen, Kreuze, Pin-up oder Adler, der</p>
 published: '2021-09-16T06:07:10'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-03T17:59:04'
 categories:
   - ratgeber
 author: anne-schweitzer

@@ -6,7 +6,7 @@ description: Du willst mehr über Sleeve-Tattoos wissen? Welche Arten gibt es? W
 excerpt: |
   <p>Es gibt die unterschiedlichsten Tattoo Arten. Je nachdem, an welcher Körperregion das Tattoo gestochen wird, gibt es auch unterschiedliche Namen</p>
 published: '2018-11-05T15:07:47'
-updated: '2026-09-24T11:31:31'
+updated: '2026-09-14T21:03:02'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2018/11/sleeve-tattoo.jpeg
 imageAlt: Der Kult der Sleeve Tattoos

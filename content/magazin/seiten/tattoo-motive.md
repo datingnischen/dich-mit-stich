@@ -6,7 +6,7 @@ description: Bist du auf der Suche nach beliebten Tattoo-Motiven? Du suchst ein 
 excerpt: |
   <p>Es gibt unzählige Tattoo Motive auf der Welt, und immer mehr Menschen lassen sich tätowieren. Klar, Tattoos sind angesagt –</p>
 published: '2018-10-27T11:57:37'
-updated: '2026-09-24T11:32:17'
+updated: '2026-09-08T11:08:15'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2021/10/tattoo-motive.jpg
 imageAlt: Beliebte Tattoo Motive

@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Nasallang Piercing? Alles zu Geschichte, Motiva
 excerpt: |
   <p>Was ist das Nasallang-Piercing und wo kommt es her? Als eines der exotischsten Piercings überhaupt kombiniert das Nasallang-Piercing drei Piercings</p>
 published: '2020-05-27T19:01:01'
-updated: '2026-09-24T08:34:04'
+updated: '2026-09-05T09:59:26'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/05/Nasallang-Piercing.jpeg
 imageAlt: Nasallang Piercing

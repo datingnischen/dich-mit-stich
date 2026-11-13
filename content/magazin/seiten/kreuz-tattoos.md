@@ -6,7 +6,7 @@ description: Kreuz Tattoo ist ein beliebtes Tattoo Motiv und hat unterschiedlich
 excerpt: |
   <p>Das Kreuz ist eine der ältesten Tätowierungen. Es ist darüber hinaus, je nachdem, wie es gestaltet ist, ein sehr schlichtes</p>
 published: '2021-03-10T13:50:39'
-updated: '2026-09-24T11:49:23'
+updated: '2026-09-08T18:35:36'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2021/03/kreuz-tattoo-tattoo-kuenstler.jpg
 imageAlt: Kreuz Tattoos

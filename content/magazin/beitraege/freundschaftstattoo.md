@@ -6,7 +6,7 @@ description: Du möchtest deine Freundschaft verewigen? Ein Freundschaftstattoo 
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Wissenswertes rund um das</p>
 published: '2020-11-05T15:23:50'
-updated: '2026-09-29T17:32:40'
+updated: '2026-09-29T16:26:47'
 categories:
   - ratgeber
 author: anne-schweitzer

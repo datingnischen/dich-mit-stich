@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Lippenpiercing? Alles zu Motivation, Stechen so
 excerpt: |
   <p>Das Lippenpiercing, auch Labret Piercing genannt, ist das zweithäufigste Piercing, das im Gesicht durchgeführt wird. Es hat in vielen Kulturen</p>
 published: '2019-11-20T19:48:18'
-updated: '2026-09-24T11:26:07'
+updated: '2026-09-13T11:50:27'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/11/Lippenpiercing.jpg
 imageAlt: Lippenpiercing

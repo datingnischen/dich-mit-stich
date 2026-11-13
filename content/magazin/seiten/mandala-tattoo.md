@@ -6,7 +6,7 @@ description: Was ist ein Mandala-Tattoo? Welche Bedeutung und Herkunft haben sie
 excerpt: |
   <p>Mandalas – Die hohe Kunst der Symmetrie Tattoos sind Ausdruck eines Lebensgefühls. Ganz gewiss, ja! Denn für die meisten Tattoo-Freunde</p>
 published: '2018-12-03T15:08:34'
-updated: '2026-09-24T11:49:40'
+updated: '2026-09-16T16:59:39'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2018/12/Mandala-Tattoos.png
 imageAlt: Das Mandala Tattoo und seine Bedeutung

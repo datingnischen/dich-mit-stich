@@ -6,7 +6,7 @@ description: 'Was ist ein Indianer Tattoo? Welche Bedeutung und Herkunft haben d
 excerpt: |
   <p>Allgemeines Der Ursprung aller Tätowierungen liegt in der alten Geschichte der Menschheit. Der Begriff „Indianer-Tattoo“ wird im Deutschen oft als</p>
 published: '2020-01-21T06:56:11'
-updated: '2026-09-24T11:49:37'
+updated: '2026-09-10T14:36:34'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/01/Indianer-Tattoo.jpg
 imageAlt: Indianer Tattoo

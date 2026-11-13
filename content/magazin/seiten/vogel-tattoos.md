@@ -6,7 +6,7 @@ description: 'Du willst dir ein Vogel Tattoo stechen lassen? Soll es ein Phönix
 excerpt: |
   <p>Vögel faszinieren uns Menschen seit jeher. Kein Wunder, denn Vögel sind beeindruckende Tiere, die sich einfach so in die Lüfte</p>
 published: '2021-03-10T08:57:03'
-updated: '2026-09-24T11:31:21'
+updated: '2026-09-12T07:38:41'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2021/03/Vogel-tattoo-schwalben-tattoo-e1615365135891.jpg
 imageAlt: Vogel Tattoo - Schwalben Tattoo

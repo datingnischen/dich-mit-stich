@@ -6,7 +6,7 @@ description: 'Ein Liebespaar, das sich dank der Gruppe gefunden hat – Andreas 
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Andreas teilt auf der</p>
 published: '2025-10-08T08:11:29'
-updated: '2026-05-30T00:51:50'
+updated: '2026-05-30T20:41:43'
 categories:
   - erfolgsgeschichten
 author: redaktion

@@ -30,8 +30,20 @@ const TEASER_CITIES: Record<MarketTeaserCode, { slug: string; width: number; hei
   ],
 };
 
-// Feste Datumswerte: Reihenfolge = Einwohnerzahl (neuester „Beitrag“ zuerst).
-const DATES = ["2026-10-19T12:00:00", "2026-10-19T11:00:00", "2026-10-19T10:00:00"];
+// Feste Datumswerte: Reihenfolge = Einwohnerzahl (neuester „Beitrag“ zuerst). Bewusst unregelmäßige Uhrzeiten,
+// `gmt` = Ortszeit Europe/Berlin minus 2 h (Sommerzeit am 19.10.).
+const DATES: Record<MarketTeaserCode, { local: string; gmt: string }[]> = {
+  at: [
+    { local: "2026-10-19T16:47:23", gmt: "2026-10-19T14:47:23" },
+    { local: "2026-10-19T14:12:51", gmt: "2026-10-19T12:12:51" },
+    { local: "2026-10-19T09:38:06", gmt: "2026-10-19T07:38:06" },
+  ],
+  ch: [
+    { local: "2026-10-19T17:21:44", gmt: "2026-10-19T15:21:44" },
+    { local: "2026-10-19T15:03:19", gmt: "2026-10-19T13:03:19" },
+    { local: "2026-10-19T10:56:37", gmt: "2026-10-19T08:56:37" },
+  ],
+};
 const ID_BASE: Record<MarketTeaserCode, number> = { at: 910_000, ch: 920_000 };
 const MEDIA_ID_OFFSET = 1_000_000;
 
@@ -49,6 +61,7 @@ function buildMarketSource(market: MarketTeaserCode): WpSource {
     const city = cities[teaser.slug];
     if (!city) throw new Error(`Stadt ${market}/${teaser.slug} fehlt in data/tattoo-cities-${market}.json`);
     const id = ID_BASE[market] + index + 1;
+    const stamp = DATES[market][index];
     const title = escapeHtml(city.title);
     const excerpt = `<p>${escapeHtml(city.metaDescription)}</p>\n`;
     const file = city.imageUrl.replace(/^\//, "");
@@ -59,10 +72,10 @@ function buildMarketSource(market: MarketTeaserCode): WpSource {
       sourceUrl: teaserImageUrl(restRoot, city.imageUrl),
       alt: city.imageAlt?.trim() || title,
       title: city.imageAlt?.trim() || title,
-      date: DATES[index],
-      dateGmt: DATES[index],
-      modified: DATES[index],
-      modifiedGmt: DATES[index],
+      date: stamp.local,
+      dateGmt: stamp.gmt,
+      modified: stamp.local,
+      modifiedGmt: stamp.gmt,
       width: teaser.width,
       height: teaser.height,
       bytes: teaser.bytes,
@@ -74,10 +87,10 @@ function buildMarketSource(market: MarketTeaserCode): WpSource {
       id,
       slug: teaser.slug,
       link: publicUrl(market, `/tattoo-singles/${teaser.slug}/`),
-      date: DATES[index],
-      dateGmt: DATES[index],
-      modified: DATES[index],
-      modifiedGmt: DATES[index],
+      date: stamp.local,
+      dateGmt: stamp.gmt,
+      modified: stamp.local,
+      modifiedGmt: stamp.gmt,
       title,
       titlePlain: city.title.toLowerCase(),
       excerpt,

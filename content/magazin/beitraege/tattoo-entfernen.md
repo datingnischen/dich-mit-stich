@@ -6,7 +6,7 @@ description: Du bist unzufrieden mit deinem Tattoo und möchtest es entfernen la
 excerpt: |
   <p>Drum prüfe, wer sich ewig bindet… Immer häufiger sind sie heutzutage zu sehen – Tätowierungen. Was früher als Stigma für</p>
 published: '2021-10-21T14:23:39'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-02T13:47:05'
 categories:
   - ratgeber
 author: anne-schweitzer

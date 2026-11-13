@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Anti-Eyebrow Piercing? Alles zu Geschichte, Mot
 excerpt: |
   <p>Bei dem Anti Eyebrow Piercing handelt es sich um ein klassisches Oberflächenpiercing, wobei ein Surface Piercing Schmuck zum Einsatz kommt.</p>
 published: '2020-03-30T17:25:35'
-updated: '2026-08-09T12:04:02'
+updated: '2026-08-09T16:11:57'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/06/Anti-Eyebrow-Piercing-e1591034414629.jpeg
 imageAlt: Anti-Eyebrow Piercing

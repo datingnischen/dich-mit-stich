@@ -6,7 +6,7 @@ description: Du willst dir ein Blumen-Tattoo stechen lassen? Welche Arten gibt e
 excerpt: |
   <p>Der eigene Body als Blumenbeet Floraler Tattoo-Trend – Bedeutung der Blumen auf der Haut: Blumen signalisieren Lebensfreude. Um sich nicht</p>
 published: '2020-02-04T17:24:20'
-updated: '2026-09-24T11:31:23'
+updated: '2026-09-24T10:00:45'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/02/Blumen-Tattoo-1.jpg
 imageAlt: Blumen Tattoo

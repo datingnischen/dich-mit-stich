@@ -6,7 +6,7 @@ description: 'Religious Sleeves in Black & Grey zeigen Jesus, Maria, Engel oder 
 excerpt: |
   <p>Religious Sleeves vereinen Motive wie Jesus, Maria, Engel oder Rosenkranz. In Black &amp; Grey entstehen spirituelle, bedeutungsvolle Kompositionen mit starker</p>
 published: '2025-09-16T22:23:47'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-04T19:21:26'
 categories:
   - ratgeber
 author: redaktion

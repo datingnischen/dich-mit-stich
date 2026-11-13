@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Christina-Piercing? Alles zu Geschichte, Motiva
 excerpt: |
   <p>Wissenswertes über das Christina-Piercing Das Christina-Piercing, auch Venus-Piercing genannt, ist ein Oberflächenpiercing für Frauen und ähnelt dem Pubic Piercing der</p>
 published: '2019-10-31T21:49:57'
-updated: '2026-09-24T08:34:46'
+updated: '2026-09-23T10:57:23'
 author: anne-schweitzer
 ---
 <h2>Wissenswertes über das Christina-Piercing</h2>

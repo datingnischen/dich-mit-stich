@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Nostril Piercing? Alles zu Geschichte, Motivati
 excerpt: |
   <p>Was ist ein Nostril und wo kommt es her? Das Nostril-Piercing ist ein Nasenpiercing. Es wird durch den Nasenflügel gestochen</p>
 published: '2020-06-02T19:28:54'
-updated: '2026-09-24T08:34:06'
+updated: '2026-09-06T17:58:08'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/06/Nostril-Piercing-e1591126074782.jpeg
 imageAlt: Nostril Piercing

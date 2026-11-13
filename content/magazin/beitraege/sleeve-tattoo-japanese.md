@@ -6,7 +6,7 @@ description: 'Japanese Sleeves verbinden Drachen, Koi und Kirschblüten zu einem
 excerpt: |
   <p>Japanese Sleeve Tattoos gehören zu den beliebtesten Tattoo-Arten weltweit. Sie vereinen starke Symbole wie Drachen, Koi-Fische, Kirschblüten oder Samurai in</p>
 published: '2025-09-11T12:21:53'
-updated: '2026-09-24T11:49:44'
+updated: '2026-09-11T12:37:13'
 categories:
   - ratgeber
 author: anne-schweitzer

@@ -6,7 +6,7 @@ description: 'Du möchtest interessierst dich für Maori Tattoos? Welche Bedeutu
 excerpt: |
   <p>Die Maori sind Ureinwohner, die aus Neuseeland stammen. Sie haben eine Form der Körperkunst, die als Moko bekannt ist, aber</p>
 published: '2020-02-07T19:52:08'
-updated: '2026-09-24T11:49:39'
+updated: '2026-09-05T11:58:41'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/02/Maori-Tattoo.jpg
 imageAlt: Maori Tattoo

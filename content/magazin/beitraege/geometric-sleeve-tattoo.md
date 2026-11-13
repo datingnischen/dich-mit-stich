@@ -6,7 +6,7 @@ description: 'Geometric Sleeves setzen auf Mandalas, Linien und Symmetrie. Beisp
 excerpt: |
   <p>Geometric Sleeves setzen auf Linien, Mandalas, Dreiecke und Symmetrie. Der minimalistische Look wirkt modern, präzise und zeitlos, häufig in tiefem</p>
 published: '2025-09-14T22:15:23'
-updated: '2026-09-24T11:49:46'
+updated: '2026-09-22T11:22:27'
 categories:
   - ratgeber
 author: redaktion

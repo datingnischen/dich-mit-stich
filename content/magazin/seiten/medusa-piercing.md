@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Medusa Piercing? Alles zu Geschichte, Motivatio
 excerpt: |
   <p>Die Geschichte / Herkunft von dem Medusa Piercing Das Medusa Piercing ist auch als Philtrum bekannt. Gerade Jugendliche lieben diese</p>
 published: '2020-05-07T06:30:48'
-updated: '2026-09-24T08:34:14'
+updated: '2026-09-06T12:00:20'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/05/Medusa-Piercing.jpeg
 imageAlt: Bedusa Piercing

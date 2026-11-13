@@ -6,7 +6,7 @@ description: Viele tätowierte Teilnehmer bei Staffel 5 von Datingshow "Adam suc
 excerpt: |
   <p>Die Staffel 5 – Jede Menge tätowierte Teilnehmer bei Adam sucht Eva Am dritten November startete die deutsche Datingshow „Adam</p>
 published: '2018-11-12T22:02:21'
-updated: '2026-10-22T12:00:00'
+updated: '2026-09-28T21:43:24'
 categories:
   - ratgeber
 author: redaktion

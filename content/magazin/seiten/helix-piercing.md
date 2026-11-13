@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Helix-Piercing? Alles zu Motivation, Stechen so
 excerpt: |
   <p>Die Geschichte des Helix-Piercings Einfache Ohrlöcher am Ohrläppchen tragen viele Menschen – und das schon sehr lange. In den 1990er-Jahren</p>
 published: '2019-12-17T19:23:08'
-updated: '2026-09-24T11:25:36'
+updated: '2026-09-07T12:53:47'
 author: anne-schweitzer
 ---
 <h2>Die Geschichte des Helix-Piercings</h2>

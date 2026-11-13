@@ -6,7 +6,7 @@ description: Du möchtest mehr zu Flesh Tunnel wissen? Welche Risiken die Fleisc
 excerpt: |
   <p>Was ist ein Flesh Tunnel? Bei einem sogenannten Flesh Tunnel (frei auf Deutsch übersetzt Fleischtunnel) handelt es sich um einen</p>
 published: '2021-08-22T13:49:08'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-18T12:31:52'
 categories:
   - ratgeber
 author: anne-schweitzer

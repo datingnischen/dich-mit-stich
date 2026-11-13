@@ -6,7 +6,7 @@ description: Du möchtest dir ein Tribal Tattoo stechen lassen? Bist dir aber no
 excerpt: |
   <p>Wer sich mit dem Stechen eines Tattoos auseinandergesetzt hat, wird sicherlich bereits von Tribals gehört haben. Oft wissen Menschen auch</p>
 published: '2018-10-28T11:26:57'
-updated: '2026-09-24T11:31:33'
+updated: '2026-09-05T19:01:26'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2018/10/tribal-tattoo.jpg
 imageAlt: Tribal Tattoos sind Kult

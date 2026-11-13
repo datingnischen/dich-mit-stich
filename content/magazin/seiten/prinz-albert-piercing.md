@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Prinz-Albert-Piercing? Alles zu Geschichte, Mot
 excerpt: |
   <p>Wo kommt das Prinz-Albert-Piercing her? Das Prinz-Albert-Piercing ist ein Genitalpiercing für den Mann und ist auch unter den Namen PA</p>
 published: '2020-03-10T18:56:25'
-updated: '2026-09-24T11:25:42'
+updated: '2026-09-24T20:33:07'
 author: anne-schweitzer
 ---
 <h2>Wo kommt das Prinz-Albert-Piercing her?</h2>

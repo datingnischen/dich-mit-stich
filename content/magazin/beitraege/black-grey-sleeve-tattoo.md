@@ -6,7 +6,7 @@ description: 'Black & Grey Sleeves leben von feinen Schattierungen. Beispielmoti
 excerpt: |
   <p>Black &amp; Grey Sleeve Tattoos sind zeitlose Klassiker. Mit feinen Schattierungen entstehen Motive wie Totenköpfe, Rosen, Uhren oder Engelsfiguren, die</p>
 published: '2025-09-13T19:36:21'
-updated: '2026-09-24T11:49:51'
+updated: '2026-08-31T19:13:39'
 categories:
   - ratgeber
 author: redaktion

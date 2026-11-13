@@ -6,7 +6,7 @@ description: 'Suprasorb® F als Tattoo-Schutzfolie: Anwendung, Tragedauer, richt
 excerpt: |
   <p>Suprasorb® F: Was die Tattoo-Schutzfolie kann und worauf du achten solltest Früher wurde ein frisches Tattoo meist mit Frischhaltefolie abgedeckt.</p>
 published: '2020-02-04T17:54:25'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-21T08:38:40'
 categories:
   - ratgeber
 author: anne-schweitzer

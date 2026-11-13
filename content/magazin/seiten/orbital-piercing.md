@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Orbital-Piercing? Alles zu Geschichte, Motivati
 excerpt: |
   <p>Das Orbital-Piercing vereint die Merkmale mehrerer Piercing-Arten. Es ist die Mini-Ausgabe des Industrial und ähnelt abhängig von seiner Platzierung dem</p>
 published: '2020-07-14T15:43:16'
-updated: '2026-09-28T13:54:59'
+updated: '2026-09-28T13:21:28'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2024/07/orbital-piercing.png
 imageAlt: Orbital Piercing

@@ -6,7 +6,7 @@ description: 'Maori Tribal Tattoos: Entdecke die Bedeutung von Ta Moko – kunst
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Maori Tribal Tattoos werden</p>
 published: '2025-09-29T19:06:30'
-updated: '2026-09-24T11:49:48'
+updated: '2026-09-10T13:49:21'
 categories:
   - ratgeber
 author: redaktion

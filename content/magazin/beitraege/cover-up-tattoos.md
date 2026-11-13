@@ -6,7 +6,7 @@ description: Du hast ein Tattoo und denkst über ein Cover up nach? Du willst wi
 excerpt: |
   <p>Zwei Dinge auf dieser Welt sind für die Ewigkeit bestimmt: die Ehe und ein Tattoo. Tattoos können sehr schön sein,</p>
 published: '2021-05-20T16:00:45'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-10T17:27:08'
 categories:
   - ratgeber
 author: anne-schweitzer

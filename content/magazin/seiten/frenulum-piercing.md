@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Frenulum-Piercing? Alles zu Geschichte, Motivat
 excerpt: |
   <p>Geschichte/Herkunft Das Frenulum-Piercing wurde bereits im 19. Jahrhundert als Messingring hinter der Eichel getragen. Der Name stammt von der Stelle,</p>
 published: '2020-01-21T11:14:27'
-updated: '2026-09-24T08:34:47'
+updated: '2026-09-14T17:25:43'
 author: anne-schweitzer
 ---
 <h2>Geschichte/Herkunft</h2>

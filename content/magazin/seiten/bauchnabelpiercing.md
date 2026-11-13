@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Bauchnabelpiercing? Alle Infos zur Herkunft, Mo
 excerpt: |
   <p>Ein Bauchnabelpiercing wird meist von Frauen getragen und ist an verschiedenen Stellen rund um den Bauchnabel möglich. Am weitesten verbreitet</p>
 published: '2019-01-18T16:22:18'
-updated: '2026-09-24T08:34:38'
+updated: '2026-09-21T10:05:41'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/01/bauchnabelpiercing.jpg
 imageAlt: Das Bauchnabelpiercing

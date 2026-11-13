@@ -6,7 +6,7 @@ description: Als Frau das richtige Tattoo finden. Eine Herausforderung die sich 
 excerpt: |
   <p>Als Frau das richtige Tattoo finden – Ideen, Motive und die passende Stelle Dass Tattoos seit ein paar Jahren immer beliebter</p>
 published: '2021-01-18T10:42:52'
-updated: '2026-11-01T12:00:00'
+updated: '2026-11-01T20:54:39'
 categories:
   - ratgeber
 author: anne-schweitzer

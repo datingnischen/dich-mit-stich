@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Surface Piercing? Alles zu Geschichte, Motivati
 excerpt: |
   <p>Herkunft und Geschichte des Piercings Klärung des Begriffes „Surface Piercing“: Das ist ein Oberflächenpiercing, an Stellen, an denen die Haut</p>
 published: '2020-01-16T13:52:50'
-updated: '2026-09-24T08:34:41'
+updated: '2026-09-19T14:34:22'
 author: anne-schweitzer
 ---
 <h2>Herkunft und Geschichte des Piercings</h2>

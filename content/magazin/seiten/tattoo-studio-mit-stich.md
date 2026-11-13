@@ -5,7 +5,7 @@ seoTitle: Mit Stich – Das Tattoo-Studio in Berlin
 excerpt: |
   <p>Das wichtigste im Überblick Name: Mit Stich Dienstleistung: Tattoos und Piercing Spezialisierung: keine Besondere Der Eintrag bietet eine erste Orientierung</p>
 published: '2020-03-14T18:05:41'
-updated: '2026-08-23T00:02:57'
+updated: '2026-08-23T10:19:23'
 author: anne-schweitzer
 ---
 <h2>Das wichtigste im Überblick</h2>

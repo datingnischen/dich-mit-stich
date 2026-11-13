@@ -6,7 +6,7 @@ description: Du willst ein Liebes-Tattoo. Aber bist dir nicht sicher beim Motiv?
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Früher wurde die Haut</p>
 published: '2018-10-12T10:00:50'
-updated: '2026-09-30T12:21:02'
+updated: '2026-09-30T10:36:51'
 categories:
   - ratgeber
 author: redaktion

@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Madonna Piercing? Alles zu Geschichte, Motivati
 excerpt: |
   <p>Überblick Name: Madonna Piercing Wo wird es gestochen: seitlich über der Lippe Kosten Piercing: 40 – 80 EUR Art: Mundpiercing</p>
 published: '2020-05-19T20:45:41'
-updated: '2026-09-24T11:25:38'
+updated: '2026-09-08T16:12:37'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/06/Madonna-Piercing.jpeg
 imageAlt: Madonna Piercing

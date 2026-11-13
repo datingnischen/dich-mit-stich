@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Snakebite Piercing? Alles zu Geschichte, Motiva
 excerpt: |
   <p>Bei einem Snakebite Piercing (zu Deutsch: Schlangenbiss Piercing) handelt es sich um ein Lippenpiercing. Dabei werden direkt unter der Unterlippe</p>
 published: '2020-06-13T19:14:49'
-updated: '2026-09-24T08:34:18'
+updated: '2026-09-19T19:41:59'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/06/Snakebite-Piercing.jpeg
 imageAlt: Snakebite Piercing

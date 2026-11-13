@@ -6,7 +6,7 @@ description: 'Du interessierst dich für ein Polynesian Tattoo? Möchtest geschi
 excerpt: |
   <p>Heute sind Tattoos Ausdruck der eigenen Persönlichkeit und Individualität. Doch Tätowierungen sind keine moderne Erfindung; ihr Ursprung geht tausende von</p>
 published: '2019-01-01T18:39:51'
-updated: '2026-09-24T11:31:27'
+updated: '2026-09-16T12:09:13'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/01/Polynesian-Tattoo.jpg
 imageAlt: Polynesian Tattoo - Traditionelle Körperkunst

@@ -6,7 +6,7 @@ description: 'Mythology Sleeves erzählen von Göttern und Sagen, etwa Zeus, Ath
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Mythology Sleeves greifen Götter,</p>
 published: '2025-09-16T22:14:26'
-updated: '2026-05-30T02:51:54'
+updated: '2026-05-30T20:50:18'
 categories:
   - ratgeber
 author: redaktion

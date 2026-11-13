@@ -6,7 +6,7 @@ description: 'Willst du wissen wie es sich am besten mit tätowierten Frauen fli
 excerpt: |
   <p>Schon Ötzi hatte nachweislich Tattoos: Auf der Gletschermumie wurden mehr als 60 tätowierte Linien und Kreuze gefunden. Laut einer</p>
 published: '2018-06-22T11:50:10'
-updated: '2026-11-01T12:00:00'
+updated: '2026-11-01T17:10:10'
 categories:
   - ratgeber
 author: redaktion

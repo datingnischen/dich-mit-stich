@@ -6,7 +6,7 @@ description: Magst du als Veganerin Tattoos haben? Das ist kein Problem. Hier fi
 excerpt: |
   <p>Nur weil du vegan lebst, musst du nicht auf Tattoos verzichten. Ein veganes Tattoo bedeutet in der Praxis meist nicht</p>
 published: '2022-05-06T10:40:24'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-07T15:20:38'
 categories:
   - ratgeber
 author: anne-schweitzer

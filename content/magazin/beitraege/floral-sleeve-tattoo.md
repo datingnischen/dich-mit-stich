@@ -6,7 +6,7 @@ description: 'Floral Sleeves mit Rosen, Pfingstrosen und Blättern wirken elegan
 excerpt: |
   <p>Floral Sleeves nutzen Rosen, Pfingstrosen, Lotus &amp; Co. – häufig in Black &amp; Grey, manchmal farbig. Sie wirken elegant, harmonisch</p>
 published: '2025-09-16T22:02:26'
-updated: '2026-09-24T11:32:30'
+updated: '2026-09-01T16:29:18'
 categories:
   - ratgeber
 author: redaktion

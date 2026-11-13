@@ -6,7 +6,7 @@ description: Suchst du noch nach Ideen für ein Wikinger-Tattoo? Möchtest mehr 
 excerpt: |
   <p>Nordische Tattoos erfreuen sich einer immer größeren und vor allem einer immer weiter wachsenden Beliebtheit. Das ist nicht verwunderlich, wenn</p>
 published: '2019-09-30T06:43:20'
-updated: '2026-09-24T11:31:26'
+updated: '2026-09-12T20:27:03'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2019/09/Wikinger.jpg
 imageAlt: Wikinger

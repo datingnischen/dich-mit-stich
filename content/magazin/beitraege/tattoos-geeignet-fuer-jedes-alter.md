@@ -6,7 +6,7 @@ description: Sind Tattoos etwas nur für jünge Generation oder sind sie für je
 excerpt: |
   <p>Wer tätowiert ist, liebt im Normalfall seine Tattoos, erzählt damit Geschichten und ist stolz darauf, diese zum Ausdruck zu bringen.</p>
 published: '2020-11-16T18:55:06'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-01T18:00:10'
 categories:
   - ratgeber
 author: anne-schweitzer

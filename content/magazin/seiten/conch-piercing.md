@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Conch-Piercing? Alles zu Geschichte, Motivation
 excerpt: |
   <p>Wissenswertes über das Conch-Piercing Beim Conch-Piercing handelt es sich um eine spezielle Piercing-Art. Hierfür wird meist ein Schmuckstab oder Stecker</p>
 published: '2019-12-18T19:09:13'
-updated: '2026-09-28T13:50:59'
+updated: '2026-09-28T12:45:51'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/07/Conch-Piercing-e1594375878649.jpeg
 imageAlt: Conch Piercing

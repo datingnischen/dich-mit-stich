@@ -6,7 +6,7 @@ description: 'Hast du Fragen zum Ohrmuschel Piercing? Alles zu Geschichte, Motiv
 excerpt: |
   <p>Die Ohrmuschel ist ein einzigartiges Körperteil, das durch ein Piercing gekonnt in Szene gesetzt werden kann. Der folgende Ratgeber gibt</p>
 published: '2020-07-09T09:42:55'
-updated: '2026-09-28T13:51:01'
+updated: '2026-09-28T21:31:49'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2020/07/Ohrmuschelpiercing-e1595594587220.jpg
 imageAlt: Ohrmuschel Piercing

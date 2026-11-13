@@ -6,7 +6,7 @@ description: 'Du möchtest dir ein Tattoo stechen lassen? Hier findest du alles,
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Es gibt sehr viele</p>
 published: '2020-01-13T07:26:54'
-updated: '2026-09-28T17:03:16'
+updated: '2026-09-28T21:08:33'
 categories:
   - ratgeber
 author: anne-schweitzer

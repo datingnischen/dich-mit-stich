@@ -6,7 +6,7 @@ description: 'Eine Liebesgeschichte, die zeigt, dass man das Glück findet, wenn
 excerpt: |
   <p>Artikel kurz anhören Die wichtigsten Punkte kurz und verständlich zusammengefasst. Dein Browser unterstützt das Audio-Element nicht. Worum geht es in</p>
 published: '2025-10-09T08:01:51'
-updated: '2026-06-16T14:16:03'
+updated: '2026-06-16T15:08:09'
 categories:
   - erfolgsgeschichten
 author: redaktion

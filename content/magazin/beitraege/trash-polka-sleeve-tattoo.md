@@ -6,7 +6,7 @@ description: 'Trash Polka Sleeves verbinden Schwarz mit roten Akzenten, Realismu
 excerpt: |
   <p>Trash Polka Sleeves kombinieren Schwarz mit markanten Rotakzenten, realistische Elemente mit abstrakten Formen, Splattern und Typografie – ein expressiver, moderner</p>
 published: '2025-09-16T22:19:05'
-updated: '2026-05-29T20:52:19'
+updated: '2026-05-29T17:45:06'
 categories:
   - ratgeber
 author: redaktion

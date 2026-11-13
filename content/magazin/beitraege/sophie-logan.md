@@ -6,7 +6,7 @@ description: 'Du möchtest mehr zu Sophie Logan wissen? Wir berichten einiges ü
 excerpt: |
   <p>Sophie Logan ist ein wasserstoffblondes Tattoo Model aus Deutschland und darüber hinaus ein bekannter Erotik-Star.</p>
 published: '2020-01-23T14:19:51'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-06T20:14:55'
 categories:
   - tattoo-models
 author: anne-schweitzer

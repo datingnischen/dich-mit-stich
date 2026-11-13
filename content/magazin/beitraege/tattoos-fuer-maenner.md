@@ -6,7 +6,7 @@ description: Du suchst noch nach einem Tattoo für Männer? Dir fehlen Ideen mö
 excerpt: |
   <p>Seit mehreren Jahren bereits sind Tattoos ein wahrer Kult. Vorbei sind die Zeiten, in denen sie etwas Anrüchiges hatten. Heute</p>
 published: '2021-01-15T07:19:46'
-updated: '2026-11-01T12:00:00'
+updated: '2026-11-01T09:46:04'
 categories:
   - ratgeber
 author: anne-schweitzer

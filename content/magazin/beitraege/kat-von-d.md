@@ -6,7 +6,7 @@ description: Die Tattoo-Künstlerin "Kat von D" kann jetzt schon auf ein bewegen
 excerpt: |
   <p>Kat von D Kat von D zählt zu den bekanntesten Tattoo-Künstlerinnen, Medienfiguren und Unternehmerinnen ihrer Generation. Bekannt wurde sie vor</p>
 published: '2019-09-02T06:09:59'
-updated: '2026-10-22T12:00:00'
+updated: '2026-10-08T21:18:12'
 categories:
   - tattoo-persoenlichkeiten
 author: anne-schweitzer

@@ -6,7 +6,7 @@ description: Du möchtest ein Tattoo und interessierst dich für den Wolf? Welch
 excerpt: |
   <p>Die Bedeutung des Wolf Tattoos Wolfstattoos haben eine große Beliebtheit und sind weit verbreitet. Viele lassen sich den Wolf auf</p>
 published: '2018-11-08T10:45:16'
-updated: '2026-09-24T11:31:30'
+updated: '2026-09-08T16:30:56'
 author: anne-schweitzer
 image: /magazin/wp-content/uploads/2018/11/wolf-tattoo.jpg
 imageAlt: Das Wolf Tattoo und seine Bedeutung

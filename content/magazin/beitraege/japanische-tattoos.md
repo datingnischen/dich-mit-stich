@@ -6,7 +6,7 @@ description: Du möchtest mehr zu Irezumi den tradionellen japanischen Tattoos w
 excerpt: |
   <p>Irezumi stellen traditionelle japanische Tattoos dar. Im Westen werden sie oft mit den Yakuza verbunden, getragen wurden und werden sie aber</p>
 published: '2021-04-25T14:20:22'
-updated: '2026-10-22T12:00:00'
+updated: '2026-09-30T16:37:39'
 categories:
   - ratgeber
 author: anne-schweitzer

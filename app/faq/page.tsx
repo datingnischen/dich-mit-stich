@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { FaqPageView } from "@/components/faq-page";
+import { FAQ_IMAGE, FAQ_IMAGE_ALT, FaqPageView } from "@/components/faq-page";
 import { FAQ_PATH } from "@/lib/faq";
 import { marketLanguageAlternates, publicUrl } from "@/lib/markets";
 import { brandedTitle } from "@/lib/seo-title";
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: publicUrl("de", FAQ_PATH), languages: marketLanguageAlternates(FAQ_PATH) },
   openGraph: {
     type: "website",
+    images: [{ url: FAQ_IMAGE, width: 1200, height: 675, alt: FAQ_IMAGE_ALT }],
     title,
     description,
     url: publicUrl("de", FAQ_PATH),

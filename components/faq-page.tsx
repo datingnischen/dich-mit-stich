@@ -5,6 +5,11 @@ import { buildFaqGraph, FAQ_PATH, getFaqSections, type FaqAnswerPart } from "@/l
 import { serializeJsonLd } from "@/lib/json-ld";
 import { publicUrl, type MarketCode } from "@/lib/markets";
 
+import { staticAsset } from "@/lib/static-asset";
+
+export const FAQ_IMAGE = staticAsset("/pages/faq.webp");
+export const FAQ_IMAGE_ALT = "Tätowiertes Paar im Gespräch im Wartebereich eines Tattoo-Studios – häufige Fragen zu Dich mit Stich";
+
 function AnswerPart({ market, part }: { market: MarketCode; part: FaqAnswerPart }) {
   if (part.type === "text") return part.value;
   if (part.external) {
@@ -41,6 +46,9 @@ export function FaqPageView({ market }: { market: MarketCode }) {
               <span>Konto & Support</span>
             </div>
           </div>
+          <figure className="faq-hero-photo">
+            <img className="faq-hero-image" src={FAQ_IMAGE} alt={FAQ_IMAGE_ALT} width={1200} height={675} loading="eager" decoding="async" />
+          </figure>
           <aside className="faq-hero-index" aria-label="Direkt zu einem Themenbereich">
             <ui-strong>Themen</ui-strong>
             <nav>

@@ -7072,3 +7072,21 @@ a.pin-cta-follow:hover {
     transition: none;
   }
 }
+
+.faq-hero-image {
+  display: block;
+  width: 100%;
+  max-width: 42rem;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.faq-hero-photo {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .faq-hero-photo { grid-row: auto; }
+}

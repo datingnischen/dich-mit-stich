@@ -1,3 +1,4 @@
+import { CHRISTIAN_PERSON_ID, christianPerson } from "./christian-person.mjs";
 import type { AuthorProfile } from "./author-profiles.ts";
 import { getMarket, publicUrl, type MarketCode } from "./markets.ts";
 import type { BreadcrumbTrailItem } from "./magazine-hubs.ts";
@@ -123,7 +124,7 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
   if (!bookCover) return null;
   const market = input.market ?? "de";
   const profileUrl = publicUrl(market, PROFILE_PATH);
-  const personId = `${profileUrl}#person`;
+  const personId = CHRISTIAN_PERSON_ID;
   const bookId = `${profileUrl}#book-isbn-9783696371210`;
   const locale = getMarket(market).locale;
 
@@ -185,16 +186,12 @@ export function buildPublishedAuthorProfileGraph(input: PublishedAuthorProfileIn
       inLanguage: locale,
     },
     {
-      "@type": "Person",
-      "@id": personId,
-      name: "Christian M. Haas",
-      url: profileUrl,
+      ...christianPerson(),
       mainEntityOfPage: { "@id": `${profileUrl}#webpage` },
       description: input.description,
       jobTitle: profile?.jobTitle || "Datingexperte",
       image: input.personImage || undefined,
       knowsAbout: profile?.expertise.length ? profile.expertise : undefined,
-      sameAs: profile?.sameAs.length ? profile.sameAs : undefined,
       affiliation: { "@id": entityIds.operator },
       publishingPrinciples: publicUrl(market, "/ueber-uns/expertenteam"),
     },

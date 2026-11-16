@@ -1,3 +1,4 @@
+import { CHRISTIAN_NAME, CHRISTIAN_PERSON_ID, christianPerson } from "./christian-person.mjs";
 import type { AuthorProfile } from "@/lib/author-profiles";
 import type { AnswerEnginePilotEntry } from "@/lib/magazine-answer-engine";
 import type { MagazineFaqItem } from "@/lib/magazine-blocks";
@@ -20,7 +21,9 @@ function absolutePublicUrl(path: string, market: MarketCode = "de") {
 }
 
 export function authorEntityId(profileUrl: string, market: MarketCode = "de") {
-  return `${absolutePublicUrl(profileUrl, market)}#person`;
+  return profileUrl === "/magazin/unser-datingexperte"
+    ? CHRISTIAN_PERSON_ID
+    : `${absolutePublicUrl(profileUrl, market)}#person`;
 }
 
 export function buildAuthorProfileGraph(profile: AuthorProfile, market: MarketCode = "de") {
@@ -66,6 +69,7 @@ export function buildAuthorProfileGraph(profile: AuthorProfile, market: MarketCo
         image: profile.imageUrl,
         knowsAbout: profile.expertise.length ? profile.expertise : undefined,
         sameAs: profile.sameAs.length ? profile.sameAs : undefined,
+        ...(profile.name === CHRISTIAN_NAME ? christianPerson() : {}),
       },
     ],
   };
@@ -163,6 +167,7 @@ export function buildMagazineArticleGraph({
       "@id": authorEntityId(authorProfile.profileUrl, market),
       name: authorProfile.name,
       url: absolutePublicUrl(authorProfile.profileUrl, market),
+      ...(authorProfile.name === CHRISTIAN_NAME ? christianPerson() : {}),
       jobTitle: authorProfile.jobTitle,
       image: authorProfile.imageUrl,
       knowsAbout: authorProfile.expertise.length ? authorProfile.expertise : undefined,

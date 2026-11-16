@@ -68,7 +68,8 @@ test("the expert Person node carries the author profile identity data", async ()
   assert.ok(person.sameAs.includes("https://www.xing.com/profile/ChristianM_Haas/web_profiles"));
   assert.equal(person.url, "https://datingnischen.de/christian/");
   assert.equal(person["@id"], "https://datingnischen.de/christian/#person");
-  assert.equal(person.sameAs.length, 5);
+  assert.equal(person.sameAs.length, 6);
+  assert.ok(person.sameAs.includes("https://www.wikidata.org/wiki/Q142183607"));
 });
 
 test("the expert breadcrumb schema mirrors the rendered trail", async () => {

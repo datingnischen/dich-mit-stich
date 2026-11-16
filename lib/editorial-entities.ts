@@ -167,11 +167,11 @@ export function buildMagazineArticleGraph({
       "@id": authorEntityId(authorProfile.profileUrl, market),
       name: authorProfile.name,
       url: absolutePublicUrl(authorProfile.profileUrl, market),
-      ...(authorProfile.name === CHRISTIAN_NAME ? christianPerson() : {}),
       jobTitle: authorProfile.jobTitle,
       image: authorProfile.imageUrl,
       knowsAbout: authorProfile.expertise.length ? authorProfile.expertise : undefined,
       sameAs: authorProfile.sameAs.length ? authorProfile.sameAs : undefined,
+      ...(authorProfile.name === CHRISTIAN_NAME ? christianPerson() : {}),
     });
   }
 

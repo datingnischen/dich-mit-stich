@@ -48,7 +48,7 @@ export function schemaZeitstempel(wert: string | null | undefined, seed: string)
   if (!wert) return undefined;
   const text = wert.trim();
   if (/(?:Z|[+-]\d{2}:?\d{2})$/i.test(text)) return text;
-  const treffer = text.match(/^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?$/);
+  const treffer = text.match(/^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?)?$/);
   if (!treffer) return undefined;
   const [, tag, stunde, minute, sekunde] = treffer;
   const zeit = stunde ? `${stunde}:${minute}:${sekunde ?? "00"}` : abgeleiteteUhrzeit(tag, seed);

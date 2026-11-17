@@ -54,3 +54,6 @@ imageAlt: Sophie Logan Erotikstar
 
 <h2>Wie geht die Karriere von Sophie weiter?</h2>
 <p>Auch wenn Sophie Logan insgesamt sehr zurückgezogen lebt. Ein paar Informationen lassen sich doch über sie erfahren. Das liegt vor allem an ihrer Aktivität auf dem Nachrichtendienst Twitter, wo sie ihre Follower beispielsweise über neue Shootings oder Drehs informiert oder ausgewählte Fotos von sich teilt. So lässt sich feststellen, dass Sophie Logan ihre Leidenschaft für die Erotik-Branche immer noch nicht ganz aufgegeben hat und ihre Karriere hier immer noch auf Hochtouren läuft. Andere Stars wie Mia Julia haben aber vorgemacht, dass es auch noch viele andere Optionen gibt, das eigene Repertoire zu erweitern. Ein noch stärkerer Fokus auf die Tätowierungen  und das Modeln wäre sicherlich eine Option.</p>
+
+<h2>Weitere tätowierte Erotikdarstellerinnen</h2>
+<p>Tätowierte Models und Amateurinnen aus der Erotikbranche stellen wir auch auf unserer Seite <a href="https://cam-liebe.com/">cam-liebe.com</a> vor, zum Beispiel die von Kopf bis Fuß tätowierte Amateurin <a href="https://cam-liebe.com/dark-inkabella/">Dark-Inkabella</a>. Die Inhalte dort sind für Erwachsene gedacht.</p>

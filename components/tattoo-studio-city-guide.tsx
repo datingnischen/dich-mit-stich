@@ -12,6 +12,7 @@ import { getNearbyStudioCities } from "@/lib/studio-city-neighbours";
 import { studioStyleCounts } from "@/lib/studio-guide-sections";
 import { tattooSinglesPath } from "@/lib/tattoo-singles";
 import { getTattooStudioCitySeo, type TattooStudioCityGuide as TattooStudioCityGuideData } from "@/lib/tattoo-studio-guide";
+import { schemaZeitstempel } from "@/lib/schema-zeitstempel";
 
 type FaqItem = { question: string; answer: string };
 
@@ -82,7 +83,7 @@ export function TattooStudioCityGuide({ guide, market }: TattooStudioCityGuidePr
         name: `Tattoo-Studios in ${guide.cityName}`,
         description: getTattooStudioCitySeo(guide).description,
         url: pageUrl,
-        dateModified: guide.lastVerified,
+        dateModified: schemaZeitstempel(guide.lastVerified, guide.slug),
         breadcrumb: { "@id": breadcrumbId },
         mainEntity: { "@id": itemListId },
       },
